@@ -11,10 +11,22 @@
 |
 */
 
+//use Illuminate\Routing\Route;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::post('Users/{id}', function ($id) {
+     return view('layouts/Users/show');
+ });
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('users/{id}', function ($id) {
+//     return view('layouts/Users/create');
+// });
+
+// Auth::routes();
+
+ Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();

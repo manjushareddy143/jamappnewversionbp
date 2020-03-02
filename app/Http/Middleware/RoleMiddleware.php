@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Role;
+use App\Traits\HasRolesAndPermissions;
 use Closure;
+use Spatie\Permission\Traits\HasRoles;
 
 class RoleMiddleware
 {
@@ -17,6 +20,7 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, $role, $permission = null)
     {
+
         if(!auth()->user()->hasRole($role))
         {
             abort(404);

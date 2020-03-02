@@ -1,55 +1,75 @@
-@extends('products.layout')
+@extends('layouts.app')
+
 
 @section('content')
 
-    <div class="row">
+<div class="row">
 
-        <div class="col-lg-12 margin-tb">
+    <div class="col-lg-12 margin-tb">
 
-            <div class="pull-left">
+        <div class="pull-left">
 
-                <h2> Show Users</h2>
+            <h2> Show User</h2>
 
-            </div>
+        </div>
 
-            <div class="pull-right">
+        <div class="pull-right">
 
-                <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
-
-            </div>
+            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
 
         </div>
 
     </div>
 
-   
+</div>
 
-    <div class="row">
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+<div class="row">
 
-            <div class="form-group">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 
-                <strong>Name:</strong>
+        <div class="form-group">
 
-                {{ $user->name }}
+            <strong>Name:</strong>
 
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>emails:</strong>
-
-                {{ $user->email }}
-
-            </div>
+            {{ $user->name }}
 
         </div>
 
     </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Email:</strong>
+
+            {{ $user->email }}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Roles:</strong>
+
+            @if(!empty($user->getRoleNames()))
+
+                @foreach($user->getRoleNames() as $v)
+
+                    <label class="badge badge-success">{{ $v }}</label>
+
+                @endforeach
+
+            @endif
+
+        </div>
+
+    </div>
+
+</div>
 
 @endsection

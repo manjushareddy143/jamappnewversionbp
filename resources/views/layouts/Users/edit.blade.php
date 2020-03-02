@@ -1,97 +1,125 @@
-@extends('products.layout')
+@extends('layouts.app')
 
-   
 
 @section('content')
 
-    <div class="row">
+<div class="row">
 
-        <div class="col-lg-12 margin-tb">
+    <div class="col-lg-12 margin-tb">
 
-            <div class="pull-left">
+        <div class="pull-left">
 
-                <h2>Edit User</h2>
+            <h2>Edit New User</h2>
 
-            </div>
+        </div>
 
-            <div class="pull-right">
+        <div class="pull-right">
 
-                <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
-
-            </div>
+            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
 
         </div>
 
     </div>
 
-   
+</div>
 
-    @if ($errors->any())
 
-        <div class="alert alert-danger">
+@if (count($errors) > 0)
 
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+  <div class="alert alert-danger">
 
-            <ul>
+    <strong>Whoops!</strong> There were some problems with your input.<br><br>
 
-                @foreach ($errors->all() as $error)
+    <ul>
 
-                    <li>{{ $error }}</li>
+       @foreach ($errors->all() as $error)
 
-                @endforeach
+         <li>{{ $error }}</li>
 
-            </ul>
+       @endforeach
 
-        </div>
+    </ul>
 
-    @endif
+  </div>
 
-  
+@endif
 
-    <form action="{{ route('users.update',$user->id) }}" method="POST">
 
-        @csrf
+{!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
 
-        @method('PUT')
+<div class="row">
 
-   
+    <div class="col-xs-12 col-sm-12 col-md-12">
 
-         <div class="row">
+        <div class="form-group">
 
-            <div class="col-xs-12 col-sm-12 col-md-12">
+            <strong>Name:</strong>
 
-                <div class="form-group">
-
-                    <strong>Name:</strong>
-
-                    <input type="text" name="name" value="{{ $user->name }}" class="form-control" placeholder="Name">
-
-                </div>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-
-                <div class="form-group">
-
-                    <strong>email:</strong>
-
-                    <textarea class="form-control" style="height:150px" name="email" placeholder="email">{{ $user->email }}</textarea>
-
-                </div>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-
-              <button type="submit" class="btn btn-primary">Submit</button>
-
-            </div>
+            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 
         </div>
 
-   
+    </div>
 
-    </form>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Email:</strong>
+
+            {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Password:</strong>
+
+            {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Confirm Password:</strong>
+
+            {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Role:</strong>
+
+            {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </div>
+
+</div>
+
+{!! Form::close() !!}
+
+
+<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
 
 @endsection

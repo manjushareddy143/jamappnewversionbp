@@ -1,6 +1,5 @@
-@extends('users.layout')
+@extends('layouts.app')
 
-  
 
 @section('content')
 
@@ -10,13 +9,13 @@
 
         <div class="pull-left">
 
-            <h2>Add New User</h2>
+            <h2>Create New User</h2>
 
         </div>
 
         <div class="pull-right">
 
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('users.Create') }}"> Back</a>
 
         </div>
 
@@ -24,72 +23,104 @@
 
 </div>
 
-   
 
-@if ($errors->any())
+@if (count($errors) > 0)
 
-    <div class="alert alert-danger">
+  <div class="alert alert-danger">
 
-        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+    <strong>Whoops!</strong> There were some problems with your input.<br><br>
 
-        <ul>
+    <ul>
 
-            @foreach ($errors->all() as $error)
+       @foreach ($errors->all() as $error)
 
-                <li>{{ $error }}</li>
+         <li>{{ $error }}</li>
 
-            @endforeach
+       @endforeach
 
-        </ul>
+    </ul>
 
-    </div>
+  </div>
 
 @endif
 
-   
 
-<form action="{{ route('users.store') }}" method="POST">
 
-    @csrf
+{!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
 
-  
+<div class="row">
 
-     <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
 
-            <div class="form-group">
+            <strong>Name:</strong>
 
-                <strong>Name:</strong>
-
-                <input type="text" name="name" class="form-control" placeholder="Name">
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>email:</strong>
-
-                <textarea class="form-control" style="height:150px" name="email" placeholder="email"></textarea>
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-
-                <button type="submit" class="btn btn-primary">Submit</button>
+            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 
         </div>
 
     </div>
 
-   
+    <div class="col-xs-12 col-sm-12 col-md-12">
 
-</form>
+        <div class="form-group">
+
+            <strong>Email:</strong>
+
+            {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Password:</strong>
+
+            {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Confirm Password:</strong>
+
+            {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Role:</strong>
+
+            {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </div>
+
+</div>
+
+{!! Form::close() !!}
+
+
+<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
 
 @endsection

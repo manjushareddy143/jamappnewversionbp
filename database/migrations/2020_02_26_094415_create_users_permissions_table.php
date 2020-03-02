@@ -21,6 +21,7 @@ class CreateUsersPermissionsTable extends Migration
             $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
 
             $table->primary(['user_id','permission_id']);
+            $table->engine = 'InnoDB'; //change the engine
         });
     }
 
