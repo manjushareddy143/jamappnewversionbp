@@ -41,5 +41,6 @@ class PermissionServiceProvider extends ServiceProvider
             report($e);
             return false;
         }
+
     }
 }
