@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ServiceController;
+use App\Services;
 use Illuminate\Http\Request;
 
 /*
@@ -16,5 +18,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/', function () {
+    return [1, 2, 3];
+});
+// Route defines to get the services list from database
 
-Route::get('service', 'Services@service');
+Route::get('/serviceslist', 'ServiceController@serviceslist');
+

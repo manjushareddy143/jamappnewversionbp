@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Services extends Model
 {
-    //
-    protected $table = "services_table";
+    // It define the database table name to fetch the data
+    protected $table = "services";
 
     protected $fillable = [
         'servicename',
