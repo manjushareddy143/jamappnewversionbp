@@ -17,14 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('Users/{id}', function ($id) {
-     return view('layouts/Users/show');
-     echo 'User'.$id;
- });
+Route::get('/index', 'UserController@index');
+// Route::post('\Users\{id}', function ($id) {
+//      return view('layouts/Users/show');
+//      echo 'User'.$id;
+//  });
 
-Route::get('users/{id}', function ($id) {
-    return view('layouts/Users/create');
-});
+// Route::get('users/{id}', function ($id) {
+//     return view('layouts/Users/create');
+// });
 
 // Auth::routes();
 

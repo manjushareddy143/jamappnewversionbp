@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\App;
 class ServiceController extends Controller
 {
     //
-    public function services()
+    public function serviceslist()
     {
+        // It retrive all the data from database
         return Services::all();
-        //return response()->json(services::get(), 200);
+
     }
 }
