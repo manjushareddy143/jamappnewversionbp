@@ -17,9 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/abc', function () {
-    return "here";
-});
+
+
+Route::get('/Users', function () {
+     return view('layouts/Users/index');
+
+ });
+
+// Route::get('users/{id}', function ($id) {
+//     return view('layouts/Users/create');
+// });
+
 
 Route::get('/index', 'UserController@index');
 Route::post('/login', 'UserController@login');

@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::latest()->paginate(5);
-        return view('users.index',compact('users'))->with('i',(request()->input('page',1)-1) * 5);
+        return view('Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
     }
     /** Form for creating a new resource
     *
@@ -24,7 +24,7 @@ class UserController extends Controller
     */
     public function create()
     {
-        return view('users.create');
+        return view('Users.create');
     }
     /**
      * store newly created resource in storage
@@ -38,7 +38,7 @@ class UserController extends Controller
             'email' => 'required',
         ]);
         User::create($request->all());
-        return redirect()->route('users.index')->with('Success','User created successfully.');
+        return redirect()->route('Users.index')->with('Success','User created successfully.');
     }
     /**Display the specified resource
      *
@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function show(User $users)
     {
-        return view('users.show',compact('users'));
+        return view('Users.show',compact('Users'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function edit(User $users)
     {
-        return view('users.edit',compact('users'));
+        return view('Users.edit',compact('Users'));
     }
     /**
      * Update the specified resources in storage
@@ -74,7 +74,7 @@ class UserController extends Controller
         ]);
 
         $users->update($request->all());
-        return redirect()->route('users.index')->with('Success','User updated successfully');
+        return redirect()->route('Users.index')->with('Success','User updated successfully');
     }
     /**
      * Remove the specified resource from storage.
@@ -85,7 +85,7 @@ class UserController extends Controller
     public function destroy(User $users)
     {
         $users->delete();
-        return redirect()->route('users.index')->with('Success','User deleted successfully');
+        return redirect()->route('Users.index')->with('Success','User deleted successfully');
     }
 
     public function login(Request $request) {
