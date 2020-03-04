@@ -9,7 +9,7 @@ class RoleController extends Controller
 {
      //CRUD Operation for Roles
     /**Display a listing of the resource.
-     *
+     *z
      * @return \Illuminate\Http\Response
      */
     public function index()

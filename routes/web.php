@@ -17,21 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/abc', function () {
+    return "here";
+});
+
 Route::get('/index', 'UserController@index');
-// Route::post('\Users\{id}', function ($id) {
-//      return view('layouts/Users/show');
-//      echo 'User'.$id;
-//  });
+Route::post('/login', 'UserController@login');
 
-// Route::get('users/{id}', function ($id) {
-//     return view('layouts/Users/create');
-// });
+Route::get('/home', 'HomeController@index')->name('home');
 
-// Auth::routes();
-
- Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
 
 
 
