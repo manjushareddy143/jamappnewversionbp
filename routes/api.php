@@ -25,3 +25,7 @@ Route::get('/', function () {
 
 Route::get('/serviceslist', 'ServiceController@serviceslist');
 
+// It defines to get the view of services list
+Route::get('/servicelist', function () {
+    return view('layouts/serviceshow');
+});

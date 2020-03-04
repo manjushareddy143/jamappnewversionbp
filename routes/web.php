@@ -17,11 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/index', 'UserController@index');
-// Route::post('\Users\{id}', function ($id) {
-//      return view('layouts/Users/show');
-//      echo 'User'.$id;
-//  });
+
+Route::get('/Users', function () {
+     return view('layouts/Users/index');
+
+ });
 
 // Route::get('users/{id}', function ($id) {
 //     return view('layouts/Users/create');
