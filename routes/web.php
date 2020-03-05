@@ -16,22 +16,30 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('user', 'UserController');
+Route::get('/index', function ()
+{
+     return view('/layouts/Users/index');
+});
+Route::get('/create', function ()
+{
+     return view('/layouts/Users/create');
+});
+Route::get('/show', function ()
+{
+     return view('/layouts/Users/show');
+});
 
-
-Route::get('/Users', function () {
-     return view('layouts/Users/index');
-
+ Route::get('/serviceslist', function()
+ {
+    return view('/layouts/serviceshow');
  });
 
-// Route::get('users/{id}', function ($id) {
-//     return view('layouts/Users/create');
-// });
-
-// Auth::routes();
+ Auth::routes();
 
  Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+
 
 
 

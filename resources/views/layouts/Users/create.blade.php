@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 
-@section('content')
+ @section('content')
 
 <div class="row">
 
@@ -9,13 +9,13 @@
 
         <div class="pull-left">
 
-            <h2>Create New User</h2>
+            <h2 align='center'>Create New User</h2>
 
         </div>
 
-        <div class="pull-right">
+      <div class="pull-right">
 
-            <a class="btn btn-primary" href="{{ route('users.Create') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('home') }}"> Back</a>
 
         </div>
 
@@ -24,7 +24,7 @@
 </div>
 
 
-@if (count($errors) > 0)
+  @if (count($errors) > 0)
 
   <div class="alert alert-danger">
 
@@ -45,8 +45,7 @@
 @endif
 
 
-
-{!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
+{!! Form::open(array('route' => 'user.store','method'=>'POST')) !!}
 
 <div class="row">
 
@@ -62,7 +61,7 @@
 
     </div>
 
-    <div class="col-xs-12 col-sm-12 col-md-12">
+   <div class="col-xs-12 col-sm-12 col-md-12">
 
         <div class="form-group">
 
@@ -121,6 +120,8 @@
 {!! Form::close() !!}
 
 
-<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
+<p class="text-center text-primary"><small>testing</small></p>
 
 @endsection
+
+
