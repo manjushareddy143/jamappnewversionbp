@@ -30,16 +30,36 @@ Route::get('/show', function ()
      return view('/layouts/Users/show');
 });
 
+<<<<<<< HEAD
  Route::get('/serviceslist', function()
  {
     return view('/layouts/serviceshow');
  });
 
  Auth::routes();
+=======
 
- Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/Users', function () {
+     return view('layouts/Users/index');
 
+ });
+
+// Route::get('users/{id}', function ($id) {
+//     return view('layouts/Users/create');
+// });
+
+>>>>>>> 95e281a7f61ea809b664004cca71fba9594a9c25
+
+Route::get('/index', 'UserController@index');
+Route::post('/login', 'UserController@login');
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+<<<<<<< HEAD
+
+=======
+>>>>>>> 95e281a7f61ea809b664004cca71fba9594a9c25
 
 
 

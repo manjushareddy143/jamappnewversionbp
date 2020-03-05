@@ -15,19 +15,29 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
 Route::get('/', function () {
     return [1, 2, 3];
 });
 // Route defines to get the services list from database
 
-Route::get('/serviceslist', 'ServiceController@serviceslist');
+/*Route::get('/serviceslist', 'ServiceController@serviceslist');
 
+<<<<<<< HEAD
 // // It defines to get the view of service list
 // Route::get('/serviceslist', function(){
 //     return view('layouts/serviceshow');
 // });
+=======
+<<<<<<< HEAD
+Route::get('service', 'Services@service');*/
+// It defines to get the view of service list
+Route::get('/serviceslist', function(){
+    return view('layouts/serviceshow');
+});
+>>>>>>> 95e281a7f61ea809b664004cca71fba9594a9c25
+
 
 

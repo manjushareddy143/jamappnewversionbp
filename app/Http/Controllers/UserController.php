@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -85,6 +86,38 @@ class UserController extends Controller
     {
         $users->delete();
         return redirect()->route('Users.index')->with('Success','User deleted successfully');
+    }
+
+    public function login(Request $request) {
+
+        try {
+            $response = array();
+            $username = $request->input('username');
+            $password = $request->input('password');
+
+            $checkuser  = User::where('email', '=', $username)->first();
+
+
+            if (isset($checkuser)) {
+//                print_r($checkuser->password . "\n");
+                print_r(bcrypt('secret'));
+                exit();
+                if ($checkuser->password == bcrypt('secret')) {
+                    $response['code'] = 200;
+                    $response['message'] = "user authenticated";
+                } else {
+                    $response['code'] = 400;
+                    $response['message'] = "user unauthorized";
+                }
+            }
+
+            return response($response, $response['code'])
+                ->header('content-type', 'application/json');
+        } catch (\Exception $e) {
+
+            $response['code'] = 400;
+            $response['message'] = "There is some error";
+        }
     }
 
 }

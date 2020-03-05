@@ -17,3 +17,18 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];
+
+return [
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
+    ],
+];
+
+
