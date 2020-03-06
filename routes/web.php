@@ -30,14 +30,12 @@ Route::get('/show', function ()
      return view('/layouts/Users/show');
 });
 
-
  Route::get('/serviceslist', function()
  {
     return view('/layouts/serviceshow');
  });
 
  Auth::routes();
-
 
 
 Route::get('/Users', function () {
@@ -48,7 +46,6 @@ Route::get('/Users', function () {
 // Route::get('users/{id}', function ($id) {
 //     return view('layouts/Users/create');
 // });
-
 
 
 Route::get('/index', 'UserController@index');
