@@ -19,9 +19,9 @@ class UserController extends Controller
         return view('Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
     }
     /** Form for creating a new resource
-    *
-    *@return \Illuminate\Http\Response
-    */
+     *
+     *@return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view('Users.create');
@@ -88,36 +88,37 @@ class UserController extends Controller
         return redirect()->route('Users.index')->with('Success','User deleted successfully');
     }
 
-    public function login(Request $request) {
+    // User Login Function
 
+    public function login(Request $request) {
         try {
             $response = array();
             $username = $request->input('username');
             $password = $request->input('password');
 
             $checkuser  = User::where('email', '=', $username)->first();
-
-
             if (isset($checkuser)) {
-//                print_r($checkuser->password . "\n");
-                print_r(bcrypt('secret'));
-                exit();
-                if ($checkuser->password == bcrypt('secret')) {
+                if (Hash::check($password,$checkuser->password)) {
                     $response['code'] = 200;
                     $response['message'] = "user authenticated";
                 } else {
                     $response['code'] = 400;
                     $response['message'] = "user unauthorized";
                 }
+
+            } else {
+                $response['code'] = 400;
+                $response['message'] = "user unauthorized";
             }
 
             return response($response, $response['code'])
                 ->header('content-type', 'application/json');
         } catch (\Exception $e) {
-
             $response['code'] = 400;
             $response['message'] = "There is some error";
         }
     }
+
+    // User Login Function
 
 }

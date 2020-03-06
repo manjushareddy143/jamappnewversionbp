@@ -25,13 +25,12 @@ Route::get('/', function () {
 
 /*Route::get('/serviceslist', 'ServiceController@serviceslist');
 
-<<<<<<< HEAD
+
 // // It defines to get the view of service list
 // Route::get('/serviceslist', function(){
 //     return view('layouts/serviceshow');
 // });
-=======
-<<<<<<< HEAD
+
 Route::get('service', 'Services@service');*/
 // It defines to get the view of service list
 Route::get('/serviceslist', function(){

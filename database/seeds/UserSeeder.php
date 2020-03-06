@@ -4,6 +4,7 @@ use App\Role;
 use App\User;
 use App\Permission;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -35,6 +36,5 @@ class UserSeeder extends Seeder
         $user2->save();
         $user2->roles()->attach($serviceprovider);
         $user2->permissions()->attach($createServices);
-
     }
 }
