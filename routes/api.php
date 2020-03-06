@@ -37,7 +37,6 @@ Route::get('service', 'Services@service');*/
 Route::get('/serviceslist', function(){
     return view('layouts/serviceshow');
 });
->>>>>>> 95e281a7f61ea809b664004cca71fba9594a9c25
 
 
 
