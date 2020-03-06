@@ -16,18 +16,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+// Set the routes and resource for Users
 Route::resource('user', 'UserController');
-Route::get('/index', function ()
-{
-     return view('/layouts/Users/index');
-});
-Route::get('/create', function ()
-{
-     return view('/layouts/Users/create');
-});
+Route::get('/index', 'UserController@index');
+Route::get('/addUser', 'UserController@addUser');
 Route::get('/show', function ()
 {
      return view('/layouts/Users/show');
+});
+Route::get('/edit', function ()
+{
+     return view('/layouts/Users/edit');
 });
 
  Route::get('/serviceslist', function()
@@ -35,20 +34,17 @@ Route::get('/show', function ()
     return view('/layouts/serviceshow');
  });
 
+ // Set the routes and resource for roles
+ Route::resource('roles', 'RoleController');
  Auth::routes();
 
 
-Route::get('/Users', function () {
-     return view('layouts/Users/index');
+// Route::get('/Users', function () {
+//      return view('layouts/Users/index');
 
- });
+//  });
 
-// Route::get('users/{id}', function ($id) {
-//     return view('layouts/Users/create');
-// });
-
-
-Route::get('/index', 'UserController@index');
+//Route::get('/index', 'UserController@index');
 Route::post('/login', 'UserController@login');
 
 Route::get('/home', 'HomeController@index')->name('home');
