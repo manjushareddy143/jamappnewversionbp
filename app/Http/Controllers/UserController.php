@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function show(User $users)
     {
-        return view('Users.show',compact('Users'));
+        return view('layouts.Users.show',compact('Users'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -60,7 +60,7 @@ class UserController extends Controller
      */
     public function edit(User $users)
     {
-        return view('Users.edit',compact('Users'));
+        return view('layouts.Users.edit',compact('Users'));
     }
     /**
      * Update the specified resources in storage
@@ -77,7 +77,7 @@ class UserController extends Controller
         ]);
 
         $users->update($request->all());
-        return redirect()->route('Users.index')->with('Success','User updated successfully');
+        return redirect()->route('user.index')->with('Success','User updated successfully');
     }
     /**
      * Remove the specified resource from storage.
@@ -88,7 +88,7 @@ class UserController extends Controller
     public function destroy(User $users)
     {
         $users->delete();
-        return redirect()->route('Users.index')->with('Success','User deleted successfully');
+        return redirect()->route('user.index')->with('Success','User deleted successfully');
     }
 
     // User Login API

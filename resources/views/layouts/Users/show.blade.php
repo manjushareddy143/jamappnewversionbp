@@ -9,7 +9,7 @@
 
         <div class="pull-left">
 
-            <h2> Show User</h2>
+            <h2 align='center'> Show User</h2>
 
         </div>
 
@@ -23,6 +23,7 @@
 
 </div>
 
+@if (isset($data) && !empty($data))
 
 <div class="row">
 
@@ -71,5 +72,6 @@
     </div>
 
 </div>
+@endif
 
 @endsection
