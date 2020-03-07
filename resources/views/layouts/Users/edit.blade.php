@@ -9,13 +9,13 @@
 
         <div class="pull-left">
 
-            <h2>Edit New User</h2>
+            <h2 align='center'>Edit New User</h2>
 
         </div>
 
         <div class="pull-right">
 
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+            <a class="btn btn-primary" href="/index"> Back</a>
 
         </div>
 
@@ -44,8 +44,8 @@
 
 @endif
 
-
-{!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
+@if(isset($user) && !empty($user))
+{!! Form::model($user, ['method' => 'PATCH','route' => ['user.update', $user->id]]) !!}
 
 <div class="row">
 
@@ -118,8 +118,8 @@
 </div>
 
 {!! Form::close() !!}
+@endif
 
-
-<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
+<p class="text-center text-primary"><small>Testing</small></p>
 
 @endsection

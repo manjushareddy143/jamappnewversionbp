@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 
-@section('content')
+{{--@section('content')
 
 <div class="row">
 
@@ -13,7 +13,7 @@
 
         </div>
 
-        <div class="pull-right">
+         <div class="pull-right">
 
             <a class="btn btn-primary" href="{{ route('roles.index') }}"> Back</a>
 
@@ -96,4 +96,4 @@
 
 <p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
 
-@endsection
+@endsection --}}

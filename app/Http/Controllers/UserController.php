@@ -17,16 +17,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->paginate(5);
-        return view('Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
+        $users=User::all();
+        return view('layouts.Users.index')->with('data',$users);
+       // $users = User::latest()->paginate(5);
+        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
+
     }
     /** Form for creating a new resource
      *
      *@return \Illuminate\Http\Response
      */
-    public function create()
+    public function addUser()
     {
-        return view('Users.create');
+        return view('layouts.Users.create');
     }
     /**
      * store newly created resource in storage
@@ -40,7 +43,7 @@ class UserController extends Controller
             'email' => 'required',
         ]);
         User::create($request->all());
-        return redirect()->route('Users.index')->with('Success','User created successfully.');
+        return redirect()->route('user.index')->with('Success','User created successfully.');
     }
     /**Display the specified resource
      *
@@ -49,7 +52,7 @@ class UserController extends Controller
      */
     public function show(User $users)
     {
-        return view('Users.show',compact('Users'));
+        return view('layouts.Users.show',compact('Users'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -59,7 +62,7 @@ class UserController extends Controller
      */
     public function edit(User $users)
     {
-        return view('Users.edit',compact('Users'));
+        return view('layouts.Users.edit',compact('Users'));
     }
     /**
      * Update the specified resources in storage
@@ -76,7 +79,7 @@ class UserController extends Controller
         ]);
 
         $users->update($request->all());
-        return redirect()->route('Users.index')->with('Success','User updated successfully');
+        return redirect()->route('user.index')->with('Success','User updated successfully');
     }
     /**
      * Remove the specified resource from storage.
@@ -87,7 +90,7 @@ class UserController extends Controller
     public function destroy(User $users)
     {
         $users->delete();
-        return redirect()->route('Users.index')->with('Success','User deleted successfully');
+        return redirect()->route('user.index')->with('Success','User deleted successfully');
     }
 
     // User Login API

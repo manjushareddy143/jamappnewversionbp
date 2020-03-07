@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 
-{{-- @section('content')
+@section('content')
 
 <div class="row">
 
@@ -15,7 +15,7 @@
 
         <div class="pull-right">
 
-            <a class="btn btn-success" href= "{{ route('create') }}"> Create New User</a>
+            <a class="btn btn-success" href= "/addUser"> Create New User</a>
 
         </div>
 
@@ -24,7 +24,7 @@
 </div>
 
 
-@if ($message = Session::get('success'))
+ @if ($message = Session::get('success'))
 
 <div class="alert alert-success">
 
@@ -33,7 +33,6 @@
 </div>
 
 @endif
-
 
 <table class="table table-bordered">
 
@@ -50,7 +49,8 @@
    <th width="280px">Action</th>
 
  </tr>
-
+@if (isset($data) && !empty($data))
+    <?php $i=0; ?>
  @foreach ($data as $key => $user)
 
   <tr>
@@ -61,9 +61,9 @@
 
     <td>{{ $user->email }}</td>
 
-    <td>
+   <td>
 
-      @if(!empty($user->getRoleNames()))
+      {{-- @if(!empty($user->getRoleNames()))
 
         @foreach($user->getRoleNames() as $v)
 
@@ -71,17 +71,17 @@
 
         @endforeach
 
-      @endif
+      @endif --}}
 
     </td>
 
-    <td>
+     <td>
 
-       <a class="btn btn-info" href="{{ route('Users.show',$user->id) }}">Show</a>
+       <a class="btn btn-info" href="{{ route('user.show',$user->id) }}">Show</a>
 
-       <a class="btn btn-primary" href="{{ route('Users.edit',$user->id) }}">Edit</a>
+       <a class="btn btn-primary" href="{{ route('user.edit',$user->id) }}">Edit</a>
 
-        {!! Form::open(['method' => 'DELETE','route' => ['Users.destroy', $user->id],'style'=>'display:inline']) !!}
+        {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id],'style'=>'display:inline']) !!}
 
             {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
 
@@ -92,30 +92,21 @@
   </tr>
 
  @endforeach
+ @endif
 
 </table>
 
-
-{!! $data->render() !!}
-
+@if (isset($data) && !empty($data))
+{{-- {!! $data->render() !!} --}}
+@endif
 
 <p class="text-center text-primary"><small>Testing</small></p>
 
 @endsection
 
 
-    @if ($message = Session::get('success'))
 
-        <div class="alert alert-success">
-
-            <p>{{ $message }}</p>
-
-        </div>
-
-    @endif
-
-
-
+{{--
     <table class="table table-bordered">
 
         <tr>
@@ -130,7 +121,7 @@
 
         </tr>
 
-        @foreach ($users as $user)
+        @foreach ($errors as $user)
 
         <tr>
 
@@ -174,10 +165,6 @@
 
 
 
-    {!! $users->links() !!}
-
-
-
-@endsection --}}
+    {{-- {!! $errors->links() !!} @endsection --}}
 
 

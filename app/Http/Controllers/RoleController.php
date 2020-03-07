@@ -15,7 +15,7 @@ class RoleController extends Controller
     public function index()
     {
         $role = Role::latest()->paginate(5);
-        return view('role.index',compact('role'))->with('i',(request()->input('page',1)-1) * 5);
+        return view('roles.index',compact('roles'))->with('i',(request()->input('page',1)-1) * 5);
     }
     /** Form for creating a new resource
     *
@@ -23,7 +23,7 @@ class RoleController extends Controller
     */
     public function create()
     {
-        return view('role.create');
+        return view('roles.create');
     }
     /**
      * store newly created resource in storage
@@ -36,7 +36,7 @@ class RoleController extends Controller
             'name' => 'required',
         ]);
         Role::create($request->all());
-        return redirect()->route('role.index')->with('Success','User created successfully.');
+        return redirect()->route('roles.index')->with('Success','User created successfully.');
     }
     /**Display the specified resource
      *
@@ -45,7 +45,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        return view('role.show',compact('role'));
+        return view('roles.show',compact('roles'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -55,7 +55,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('role.edit',compact('role'));
+        return view('roles.edit',compact('roles'));
     }
     /**
      * Update the specified resources in storage
