@@ -44,7 +44,7 @@ Route::get('/Users', function () {
  });
 
 // Route::get('users/{id}', function ($id) {
-//     return view('layouts/Users/create');
+//    return view('layouts/Users/create');
 // });
 
 

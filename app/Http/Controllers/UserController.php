@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
+//use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Validator;
 
 class UserController extends Controller
 {
@@ -136,45 +138,47 @@ class UserController extends Controller
             $checkuser  = User::where('email', '=', $username)->first();
             if (isset($checkuser)) {
                 if (Hash::check($password,$checkuser->password)) {
-                    $response['code'] = 200;
+                    $response['code'] = true;
                     $response['message'] = "user authenticated";
                 } else {
-                    $response['code'] = 400;
+                    $response['code'] = false;
                     $response['message'] = "user unauthorized";
                 }
 
             } else {
-                $response['code'] = 400;
+                $response['code'] = false;
                 $response['message'] = "user unauthorized";
             }
-
-            return response($response, $response['code'])
+            return response($response, 200)
                 ->header('content-type', 'application/json');
         } catch (\Exception $e) {
             $response['code'] = 400;
             $response['message'] = "There is some error";
         }
     }
-    // User Login API
-
 
     // User Register API
     /**
-     * @SWG\Get(
+     * @SWG\Post(
      *   path="/register",
      *   summary="User Register",
      *     description="User will be logged in",
-     *   operationId="userLogin",
+     *   operationId="userRegister",
      *   consumes={"application/xml","application/json"},
      *   produces={"application/json"},
      *     @SWG\Parameter(
      *      in="body",
      *      name="body",
-     *      description="Enter username, first_name, last_name, email address, mobile number and password for user Register",
+     *      description="Enter username, email address and password for user Register",
      *      required=true,
      *     @SWG\Definition(
      *         definition="users",
-     *         required={"name","email","password",confirm_password},
+     *         required={"username","email","password"},
+     *     @SWG\Property(
+     *             description="Enter name",
+     *             property="username",
+     *             type="string"
+     *         ),
      *         @SWG\Property(
      *             description="Enter name",
      *             property="name",
@@ -191,11 +195,6 @@ class UserController extends Controller
      *             property="password",
      *             type="string"
      *         ),
-     *     @SWG\Property(
-     *             description="Enter User Password",
-     *             property="confirm_password",
-     *             type="string"
-     *         ),
      *       )
      *      ),
      *   @SWG\Response(
@@ -210,12 +209,13 @@ class UserController extends Controller
 
 
     public function register(Request $request){
+        $response = array();
         $validator = Validator::make($request->all(),
             [
                 'name' => 'required',
+                'username' => 'required',
                 'email' => 'required|email',
                 'password' => 'required',
-                'confirm_password' => 'required|same:password',
             ]);
         if ($validator->fails())
         {
@@ -224,8 +224,15 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('AppName')->accessToken;
-        return response()->json(['success'=>$success], $this->successStatus);
+
+        if (isset($user)) {
+            $response['status']  = true;
+            $response['message']  = "User Register  Successfully!";
+        } else {
+            $response['status']  = false;
+            $response['message']  = "Please add valid details";
+        }
+        return response()->json($response);
 
         }
 }
