@@ -49,6 +49,8 @@ Route::get('/edit', function ()
 //Route::get('/index', 'UserController@index');
 Route::post('/login', 'UserController@login');
 Route::post('/register', 'UserController@register');
+Route::post('/changepassword','UserController@changepassword');
+Route::post('/resetpassword','UserController@resetpassword');
 
 
 Route::get('/home', 'HomeController@index')->name('home');

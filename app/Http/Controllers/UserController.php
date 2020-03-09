@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\User;
 //use Illuminate\Contracts\Validation\Validator;
+use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class UserController extends Controller
@@ -202,7 +204,7 @@ class UserController extends Controller
      *      ),
      *   @SWG\Response(
      *     response=200,
-     *     description="User Register  Successfully!"
+     *     description="User Register successfully!"
      *   ),
      *   @SWG\Response(response=404, description="Page not Found"),
      *   @SWG\Response(response=500, description="internal server error"),
@@ -230,7 +232,7 @@ class UserController extends Controller
 
         if (isset($user)) {
             $response['status']  = true;
-            $response['message']  = "User Register  Successfully!";
+            $response['message']  = "User Register successfully!";
         } else {
             $response['status']  = false;
             $response['message']  = "Please add valid details";
@@ -238,4 +240,191 @@ class UserController extends Controller
         return response()->json($response);
 
         }
+
+
+        //Change password api
+    /**
+     * @SWG\Post(
+     *   path="/changepassword",
+     *   summary="User can change password.",
+     *     description="User can change current password",
+     *   operationId="userPasswordChange",
+     *   consumes={"application/xml","application/json"},
+     *   produces={"application/json"},
+     *     @SWG\Parameter(
+     *      in="body",
+     *      name="body",
+     *      description="Enter email and new password for change current user password.",
+     *      required=true,
+     *     @SWG\Definition(
+     *         definition="password_change",
+     *         required={"email","password"},
+     *         @SWG\Property(
+     *             description="Enter email",
+     *             property="email",
+     *             type="string"
+     *         ),
+     *          @SWG\Property(
+     *             description="Enter Password",
+     *             property="password",
+     *             type="string"
+     *         )
+     *       )
+     *      ),
+     *   @SWG\Response(
+     *     response=200,
+     *     description="User password change successfully!"
+     *   ),
+     *   @SWG\Response(response=404, description="Page not Found"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+     *
+     */
+
+    public function changepassword(Request $request) {
+
+        try {
+            $response = array();
+            $email = $request->input("email");
+            $password = $request->input("password");
+
+            if(trim($email) == "" || trim($password) == "") {
+                return response(array(
+                    'message' => "Invalid parameters.",
+                    'statuscode' => 0,
+                ),
+                    200);
+            }
+
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $emailErr = "Invalid email format";
+                return response(array(
+                    'message' => $emailErr,
+                    'statuscode' => 0,
+                ),
+                    200);
+            }
+
+            $user = User::where('email',$email)->first();
+
+            if(isset($user) && !empty($user)) {
+
+                $user->password = Hash::make($password);
+                $user->save();
+
+                return response(array(
+                    'statuscode' => true,
+                    'message' => "Password updated successfully.",
+
+                ),
+                    200);
+
+            } else {
+
+                return response(array(
+                    'statuscode' => false,
+                    'message' => "No user with this email id available.",
+
+                ),
+                    200);
+
+            }
+        } catch (\Exception $e) {
+            $this->$response($request, "There is some error in change password");
+            $this->$response($request, $e->getMessage() . " " . $e->getLine());
+        }
+    }
+
+
+
+    //reset Password sent mail
+    /**
+     * @SWG\Post(
+     *   path="/resetpassword",
+     *   summary="User will get reset password link.",
+     *     description="User will get reset password link",
+     *   operationId="userPasswordReset",
+     *   consumes={"application/xml","application/json"},
+     *   produces={"application/json"},
+     *     @SWG\Parameter(
+     *      in="body",
+     *      name="body",
+     *      description="Enter email for user password reset",
+     *      required=true,
+     *     @SWG\Definition(
+     *         definition="password_reset",
+     *         required={"email"},
+     *         @SWG\Property(
+     *             description="Enter email",
+     *             property="email",
+     *             type="string"
+     *         )
+     *       )
+     *      ),
+     *   @SWG\Response(
+     *     response=200,
+     *     description="User password reset link sent successfully!"
+     *   ),
+     *   @SWG\Response(response=404, description="Page not Found"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+     *
+     */
+
+    public function resetpassword(Request $request) {
+        try {
+            $request = $request->input::json()->all();
+            $email = $request->input::json('email');
+
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $emailErr = "Invalid email format";
+
+                return Response::json(array(
+                    'message' => $emailErr,
+                    'statuscode' => 0,
+                ),
+                    200);
+            } else {
+
+                $user = User::where('email',$email)->first();
+
+                if(isset($user) && !empty($user)) {
+
+                    $response = $this->broker()->sendResetLink(['email'=>$email]);
+
+                    return Response::json(array(
+                        'response' => $response,
+                        'message' => "Mail sent successfully.",
+                        'statuscode' => 1,
+                    ),
+                        200);
+                } else {
+                    return Response::json(array(
+                        'message' => "No user with this email id available. Please Sign up.",
+                        'statuscode' => 0,
+                    ),
+                        200);
+
+                }
+
+            }
+        } catch (\Exception $e) {
+            return Response(array(
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'statuscode' => 0,
+            ),
+                400);
+        }
+    }
+
+    public function broker()
+    {
+        return Password::broker();
+    }
+
+
+
 }
