@@ -360,6 +360,11 @@ class UserController extends Controller
      *             property="email",
      *             type="string"
      *         )
+     *          @SWG\Property(
+     *             description="Enter Password",
+     *             property="password",
+     *             type="string"
+     *         )
      *       )
      *      ),
      *   @SWG\Response(
@@ -372,59 +377,47 @@ class UserController extends Controller
      *
      */
 
-    public function resetpassword(Request $request) {
-        try {
-            $request = $request->input::json()->all();
-            $email = $request->input::json('email');
-
-
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $emailErr = "Invalid email format";
-
-                return Response::json(array(
-                    'message' => $emailErr,
-                    'statuscode' => 0,
-                ),
-                    200);
-            } else {
-
-                $user = User::where('email',$email)->first();
-
-                if(isset($user) && !empty($user)) {
-
-                    $response = $this->broker()->sendResetLink(['email'=>$email]);
-
-                    return Response::json(array(
-                        'response' => $response,
-                        'message' => "Mail sent successfully.",
-                        'statuscode' => 1,
-                    ),
-                        200);
-                } else {
-                    return Response::json(array(
-                        'message' => "No user with this email id available. Please Sign up.",
-                        'statuscode' => 0,
-                    ),
-                        200);
-
-                }
-
-            }
-        } catch (\Exception $e) {
-            return Response(array(
-                'message' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'statuscode' => 0,
-            ),
-                400);
-        }
-    }
-
-    public function broker()
+    public function resetPassword(Request $request)
     {
-        return Password::broker();
+        //Validate input
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|exists:users,email',
+            'password' => 'required|confirmed'
+        ]);
+
+        //check if input is valid before moving on
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['email' => 'Please complete the form']);
+        }
+
+        $password = $request->password;
+// Validate the token
+        $tokenData = DB::table('password_resets')
+            ->where('token', $request->token)->first();
+// Redirect the user back to the password reset request form if the token is invalid
+        if (!$tokenData) return view('auth.passwords.email');
+
+        $user = User::where('email', $tokenData->email)->first();
+// Redirect the user back if the email is invalid
+        if (!$user) return redirect()->back()->withErrors(['email' => 'Email not found']);
+//Hash and update the new password
+        $user->password = \Hash::make($password);
+        $user->update(); //or $user->save();
+
+        //login the user immediately they change password successfully
+        Auth::login($user);
+
+        //Delete the token
+        DB::table('password_resets')->where('email', $user->email)
+            ->delete();
+
+        //Send Email Reset Success Email
+        if ($this->sendSuccessEmail($tokenData->email)) {
+            return view('index');
+        } else {
+            return redirect()->back()->withErrors(['email' => trans('A Network Error occurred. Please try again.')]);
+        }
+
     }
-
-
 
 }

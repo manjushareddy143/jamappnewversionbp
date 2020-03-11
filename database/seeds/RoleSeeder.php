@@ -13,6 +13,8 @@ class RoleSeeder extends Seeder
     public function run()
     {
         //
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::table('roles')->truncate();
         $admin = new Role();
         $admin->name = 'Admin';
         $admin->slug = 'Admin';
@@ -22,5 +24,6 @@ class RoleSeeder extends Seeder
         $serviceprovider->name = 'Service provider';
         $serviceprovider->slug = 'Service provider';
         $serviceprovider->save();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

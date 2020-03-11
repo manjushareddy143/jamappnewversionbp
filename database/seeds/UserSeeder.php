@@ -16,6 +16,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         //
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::table('users')->truncate();
+        DB::table('roles')->truncate();
+        DB::table('permissions')->truncate();
         $admin = Role::where('slug','Admin')->first();
         $serviceprovider = Role::where('slug','Service provider')->first();
         $manageuser = Permission::where('slug','Manage users')->first();
@@ -36,5 +40,7 @@ class UserSeeder extends Seeder
         $user2->save();
         $user2->roles()->attach($serviceprovider);
         $user2->permissions()->attach($createServices);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }
