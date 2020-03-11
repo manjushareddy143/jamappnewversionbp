@@ -42,11 +42,15 @@ Route::get('/edit', function ()
 // Route::get('/Users', function () {
 //      return view('layouts/Users/index');
 
-//  });
+// Route::get('users/{id}', function ($id) {
+//    return view('layouts/Users/create');
+// });
 
 //Route::get('/index', 'UserController@index');
-Route::post('/login', 'UserController@login');
+Route::post('/loginaa', 'UserController@login');
 Route::post('/register', 'UserController@register');
+Route::post('/changepassword','UserController@changepassword');
+Route::post('/resetPassword','UserController@resetPassword');
 
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');

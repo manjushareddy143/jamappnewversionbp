@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\User;
+//use Illuminate\Contracts\Validation\Validator;
+use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Validator;
 
 class UserController extends Controller
 {
@@ -139,45 +143,47 @@ class UserController extends Controller
             $checkuser  = User::where('email', '=', $username)->first();
             if (isset($checkuser)) {
                 if (Hash::check($password,$checkuser->password)) {
-                    $response['code'] = 200;
+                    $response['code'] = true;
                     $response['message'] = "user authenticated";
                 } else {
-                    $response['code'] = 400;
+                    $response['code'] = false;
                     $response['message'] = "user unauthorized";
                 }
 
             } else {
-                $response['code'] = 400;
+                $response['code'] = false;
                 $response['message'] = "user unauthorized";
             }
-
-            return response($response, $response['code'])
+            return response($response, 200)
                 ->header('content-type', 'application/json');
         } catch (\Exception $e) {
             $response['code'] = 400;
             $response['message'] = "There is some error";
         }
     }
-    // User Login API
-
 
     // User Register API
     /**
-     * @SWG\Get(
+     * @SWG\Post(
      *   path="/register",
      *   summary="User Register",
      *     description="User will be logged in",
-     *   operationId="userLogin",
+     *   operationId="userRegister",
      *   consumes={"application/xml","application/json"},
      *   produces={"application/json"},
      *     @SWG\Parameter(
      *      in="body",
      *      name="body",
-     *      description="Enter username, first_name, last_name, email address, mobile number and password for user Register",
+     *      description="Enter username, email address and password for user Register",
      *      required=true,
      *     @SWG\Definition(
      *         definition="users",
-     *         required={"name","email","password",confirm_password},
+     *         required={"username","email","password"},
+     *     @SWG\Property(
+     *             description="Enter name",
+     *             property="username",
+     *             type="string"
+     *         ),
      *         @SWG\Property(
      *             description="Enter name",
      *             property="name",
@@ -194,16 +200,11 @@ class UserController extends Controller
      *             property="password",
      *             type="string"
      *         ),
-     *     @SWG\Property(
-     *             description="Enter User Password",
-     *             property="confirm_password",
-     *             type="string"
-     *         ),
      *       )
      *      ),
      *   @SWG\Response(
      *     response=200,
-     *     description="User Register  Successfully!"
+     *     description="User Register successfully!"
      *   ),
      *   @SWG\Response(response=404, description="Page not Found"),
      *   @SWG\Response(response=500, description="internal server error"),
@@ -213,12 +214,13 @@ class UserController extends Controller
 
 
     public function register(Request $request){
+        $response = array();
         $validator = Validator::make($request->all(),
             [
                 'name' => 'required',
+                'username' => 'required',
                 'email' => 'required|email',
                 'password' => 'required',
-                'confirm_password' => 'required|same:password',
             ]);
         if ($validator->fails())
         {
@@ -227,8 +229,195 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('AppName')->accessToken;
-        return response()->json(['success'=>$success], $this->successStatus);
+
+        if (isset($user)) {
+            $response['status']  = true;
+            $response['message']  = "User Register successfully!";
+        } else {
+            $response['status']  = false;
+            $response['message']  = "Please add valid details";
+        }
+        return response()->json($response);
 
         }
+
+
+        //Change password api
+    /**
+     * @SWG\Post(
+     *   path="/changepassword",
+     *   summary="User can change password.",
+     *     description="User can change current password",
+     *   operationId="userPasswordChange",
+     *   consumes={"application/xml","application/json"},
+     *   produces={"application/json"},
+     *     @SWG\Parameter(
+     *      in="body",
+     *      name="body",
+     *      description="Enter email and new password for change current user password.",
+     *      required=true,
+     *     @SWG\Definition(
+     *         definition="password_change",
+     *         required={"email","password"},
+     *         @SWG\Property(
+     *             description="Enter email",
+     *             property="email",
+     *             type="string"
+     *         ),
+     *          @SWG\Property(
+     *             description="Enter Password",
+     *             property="password",
+     *             type="string"
+     *         )
+     *       )
+     *      ),
+     *   @SWG\Response(
+     *     response=200,
+     *     description="User password change successfully!"
+     *   ),
+     *   @SWG\Response(response=404, description="Page not Found"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+     *
+     */
+
+    public function changepassword(Request $request) {
+
+        try {
+            $response = array();
+            $email = $request->input("email");
+            $password = $request->input("password");
+
+            if(trim($email) == "" || trim($password) == "") {
+                return response(array(
+                    'message' => "Invalid parameters.",
+                    'statuscode' => 0,
+                ),
+                    200);
+            }
+
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $emailErr = "Invalid email format";
+                return response(array(
+                    'message' => $emailErr,
+                    'statuscode' => 0,
+                ),
+                    200);
+            }
+
+            $user = User::where('email',$email)->first();
+
+            if(isset($user) && !empty($user)) {
+
+                $user->password = Hash::make($password);
+                $user->save();
+
+                return response(array(
+                    'statuscode' => true,
+                    'message' => "Password updated successfully.",
+
+                ),
+                    200);
+
+            } else {
+
+                return response(array(
+                    'statuscode' => false,
+                    'message' => "No user with this email id available.",
+
+                ),
+                    200);
+
+            }
+        } catch (\Exception $e) {
+            $this->$response($request, "There is some error in change password");
+            $this->$response($request, $e->getMessage() . " " . $e->getLine());
+        }
+    }
+
+
+
+    //reset Password sent mail
+    /**
+     * @SWG\Post(
+     *   path="/resetpassword",
+     *   summary="User will get reset password link.",
+     *     description="User will get reset password link",
+     *   operationId="userPasswordReset",
+     *   consumes={"application/xml","application/json"},
+     *   produces={"application/json"},
+     *     @SWG\Parameter(
+     *      in="body",
+     *      name="body",
+     *      description="Enter email for user password reset",
+     *      required=true,
+     *     @SWG\Definition(
+     *         definition="password_reset",
+     *         required={"email"},
+     *         @SWG\Property(
+     *             description="Enter email",
+     *             property="email",
+     *             type="string"
+     *         )
+     *          @SWG\Property(
+     *             description="Enter Password",
+     *             property="password",
+     *             type="string"
+     *         )
+     *       )
+     *      ),
+     *   @SWG\Response(
+     *     response=200,
+     *     description="User password reset link sent successfully!"
+     *   ),
+     *   @SWG\Response(response=404, description="Page not Found"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+     *
+     */
+
+    public function resetPassword(Request $request)
+    {
+        //Validate input
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|exists:users,email',
+            'password' => 'required|confirmed'
+        ]);
+
+        //check if input is valid before moving on
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['email' => 'Please complete the form']);
+        }
+
+        $password = $request->password;
+// Validate the token
+        $tokenData = DB::table('password_resets')
+            ->where('token', $request->token)->first();
+// Redirect the user back to the password reset request form if the token is invalid
+        if (!$tokenData) return view('auth.passwords.email');
+
+        $user = User::where('email', $tokenData->email)->first();
+// Redirect the user back if the email is invalid
+        if (!$user) return redirect()->back()->withErrors(['email' => 'Email not found']);
+//Hash and update the new password
+        $user->password = \Hash::make($password);
+        $user->update(); //or $user->save();
+
+        //login the user immediately they change password successfully
+        Auth::login($user);
+
+        //Delete the token
+        DB::table('password_resets')->where('email', $user->email)
+            ->delete();
+
+        //Send Email Reset Success Email
+        if ($this->sendSuccessEmail($tokenData->email)) {
+            return view('index');
+        } else {
+            return redirect()->back()->withErrors(['email' => trans('A Network Error occurred. Please try again.')]);
+        }
+
+    }
+
 }

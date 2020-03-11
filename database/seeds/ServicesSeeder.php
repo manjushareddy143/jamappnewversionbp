@@ -13,16 +13,23 @@ class ServicesSeeder extends Seeder
     public function run()
     {
         // Data for services Master table
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::table('services')->truncate();
         $services = new Services();
-        $services->name='AC Services';
+        $services->servicename='AC Services';
+        $services->cost='100';
         $services->save();
 
         $services = new Services();
-        $services->name='Plumbing';
+        $services->servicename='Plumbing';
+        $services->cost='100';
         $services->save();
 
         $services = new Services();
-        $services->name='Cleaning';
+        $services->servicename='Cleaning';
+        $services->cost='100';
         $services->save();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
     }
 }
