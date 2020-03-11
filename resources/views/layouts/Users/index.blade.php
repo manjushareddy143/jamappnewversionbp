@@ -46,6 +46,12 @@
 
    <th>Roles</th>
 
+   <th>Image</th>
+
+   <th>Contact</th>
+
+   <th>Type</th>
+
    <th width="280px">Action</th>
 
  </tr>
