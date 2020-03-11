@@ -49,7 +49,7 @@ Route::post('/login', 'UserController@login');
 Route::post('/register', 'UserController@register');
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 
 
