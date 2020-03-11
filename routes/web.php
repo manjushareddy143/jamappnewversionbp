@@ -22,21 +22,21 @@ Route::get('/index', 'UserController@index');
 Route::get('/addUser', 'UserController@addUser');
 Route::get('/show', function ()
 {
-     return view('/layouts/Users/show');
+    return view('/layouts/Users/show');
 });
 Route::get('/edit', function ()
 {
-     return view('/layouts/Users/edit');
+    return view('/layouts/Users/edit');
 });
 
- Route::get('/serviceslist', function()
- {
+Route::get('/serviceslist', function()
+{
     return view('/layouts/serviceshow');
- });
+});
 
- // Set the routes and resource for roles
- Route::resource('roles', 'RoleController');
- Auth::routes();
+// Set the routes and resource for roles
+Route::resource('roles', 'RoleController');
+Auth::routes();
 
 
 // Route::get('/Users', function () {
@@ -47,10 +47,12 @@ Route::get('/edit', function ()
 // });
 
 //Route::get('/index', 'UserController@index');
-Route::post('/loginaa', 'UserController@login');
-Route::post('/register', 'UserController@register');
-Route::post('/changepassword','UserController@changepassword');
-Route::post('/resetPassword','UserController@resetPassword');
+
+    Route::post('/loginsd', 'UserController@login');
+    Route::post('/register', 'UserController@register');
+    Route::post('/changepassword','UserController@changepassword');
+    Route::post('/resetPassword','UserController@resetPassword');
+
 
 
 Route::get('/home', 'HomeController@index')->name('home');

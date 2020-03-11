@@ -338,10 +338,10 @@ class UserController extends Controller
 
 
 
-    //reset Password sent mail
+    //reset Password
     /**
      * @SWG\Post(
-     *   path="/resetpassword",
+     *   path="/resetPassword",
      *   summary="User will get reset password link.",
      *     description="User will get reset password link",
      *   operationId="userPasswordReset",
