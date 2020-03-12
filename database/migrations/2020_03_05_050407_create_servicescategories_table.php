@@ -19,7 +19,6 @@ class CreateServicescategoriesTable extends Migration
             $table->string('categoriesname');
 
             $table->foreign('services_id')->references('id')->on('services')->onDelete('cascade');
-            $table->primary(['services_id']);
             $table->timestamps();
         });
     }

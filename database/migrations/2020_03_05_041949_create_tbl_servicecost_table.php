@@ -14,15 +14,13 @@ class CreateTblServicecostTable extends Migration
     public function up()
     {
         Schema::create('tbl_servicecost', function (Blueprint $table) {
+
             $table->Increments('id');
             $table->unsignedInteger('services_id');
-            $table->unsignedInteger('servicescategories_id');
             $table->integer('service_cost');
 
-            $table->foreign('services_id')->references('id')->on('services')->onDelete('cascade');
-            $table->foreign('servicescategories_id')->references('id')->on('servicescategories')->onDelete('cascade');
+            $table->foreign('services_id')->references('id')->on('services');
 
-            $table->primary(['services_id','servicescategories_id']);
             $table->timestamps();
         });
     }
