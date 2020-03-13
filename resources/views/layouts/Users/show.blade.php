@@ -24,7 +24,7 @@
 </div>
 
 @if (isset($data) && !empty($data))
-hello
+@foreach ($data as $key => $user)
 <div class="row">
 
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -57,7 +57,7 @@ hello
 
             <strong>Roles:</strong>
 
-            @if(!empty($user->getRoleNames()))
+            {{-- @if(!empty($user->getRoleNames()))
 
                 @foreach($user->getRoleNames() as $v)
 
@@ -65,13 +65,38 @@ hello
 
                 @endforeach
 
-            @endif
+            @endif --}}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Image:</strong>
+
+            {{ $user->email }}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Contact:</strong>
+
+            {{ $user->email }}
 
         </div>
 
     </div>
 
 </div>
+@endforeach
 @endif
-
+<p class="text-center text-primary"><small>com.jam</small></p>
 @endsection

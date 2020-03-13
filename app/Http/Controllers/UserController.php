@@ -40,10 +40,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'name' => 'required',
             'email' => 'required',
         ]);
+        //testing
+        // $users=0;
+        // if($request->hasFile('image'))
+        // {
+        //     $file = $request->file('image');
+        //     $extension = $file->getClientOriginalExtension(); //getting image extension
+        //     $filename = time() . '.' . $extension;
+        //     $file->move('/uploads/users/',$filename);
+        //     $users->image = $filename;
+        // }
+        // else
+        // {
+        //     return $request;
+        //     $users->image = '';
+        // }
+        // $users->save();
+
         User::create($request->all());
         return redirect()->route('user.index')->with('Success','User created successfully.');
     }
@@ -52,7 +70,7 @@ class UserController extends Controller
      * @param \App\User $users
      * @return \Illuminate\Http\Response
      */
-    public function show(User $users)
+    public function show($id)//User $users
     {
         return view('layouts.Users.show',compact('Users'));
     }

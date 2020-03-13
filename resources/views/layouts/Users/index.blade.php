@@ -46,7 +46,7 @@
 
    <th>Roles</th>
 
-   <th>Image</th>
+   <th width=10%> Image</th>
 
    <th>Contact</th>
 
@@ -81,7 +81,7 @@
 
     </td>
 
-    <td>{{ $user->image }}</td>
+    <td><img src="{{ URL::to('/') }}/images/{{ $user->image }}" class="square" width="60" height="50" /></td>
 
     <td>{{ $user->contact }}</td>
 

@@ -20,11 +20,11 @@ Route::get('/', function () {
 Route::resource('user', 'UserController');
 Route::get('/index', 'UserController@index');
 Route::get('/addUser', 'UserController@addUser');
-Route::get('/show', function ()
+Route::get('/show', function ($id)
 {
     return view('/layouts/Users/show');
 });
-Route::get('/edit', function ()
+Route::get('/edit', function ($id)
 {
     return view('/layouts/Users/edit');
 });
@@ -34,6 +34,9 @@ Route::get('/serviceslist', function()
     return view('/layouts/serviceshow');
 });
 
+Route::get('/store', function () {
+    return view('/layouts/Users/storeimage');
+});
 // Set the routes and resource for roles
 Route::resource('roles', 'RoleController');
 Auth::routes();
