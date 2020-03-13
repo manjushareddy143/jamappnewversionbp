@@ -109,6 +109,30 @@
 
     </div>
 
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Image:</strong>
+
+            {!! Form::text('image', null, array('placeholder' => 'Image','class' => 'form-control')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Contact:</strong>
+
+            {!! Form::text('contact', null, array('placeholder' => 'Contact','class' => 'form-control')) !!}
+
+        </div>
+
+    </div>
+
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
 
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -120,6 +144,6 @@
 {!! Form::close() !!}
 @endif
 
-<p class="text-center text-primary"><small>Testing</small></p>
+<p class="text-center text-primary"><small>com.jam</small></p>
 
 @endsection
