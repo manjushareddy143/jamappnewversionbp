@@ -41,7 +41,6 @@ Route::get('/store', function () {
 Route::resource('roles', 'RoleController');
 Auth::routes();
 
-
 // Route::get('/Users', function () {
 //      return view('layouts/Users/index');
 

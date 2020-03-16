@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use GuzzleHttp\Middleware;
 //use Illuminate\Contracts\Validation\Validator;
 use http\Message;
 use Illuminate\Http\Request;
