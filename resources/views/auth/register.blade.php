@@ -93,7 +93,7 @@
                             <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
 
                             <div class="col-md-6">
-                                <select name="ServiceProvider" class="form-control @error('Selected type') is-invalid @enderror">
+                                <select name="ServiceProvider" id="category" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
                                     <option value="Selected">Select</option>
                                     <option value="Corporate service provider">Corporate service provider</option>
                                     <option value="Individual service provider">Individual service provider</option>
@@ -107,6 +107,42 @@
                             </div>
                         </div>
 
+                        <div class="form-group" id="info_field" style="display: none">
+                            {{-- This fields will show after dropdown selected --}}
+                            <div class="form-group row" >
+                                <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+                            {{-- <div class="form-group"> --}}
+                                <label class="radio-inline">
+                                    <input type="radio" id="gen1" name="gen_radio"> Female </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="gen2" name="gen_radio"> Male </label>
+                            </div>
+
+                            <div class="form-group row" >
+                                <label for="language" class="col-md-4 col-form-label text-md-right">{{ __('Languages known') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="language" type="text" class="form-control " name="language">
+                              </div>
+                            </div>
+
+                            <div class="form-group row" >
+                                <label for="timing" class="col-md-4 col-form-label text-md-right">{{ __('Timing') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="timing" type="text" class="form-control " name="Timing">
+                                </div>
+                            </div>
+
+                            <div class="form-group row" >
+                                <label for="experience" class="col-md-4 col-form-label text-md-right">{{ __('Experience') }}</label>
+
+                                <div class="col-md-6" >
+                                    <input id="experience" type="text" class="form-control " name="Experience">
+                                </div>
+                            </div>
+                                {{-- testing --}}
+                        </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -120,4 +156,26 @@
         </div>
     </div>
 </div>
+
+@endsection
+@section('scriptsec')
+
+<script>
+    function showfields()
+    {
+
+        var selectbox = document.getElementById('category').value;
+        // alert(selectbox);
+        if (selectbox == "Individual service provider")
+        {
+           document.getElementById('info_field').style.visibility='visible';
+        }
+        else
+        {
+            document.getElementById('info_field').style.visibility='hidden';
+        }
+        return false;
+    }
+    </script>
+
 @endsection

@@ -77,4 +77,6 @@
         </main>
     </div>
 </body>
+@yield('scriptsec')
+
 </html>
