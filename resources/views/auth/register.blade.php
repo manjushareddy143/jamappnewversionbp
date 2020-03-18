@@ -168,13 +168,13 @@
         // alert(selectbox);
         if (selectbox == "Individual service provider")
         {
-           document.getElementById('info_field').style.visibility='visible';
+           document.getElementById('info_field').style.display='block';
         }
         else
         {
-            document.getElementById('info_field').style.visibility='hidden';
+            document.getElementById('info_field').style.display='none';
         }
-        return false;
+        return ;
     }
     </script>
 
