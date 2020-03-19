@@ -19,9 +19,8 @@ class CreateUsersmasterTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('confirmpassword');
-            $table->string('image');
-            $table->integer('contact');
+            $table->string('image')->nullable();
+            $table->string('contact');
             $table->string('type');
             $table->rememberToken();
             $table->timestamps();

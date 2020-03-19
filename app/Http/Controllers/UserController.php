@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use CreateIndividualserviceprovidermasterTable;
+use GuzzleHttp\Middleware;
 //use Illuminate\Contracts\Validation\Validator;
 use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Swagger\Annotations\Post;
 use Validator;
 
 class UserController extends Controller
@@ -40,10 +43,40 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'name' => 'required',
             'email' => 'required',
         ]);
+
+        $usermaster= new usermaster();
+        $usermaster->name = $username;
+        $usermaster->email = $email;
+        $usermaster->password = $password;
+        $usermaster->Image = $image;
+        $usermaster->contact = $contact;
+        $usermaster->save();
+
+        $individualserviceprovidermaster = new individualserviceprovidermaster();
+        $individualserviceprovidermaster->gender = $gender;
+
+        //testing
+        // $users=0;
+        // if($request->hasFile('image'))
+        // {
+        //     $file = $request->file('image');
+        //     $extension = $file->getClientOriginalExtension(); //getting image extension
+        //     $filename = time() . '.' . $extension;
+        //     $file->move('/uploads/users/',$filename);
+        //     $users->image = $filename;
+        // }
+        // else
+        // {
+        //     return $request;
+        //     $users->image = '';
+        // }
+        // $users->save();
+
         User::create($request->all());
         return redirect()->route('user.index')->with('Success','User created successfully.');
     }
@@ -52,7 +85,7 @@ class UserController extends Controller
      * @param \App\User $users
      * @return \Illuminate\Http\Response
      */
-    public function show(User $users)
+    public function show($id)//User $users
     {
         return view('layouts.Users.show',compact('Users'));
     }

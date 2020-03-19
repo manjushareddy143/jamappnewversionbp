@@ -101,9 +101,45 @@
 
         <div class="form-group">
 
+            <strong>Image:</strong>
+
+            {!! Form::file('image', array('class' => 'form-control')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-10 col-sm-10 col-md-10">
+
+        <div class="form-group">
+
+            <strong>Contact:</strong>
+
+            {!! Form::text('contact',"",array('placeholder' => 'Contact number','class' => 'form-control')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-10 col-sm-10 col-md-10">
+
+        <div class="form-group">
+
+            <strong>Type:</strong>
+
+            {!! Form::select('type[]',  array('class' => 'Select','Individual service provider','Corporate Service provider')) !!}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-10 col-sm-10 col-md-10">
+
+        <div class="form-group">
+
             <strong>Role:</strong>
 
-            {!! Form::select('roles[]', $errors,[], array('class' => 'form-control','multiple')) !!}
+            {!! Form::select('roles[]',  array('class' => 'form-control','multiple')) !!}
 
         </div>
 
@@ -120,7 +156,7 @@
 {!! Form::close() !!}
 
 
-<p class="text-center text-primary"><small>testing</small></p>
+<p class="text-center text-primary"><small>com.jam</small></p>
 
 @endsection
 
