@@ -19,8 +19,9 @@ Route::get('/', function () {
 // Set the routes and resource for Users
 Route::resource('user', 'UserController');
 Route::get('/index', 'UserController@index');
-Route::get('/show', 'UserController@show');
+Route::get('/show/{$id}', 'UserController@show');
 Route::get('/addUser', 'UserController@addUser');
+ROute::get('/edit','UserController@edit');
 // Route::get('/show', function ($id)
 // {
 //     return view('/layouts/Users/show');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Individualsp;
 use App\User;
 use CreateIndividualserviceprovidermasterTable;
 use GuzzleHttp\Middleware;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Swagger\Annotations\Post;
+use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
 use Validator;
 
 class UserController extends Controller
@@ -35,7 +37,33 @@ class UserController extends Controller
     public function addUser()
     {
         return view('layouts.Users.create');
+
     }
+
+    public function __construct(User $user, Individualsp $individualsp)
+    {
+        $this->user = $user;
+        $this->individualsp = $individualsp;
+    }
+
+    public function someFunction()
+    {
+        $user = new User();
+        $this->user->name = $request->input('name');
+        $user->email = Input::get('email');
+        $user->password = Input::get('password');
+        $user->image = Input::get('image');
+        $user->contact = Input::get('contact');
+        $user->type = Input::get('type');
+        $user->save();
+
+        $this->individualsp->gender = Input::get('gender');
+        $this->individualsp->languagesknown =Input::get('languages known');
+        $this->individualsp->timing = Input::get('timing');
+        $this->individualsp->experience = Input::get('experience');
+        $this->individualsp->save();
+    }
+
     /**
      * store newly created resource in storage
      * @param \Illuminate\Http\Request $request
@@ -48,17 +76,6 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required',
         ]);
-
-        $usermaster= new usermaster();
-        $usermaster->name = $username;
-        $usermaster->email = $email;
-        $usermaster->password = $password;
-        $usermaster->Image = $image;
-        $usermaster->contact = $contact;
-        $usermaster->save();
-
-        $individualserviceprovidermaster = new individualserviceprovidermaster();
-        $individualserviceprovidermaster->gender = $gender;
 
         //testing
         // $users=0;
@@ -87,6 +104,7 @@ class UserController extends Controller
      */
     public function show($id)//User $users
     {
+       // User::get(find($id));
         return view('layouts.Users.show',compact('Users'));
     }
     /**
@@ -97,7 +115,7 @@ class UserController extends Controller
      */
     public function edit(User $users)
     {
-        return view('layouts.Users.edit',compact('Users'));
+         return view('layouts.Users.edit',compact('Users'));
     }
     /**
      * Update the specified resources in storage

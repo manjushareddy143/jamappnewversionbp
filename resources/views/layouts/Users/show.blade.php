@@ -23,10 +23,10 @@
 
     </div>
 
-    {!! Form::open(array('route' => 'user.store','method'=>'GET')) !!}
+    {{-- {!! Form::open(array('route' => 'user.store','method'=>'GET')) !!} --}}
 
-    {{-- @if (isset($data) && !empty($data)) --}}
-        {{-- @foreach ($data as $key => $user) --}}
+    @if (isset($data) && !empty($data))
+        @foreach ($data as $key => $user)
         <div class="row">
 
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -101,7 +101,7 @@
 
     </div>
 
-{{-- @endforeach --}}
-{{-- @endif --}}
+@endforeach
+@endif
 <p class="text-center text-primary"><small>com.jam</small></p>
 @endsection

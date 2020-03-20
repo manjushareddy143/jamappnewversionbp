@@ -121,7 +121,7 @@
 
     </div>
 
-    <div class="col-xs-10 col-sm-10 col-md-10">
+    <div class="col-xs-10 col-sm-10 col-md-10" id="category" onchange="showfields()">
 
         <div class="form-group">
 
@@ -129,9 +129,41 @@
 
             {!! Form::select('type[]',  array('class' => 'Select','Individual service provider','Corporate Service provider')) !!}
 
+     {{-- <div class="form-group"> --}}
+        <label class="radio-inline">
+            <input type="radio" id="gen1" name="gen_radio"> Female </label>
+        <label class="radio-inline">
+            <input type="radio" id="gen2" name="gen_radio"> Male </label>
+    </div>
+
+    <div class="form-group row" >
+        <label for="language" class="col-md-4 col-form-label text-md-right">{{ __('Languages known') }}</label>
+
+        <div class="col-md-6">
+            <input id="language" type="text" class="form-control " name="language">
+      </div>
+    </div>
+
+    <div class="form-group row" >
+        <label for="timing" class="col-md-4 col-form-label text-md-right">{{ __('Timing') }}</label>
+
+        <div class="col-md-6">
+            <input id="timing" type="text" class="form-control " name="Timing">
+        </div>
+    </div>
+
+    <div class="form-group row" >
+        <label for="experience" class="col-md-4 col-form-label text-md-right">{{ __('Experience') }}</label>
+
+        <div class="col-md-6" >
+            <input id="experience" type="text" class="form-control " name="Experience">
+        </div>
+    </div>
+        {{-- testing --}}
         </div>
 
     </div>
+
 
     <div class="col-xs-10 col-sm-10 col-md-10">
 
@@ -157,6 +189,26 @@
 
 
 <p class="text-center text-primary"><small>com.jam</small></p>
+
+@endsection
+@section('scriptsec')
+<script>
+    function showfields()
+    {
+
+        var selectbox = document.getElementById('category').value;
+        // alert(selectbox);
+        if (selectbox == "Individual service provider")
+        {
+           document.getElementById('info_field').style.display='block';
+        }
+        else
+        {
+            document.getElementById('info_field').style.display='none';
+        }
+        return ;
+    }
+    </script>
 
 @endsection
 

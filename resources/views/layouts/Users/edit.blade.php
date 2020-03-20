@@ -45,7 +45,7 @@
 @endif
 
 @if(isset($user) && !empty($user))
-{!! Form::model($user, ['method' => 'PATCH','route' => ['user.update', $user->id]]) !!}
+
 
 <div class="row">
 
