@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Swagger\Annotations\Post;
+use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
 use Validator;
 
@@ -156,6 +157,23 @@ class UserController extends Controller
         $users->delete();
         return redirect()->route('user.index')->with('Success','User deleted successfully');
     }
+
+    public function profile(Request $request)
+    {
+        $requestObject = Input::jason()->all();
+        $name = Input::json('name');
+        $email = Input::json('email');
+        $password = Input::json('password');
+        $image = Input::json('image');
+        $contact = Input::json('contact');
+        $type = Input::json('type');
+        $gender = Input::json('gender');
+        $language = Input::jason('language');
+        $timing = Input::jason('timing');
+        $experience = Input::jason('experience');
+    }
+    //User profile
+
 
     // User Login API
 
