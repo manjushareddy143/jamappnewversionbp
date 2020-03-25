@@ -153,15 +153,6 @@
                                 <label for="experience" class="col-md-4 col-form-label text-md-right">{{ __('Experience') }}</label>
 
                                 <div class="col-md-6" >
-
-                                    <div class="col-md-6">
-                                        <select name="ServiceProvider" id="category" class="form-control" >
-                                            <option value="Selected">Select</option>
-                                            <option value="years"></option>
-                                            <option value="months">january</option>
-                                        </select>
-                                    </div>
-
                                     <input id="experience" type="text" class="form-control " name="Experience">
                                 </div>
                             </div>

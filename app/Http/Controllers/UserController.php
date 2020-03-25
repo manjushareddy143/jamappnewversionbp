@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Individualsp;
 use App\User;
+use DB;
 use CreateIndividualserviceprovidermasterTable;
+use Exception;
 use GuzzleHttp\Middleware;
 //use Illuminate\Contracts\Validation\Validator;
 use http\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Swagger\Annotations\Post;
@@ -40,30 +43,12 @@ class UserController extends Controller
 
     }
 
-    public function __construct(User $user, Individualsp $individualsp)
+    protected $individualsp, $usermaster;
+    public function __construct(User $usermaster, Individualsp $individualsp)
     {
-        $this->user = $user;
-        $this->individualsp = $individualsp;
+        $this->individualsp = new individualsp();
+        $this->usermaster = new user();
     }
-
-    public function someFunction()
-    {
-        $user = new User();
-        $this->user->name = $request->input('name');
-        $user->email = Input::get('email');
-        $user->password = Input::get('password');
-        $user->image = Input::get('image');
-        $user->contact = Input::get('contact');
-        $user->type = Input::get('type');
-        $user->save();
-
-        $this->individualsp->gender = Input::get('gender');
-        $this->individualsp->languagesknown =Input::get('languages known');
-        $this->individualsp->timing = Input::get('timing');
-        $this->individualsp->experience = Input::get('experience');
-        $this->individualsp->save();
-    }
-
     /**
      * store newly created resource in storage
      * @param \Illuminate\Http\Request $request
@@ -77,7 +62,7 @@ class UserController extends Controller
             'email' => 'required',
         ]);
 
-        //testing
+        //set image path into database
         // $users=0;
         // if($request->hasFile('image'))
         // {
@@ -96,6 +81,31 @@ class UserController extends Controller
 
         User::create($request->all());
         return redirect()->route('user.index')->with('Success','User created successfully.');
+
+        $user_id=Auth::user()->id;
+        DB::beginTransaction();
+        try
+        {
+            $this->individualsp->create([
+                'usermaster_id' => 'required',
+                'gender' => 'required',
+                'language' => 'required',
+                'timing' => 'required',
+                'experience' => 'required',
+            ]);
+            $this->usermaster->create([
+                'name' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+                'contact' => 'required',
+                'type' => 'required',
+            ]);
+        }
+        catch(Exception $ex)
+        {
+            DB::rollback()->$this;
+        }
+
     }
     /**Display the specified resource
      *
@@ -104,8 +114,8 @@ class UserController extends Controller
      */
     public function show($id)//User $users
     {
-       // User::get(find($id));
-        return view('layouts.Users.show',compact('Users'));
+        $user = User::find($id);
+        return view('layouts.Users.show',compact('id'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -113,9 +123,10 @@ class UserController extends Controller
      * @param \App\User $users
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $users)
+    public function edit($id)
     {
-         return view('layouts.Users.edit',compact('Users'));
+        $user = User::find($id);
+         return view('layouts.Users.edit',compact('id'));
     }
     /**
      * Update the specified resources in storage

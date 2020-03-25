@@ -21,7 +21,8 @@ Route::resource('user', 'UserController');
 Route::get('/index', 'UserController@index');
 Route::get('/show/{$id}', 'UserController@show');
 Route::get('/addUser', 'UserController@addUser');
-ROute::get('/edit','UserController@edit');
+Route::get('/edit','UserController@edit');
+Route::post('/store','UserController@store');
 // Route::get('/show', function ($id)
 // {
 //     return view('/layouts/Users/show');
