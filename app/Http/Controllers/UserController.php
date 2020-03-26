@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Swagger\Annotations\Post;
+use Swagger\Annotations\Response;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
 use Validator;
@@ -44,11 +45,11 @@ class UserController extends Controller
 
     }
 
-    protected $individualsp, $usermaster;
+    protected $usermaster, $individualsp;
     public function __construct(User $usermaster, Individualsp $individualsp)
     {
-        $this->individualsp = new individualsp();
         $this->usermaster = new user();
+        $this->individualsp = new individualsp();
     }
     /**
      * store newly created resource in storage
@@ -87,20 +88,21 @@ class UserController extends Controller
         DB::beginTransaction();
         try
         {
-            $this->individualsp->create([
-                'usermaster_id' => 'required',
-                'gender' => 'required',
-                'language' => 'required',
-                'timing' => 'required',
-                'experience' => 'required',
-            ]);
-            $this->usermaster->create([
+            $this->usersmaster->create([
                 'name' => 'required',
                 'email' => 'required',
                 'password' => 'required',
                 'contact' => 'required',
                 'type' => 'required',
             ]);
+            $this->individualserviceprovidermaster->create([
+                'usersmaster_id' => 'required',
+                'gender' => 'required',
+                'language' => 'required',
+                'timing' => 'required',
+                'experience' => 'required',
+            ]);
+
         }
         catch(Exception $ex)
         {
@@ -157,23 +159,6 @@ class UserController extends Controller
         $users->delete();
         return redirect()->route('user.index')->with('Success','User deleted successfully');
     }
-
-    public function profile(Request $request)
-    {
-        $requestObject = Input::jason()->all();
-        $name = Input::json('name');
-        $email = Input::json('email');
-        $password = Input::json('password');
-        $image = Input::json('image');
-        $contact = Input::json('contact');
-        $type = Input::json('type');
-        $gender = Input::json('gender');
-        $language = Input::jason('language');
-        $timing = Input::jason('timing');
-        $experience = Input::jason('experience');
-    }
-    //User profile
-
 
     // User Login API
 
@@ -499,6 +484,68 @@ class UserController extends Controller
             return redirect()->back()->withErrors(['email' => trans('A Network Error occurred. Please try again.')]);
         }
 
+    }
+//User profile API
+    /**
+     * @SWG\Get(
+     *   path="/profile",
+     *   summary="User Profile",
+     *     description="User profile",
+     *   operationId="userProfile",
+     *   consumes={"application/xml","application/json"},
+     *   produces={"application/json"},
+     *     @SWG\Parameter(
+     *      in="body",
+     *      name="body",
+     *      description="Enter required fields details to show user profile",
+     *      required=true,
+     *     @SWG\Definition(
+     *         definition="users",
+     *         required={"id"},
+     *         @SWG\Property(
+     *             description="Enter user id",
+     *             property="id",
+     *             type="integer"
+     *         ),
+     *       )
+     *      ),
+     *   @SWG\Response(
+     *     response=200,
+     *     description="User Profile register Successfully!"
+     *   ),
+     *   @SWG\Response(response=404, description="Page not Found"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+     *
+     */
+
+    //User profile
+    public function profile(Request $request)
+    {
+        try {
+            $response = array();
+            $id = $request->input('id');
+
+            $checkuser  = User::where('id', '=', $id)->first();
+            if (isset($checkuser)) {
+                if (Hash::check($checkuser->id)) {
+                    $response['code'] = true;
+                    $response['message'] = "user authenticated";
+                } else {
+                    $response['code'] = false;
+                    $response['message'] = "user unauthorized";
+                }
+
+            } else {
+                $response['code'] = false;
+                $response['message'] = "user unauthorized";
+            }
+            return response($response, 200)
+                ->header('content-type', 'application/json');
+        } catch (\Exception $e) {
+            $response['code'] = 400;
+            $response['message'] = "There is some error";
+        }
     }
 
 }

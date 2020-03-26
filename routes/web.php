@@ -51,7 +51,7 @@ Auth::routes();
     Route::post('/changepassword','UserController@changepassword');
     Route::post('/resetPassword','UserController@resetPassword');
 
-
+    Route::get('/profile','UserController@profile');
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
