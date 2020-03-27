@@ -47,7 +47,7 @@ Auth::routes();
 //Route::get('/index', 'UserController@index');
 
     Route::post('/loginsd', 'UserController@login');
-    Route::post('/register', 'UserController@register');
+    Route::post('/register', 'UserController@store');
     Route::post('/changepassword','UserController@changepassword');
     Route::post('/resetPassword','UserController@resetPassword');
 

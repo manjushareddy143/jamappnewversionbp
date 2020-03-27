@@ -14,13 +14,13 @@ class CreateUsersPermissionsTable extends Migration
     public function up()
     {
         Schema::create('users_permissions', function (Blueprint $table) {
-            $table->unsignedInteger('usersmaster_id');
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('permissions_id');
 
-            $table->foreign('usersmaster_id')->references('id')->on('usersmaster')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('permissions_id')->references('id')->on('permissions')->onDelete('cascade');
 
-            $table->primary(['usersmaster_id','permissions_id']);
+            $table->primary(['user_id','permissions_id']);
             $table->engine = 'InnoDB'; //change the engine
         });
     }

@@ -10,9 +10,9 @@ class Individualsp extends Model
     protected $table = "individualserviceprovidermaster";
 
     protected $fillable = [
-        'usermaster_id',
+        'user_id',
         'gender',
-        'languages known',
+        'languages_known',
         'timing',
         'experience',
 
