@@ -81,34 +81,22 @@ class UserController extends Controller
         // }
         // $users->save();
 
-        User::create($request->all());
+        $user=User::create($request->all());
+
+        $user_id=$user->id;
+        $dataArray=[
+                'user_id' => $user_id,
+                'gender' => 'Female',
+                'languages_known' => 'English',
+                'timing' => '10',
+                'experience' => '10',
+            ];
+
+        Individualsp::create($dataArray);
+        
         return redirect()->route('user.index')->with('Success','User created successfully.');
 
-        $user_id=Auth::user()->id;
-        DB::beginTransaction();
-        try
-        {
-            $this->usersmaster->create([
-                'name' => 'required',
-                'email' => 'required',
-                'password' => 'required',
-                'contact' => 'required',
-                'type' => 'required',
-            ]);
-            $this->individualserviceprovidermaster->create([
-                'usersmaster_id' => 'required',
-                'gender' => 'required',
-                'language' => 'required',
-                'timing' => 'required',
-                'experience' => 'required',
-            ]);
-
-        }
-        catch(Exception $ex)
-        {
-            DB::rollback()->$this;
-        }
-
+    
     }
     /**Display the specified resource
      *
