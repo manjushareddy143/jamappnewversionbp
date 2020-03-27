@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<li class="nav-item">
+    <a class="nav-link" href="/index">{{ __('Index') }}</a>
+</li>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
