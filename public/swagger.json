@@ -186,52 +186,12 @@
                         "schema": {
                             "definition": "users",
                             "required": [
-                                "name",
-                                "email",
-                                "passwrod",
-                                "image",
-                                "type",
-                                "gender",
-                                "language known",
-                                "timing",
-                                "experience"
+                                "id"
                             ],
                             "properties": {
-                                "name": {
-                                    "description": "Enter name of user",
-                                    "type": "string"
-                                },
-                                "email": {
-                                    "description": "Enter User email",
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "description": "Enter password",
-                                    "type": "string"
-                                },
-                                "image": {
-                                    "description": "select Image path",
-                                    "type": "string"
-                                },
-                                "type": {
-                                    "description": "Enter type of user",
-                                    "type": "string"
-                                },
-                                "gender": {
-                                    "description": "Enter gender",
-                                    "type": "string"
-                                },
-                                "language known": {
-                                    "description": "Enter language known by user",
-                                    "type": "string"
-                                },
-                                "timing": {
-                                    "description": "Enter working timing",
-                                    "type": "string"
-                                },
-                                "experience": {
-                                    "description": "Enter experience",
-                                    "type": "string"
+                                "id": {
+                                    "description": "Enter user id",
+                                    "type": "integer"
                                 }
                             }
                         }
