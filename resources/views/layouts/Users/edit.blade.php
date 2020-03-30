@@ -22,6 +22,19 @@
         </div>
 
     </div>
+    @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    <br />
+    @endif
+    <form method="POST" action="{ { route('Users.update', $user->id) } }">
+        @method('PATCH')
+        @csrf
 
 
     @if (count($errors) > 0)
@@ -102,7 +115,7 @@
 
                     <strong>Role:</strong>
 
-                    {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+                    {!! Form::select('roles[]', $errors,$user, array('class' => 'form-control','multiple')) !!}
 
                 </div>
 

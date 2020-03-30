@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Individualsp;
+use App\IndividualServiceProvider;
 use App\User;
 use DB;
 use CreateIndividualserviceprovidermasterTable;
@@ -45,11 +45,11 @@ class UserController extends Controller
 
     }
 
-    protected $usermaster, $individualsp;
-    public function __construct(User $usermaster, Individualsp $individualsp)
+    protected $usermaster, $IndividualServiceProvider;
+    public function __construct(User $usermaster, IndividualServiceProvider $IndividualServiceProvider)
     {
         $this->usermaster = new user();
-        $this->individualsp = new individualsp();
+        $this->IndividualServiceProvider = new IndividualServiceProvider();
     }
     /**
      * store newly created resource in storage
@@ -62,41 +62,44 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required',
+            'contact' => 'required',
+            'type' => 'required',
+            'gender' => 'required',
         ]);
 
-        //set image path into database
-        // $users=0;
-        // if($request->hasFile('image'))
-        // {
-        //     $file = $request->file('image');
-        //     $extension = $file->getClientOriginalExtension(); //getting image extension
-        //     $filename = time() . '.' . $extension;
-        //     $file->move('/uploads/users/',$filename);
-        //     $users->image = $filename;
-        // }
-        // else
-        // {
-        //     return $request;
-        //     $users->image = '';
-        // }
-        // $users->save();
+       // set image path into database
+        $users=0;
+        if($request->hasFile('image'))
+        {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension(); //getting image extension
+            $filename = time() . '.' . $extension;
+            $file->move('/uploads/users/',$filename);
+            $users->image = $filename;
+        }
+        else
+        {
+            return $request;
+            $users->image = '';
+        }
+        $users->save();
 
         $user=User::create($request->all());
 
         $user_id=$user->id;
         $dataArray=[
                 'user_id' => $user_id,
-                'gender' => 'Female',
+                'gender' => '$',
                 'languages_known' => 'English',
                 'timing' => '10',
                 'experience' => '10',
             ];
 
-        Individualsp::create($dataArray);
-        
+            IndividualServiceProvider::create($dataArray);
+
         return redirect()->route('user.index')->with('Success','User created successfully.');
 
-    
+
     }
     /**Display the specified resource
      *
@@ -106,7 +109,7 @@ class UserController extends Controller
     public function show($id)//User $users
     {
         $user = User::find($id);
-        return view('layouts.Users.show',compact('id'));
+        return view('layouts.Users.show',compact('user'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -117,7 +120,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-         return view('layouts.Users.edit',compact('id'));
+         return view('layouts.Users.edit',compact('user'));
     }
     /**
      * Update the specified resources in storage
@@ -131,10 +134,11 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required',
+            'contact' => 'required',
         ]);
 
         $users->update($request->all());
-        return redirect()->route('user.index')->with('Success','User updated successfully');
+        return redirect()->route('/index')->with('Success','User updated successfully');
     }
     /**
      * Remove the specified resource from storage.
@@ -142,8 +146,9 @@ class UserController extends Controller
      * @param \App\User $users
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $users)
+    public function destroy($id)
     {
+        $users = User::find($id);
         $users->delete();
         return redirect()->route('user.index')->with('Success','User deleted successfully');
     }

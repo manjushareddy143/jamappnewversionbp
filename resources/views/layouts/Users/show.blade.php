@@ -23,6 +23,7 @@
 
     </div>
 
+
     {{-- {!! Form::open(array('route' => 'user.store','method'=>'GET')) !!} --}}
 
     @if (isset($data) && !empty($data))
@@ -35,7 +36,7 @@
 
                     <strong>Name:</strong>
 
-                     {{ $user->name }}
+                     {{ $user->$name }}
 
                 </div>
 
@@ -47,7 +48,7 @@
 
                     <strong>Email:</strong>
 
-                    {{ $user->email }}
+                    {{ $user->$email }}
 
                 </div>
 
