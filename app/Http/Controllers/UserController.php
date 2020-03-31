@@ -39,8 +39,9 @@ class UserController extends Controller
      *
      *@return \Illuminate\Http\Response
      */
-    public function addUser()
+    public function addUser(Request $request)
     {
+        $user=User::create($request->all());
         return view('layouts.Users.create');
 
     }
@@ -61,10 +62,13 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
-            'contact' => 'required',
+            'email' => 'required|unique:email|max:255',
+            'contact' => 'required|max:10',
             'type' => 'required',
             'gender' => 'required',
+            'timing' => 'timing',
+            'experience' => 'experience',
+
         ]);
 
        // set image path into database
@@ -89,7 +93,7 @@ class UserController extends Controller
         $user_id=$user->id;
         $dataArray=[
                 'user_id' => $user_id,
-                'gender' => '$',
+                'gender' => '',
                 'languages_known' => 'English',
                 'timing' => '10',
                 'experience' => '10',

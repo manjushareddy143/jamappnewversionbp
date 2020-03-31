@@ -66,8 +66,7 @@
                 <div class="form-group">
 
                     <strong>Name:</strong>
-
-                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                    <input type="text" name="name" id="name" class="form-control" required value="{{$user->name}}">
 
                 </div>
 
@@ -79,7 +78,8 @@
 
                     <strong>Email:</strong>
 
-                    {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+                    {{-- {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!} --}}
+                    <input type="text" name="email" id="email" class="form-control" required value="{{$user->email}}">
 
                 </div>
 
@@ -91,7 +91,8 @@
 
                     <strong>Password:</strong>
 
-                    {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+                    {{-- {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!} --}}
+                    <input type="password" name="password" id="password" class="form-control" required value="{{$user->password}}">
 
                 </div>
 
@@ -139,7 +140,8 @@
 
                     <strong>Contact:</strong>
 
-                    {!! Form::text('contact', null, array('placeholder' => 'Contact','class' => 'form-control')) !!}
+                    {{-- {!! Form::text('contact', null, array('placeholder' => 'Contact','class' => 'form-control')) !!} --}}
+                    <input type="text" name="contact" id="contact" class="form-control" required value="{{$user->contact}}">
 
                 </div>
 

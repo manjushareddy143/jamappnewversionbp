@@ -23,6 +23,7 @@ Route::get('/show/{$id}', 'UserController@show');
 Route::get('/addUser', 'UserController@addUser');
 Route::get('/edit','UserController@edit');
 Route::post('/store','UserController@store');
+
 // Route::get('/show', function ($id)
 // {
 //     return view('/layouts/Users/show');
