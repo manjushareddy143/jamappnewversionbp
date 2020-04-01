@@ -32,8 +32,8 @@
     </div>
     <br />
     @endif
-    <form method="POST" action="{ { route('Users.update', $user->id) } }">
-        @method('PATCH')
+    <form method="POST" action="{{ route('user.update', $user->id) }}">
+        @method('PUT')
         @csrf
 
 
@@ -149,7 +149,7 @@
 
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Update</button>
 
             </div>
 

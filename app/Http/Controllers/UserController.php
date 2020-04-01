@@ -41,7 +41,7 @@ class UserController extends Controller
      */
     public function addUser(Request $request)
     {
-        $user=User::create($request->all());
+       // $user=User::create($request->all());
         return view('layouts.Users.create');
 
     }
@@ -63,7 +63,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|unique:email|max:255',
-            'contact' => 'required|max:10',
+            'contact' => 'required|max:10|min:10',
             'type' => 'required',
             'gender' => 'required',
             'timing' => 'timing',
@@ -88,15 +88,15 @@ class UserController extends Controller
         }
         $users->save();
 
-        $user=User::create($request->all());
+        $user=User::create($request->all($users));
 
         $user_id=$user->id;
         $dataArray=[
                 'user_id' => $user_id,
-                'gender' => '',
-                'languages_known' => 'English',
-                'timing' => '10',
-                'experience' => '10',
+                'gender' => $request->get('gender'),
+                'languages_known' => $request-> get('language'),
+                'timing' => $request->get('timing'),
+                'experience' => $request->get('experience'),
             ];
 
             IndividualServiceProvider::create($dataArray);
@@ -110,9 +110,9 @@ class UserController extends Controller
      * @param \App\User $users
      * @return \Illuminate\Http\Response
      */
-    public function show($id)//User $users
+    public function show(User $user)//User $users
     {
-        $user = User::find($id);
+       // $user = User::find($id);
         return view('layouts.Users.show',compact('user'));
     }
     /**
@@ -508,7 +508,7 @@ class UserController extends Controller
      *      ),
      *   @SWG\Response(
      *     response=200,
-     *     description="User Profile register Successfully!"
+     *     description="User Profile created Successfully!"
      *   ),
      *   @SWG\Response(response=404, description="Page not Found"),
      *   @SWG\Response(response=500, description="internal server error"),
