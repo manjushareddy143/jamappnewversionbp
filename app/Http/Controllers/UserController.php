@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\IndividualServiceProvider;
+use App\Role;
 use App\User;
 use DB;
 use CreateIndividualserviceprovidermasterTable;
@@ -12,6 +13,7 @@ use GuzzleHttp\Middleware;
 use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Swagger\Annotations\Post;
@@ -41,8 +43,9 @@ class UserController extends Controller
      */
     public function addUser(Request $request)
     {
-       // $user=User::create($request->all());
-        return view('layouts.Users.create');
+        $roles = Role::pluck('name','name')->all();
+
+        return view('layouts.Users.create',compact('roles'));
 
     }
 
@@ -62,17 +65,14 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
-<<<<<<< HEAD
-            'email' => 'required|email|unique:users',
-            'contact' => 'required|digits:10',
-=======
             'email' => 'required|unique:users,email|max:255',
-            'contact' => 'required|max:10|min:10',
->>>>>>> 0b06cfb678a08cde321bb2b28097999550a7f190
+            'password'=>'required|confirmed|min:6',
+            'contact' => 'required|numeric|digits:10',
             'type' => 'required',
             'gender' => 'required',
-            'timing' => 'timing',
-            'experience' => 'experience',
+            'timing' => 'required',
+            'experience' => 'required',
+            'roles' => 'required'
 
         ]);
 
@@ -91,8 +91,15 @@ class UserController extends Controller
             return $request;
             $users->image = '';
         }
-        
         $users->save();
+
+        //for assign roles to user
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+        $user = User::create($input);
+        $user->assignRole($request->input('roles'));
+
+
         $user=User::create($request->all($users));
         if("Corporate service provider")
         {
@@ -122,9 +129,9 @@ class UserController extends Controller
      * @param \App\User $users
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)//User $users
+    public function show($id)//User $users
     {
-       // $user = User::find($id);
+        $user = User::find($id);
         return view('layouts.Users.show',compact('user'));
     }
     /**
@@ -136,7 +143,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-         return view('layouts.Users.edit',compact('user'));
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->all();
+
+         return view('layouts.Users.edit',compact('user','roles','userRole'));
     }
     /**
      * Update the specified resources in storage
@@ -145,15 +155,29 @@ class UserController extends Controller
      * @param \App\User $users
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $users)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
-            'contact' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|confirm-password',
+            'contact' => 'required|digits:10',
+            'roles' => 'required',
         ]);
 
-        $users->update($request->all());
+        $input = $request->all();
+        if(!empty($input['password']))
+        {
+            $input['password'] = Hash::make($input['password']);
+        }
+        else
+        {
+            $input = array_except($input, array('password'));
+        }
+        $user = User::find($id);
+        $user->update($input);
+        DB::table('users_has_roles')->where('users_id',$id)->delete();
+        //$users->update($request->all());
         return redirect()->route('/index')->with('Success','User updated successfully');
     }
     /**

@@ -26,11 +26,11 @@
 
  @if ($message = Session::get('success'))
 
-<div class="alert alert-success">
+    <div class="alert alert-success">
 
-  <p>{{ $message }}</p>
+        <p>{{ $message }}</p>
 
-</div>
+    </div>
 
 @endif
 
@@ -51,6 +51,14 @@
    <th>Contact</th>
 
    <th>Type</th>
+
+   <th>Gender</th>
+
+   <th>Languages Known</th>
+
+   <th>Timing</th>
+
+   <th>Experience</th>
 
    <th width="280px">Action</th>
 
@@ -86,6 +94,14 @@
     <td>{{ $user->contact }}</td>
 
     <td>{{ $user->type }}</td>
+
+    <td>{{ $user->gender }}</td>
+
+    <td>{{ $user->languages_known }}</td>
+
+    <td>{{ $user->timing }}</td>
+
+    <td>{{ $user->experience }}</td>
 
     <td>
 
