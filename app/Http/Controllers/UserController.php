@@ -62,8 +62,13 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
+<<<<<<< HEAD
             'email' => 'required|email|unique:users',
             'contact' => 'required|digits:10',
+=======
+            'email' => 'required|unique:users,email|max:255',
+            'contact' => 'required|max:10|min:10',
+>>>>>>> 0b06cfb678a08cde321bb2b28097999550a7f190
             'type' => 'required',
             'gender' => 'required',
             'timing' => 'timing',
@@ -86,6 +91,7 @@ class UserController extends Controller
             return $request;
             $users->image = '';
         }
+        
         $users->save();
         $user=User::create($request->all($users));
         if("Corporate service provider")
