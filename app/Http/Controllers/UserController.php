@@ -47,9 +47,9 @@ class UserController extends Controller
     }
 
     protected $usermaster, $IndividualServiceProvider;
-    public function __construct(User $usermaster, IndividualServiceProvider $IndividualServiceProvider)
+    public function __construct(User $users, IndividualServiceProvider $IndividualServiceProvider)
     {
-        $this->usermaster = new user();
+        $this->users = new user();
         $this->IndividualServiceProvider = new IndividualServiceProvider();
     }
     /**
@@ -62,8 +62,8 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required|unique:email|max:255',
-            'contact' => 'required|max:10|min:10',
+            'email' => 'required|email|unique:users',
+            'contact' => 'required|digits:10',
             'type' => 'required',
             'gender' => 'required',
             'timing' => 'timing',
@@ -87,17 +87,23 @@ class UserController extends Controller
             $users->image = '';
         }
         $users->save();
-
         $user=User::create($request->all($users));
+        if("Corporate service provider")
+        {
+            $users->save();
+        }
+        else{
 
-        $user_id=$user->id;
-        $dataArray=[
-                'user_id' => $user_id,
-                'gender' => $request->get('gender'),
-                'languages_known' => $request-> get('language'),
-                'timing' => $request->get('timing'),
-                'experience' => $request->get('experience'),
+            $user_id=$user->id;
+            $dataArray=[
+                    'user_id' => $user_id,
+                    'gender' => $request->get('gender'),
+                    'languages_known' => $request-> get('language'),
+                    'timing' => $request->get('timing'),
+                    'experience' => $request->get('experience'),
             ];
+
+        }
 
             IndividualServiceProvider::create($dataArray);
 
