@@ -62,7 +62,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required|unique:email|max:255',
+            'email' => 'required|unique:users,email|max:255',
             'contact' => 'required|max:10|min:10',
             'type' => 'required',
             'gender' => 'required',
@@ -86,6 +86,7 @@ class UserController extends Controller
             return $request;
             $users->image = '';
         }
+        
         $users->save();
 
         $user=User::create($request->all($users));
