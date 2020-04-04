@@ -21,7 +21,7 @@
             }
 
             .full-height {
-                height: 100vh;
+                height: 95vh;
             }
 
             .flex-center {
@@ -86,6 +86,13 @@
                 </div>
               
             </div>
+
+
         </div>
+
+ <footer class="row">
+  <div id="copyright" class="flex-center">© Copyright 2020 JAM</div>
+    </footer>
     </body>
+    
 </html>
