@@ -2,7 +2,7 @@
 
 @section('content')
 <li class="nav-item">
-    <a class="nav-link" href="/index">{{ __('Index') }}</a>
+    
 </li>
 <div class="container">
     <div class="row justify-content-center">
@@ -18,7 +18,7 @@
                         </div>
                     @endif
 
-                    You are logged in as SuperAdmin!
+                    You are logged in as SuperAdmin! see  <a href="/index">List</a>
                 </div>
 
             </div>
