@@ -32,10 +32,11 @@ class UserController extends Controller
     public function index()
     {
         $users=User::all();
-        $individualserviceprovidermaster = IndividualServiceProvider::all();
-        return view('layouts.Users.index')->with('data',$users)->with('individualserviceprovider', $individualserviceprovidermaster);
+        $data = DB::table('users')->select('users.name', 'users.email', 'users.contact', 'users.type', 'individualserviceprovidermaster.*')->join('individualserviceprovidermaster', 'individualserviceprovidermaster.users_id', '=', 'users.users_id');
+        //$individualserviceprovidermaster = IndividualServiceProvider::all();
+         //return view('layouts.Users.index');//->with('data',$users)->with('individualserviceprovider', $individualserviceprovidermaster);
        // $users = User::latest()->paginate(5);
-        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
+        return view('layouts.Users.index',compact('users'))->with('i',(request()->input('page',1)-1) * 5);
 
 
     }
@@ -62,7 +63,7 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Role $roles)
+    public function store(Request $request, User $users)
     {
 
         $request->validate([
@@ -80,30 +81,38 @@ class UserController extends Controller
         ]);
 
        // set image path into database
-        $users=0;
-        if($request->hasFile('image'))
-        {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension(); //getting image extension
-            $filename = time() . '.' . $extension;
-            $file->move('/uploads/users/',$filename);
-            $users->image = $filename;
-        }
-        else
-        {
-            return $request;
-            $users->image = '';
-        }
-        $users->save();
+        // $users=0;
+        // if($request->hasFile('image'))
+        // {
+        //     $file = $request->file('image');
+        //     $extension = $file->getClientOriginalExtension(); //getting image extension
+        //     $filename = time() . '.' . $extension;
+        //     $file->move('/uploads/users/',$filename);
+        //     $users->image = $filename;
+        // }
+        // else
+        // {
+        //     return $request;
+        //     $users->image = '';
+        // }
+        // $users->save();
 
-        //for assign roles to user
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
-
-
-        $user=User::create($request->all($users));
+        // //for assign roles to user
+        // $input = $request->all();
+        // $input['password'] = Hash::make($input['password']);
+        // $user = User::create($input);
+        // $user->assignRole($request->input('roles'));
+        print_r("hello");
+        exit;
+        $user=0;
+       // $user=User::create($request->all($users));
+            $data=[
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'password' => $request->get('password'),
+                'contact' => $request->get('contact'),
+                'type' => $request->get('type'),
+            ];
 
             $user_id=$user->id;
             $dataArray=[
@@ -114,7 +123,7 @@ class UserController extends Controller
                     'end_time' => $request->get('$end_time'),
                     'experience' => $request->get('$experience'),
             ];
-
+            User::create($data);
             IndividualServiceProvider::create($dataArray);
 
         return redirect()->route('user.index')->with('Success','User created successfully.');

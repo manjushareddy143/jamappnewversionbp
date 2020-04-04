@@ -51,7 +51,7 @@ class RoleController extends Controller
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
         ]);
-        Role::create($request->all());
+        $role = Role::create($request->all());
         return redirect()->route('roles.index')->with('Success','User created successfully.');
     }
     /**Display the specified resource

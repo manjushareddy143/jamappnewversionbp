@@ -13,7 +13,8 @@ class IndividualServiceProvider extends Model
          'user_id',
          'gender',
          'languages_known',
-         'timing',
+         'start_time',
+         'end_time',
          'experience',
 
      ];
