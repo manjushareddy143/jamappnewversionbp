@@ -110,31 +110,24 @@
 
                         <div class="form-group" id="info_field" style="display: none">
                             {{-- This fields will show after dropdown selected --}}
-                            <div class="form-group row" >
-                                {{-- <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label> --}}
-                            {{-- <div class="form-group"> --}}
+
                                   <!--radiobutton -->
                                     <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                        <label for="gender">Gender:</label>
-                                        <div class="container">
-                                        <div class="form-group">
-                                        <input type="radio" name="gender" value="male"> Male
-                                        <input type="radio" name="gender" value="female"> Female
-                                        <input type="radio" name="gender" value="other"> Other
-                                        @if ($errors->has('gender'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('gender') }}</strong>
-                                            </span>
-                                        @endif
-                                        </div>
-                                        </div>
+
+                                        <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+                                        {{-- <div class="container">
+                                            <div class="form-group"> --}}
+                                                <input type="radio" name="gender" value="male"> Male
+                                                <input type="radio" name="gender" value="female"> Female
+                                                <input type="radio" name="gender" value="other"> Other
+                                                @if ($errors->has('gender'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('gender') }}</strong>
+                                                    </span>
+                                                @endif
+                                            {{-- </div>
+                                        </div> --}}
                                     </div>
-                                <!--radiobutton -->
-                                <label class="radio-inline">
-                                    <input type="radio" id="gen1" name="gen_radio"> Female </label>
-                                <label class="radio-inline">
-                                    <input type="radio" id="gen2" name="gen_radio"> Male </label>
-                            </div>
 
                             <div class="form-group row" >
                                 <label for="language" class="col-md-4 col-form-label text-md-right">{{ __('Languages known') }}</label>
@@ -156,14 +149,14 @@
 
                                 <div class="col-md-3">
 
-                                        <input type="time" id="inputMDEx1" class="form-control">
-                                        <label for="inputMDEx1">Start time</label>
+                                        <input type="time" id="start_time" class="form-control">
+                                        <label for="start_time">Start time</label>
 
                                         {{-- <input id="timing" type="text" class="form-control " name="Timing"> --}}
                                 </div>
                                 <div class="col-md-3">
-                                <input type="time" id="inputMDEx1" class="form-control">
-                                        <label for="inputMDEx1">end time</label>
+                                <input type="time" id="end_time" class="form-control">
+                                        <label for="end_time">End time</label>
                                 </div>
                             </div>
 
@@ -171,7 +164,12 @@
                                 <label for="experience" class="col-md-4 col-form-label text-md-right">{{ __('Experience') }}</label>
 
                                 <div class="col-md-6" >
-                                    <input id="experience" type="text" class="form-control " name="Experience">
+
+                                    {!! Form::selectYear('year', 0, 20) !!}
+                                    <label for="experience"> Years </label>
+                                    {!! Form::selectRange('number', 0, 12); !!}
+                                    <label for="experience"> Months</label>
+                                    {{-- <input id="experience" type="text" class="form-control " name="Experience"> --}}
                                 </div>
                             </div>
                                 {{-- testing --}}

@@ -53,7 +53,7 @@ Auth::routes();
     Route::post('/resetPassword','UserController@resetPassword');
 
     Route::get('/profile','UserController@profile');
-
+    Route::post('/profile','UserController@profile');
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 

@@ -32,9 +32,11 @@ class UserController extends Controller
     public function index()
     {
         $users=User::all();
-        return view('layouts.Users.index')->with('data',$users);
+        $individualserviceprovidermaster = IndividualServiceProvider::all();
+        return view('layouts.Users.index')->with('data',$users)->with('individualserviceprovider', $individualserviceprovidermaster);
        // $users = User::latest()->paginate(5);
         return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
+
 
     }
     /** Form for creating a new resource
@@ -60,17 +62,18 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Role $roles)
     {
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required|unique:users,email|max:255',
+            'email' => 'required|unique:users,email|max:255|regex:/^.+@+gmail+.com/i',
             'password'=>'required|confirmed|min:6',
             'contact' => 'required|numeric|digits:10',
             'type' => 'required',
             'gender' => 'required',
-            'timing' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required|after:start_time',
             'experience' => 'required',
             'roles' => 'required'
 
@@ -101,22 +104,16 @@ class UserController extends Controller
 
 
         $user=User::create($request->all($users));
-        if("Corporate service provider")
-        {
-            $users->save();
-        }
-        else{
 
             $user_id=$user->id;
             $dataArray=[
                     'user_id' => $user_id,
-                    'gender' => $request->get('gender'),
-                    'languages_known' => $request-> get('language'),
-                    'timing' => $request->get('timing'),
-                    'experience' => $request->get('experience'),
+                    'gender' => $request->get('$gender'),
+                    'languages_known' => $request-> get('$language'),
+                    'start_time' => $request->get('$start_time'),
+                    'end_time' => $request->get('$end_time'),
+                    'experience' => $request->get('$experience'),
             ];
-
-        }
 
             IndividualServiceProvider::create($dataArray);
 
@@ -522,7 +519,7 @@ class UserController extends Controller
     /**
      * @SWG\Get(
      *   path="/profile",
-     *   summary="User Profile",
+     *   summary="User Profile by ID",
      *     description="User profile",
      *   operationId="userProfile",
      *   consumes={"application/xml","application/json"},
@@ -530,7 +527,7 @@ class UserController extends Controller
      *     @SWG\Parameter(
      *      in="body",
      *      name="body",
-     *      description="Enter required fields details to show user profile",
+     *      description="Enter required Id for user profile",
      *      required=true,
      *     @SWG\Definition(
      *         definition="users",
@@ -556,14 +553,21 @@ class UserController extends Controller
     public function profile(Request $request)
     {
         try {
+
             $response = array();
             $id = $request->input('id');
+
+            $user = User::get();
+            print_r($user);
+            $user = User::find($id);
+            $user = User::where('id', '=', $id)->first();
 
             $checkuser  = User::where('id', '=', $id)->first();
             if (isset($checkuser)) {
                 if (Hash::check($checkuser->id)) {
-                    $response['code'] = true;
+                    $response['status']= true;
                     $response['message'] = "user authenticated";
+                    $response['data'] = '$dataArray';
                 } else {
                     $response['code'] = false;
                     $response['message'] = "user unauthorized";

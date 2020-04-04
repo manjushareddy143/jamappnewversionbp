@@ -167,7 +167,7 @@
         },
         "/profile": {
             "get": {
-                "summary": "User Profile",
+                "summary": "User Profile by ID",
                 "description": "User profile",
                 "operationId": "userProfile",
                 "consumes": [
@@ -181,7 +181,7 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Enter required fields details to show user profile",
+                        "description": "Enter required Id for user profile",
                         "required": true,
                         "schema": {
                             "definition": "users",
@@ -199,7 +199,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "User Profile register Successfully!"
+                        "description": "User Profile created Successfully!"
                     },
                     "404": {
                         "description": "Page not Found"

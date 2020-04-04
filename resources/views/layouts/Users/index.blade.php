@@ -56,7 +56,9 @@
 
    <th>Languages Known</th>
 
-   <th>Timing</th>
+   <th>Start_time</th>
+
+   <th>End_time</th>
 
    <th>Experience</th>
 
@@ -99,7 +101,9 @@
 
     <td>{{ $user->languages_known }}</td>
 
-    <td>{{ $user->timing }}</td>
+    <td>{{ $user->start_time }}</td>
+
+    <td>{{ $user->end_time }}</td>
 
     <td>{{ $user->experience }}</td>
 

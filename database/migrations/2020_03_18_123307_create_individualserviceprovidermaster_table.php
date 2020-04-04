@@ -18,7 +18,8 @@ class CreateIndividualserviceprovidermasterTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('gender');
             $table->string('languages_known');
-            $table->string('timing');
+            $table->string('start_time');
+            $table->string('end_time');
             $table->string('experience');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

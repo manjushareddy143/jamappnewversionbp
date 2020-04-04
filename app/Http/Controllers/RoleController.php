@@ -2,11 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    function __construct()
+
+    {
+
+         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+
+         $this->middleware('permission:role-create', ['only' => ['create','store']]);
+
+         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+
+    }
      //CRUD Operation for Roles
     /**Display a listing of the resource.
      *z
@@ -23,7 +37,8 @@ class RoleController extends Controller
     */
     public function create()
     {
-        return view('roles.create');
+        $permission = Permission::get();
+        return view('roles.create',compact('permission'));
     }
     /**
      * store newly created resource in storage
@@ -33,7 +48,8 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:roles,name',
+            'permission' => 'required',
         ]);
         Role::create($request->all());
         return redirect()->route('roles.index')->with('Success','User created successfully.');
