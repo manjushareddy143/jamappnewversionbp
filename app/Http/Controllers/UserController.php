@@ -32,13 +32,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=User::all();
-        $data = DB::table('users')->join('individualserviceprovidermaster', 'individualserviceprovidermaster.users_id', '=', 'users.users_id')->select('users.name', 'users.email', 'users.contact', 'users.type', 'individualserviceprovidermaster.*')
+        //$users=User::all();
+        $users = DB::table('users')->leftJoin('individualserviceprovidermaster', 'individualserviceprovidermaster.user_id', '=', 'users.id')->select('users.id as userID','users.name', 'users.email', 'users.contact', 'users.type', 'individualserviceprovidermaster.*')
         ->get();
         //$individualserviceprovidermaster = IndividualServiceProvider::all();
          //return view('layouts.Users.index');//->with('data',$users)->with('individualserviceprovider', $individualserviceprovidermaster);
        // $users = User::latest()->paginate(5);
-        return view('layouts.Users.index',compact('users'))->with('i',(request()->input('page',1)-1) * 5);
+        return view('layouts.Users.index')->with('data',$users)->with('i',(request()->input('page',1)-1) * 5);
 
 
     }
