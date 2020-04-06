@@ -79,7 +79,7 @@ class UserController extends Controller
         //     'experience' => 'required',
         //     //'roles' => 'required'
 
-        // ]);
+        //]);
 
        // set image path into database
          $users=0;
@@ -97,23 +97,26 @@ class UserController extends Controller
         //     $users->image = '';
         // }
         // $users->save();
+
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-    $user = User::create($input);
-    //    User::create($request->all());
-        // $type = Request::old('type');  //for dropdown value in db
+        $user = User::create($input);
+         if( "Individual Service Provider")
+    // //    User::create($request->all());
+        {
+            $users_id=$users->id;
+            $dataArray=[
+                    'user_id' => $users_id,
+                    'gender' => $request->get('$gender'),
+                    'languages_known' => $request-> get('$language'),
+                    'start_time' => $request->get('$start_time'),
+                    'end_time' => $request->get('$end_time'),
+                    'experience' => $request->get('$experience'),
+            ];
+        //    // User::create($data);
+             IndividualServiceProvider::create($dataArray);
 
-        //     $users_id=$users->id;
-        //     $dataArray=[
-        //             'user_id' => $users_id,
-        //             'gender' => $request->get('$gender'),
-        //             'languages_known' => $request-> get('$language'),
-        //             'start_time' => $request->get('$start_time'),
-        //             'end_time' => $request->get('$end_time'),
-        //             'experience' => $request->get('$experience'),
-        //     ];
-        // //    // User::create($data);
-        //      IndividualServiceProvider::create($dataArray);
+        }
 
         return redirect()->route('user.index')->with('Success','User created successfully.');
 
