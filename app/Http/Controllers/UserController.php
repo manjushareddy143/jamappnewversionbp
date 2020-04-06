@@ -64,68 +64,65 @@ class UserController extends Controller
     public function store(Request $request, Role $roles)
     {
 
+        $response = array();
+        $initialValidator = Validator::make($request->all(),
+            [
+                'name' => 'required',
+                'email' => 'required|unique:users,email',
+                'password' => 'required',
+                'contact' => 'required',
+            ]);
 
-
-//        $request->validate([
-//            'name' => 'required',
-//            'email' => 'required|unique:users,email|max:255|regex:/^.+@+./i',
-//            'password'=>'required|confirmed|min:6',
-//            'contact' => 'required|numeric|digits:10',
-//            'type' => 'required',
-////            'gender' => 'required',
-////            'start_time' => 'required',
-////            'end_time' => 'required|after:start_time',
-////            'experience' => 'required',
-////            'roles' => 'required'
-//        ]);
-
-       // set image path into database
-        $users=0;
-        if($request->hasFile('image'))
+        if ($initialValidator->fails())
         {
-            echo (123); exit();
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension(); //getting image extension
-            $filename = time() . '.' . $extension;
-            $file->move('/uploads/users/',$filename);
-            $users->image = $filename;
-        }
-        else
-        {
-
-//            return $request;
-//            $users->image = null;
+            return response()->json(['error'=>$initialValidator->errors()], 401);
         }
 
-//        echo (456); exit();
-//        $users->save();
-
-        //for assign roles to user
         $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
+
+        if($input['type'] == "ISP") {
+            $detailValidator = Validator::make($request->all(),
+                [
+                    "gender" => "required",
+                    "language" => "required",
+                    "start_time" => "required|before:end_time",
+                    "end_time" => "required",
+                    "experience" => "required"
+                ]);
+
+            if($detailValidator->fails())
+            {
+                return response()->json(['error'=>$detailValidator->errors()], 401);
+            }
+        }
+
+        $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
-//        $user->assignRole($request->input('roles'));
+        if($input['type'] == "ISP") {
+            $user_id=$user->id;
+            $dataArray= [
+                'user_id' => $user_id,
+                'gender' => $input['gender'],
+                'languages_known' => $input['language'],
+                'start_time' => $input['start_time'],
+                'end_time' => $input['end_time'],
+                'experience' => $input['experience'],
+            ];
+            $details = IndividualServiceProvider::create($dataArray);
+            $user["details"] = $details;
+        }
 
-
-
-//        $user= User::create($request->all($users));
-
-//            $user_id=$user->id;
-//            $dataArray=[
-//                    'user_id' => $user_id,
-//                    'gender' => $request->get('$gender'),
-//                    'languages_known' => $request-> get('$language'),
-//                    'start_time' => $request->get('$start_time'),
-//                    'end_time' => $request->get('$end_time'),
-//                    'experience' => $request->get('$experience'),
-//            ];
-//
-//            IndividualServiceProvider::create($dataArray);
+        if (isset($user)) {
+            $response['status']  = "200";
+            $response['message']  = $user;
+        } else {
+            $response['status']  = false;
+            $response['message']  = "Please add valid details";
+        }
+//       return response()->json($response);
 
         return redirect()->route('user.index')->with('Success','User created successfully.');
-
-
     }
     /**Display the specified resource
      *

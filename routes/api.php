@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
+Route::post('adduser', 'UserController@store');
 
 Route::get('/', function () {
     return [1, 2, 3];
