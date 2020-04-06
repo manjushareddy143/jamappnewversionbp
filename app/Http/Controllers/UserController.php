@@ -98,7 +98,7 @@ class UserController extends Controller
         // }
         // $users->save();
         $input = $request->all();
-    $input['password'] = Hash::make($input['password']);
+        $input['password'] = Hash::make($input['password']);
     $user = User::create($input);
     //    User::create($request->all());
         // $type = Request::old('type');  //for dropdown value in db
