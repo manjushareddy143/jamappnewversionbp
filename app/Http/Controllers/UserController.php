@@ -241,15 +241,11 @@ class UserController extends Controller
             $response = array();
             $username = $request->input('email');
             $password = $request->input('password');
-//            echo ($request);
-//            echo ($username);
             $checkuser  = User::where('email', '=', $username)->first();
-//            echo ($checkuser);
-// exit();
             if (isset($checkuser)) {
                 if (Hash::check($password,$checkuser->password)) {
-                    $response['code'] = true;
-                    $response['message'] = "user authenticated";
+                    $response = $checkuser;
+                    $response['code'] = 200;
                 } else {
                     $response['code'] = false;
                     $response['message'] = "user unauthorized";
@@ -317,34 +313,67 @@ class UserController extends Controller
      */
 
 
-    public function register(Request $request){
+    public function register(Request $request) {
+
         $response = array();
-        $validator = Validator::make($request->all(),
+        $initialValidator = Validator::make($request->all(),
             [
                 'name' => 'required',
-               // 'username' => 'required',
-                'email' => 'required|email',
+                'email' => 'required|unique:users,email',
                 'password' => 'required',
                 'contact' => 'required',
             ]);
-        if ($validator->fails())
+
+        if ($initialValidator->fails())
         {
-            return response()->json(['error'=>$validator->errors()], 401);
+            return response()->json(['error'=>$initialValidator->errors()], 401);
         }
+
         $input = $request->all();
+
+        if($input['type'] == "ISP") {
+            $detailValidator = Validator::make($request->all(),
+                [
+                    "gender" => "required",
+                    "language" => "required",
+	                "start_time" => "required|before:end_time",
+                    "end_time" => "required",
+	                "experience" => "required"
+                ]);
+
+            if($detailValidator->fails())
+            {
+                return response()->json(['error'=>$detailValidator->errors()], 401);
+            }
+        }
+
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
+        if($input['type'] == "ISP") {
+            $user_id=$user->id;
+            $dataArray= [
+                'user_id' => $user_id,
+                'gender' => $input['gender'],
+                'languages_known' => $input['language'],
+                'start_time' => $input['start_time'],
+                'end_time' => $input['end_time'],
+                'experience' => $input['experience'],
+            ];
+            $details = IndividualServiceProvider::create($dataArray);
+            $user["details"] = $details;
+        }
+
         if (isset($user)) {
-            $response['status']  = true;
-            $response['message']  = "User Register successfully!";
+            $response['status']  = "200";
+            $response['message']  = $user;
         } else {
             $response['status']  = false;
             $response['message']  = "Please add valid details";
         }
         return response()->json($response);
 
-        }
+    }
 
 
         //Change password api
