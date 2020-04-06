@@ -126,8 +126,9 @@ class UserController extends Controller
      */
     public function show($id)//User $users
     {
-        $user = User::find($id);
-        return view('layouts.Users.show',compact('user'));
+        //$user = User::find($id);
+         $user=User::where('id', $id)->first();
+        return view('layouts.Users.show')->with('user',$user);
     }
     /**
      * Show the form for editing the specified resource.
@@ -137,11 +138,14 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
+        //$user = User::find($id);
+        $user=User::where('id', $id)->first();
+        //var_dump($user);
+        //exit;
+        //$roles = Role::pluck('name','name')->all();
+        //$userRole = $user->roles->pluck('name','name')->all();
 
-         return view('layouts.Users.edit',compact('user','roles','userRole'));
+         return view('layouts.Users.edit')->with('user',$user);
     }
     /**
      * Update the specified resources in storage

@@ -26,8 +26,7 @@
 
     {{-- {!! Form::open(array('route' => 'user.store','method'=>'GET')) !!} --}}
 
-    @if (isset($data) && !empty($data))
-        @foreach ($data as $key => $user)
+    @if (isset($user) && !empty($user))
         <div class="row">
 
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -36,7 +35,7 @@
 
                     <strong>Name:</strong>
 
-                     {{ $user->$name }}
+                     {{ $user->name }}
 
                 </div>
 
@@ -48,7 +47,7 @@
 
                     <strong>Email:</strong>
 
-                    {{ $user->$email }}
+                    {{ $user->email }}
 
                 </div>
 
@@ -102,7 +101,6 @@
 
     </div>
 
-@endforeach
 @endif
 <p class="text-center text-primary"><small>com.jam</small></p>
 @endsection
