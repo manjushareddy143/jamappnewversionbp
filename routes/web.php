@@ -22,7 +22,7 @@ Route::get('/index', 'UserController@index');
 Route::get('/show/{$id}', 'UserController@show');
 Route::get('/addUser', 'UserController@addUser');
 Route::get('/edit','UserController@edit');
-Route::post('/store','UserController@store');
+Route::post('/register','UserController@store');
 
 // Route::get('/show', function ($id)
 // {

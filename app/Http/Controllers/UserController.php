@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\IndividualServiceProvider;
 use App\Role;
-use App\User;
 use DB;
 use CreateIndividualserviceprovidermasterTable;
 use Exception;
@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use PetstoreIO\Category;
 use Swagger\Annotations\Post;
 use Swagger\Annotations\Response;
 use Symfony\Component\Console\Input\Input;
@@ -32,7 +33,8 @@ class UserController extends Controller
     public function index()
     {
         $users=User::all();
-        $data = DB::table('users')->select('users.name', 'users.email', 'users.contact', 'users.type', 'individualserviceprovidermaster.*')->join('individualserviceprovidermaster', 'individualserviceprovidermaster.users_id', '=', 'users.users_id');
+        $data = DB::table('users')->join('individualserviceprovidermaster', 'individualserviceprovidermaster.users_id', '=', 'users.users_id')->select('users.name', 'users.email', 'users.contact', 'users.type', 'individualserviceprovidermaster.*')
+        ->get();
         //$individualserviceprovidermaster = IndividualServiceProvider::all();
          //return view('layouts.Users.index');//->with('data',$users)->with('individualserviceprovider', $individualserviceprovidermaster);
        // $users = User::latest()->paginate(5);
@@ -46,13 +48,12 @@ class UserController extends Controller
      */
     public function addUser(Request $request)
     {
-        $roles = Role::pluck('name','name')->all();
-
-        return view('layouts.Users.create',compact('roles'));
+        //$roles = Role::pluck('name','name')->all();
+        return view('layouts.Users.create');
 
     }
 
-    protected $usermaster, $IndividualServiceProvider;
+    protected $users, $IndividualServiceProvider;
     public function __construct(User $users, IndividualServiceProvider $IndividualServiceProvider)
     {
         $this->users = new user();
@@ -66,22 +67,22 @@ class UserController extends Controller
     public function store(Request $request, User $users)
     {
 
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users,email|max:255|regex:/^.+@+gmail+.com/i',
-            'password'=>'required|confirmed|min:6',
-            'contact' => 'required|numeric|digits:10',
-            'type' => 'required',
-            'gender' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required|after:start_time',
-            'experience' => 'required',
-            'roles' => 'required'
+        // $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|unique:users,email|max:255|regex:/^.+@+[A-Za-z]+.com/i',
+        //     'password'=>'required|confirmed|min:6',
+        //     'contact' => 'required|numeric|digits:10',
+        //     'type' => 'required',
+        //     'gender' => 'required_if:type,==,Individual Service Provider',
+        //     'start_time' => 'required',
+        //     'end_time' => 'required|after:start_time',
+        //     'experience' => 'required',
+        //     //'roles' => 'required'
 
-        ]);
+        // ]);
 
        // set image path into database
-        // $users=0;
+         $users=0;
         // if($request->hasFile('image'))
         // {
         //     $file = $request->file('image');
@@ -96,35 +97,23 @@ class UserController extends Controller
         //     $users->image = '';
         // }
         // $users->save();
+        $input = $request->all();
+    $input['password'] = Hash::make($input['password']);
+    $user = User::create($input);
+    //    User::create($request->all());
+        // $type = Request::old('type');  //for dropdown value in db
 
-        // //for assign roles to user
-        // $input = $request->all();
-        // $input['password'] = Hash::make($input['password']);
-        // $user = User::create($input);
-        // $user->assignRole($request->input('roles'));
-        print_r("hello");
-        exit;
-        $user=0;
-       // $user=User::create($request->all($users));
-            $data=[
-                'name' => $request->get('name'),
-                'email' => $request->get('email'),
-                'password' => $request->get('password'),
-                'contact' => $request->get('contact'),
-                'type' => $request->get('type'),
-            ];
-
-            $user_id=$user->id;
-            $dataArray=[
-                    'user_id' => $user_id,
-                    'gender' => $request->get('$gender'),
-                    'languages_known' => $request-> get('$language'),
-                    'start_time' => $request->get('$start_time'),
-                    'end_time' => $request->get('$end_time'),
-                    'experience' => $request->get('$experience'),
-            ];
-            User::create($data);
-            IndividualServiceProvider::create($dataArray);
+        //     $users_id=$users->id;
+        //     $dataArray=[
+        //             'user_id' => $users_id,
+        //             'gender' => $request->get('$gender'),
+        //             'languages_known' => $request-> get('$language'),
+        //             'start_time' => $request->get('$start_time'),
+        //             'end_time' => $request->get('$end_time'),
+        //             'experience' => $request->get('$experience'),
+        //     ];
+        // //    // User::create($data);
+        //      IndividualServiceProvider::create($dataArray);
 
         return redirect()->route('user.index')->with('Success','User created successfully.');
 
