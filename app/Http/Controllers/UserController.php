@@ -244,6 +244,8 @@ class UserController extends Controller
             $checkuser  = User::where('email', '=', $username)->first();
             if (isset($checkuser)) {
                 if (Hash::check($password,$checkuser->password)) {
+                    $details = $this->IndividualServiceProvider::where('user_id', '=', $checkuser['id'])->first();
+                    $checkuser['detail'] = $details;
                     $response = $checkuser;
                     $response['code'] = 200;
                 } else {
@@ -312,7 +314,6 @@ class UserController extends Controller
      *
      */
 
-
     public function register(Request $request) {
 
         $response = array();
@@ -374,6 +375,49 @@ class UserController extends Controller
         return response()->json($response);
 
     }
+
+
+    public function customerr_register(Request $request) {
+        $response = array();
+        $initialValidator = Validator::make($request->all(),
+            [
+                'name' => 'required',
+                'email' => 'required|unique:users,email',
+                'password' => 'required',
+                'type' => 'required',
+                'gender' => 'required',
+                'language' => 'required',
+                'contact' => 'required',
+            ]);
+
+        if ($initialValidator->fails())
+        {
+            return response()->json(['error'=>$initialValidator->errors()], 401);
+        }
+
+        $input = $request->all();
+
+        $input['password'] = bcrypt($input['password']);
+        $user = User::create($input);
+        $user_id=$user->id;
+        $dataArray= [
+            'user_id' => $user_id,
+            'gender' => $input['gender'],
+            'languages_known' => $input['language']
+        ];
+        $details = IndividualServiceProvider::create($dataArray);
+        $user["details"] = $details;
+
+        if (isset($user)) {
+            $response  = $user;
+        } else {
+            $response['message']  = "Please add valid details";
+            return response()->json($response, 406);
+        }
+
+        return response()->json($response, 200);
+    }
+
 
 
         //Change password api
