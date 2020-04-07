@@ -64,6 +64,7 @@ class UserController extends Controller
     public function store(Request $request, Role $roles)
     {
 
+//        echo ($request); exit();
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [
@@ -80,7 +81,8 @@ class UserController extends Controller
 
         $input = $request->all();
 
-        if($input['type'] == "ISP") {
+        if($input['type'] == "Individual service provider") {
+
             $detailValidator = Validator::make($request->all(),
                 [
                     "gender" => "required",
@@ -99,7 +101,7 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
-        if($input['type'] == "ISP") {
+        if($input['type'] == "Individual service provider") {
             $user_id=$user->id;
             $dataArray= [
                 'user_id' => $user_id,
@@ -120,9 +122,10 @@ class UserController extends Controller
             $response['status']  = false;
             $response['message']  = "Please add valid details";
         }
-//       return response()->json($response);
 
-        return redirect()->route('user.index')->with('Success','User created successfully.');
+       return response()->json($response);
+
+        //return redirect()->route('user.index')->with('Success','User created successfully.');
     }
     /**Display the specified resource
      *
@@ -328,7 +331,7 @@ class UserController extends Controller
 
         $input = $request->all();
 
-        if($input['type'] == "ISP") {
+        if($input['type'] == "Individual service provider") {
             $detailValidator = Validator::make($request->all(),
                 [
                     "gender" => "required",
@@ -347,7 +350,7 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
-        if($input['type'] == "ISP") {
+        if($input['type'] == "Individual service provider") {
             $user_id=$user->id;
             $dataArray= [
                 'user_id' => $user_id,
