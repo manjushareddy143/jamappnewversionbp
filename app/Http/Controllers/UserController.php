@@ -146,10 +146,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
+        // $roles = Role::pluck('name','name')->all();
+        // $userRole = $user->roles->pluck('name','name')->all();
 
-         return view('layouts.Users.edit',compact('user','roles','userRole'));
+         return view('layouts.Users.edit',compact('user'));//,'roles','userRole'));
     }
     /**
      * Update the specified resources in storage
@@ -553,7 +553,7 @@ class UserController extends Controller
         }
 
     }
-//User profile API
+    //User profile API
     /**
      * @SWG\Get(
      *   path="/profile",
@@ -563,8 +563,8 @@ class UserController extends Controller
      *   consumes={"application/xml","application/json"},
      *   produces={"application/json"},
      *     @SWG\Parameter(
-     *      in="body",
-     *      name="body",
+     *      name="user_id",
+     *      in="path",
      *      description="Enter required Id for user profile",
      *      required=true,
      *     @SWG\Definition(
@@ -579,7 +579,7 @@ class UserController extends Controller
      *      ),
      *   @SWG\Response(
      *     response=200,
-     *     description="User Profile created Successfully!"
+     *     description="User ID got Successfully!"
      *   ),
      *   @SWG\Response(response=404, description="Page not Found"),
      *   @SWG\Response(response=500, description="internal server error"),
@@ -596,7 +596,6 @@ class UserController extends Controller
             $id = $request->input('id');
 
             $user = User::get();
-            print_r($user);
             $user = User::find($id);
             $user = User::where('id', '=', $id)->first();
 
