@@ -1,0 +1,188 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Jam",
+        "description": "This is JAM API Swager Documentation",
+        "version": "2.0.0"
+    },
+    "paths": {
+        "/login": {
+            "post": {
+                "summary": "User Login",
+                "description": "User will be logged in",
+                "operationId": "userLogin",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Enter email address and password for user login",
+                        "required": true,
+                        "schema": {
+                            "definition": "users",
+                            "required": [
+                                "username",
+                                "passwrod"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "description": "Enter Email id",
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "description": "Enter User Password",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User logged in Successfully!"
+                    },
+                    "404": {
+                        "description": "Page not Found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "summary": "User Register",
+                "description": "User will be logged in",
+                "operationId": "userRegister",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Enter username, email address and password for user Register",
+                        "required": true,
+                        "schema": {
+                            "definition": "users",
+                            "required": [
+                                "username",
+                                "email",
+                                "password"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "description": "Enter name",
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "description": "Enter name",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "description": "Enter email address",
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "description": "Enter User Password",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User Register successfully!"
+                    },
+                    "404": {
+                        "description": "Page not Found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/changepassword": {
+            "post": {
+                "summary": "User can change password.",
+                "description": "User can change current password",
+                "operationId": "userPasswordChange",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Enter email and new password for change current user password.",
+                        "required": true,
+                        "schema": {
+                            "definition": "password_change",
+                            "required": [
+                                "email",
+                                "password"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "description": "Enter email",
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "description": "Enter Password",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User password change successfully!"
+                    },
+                    "404": {
+                        "description": "Page not Found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Error": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "description": "Class ApiController",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "description": "Class ApiController",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

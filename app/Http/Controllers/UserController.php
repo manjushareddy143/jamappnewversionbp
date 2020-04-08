@@ -54,7 +54,7 @@ class UserController extends Controller
         $usermaster->email = $email;
         $usermaster->password = $password;
         $usermaster->Image = $image;
-        $usermaster->contact = $contact;
+        $usermaster->contact = $contact;6e
         $usermaster->save();
 
         $individualserviceprovidermaster = new individualserviceprovidermaster();
