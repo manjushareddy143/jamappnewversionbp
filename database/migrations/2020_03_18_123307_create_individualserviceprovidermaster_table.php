@@ -15,14 +15,14 @@ class CreateIndividualserviceprovidermasterTable extends Migration
     {
         Schema::create('individualserviceprovidermaster', function (Blueprint $table) {
             $table->Increments('id');
-            $table->unsignedInteger('usermaster_id');
+            $table->integer('user_id')->unsigned();
             $table->string('gender');
-            $table->string('languages known');
-            $table->string('timing');
+            $table->string('languages_known');
+            $table->string('start_time');
+            $table->string('end_time');
             $table->string('experience');
 
-            $table->foreign('usermaster_id')->refrences('id')->on('usermaster')->onDelete('cascade');
-            $table->primary(['usermaster_id']);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

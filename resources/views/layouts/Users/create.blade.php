@@ -1,163 +1,212 @@
 @extends('layouts.app')
 
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Create User') }}</div>
 
- @section('content')
+                <div class="card-body">
+                    <form method="POST" action="{{ route('user.store') }}">
 
-<div class="row">
+                        @csrf
 
-    <div class="col-lg-12 margin-tb">
+                        <div class="form-group row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right" required>{{ __('Name') }}</label>
 
-        <div class="pull-left">
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
-            <h2 align='center'>Create New User</h2>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
 
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right" required>{{ __('E-Mail Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="image" class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="image" type="file" class="form-control @error('choosen file') is-invalid @enderror" name="image">
+
+                                @error('image')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="contact" class="col-md-4 col-form-label text-md-right" required>{{ __('Contact') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="contact" type="tel" class="form-control @error('contact number') is-invalid @enderror" name="contact">
+
+                                @error('contact')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
+
+                            <div class="col-md-6">
+                                <select name="ServiceProvider" id="category" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
+                                    <option value="Selected">Select</option>
+                                    <option value="Corporate service provider">Corporate service provider</option>
+                                    <option value="Individual service provider">Individual service provider</option>
+                                </select>
+
+                                @error('type')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="info_field" style="display: none">
+                            {{-- This fields will show after dropdown selected --}}
+
+                                  <!--radiobutton -->
+                                    <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
+
+                                        <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+                                        {{-- <div class="container">
+                                            <div class="form-group"> --}}
+                                                <input type="radio" name="gender" value="male"> Male
+                                                <input type="radio" name="gender" value="female"> Female
+                                                <input type="radio" name="gender" value="other"> Other
+                                                @if ($errors->has('gender'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('gender') }}</strong>
+                                                    </span>
+                                                @endif
+                                            {{-- </div>
+                                        </div> --}}
+                                    </div>
+
+                            <div class="form-group row" >
+                                <label for="language" class="col-md-4 col-form-label text-md-right">{{ __('Languages known') }}</label>
+
+                                <div class="col-md-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="arabic"> Arabic
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="english"> English
+                                        </label>
+                                    </div>
+                              </div>
+                            </div>
+
+                            <div class="form-group row" >
+                                <label for="timing" class="col-md-4 col-form-label text-md-right">{{ __('Timing') }}</label>
+
+                                <div class="col-md-3">
+
+                                        <input type="time" id="start_time" class="form-control">
+                                        <label for="start_time">Start time</label>
+
+                                        {{-- <input id="timing" type="text" class="form-control " name="Timing"> --}}
+                                </div>
+                                <div class="col-md-3">
+                                <input type="time" id="end_time" class="form-control">
+                                        <label for="end_time">End time</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" >
+                                <label for="experience" class="col-md-4 col-form-label text-md-right">{{ __('Experience') }}</label>
+
+                                <div class="col-md-6" >
+
+                                    {!! Form::selectYear('year', 0, 20) !!}
+                                    <label for="experience"> Years </label>
+                                    {!! Form::selectRange('number', 0, 12); !!}
+                                    <label for="experience"> Months</label>
+                                    {{-- <input id="experience" type="text" class="form-control " name="Experience"> --}}
+                                </div>
+                            </div>
+                                {{-- testing --}}
+                        </div>
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Create User') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-      <div class="pull-right">
-
-            <a class="btn btn-primary" href="/index"> Back</a>
-
-        </div>
-
     </div>
-
 </div>
-
-
-  @if (count($errors) > 0)
-
-  <div class="alert alert-danger">
-
-    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-
-    <ul>
-
-       @foreach ($errors->all() as $error)
-
-         <li>{{ $error }}</li>
-
-       @endforeach
-
-    </ul>
-
-  </div>
-
-@endif
-
-
-{!! Form::open(array('route' => 'user.store','method'=>'POST')) !!}
-
-<div class="row">
-
-    <div class="col-xs-10 col-sm-10 col-md-10">
-
-        <div class="form-group">
-
-            <strong>Name:</strong>
-
-            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
-
-        </div>
-
-    </div>
-
-   <div class="col-xs-10 col-sm-10 col-md-10">
-
-        <div class="form-group">
-
-            <strong>Email:</strong>
-
-            {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
-
-        </div>
-
-    </div>
-
-    <div class="col-xs-10 col-sm-10 col-md-10">
-
-        <div class="form-group">
-
-            <strong>Password:</strong>
-
-            {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
-
-        </div>
-
-    </div>
-
-    <div class="col-xs-10 col-sm-10 col-md-10">
-
-        <div class="form-group">
-
-            <strong>Confirm Password:</strong>
-
-            {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
-
-        </div>
-
-    </div>
-
-    <div class="col-xs-10 col-sm-10 col-md-10">
-
-        <div class="form-group">
-
-            <strong>Image:</strong>
-
-            {!! Form::file('image', array('class' => 'form-control')) !!}
-
-        </div>
-
-    </div>
-
-    <div class="col-xs-10 col-sm-10 col-md-10">
-
-        <div class="form-group">
-
-            <strong>Contact:</strong>
-
-            {!! Form::text('contact',"",array('placeholder' => 'Contact number','class' => 'form-control')) !!}
-
-        </div>
-
-    </div>
-
-    <div class="col-xs-10 col-sm-10 col-md-10">
-
-        <div class="form-group">
-
-            <strong>Type:</strong>
-
-            {!! Form::select('type[]',  array('class' => 'Select','Individual service provider','Corporate Service provider')) !!}
-
-        </div>
-
-    </div>
-
-    <div class="col-xs-10 col-sm-10 col-md-10">
-
-        <div class="form-group">
-
-            <strong>Role:</strong>
-
-            {!! Form::select('roles[]',  array('class' => 'form-control','multiple')) !!}
-
-        </div>
-
-    </div>
-
-    <div class="col-xs-10 col-sm-10 col-md-10 text-center">
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-
-    </div>
-
-</div>
-
-{!! Form::close() !!}
-
-
-<p class="text-center text-primary"><small>com.jam</small></p>
 
 @endsection
+@section('scriptsec')
 
+<script>
+    function showfields()
+    {
 
+        var selectbox = document.getElementById('category').value;
+        // alert(selectbox);
+        if (selectbox == "Individual service provider")
+        {
+           document.getElementById('info_field').style.display='block';
+        }
+        else
+        {
+            document.getElementById('info_field').style.display='none';
+        }
+        return ;
+    }
+    </script>
+
+@endsection

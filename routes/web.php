@@ -19,8 +19,11 @@ Route::get('/', function () {
 // Set the routes and resource for Users
 Route::resource('user', 'UserController');
 Route::get('/index', 'UserController@index');
-Route::get('/show', 'UserController@show');
+Route::get('/show/{$id}', 'UserController@show');
 Route::get('/addUser', 'UserController@addUser');
+Route::get('/edit','UserController@edit');
+Route::post('/register','UserController@store');
+
 // Route::get('/show', function ($id)
 // {
 //     return view('/layouts/Users/show');
@@ -45,12 +48,12 @@ Auth::routes();
 //Route::get('/index', 'UserController@index');
 
     Route::post('/loginsd', 'UserController@login');
-    Route::post('/register', 'UserController@register');
+    Route::post('/register', 'UserController@store');
     Route::post('/changepassword','UserController@changepassword');
     Route::post('/resetPassword','UserController@resetPassword');
 
-
-
+    Route::get('/profile','UserController@profile');
+    Route::post('/profile','UserController@profile');
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 

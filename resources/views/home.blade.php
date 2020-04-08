@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<li class="nav-item">
+    
+</li>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -15,7 +18,7 @@
                         </div>
                     @endif
 
-                    You are logged in as SuperAdmin!
+                    You are logged in as SuperAdmin! see  <a href="/index">List</a>
                 </div>
 
             </div>

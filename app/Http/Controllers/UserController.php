@@ -3,14 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\IndividualServiceProvider;
+use App\Role;
+use DB;
 use CreateIndividualserviceprovidermasterTable;
+use Exception;
 use GuzzleHttp\Middleware;
 //use Illuminate\Contracts\Validation\Validator;
 use http\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use PetstoreIO\Category;
 use Swagger\Annotations\Post;
+use Swagger\Annotations\Response;
+use Symfony\Component\Console\Input\Input;
+use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
 use Validator;
 
 class UserController extends Controller
@@ -22,28 +32,42 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=User::all();
-        return view('layouts.Users.index')->with('data',$users);
+        //$users=User::all();
+        $users = DB::table('users')->leftJoin('individualserviceprovidermaster', 'individualserviceprovidermaster.user_id', '=', 'users.id')->select('users.id as userID','users.name', 'users.email', 'users.contact', 'users.type', 'individualserviceprovidermaster.*')
+        ->get();
+        //$individualserviceprovidermaster = IndividualServiceProvider::all();
+         //return view('layouts.Users.index');//->with('data',$users)->with('individualserviceprovider', $individualserviceprovidermaster);
        // $users = User::latest()->paginate(5);
-        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
+        return view('layouts.Users.index')->with('data',$users)->with('i',(request()->input('page',1)-1) * 5);
+
 
     }
     /** Form for creating a new resource
      *
      *@return \Illuminate\Http\Response
      */
-    public function addUser()
+    public function addUser(Request $request)
     {
+        //$roles = Role::pluck('name','name')->all();
         return view('layouts.Users.create');
+
+    }
+
+    protected $users, $IndividualServiceProvider;
+    public function __construct(User $users, IndividualServiceProvider $IndividualServiceProvider)
+    {
+        $this->users = new user();
+        $this->IndividualServiceProvider = new IndividualServiceProvider();
     }
     /**
      * store newly created resource in storage
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $users)
     {
 
+<<<<<<< HEAD
         $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -62,6 +86,24 @@ class UserController extends Controller
 
         //testing
         // $users=0;
+=======
+        // $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|unique:users,email|max:255|regex:/^.+@+[A-Za-z]+.com/i',
+        //     'password'=>'required|confirmed|min:6',
+        //     'contact' => 'required|numeric|digits:10',
+        //     'type' => 'required',
+        //     'gender' => 'required_if:type,==,Individual Service Provider',
+        //     'start_time' => 'required',
+        //     'end_time' => 'required|after:start_time',
+        //     'experience' => 'required',
+        //     //'roles' => 'required'
+
+        // ]);
+
+       // set image path into database
+         $users=0;
+>>>>>>> bd7ae662f93a305ffb992f2e7913f7e03462eea6
         // if($request->hasFile('image'))
         // {
         //     $file = $request->file('image');
@@ -76,9 +118,27 @@ class UserController extends Controller
         //     $users->image = '';
         // }
         // $users->save();
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+    $user = User::create($input);
+    //    User::create($request->all());
+        // $type = Request::old('type');  //for dropdown value in db
 
-        User::create($request->all());
+        //     $users_id=$users->id;
+        //     $dataArray=[
+        //             'user_id' => $users_id,
+        //             'gender' => $request->get('$gender'),
+        //             'languages_known' => $request-> get('$language'),
+        //             'start_time' => $request->get('$start_time'),
+        //             'end_time' => $request->get('$end_time'),
+        //             'experience' => $request->get('$experience'),
+        //     ];
+        // //    // User::create($data);
+        //      IndividualServiceProvider::create($dataArray);
+
         return redirect()->route('user.index')->with('Success','User created successfully.');
+
+
     }
     /**Display the specified resource
      *
@@ -87,7 +147,9 @@ class UserController extends Controller
      */
     public function show($id)//User $users
     {
-        return view('layouts.Users.show',compact('Users'));
+        //$user = User::find($id);
+         $user=User::where('id', $id)->first();
+        return view('layouts.Users.show')->with('user',$user);
     }
     /**
      * Show the form for editing the specified resource.
@@ -95,9 +157,16 @@ class UserController extends Controller
      * @param \App\User $users
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $users)
+    public function edit($id)
     {
-        return view('layouts.Users.edit',compact('Users'));
+        //$user = User::find($id);
+        $user=User::where('id', $id)->first();
+        //var_dump($user);
+        //exit;
+        //$roles = Role::pluck('name','name')->all();
+        //$userRole = $user->roles->pluck('name','name')->all();
+
+         return view('layouts.Users.edit')->with('user',$user);
     }
     /**
      * Update the specified resources in storage
@@ -106,15 +175,30 @@ class UserController extends Controller
      * @param \App\User $users
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $users)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|confirm-password',
+            'contact' => 'required|digits:10',
+            'roles' => 'required',
         ]);
 
-        $users->update($request->all());
-        return redirect()->route('user.index')->with('Success','User updated successfully');
+        $input = $request->all();
+        if(!empty($input['password']))
+        {
+            $input['password'] = Hash::make($input['password']);
+        }
+        else
+        {
+            $input = array_except($input, array('password'));
+        }
+        $user = User::find($id);
+        $user->update($input);
+        DB::table('users_has_roles')->where('users_id',$id)->delete();
+        //$users->update($request->all());
+        return redirect()->route('/index')->with('Success','User updated successfully');
     }
     /**
      * Remove the specified resource from storage.
@@ -122,8 +206,9 @@ class UserController extends Controller
      * @param \App\User $users
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $users)
+    public function destroy($id)
     {
+        $users = User::find($id);
         $users->delete();
         return redirect()->route('user.index')->with('Success','User deleted successfully');
     }
@@ -452,6 +537,75 @@ class UserController extends Controller
             return redirect()->back()->withErrors(['email' => trans('A Network Error occurred. Please try again.')]);
         }
 
+    }
+//User profile API
+    /**
+     * @SWG\Get(
+     *   path="/profile",
+     *   summary="User Profile by ID",
+     *     description="User profile",
+     *   operationId="userProfile",
+     *   consumes={"application/xml","application/json"},
+     *   produces={"application/json"},
+     *     @SWG\Parameter(
+     *      in="body",
+     *      name="body",
+     *      description="Enter required Id for user profile",
+     *      required=true,
+     *     @SWG\Definition(
+     *         definition="users",
+     *         required={"id"},
+     *         @SWG\Property(
+     *             description="Enter user id",
+     *             property="id",
+     *             type="integer"
+     *         ),
+     *       )
+     *      ),
+     *   @SWG\Response(
+     *     response=200,
+     *     description="User Profile created Successfully!"
+     *   ),
+     *   @SWG\Response(response=404, description="Page not Found"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+     *
+     */
+
+    //User profile
+    public function profile(Request $request)
+    {
+        try {
+
+            $response = array();
+            $id = $request->input('id');
+
+            $user = User::get();
+            print_r($user);
+            $user = User::find($id);
+            $user = User::where('id', '=', $id)->first();
+
+            $checkuser  = User::where('id', '=', $id)->first();
+            if (isset($checkuser)) {
+                if (Hash::check($checkuser->id)) {
+                    $response['status']= true;
+                    $response['message'] = "user authenticated";
+                    $response['data'] = '$dataArray';
+                } else {
+                    $response['code'] = false;
+                    $response['message'] = "user unauthorized";
+                }
+
+            } else {
+                $response['code'] = false;
+                $response['message'] = "user unauthorized";
+            }
+            return response($response, 200)
+                ->header('content-type', 'application/json');
+        } catch (\Exception $e) {
+            $response['code'] = 400;
+            $response['message'] = "There is some error";
+        }
     }
 
 }

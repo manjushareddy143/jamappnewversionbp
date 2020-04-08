@@ -122,15 +122,30 @@
                                 <label for="language" class="col-md-4 col-form-label text-md-right">{{ __('Languages known') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="language" type="text" class="form-control " name="language">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="arabic"> Arabic
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="english"> English
+                                        </label>
+                                    </div>
                               </div>
                             </div>
 
                             <div class="form-group row" >
                                 <label for="timing" class="col-md-4 col-form-label text-md-right">{{ __('Timing') }}</label>
 
-                                <div class="col-md-6">
-                                    <input id="timing" type="text" class="form-control " name="Timing">
+                                <div class="col-md-3">
+
+                                        <input type="time" id="inputMDEx1" class="form-control">
+                                        <label for="inputMDEx1">Start time</label>
+
+                                        {{-- <input id="timing" type="text" class="form-control " name="Timing"> --}}
+                                </div>
+                                <div class="col-md-3">
+                                <input type="time" id="inputMDEx1" class="form-control">
+                                        <label for="inputMDEx1">end time</label>
                                 </div>
                             </div>
 
