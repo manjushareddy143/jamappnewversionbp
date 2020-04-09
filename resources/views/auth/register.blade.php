@@ -93,7 +93,7 @@
                             <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
 
                             <div class="col-md-6">
-                                <select name="ServiceProvider" id="category" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
+                                <select name="type" id="category" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
                                     <option value="Selected">Select</option>
                                     <option value="Corporate service provider">Corporate service provider</option>
                                     <option value="Individual service provider">Individual service provider</option>
