@@ -56,7 +56,9 @@ Auth::routes();
     Route::post('/profile','UserController@profile');
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-
+//Set the routes and resource for master_service
+Route::resource('master_services', 'Master_servicesController');
+Route::get('/create', 'Master_servicesController@create');
 
 
 

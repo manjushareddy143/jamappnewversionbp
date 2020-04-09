@@ -10,11 +10,8 @@ class users_type extends Model
      protected $table = "users_type";
 
      protected $fillable = [
-         'user_id',
-         'gender',
-         'languages_known',
-         'start_time',
-         'end_time',
-         'experience',
+         'id',
+         'types',
+         'details',
      ];
 }

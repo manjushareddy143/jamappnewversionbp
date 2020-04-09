@@ -2,7 +2,7 @@
 
 @section('content')
 <li class="nav-item">
-    
+
 </li>
 <div class="container">
     <div class="row justify-content-center">
@@ -19,6 +19,7 @@
                     @endif
 
                     You are logged in as SuperAdmin! see  <a href="/index">List</a>
+                    Master Services <a href="/create">Master Services</a>
                 </div>
 
             </div>
