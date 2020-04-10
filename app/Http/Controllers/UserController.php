@@ -64,7 +64,8 @@ class UserController extends Controller
     public function store(Request $request, Role $roles)
     {
 
-//        echo ($request); exit();
+       alert ($request); 
+       exit();
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [
@@ -315,9 +316,10 @@ class UserController extends Controller
      */
 
     public function register(Request $request) {
-
+        
         $response = array();
         $initialValidator = Validator::make($request->all(),
+        
             [
                 'name' => 'required',
                 'email' => 'required|unique:users,email',
@@ -331,7 +333,8 @@ class UserController extends Controller
         }
 
         $input = $request->all();
-
+        echo ($request);
+        exit();
         if($input['type'] == "Individual service provider") {
             $detailValidator = Validator::make($request->all(),
                 [

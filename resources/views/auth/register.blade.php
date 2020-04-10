@@ -8,7 +8,8 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form>  
+                    <!-- method="POST" action="{{ route('register') }}" -->
                         @csrf
 
                         <div class="form-group row">
@@ -93,7 +94,7 @@
                             <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
 
                             <div class="col-md-6">
-                                <select name="ServiceProvider" id="category" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
+                                <select name="type" id="category" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
                                     <option value="Selected">Select</option>
                                     <option value="Corporate service provider">Corporate service provider</option>
                                     <option value="Individual service provider">Individual service provider</option>
@@ -113,9 +114,11 @@
                                 <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
                             {{-- <div class="form-group"> --}}
                                 <label class="radio-inline">
-                                    <input type="radio" id="gen1" name="gen_radio"> Female </label>
+                                    <!-- <input type="radio" id="gen1" name="gen_radio"> Female </label> -->
+                                    <input type="radio" name="gender" value="female"> Female
                                 <label class="radio-inline">
-                                    <input type="radio" id="gen2" name="gen_radio"> Male </label>
+                                <input type="radio" name="gender" value="male"> Male
+                                    <!-- <input type="radio" id="gen2" name="gen_radio"> Male </label> -->
                             </div>
 
                             <div class="form-group row" >
@@ -124,10 +127,12 @@
                                 <div class="col-md-6">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="arabic"> Arabic
+                                            <!-- <input type="checkbox" name="language[]" value="arabic"> Arabic -->
+                                            <input type="checkbox" name="language" value="arabic"> Arabic
                                         </label>
                                         <label>
-                                            <input type="checkbox" name="english"> English
+                                            <!-- <input type="checkbox" name="english" value="english"> English -->
+                                            <input type="checkbox" name="language" value="english"> English
                                         </label>
                                     </div>
                               </div>
@@ -135,25 +140,29 @@
 
                             <div class="form-group row" >
                                 <label for="timing" class="col-md-4 col-form-label text-md-right">{{ __('Timing') }}</label>
-
+                                <!-- <select name="time" id="inputMDEx1" class="form-control @error('Selected type') is-invalid @enderror" onchange="myFunction()"> -->
                                 <div class="col-md-3">
-
-                                        <input type="time" id="inputMDEx1" class="form-control">
-                                        <label for="inputMDEx1">Start time</label>
-
-                                        {{-- <input id="timing" type="text" class="form-control " name="Timing"> --}}
+                                        
+                                <input type="time" id="apptstart" name="start_time" class="form-control">            
+                             <!-- <input type="time" id="starttime" name="start_time" class="form-control"> -->
+                            <label for="inputMDEx1">Start time</label>
+                               <!-- </select> -->
+                                        
                                 </div>
                                 <div class="col-md-3">
-                                <input type="time" id="inputMDEx1" class="form-control">
-                                        <label for="inputMDEx1">end time</label>
+                                <input type="time" id="apptend" name="end_time" class="form-control"> 
+                                <!-- <input type="time" id="endtimr" name="end_time" class="form-control"> -->
+                                <label for="inputMDEx1">end time</label>
                                 </div>
+                                
                             </div>
 
                             <div class="form-group row" >
                                 <label for="experience" class="col-md-4 col-form-label text-md-right">{{ __('Experience') }}</label>
 
                                 <div class="col-md-6" >
-                                    <input id="experience" type="text" class="form-control " name="Experience">
+                                    <!-- <input id="experience" type="text" class="form-control " name="Experience"> -->
+                                    <input type="text" class="form-control" name="experience"/>
                                 </div>
                             </div>
                                 {{-- testing --}}
@@ -191,6 +200,11 @@
         }
         return ;
     }
+
+    function myFunction() {
+  var x = document.getElementById("inputMDEx1").value;
+ 
+}
     </script>
 
 @endsection
