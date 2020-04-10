@@ -64,6 +64,7 @@ class UserController extends Controller
     public function store(Request $request, Role $roles)
     {
 
+
 //        echo ($request); exit();
         $response = array();
         $initialValidator = Validator::make($request->all(),

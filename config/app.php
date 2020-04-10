@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
@@ -176,6 +177,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         //testing for service provider
         App\Providers\RolesServiceProvider::class,
+
+        Kreait\Laravel\Firebase\ServiceProvider::class,
 
 
     ],
