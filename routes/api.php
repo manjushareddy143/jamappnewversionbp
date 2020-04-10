@@ -25,6 +25,7 @@ Route::post('register', 'UserController@register');
 Route::post('adduser', 'UserController@store');
 Route::post('customer_register', 'UserController@customerr_register');
 
+Route::post('service', 'ServicesController@insert_image');
 
 Route::get('/', function () {
     return [1, 2, 3];
