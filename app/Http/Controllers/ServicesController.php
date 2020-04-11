@@ -2,35 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use Faker\Provider\Image;
+use App\services;
 use Illuminate\Http\Request;
+use Validator;
 
 class ServicesController extends Controller
 {
 
     function insert_image(Request $request)
     {
+        $validator = Validator::make($request->all(),
+            [
+                'name'  => 'required',
+                'icon_image' => 'required|image',  //|max:2048
+//            'banner_image' => 'required|image',  //|max:2048
+//            'description' => 'required',
+            ]);
 
-        echo ($request); exit();
+        if ($validator->fails())
+        {
+            return response()->json(['error'=>$validator->errors()], 401);
+        }
 
-        $request->validate([
-            'user_name'  => 'required',
-            'user_image' => 'required|image'  //|max:2048
-        ]);
+        $iconImg = $request->file('icon_image');
+        $iconName = rand() . '.' . $iconImg->getClientOriginalExtension();
+        $iconImg->move(public_path('images'), $iconName);
 
-        $image_file = $request->user_image;
+        $bannerImg = $request->file('banner_image');
+        $bannerName = '';
+        if($bannerImg) {
+            $bannerName = rand() . '.' . $bannerImg->getClientOriginalExtension();
+            $bannerImg->move(public_path('images'), $bannerName);
+        }
 
-        $image = Image::make($image_file);
-
-        Response::make($image->encode('jpeg'));
-
+        $input = $request->all();
         $form_data = array(
-            'name'  => $request->name,
-            'icon_image' => $image
+            'name'  => $input['name'],
+            'icon_image' => $iconName,
+            'banner_image' => $bannerName,
+            'description' => $input['description']
         );
 
-        Images::create($form_data);
-
-        return redirect()->back()->with('success', 'Image store in database successfully');
+        $myResult = services::create($form_data);
+        $host = url('/');
+        $myResult["icon_image"] = $host . "/images/" . $iconName;
+        if($bannerImg) {
+            $myResult["banner_image"] = $host . "/images/" . $bannerName;
+        }
+        return response()->json($myResult);
     }
+
+
 }
