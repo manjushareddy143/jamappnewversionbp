@@ -257,8 +257,9 @@ class UserController extends Controller
                 $response['code'] = false;
                 $response['message'] = "user unauthorized";
             }
-            return response($response, 200)
-                ->header('content-type', 'application/json');
+            // return response($response, 200)
+            //     ->header('content-type', 'application/json');
+            return redirect('/home')->with('success', 'User Login!');
         } catch (\Exception $e) {
             $response['code'] = 400;
             $response['message'] = "There is some error";
