@@ -56,6 +56,7 @@ class UserController extends Controller
         $this->users = new user();
         $this->IndividualServiceProvider = new IndividualServiceProvider();
     }
+
     /**
      * store newly created resource in storage
      * @param \Illuminate\Http\Request $request
@@ -138,6 +139,7 @@ class UserController extends Controller
         $user = User::find($id);
         return view('layouts.Users.show',compact('user'));
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -152,6 +154,7 @@ class UserController extends Controller
 
          return view('layouts.Users.edit',compact('user','roles','userRole'));
     }
+
     /**
      * Update the specified resources in storage
      *
@@ -184,6 +187,7 @@ class UserController extends Controller
         //$users->update($request->all());
         return redirect()->route('/index')->with('Success','User updated successfully');
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -378,7 +382,7 @@ class UserController extends Controller
     }
 
 
-    public function customerr_register(Request $request) {
+    public function customer_register(Request $request) {
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [

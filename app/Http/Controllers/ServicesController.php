@@ -9,7 +9,7 @@ use Validator;
 class ServicesController extends Controller
 {
 
-    function insert_image(Request $request)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(),
             [
@@ -26,13 +26,13 @@ class ServicesController extends Controller
 
         $iconImg = $request->file('icon_image');
         $iconName = rand() . '.' . $iconImg->getClientOriginalExtension();
-        $iconImg->move(public_path('images'), $iconName);
+        $iconImg->move(public_path('images/category'), $iconName);
 
         $bannerImg = $request->file('banner_image');
         $bannerName = '';
         if($bannerImg) {
             $bannerName = rand() . '.' . $bannerImg->getClientOriginalExtension();
-            $bannerImg->move(public_path('images'), $bannerName);
+            $bannerImg->move(public_path('images/category'), $bannerName);
         }
 
         $input = $request->all();
@@ -45,12 +45,21 @@ class ServicesController extends Controller
 
         $myResult = services::create($form_data);
         $host = url('/');
-        $myResult["icon_image"] = $host . "/images/" . $iconName;
+        $myResult["icon_image"] = $host . "/images/category/" . $iconName;
         if($bannerImg) {
-            $myResult["banner_image"] = $host . "/images/" . $bannerName;
+            $myResult["banner_image"] = $host . "/images/category/" . $bannerName;
         }
         return response()->json($myResult);
     }
 
+    public function show_all() {
+        $listServices = services::all();
+
+        if($listServices->count() > 0) {
+            return response()->json($listServices);
+        } else {
+            return response()->json(null, 204);
+        }
+    }
 
 }

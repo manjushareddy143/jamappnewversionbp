@@ -25,7 +25,16 @@ Route::post('register', 'UserController@register');
 Route::post('adduser', 'UserController@store');
 Route::post('customer_register', 'UserController@customerr_register');
 
-Route::post('service', 'ServicesController@insert_image');
+Route::post('service', 'ServicesController@store');
+Route::get('service', 'ServicesController@show_all');
+
+
+Route::post('sub_category', 'SubCategoryController@store');
+Route::get('sub_category', 'SubCategoryController@show_all');
+
+Route::post('service_mapping', 'ServiceMappingController@store');
+Route::get('all_services', 'ServiceMappingController@get_services');
+
 
 Route::get('/', function () {
     return [1, 2, 3];
