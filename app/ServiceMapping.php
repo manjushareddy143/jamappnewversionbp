@@ -10,12 +10,4 @@ class ServiceMapping extends Model
 
     protected $fillable = ['service_id', 'category_id'];
 
-
-    public function getData($service_id,$category_id) {
-     return [
-         "service" => services::find($service_id);
-     ];
-    }
-
-
 }
