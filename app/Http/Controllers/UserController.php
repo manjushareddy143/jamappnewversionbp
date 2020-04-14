@@ -371,10 +371,8 @@ class UserController extends Controller
         }
 
         if (isset($user)) {
-            $response['status']  = "200";
-            $response['message']  = $user;
+            $response  = $user;
         } else {
-            $response['status']  = false;
             $response['message']  = "Please add valid details";
         }
         return response()->json($response);
