@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
 Route::post('adduser', 'UserController@store');
-Route::post('customer_register', 'UserController@customerr_register');
+Route::post('customer_register', 'UserController@customer_register');
 
 Route::post('service', 'ServicesController@store');
 Route::get('service', 'ServicesController@show_all');
