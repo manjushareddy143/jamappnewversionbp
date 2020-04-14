@@ -8,7 +8,8 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form id="loginForm" method="POST" action="{{ route('login') }}">
+
                         @csrf
 
                         <div class="form-group row">
@@ -53,7 +54,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button id="submit" type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
 
@@ -70,4 +71,30 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scriptsec')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+
+<script type="text/javascript">
+    function loginCall() {
+        console.log("123");
+        email = $('#email').val();
+        console.log(email);
+        password = $('#password').val();
+        console.log(password);
+        $.ajax({
+            url: "/api/login",
+            type:"POST",
+            data:{
+                password:password,
+                email:email,
+                access_type: 'web'
+            },
+            success:function(response){
+                console.log(response);
+            },
+        });
+    }
+</script>
 @endsection

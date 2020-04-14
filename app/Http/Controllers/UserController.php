@@ -246,13 +246,13 @@ class UserController extends Controller
             $response = array();
             $username = $request->input('email');
             $password = $request->input('password');
+            $access_type = $request->input('access_type');
             $checkuser  = User::where('email', '=', $username)->first();
             if (isset($checkuser)) {
                 if (Hash::check($password,$checkuser->password)) {
                     $details = $this->IndividualServiceProvider::where('user_id', '=', $checkuser['id'])->first();
                     $checkuser['detail'] = $details;
                     $response = $checkuser;
-                    $response['code'] = 200;
                 } else {
                     $response['code'] = false;
                     $response['message'] = "user unauthorized";
@@ -261,8 +261,12 @@ class UserController extends Controller
                 $response['code'] = false;
                 $response['message'] = "user unauthorized";
             }
-            return response($response, 200)
-                ->header('content-type', 'application/json');
+            if($access_type == null) {
+                return redirect('/home')->with('success', 'User Login!');
+            } else {
+                return response($response, 200)
+                    ->header('content-type', 'application/json');
+            }
         } catch (\Exception $e) {
             $response['code'] = 400;
             $response['message'] = "There is some error";
