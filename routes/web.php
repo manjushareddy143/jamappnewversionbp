@@ -24,6 +24,9 @@ Route::get('/addUser', 'UserController@addUser');
 Route::get('/edit','UserController@edit');
 Route::post('/register','UserController@store');
 
+Route::get('/home', 'UserController@home')->name('home');
+Route::get('/testhome', 'HomeController@test')->name('testhome');
+
 // Route::get('/show', function ($id)
 // {
 //     return view('/layouts/Users/show');
@@ -47,7 +50,7 @@ Auth::routes();
 
 //Route::get('/index', 'UserController@index');
 
-    Route::post('/login', 'UserController@login');
+    // Route::post('/login', 'UserController@login');
     Route::post('/register', 'UserController@store');
     Route::post('/changepassword','UserController@changepassword');
     Route::post('/resetPassword','UserController@resetPassword');

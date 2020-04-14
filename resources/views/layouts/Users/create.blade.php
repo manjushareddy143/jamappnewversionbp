@@ -135,11 +135,16 @@
                                 <div class="col-md-6">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="arabic"> Arabic
+                                            <input type="checkbox" name="arabic" value="arabic"> Arabic
                                         </label>
                                         <label>
-                                            <input type="checkbox" name="english"> English
+                                            <input type="checkbox" name="english" value="english"> English
                                         </label>
+                                 @error('language')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                     </div>
                               </div>
                             </div>
