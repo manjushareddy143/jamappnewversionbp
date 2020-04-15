@@ -8,7 +8,7 @@
                     <div class="card-header">{{ __('Create Master Services') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('store') }}">
+                        <form method="GET" action="/index">
 
                             @csrf
 
@@ -73,6 +73,10 @@
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Create Master Services') }}
                                     </button>
+
+                                    <button type="submit" class="btn btn-primary" onclick="responsecall">
+                                        {{ __('Back') }}
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -84,3 +88,13 @@
     </div>
 
 @endsection
+<script>
+    function responsecall($id) {
+        console.log("test1");
+        $design = design::select('name','icon_image','banner_image','description');
+        return Response::json($design);
+        // return response()
+        //         ->json(['name','icon_image','banner_image','description'])
+        //         ->withCallback($request->input('responsecall'));
+    }
+  </script>

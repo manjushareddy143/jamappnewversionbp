@@ -8,8 +8,8 @@
                 <div class="card-header">{{ __('Create User') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.store') }}">
-
+                    <form method="GET" action="/index">
+                        {{-- {{ route('user.store') }} --}}
                         @csrf
 
                         <div class="form-group row">
@@ -176,7 +176,7 @@
                         </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" onclick="responsecall">
                                     {{ __('Create User') }}
                                 </button>
                             </div>
@@ -209,4 +209,21 @@
     }
     </script>
 
+<script>
+    function responsecall() {
+        console.log("test1");
+        // $design = design::select('name','email','password','contact','type');
+        // return Response::json($design);
+        return response()
+                ->json(['name','email','contact','type'])
+                ->withCallback($request->input('responsecall'));
+        print("hello");
+        exit;
+        if (Request::format() == 'json')
+        {
+            //when condition is true then below statement will excute
+            return view('layouts.Users.index');
+        }
+    }
+  </script>
 @endsection

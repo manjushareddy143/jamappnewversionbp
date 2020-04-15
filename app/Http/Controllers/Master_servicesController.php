@@ -23,8 +23,9 @@ class Master_servicesController extends Controller
     */
     public function create()
     {
-
-
+        // print_r("hello");
+        // exit;
+        return view('layouts.Master_services.createservice');
 
     }
     /**
