@@ -24,13 +24,14 @@ Route::get('/addUser', 'UserController@addUser');
 Route::get('/edit','UserController@edit');
 Route::post('/register','UserController@store');
 
+
 Route::get('/home', 'UserController@home')->name('home');
-Route::get('/testhome', 'HomeController@test')->name('testhome');
+Route::get('/homeservices', 'HomeController@services')->name('homeservices');
 
 // Route::get('/show', function ($id)
 // {
 //     return view('/layouts/Users/show');
-// });
+// });                  
 Route::get('/edit', function ($id)
 {
     return view('/layouts/Users/edit');

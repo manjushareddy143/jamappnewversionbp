@@ -13,11 +13,10 @@
           </div>
 
 <div class="row">
-
     <div class="col-lg-12 margin-tb">
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Users Management</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
                 </div>
     
 <!-- 
@@ -47,31 +46,11 @@
  <tr>
 
    <th>id</th>
-
    <th>Name</th>
-
-   <th>Email</th>
-
-   <th>Roles</th>
-
-   <!-- <th width=10%> Image</th> -->
-
-   <!-- <th>Contact</th> -->
-
-   <th>Type</th>
-
-   <th>Gender</th>
-
-   <!-- <th>Languages Known</th> -->
-
-   <th>Start_time</th>
-
-   <!-- <th>End_time</th> -->
-
-   <!-- <th>Experience</th> -->
-
+   <th>Icon</th>
+   <th>Banner</th>
+   <th>Description</th>
    <th width="280px">Action</th>
-
  </tr>
 </thead>
 
@@ -85,39 +64,8 @@
     <td>{{ ++$i }}</td>
 
     <td>{{ $user->name }}</td>
-
     <td>{{ $user->email }}</td>
-
-   <td>
-
-      {{-- @if(!empty($user->getRoleNames()))
-
-        @foreach($user->getRoleNames() as $v)
-
-           <label class="badge badge-success">{{ $v }}</label>
-
-        @endforeach
-
-      @endif --}}
-
-    </td>
-
-    <!-- <td><img src="{{ URL::to('/') }}/images/{{ $user->image }}" class="square" width="60" height="50" /></td> -->
-
-    <!-- <td>{{ $user->contact }}</td> -->
-
-    <td>{{ $user->type }}</td>
-
-    <td>{{ $user->gender }}</td>
-
-    <!-- <td>{{ $user->languages_known }}</td> -->
-
-    <td>{{ $user->start_time }}</td>
-
-    <!-- <td>{{ $user->end_time }}</td> -->
-
-    <!-- <td>{{ $user->experience }}</td> -->
-
+    <td><img src="{{ URL::to('/') }}/images/{{ $user->image }}" class="square" width="60" height="50" /></td>
     <td>
 
        <a class="btn btn-info" href="{{ route('user.show',$user->id) }}"><i class="fas fa-eye"></i></a>
@@ -178,37 +126,19 @@
 
                 <form action="{{ route('Users.destroy',$user->id) }}" method="POST">
 
-
-
                     <a class="btn btn-info" href="{{ route('Users.show',$user->id) }}">Show</a>
-
-
 
                     <a class="btn btn-primary" href="{{ route('Users.edit',$user->id) }}">Edit</a>
 
-
-
                     @csrf
-
                     @method('DELETE')
-
-
-
                     <button type="submit" class="btn btn-danger">Delete</button>
-
                 </form>
-
             </td>
-
         </tr>
-
         @endforeach
-
     </table>
-
-
     {{-- {!! $errors->links() !!} @endsection --}}
-
 </div>
 </div>
 </div>

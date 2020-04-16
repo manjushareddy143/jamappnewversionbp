@@ -30,8 +30,24 @@
       <li class="nav-item active">
         <a class="nav-link" href="home">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>Dashboard</span>
+        </a>
       </li>
+
+      <li class="nav-item active">
+        <a class="nav-link" href="/index">
+          <i class="fas fa-users"></i>
+          <span>Users</span>
+        </a>
+      </li>
+
+      <li class="nav-item active">
+        <a class="nav-link" href="/testservice">
+          <i class="fas fa-users"></i>
+          <span>Services</span>
+        </a>
+      </li>
+
       <hr class="sidebar-divider">
       <div class="sidebar-heading">
         Features
@@ -93,6 +109,8 @@
         <div id="collapsePage" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Example Pages</h6>
+            <a class="collapse-item" href="index">User</a>
+            <a class="collapse-item" href="login.html">Services</a>
             <a class="collapse-item" href="login.html">Login</a>
             <a class="collapse-item" href="register.html">Register</a>
             <a class="collapse-item" href="404.html">404 Page</a>
@@ -320,7 +338,7 @@
   <!-- Scroll to top -->
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
-  </a>
+  </a
 
   <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
   <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
