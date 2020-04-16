@@ -25,10 +25,9 @@ class HomeController extends Controller
     {
         return view('home');
     }
-
-    public function test()
+    public function services()
     {
-        return view('testhome');
+        return view('homeservices');
     }
 
 }
