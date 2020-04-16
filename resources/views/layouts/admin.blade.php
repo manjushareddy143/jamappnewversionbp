@@ -42,7 +42,7 @@
       </li>
 
       <li class="nav-item active">
-        <a class="nav-link" href="/testservice">
+        <a class="nav-link" href="/homeservices">
           <i class="fas fa-users"></i>
           <span>Services</span>
         </a>
@@ -124,7 +124,7 @@
           <span>Charts</span>
         </a>
       </li>
-      
+
     </ul>
     <!-- Sidebar -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -270,7 +270,7 @@
                         aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                   </div>
-                </a>  
+                </a>
                 <a class="dropdown-item align-items-center" href="#">
                   <div class="mb-3">
                     <div class="small text-gray-500">Create Pie Chart
@@ -345,7 +345,7 @@
   <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
   <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
   <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-  <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>  
+  <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
 </body>
 
 </html>
