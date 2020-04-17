@@ -56,7 +56,8 @@ class ServicesController extends Controller
         $listServices = services::all();
 
         if($listServices->count() > 0) {
-            return response()->json($listServices);
+            return view('Users.servoce')->with('data',$listServices);
+           // return response()->json($listServices);
         } else {
             return response()->json(null, 204);
         }

@@ -648,7 +648,7 @@ class UserController extends Controller
 
             $user = User::get();
             print_r($user);
-            $user = User::find($id);
+                $user = User::find($id);
             $user = User::where('id', '=', $id)->first();
 
             $checkuser  = User::where('id', '=', $id)->first();
