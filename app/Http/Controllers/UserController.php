@@ -243,6 +243,7 @@ class UserController extends Controller
     public function login(Request $request) {
         try {
 
+            echo (123); exit();
             $response = array();
             $username = $request->input('email');
             $password = $request->input('password');
