@@ -208,8 +208,27 @@
         return ;
     }
     </script>
+$.ajax({
+    type:"POST",
+    url:"/index/"+id,
+    success : function(results)
+    {
+        var $table = $('<table></table>');
+        $('#destination').html('');
 
-<script>
+        for(var i=0;i<=results.length;i++)
+        {
+            $table.append('<tr><td>name</td><td>'+results[i].design_name+'</td></tr>)
+            $table.append('<tr><td>email</td><td>'+results[i].design_email+'</td></tr>)
+            $table.append('<tr><td>password</td><td>'+results[i].design_password+'</td></tr>)
+            $table.append('<tr><td>contact</td><td>'+results[i].design_contact+'</td></tr>)
+            $table.append('<tr><td>type</td><td>'+results[i].design_type+'</td></tr>)
+        }
+        $('#destination').append($table);
+    }
+})
+{{-- <script>
+
     function responsecall() {
         console.log("test1");
         // $design = design::select('name','email','password','contact','type');
@@ -225,5 +244,5 @@
             return view('layouts.Users.index');
         }
     }
-  </script>
+  </script> --}}
 @endsection

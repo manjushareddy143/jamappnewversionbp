@@ -59,7 +59,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 //Set the routes and resource for master_service
 Route::resource('master_services', 'Master_servicesController');
 //Route::get('/addUser', 'UserController@addUser');
-Route::get('/create', 'Master_servicesController@create');
+Route::get('/edit', 'Master_servicesController@edit');
 Route::get('Master_services/index', 'Master_servicesController@index');
 
 

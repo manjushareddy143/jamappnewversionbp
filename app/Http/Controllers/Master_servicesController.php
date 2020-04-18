@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\master_services;
+use App\Services;
 use Illuminate\Http\Request;
 
 class Master_servicesController extends Controller
@@ -13,7 +14,9 @@ class Master_servicesController extends Controller
      */
     public function index()
     {
+        $master_services=master_services::all();
 
+        return view('layouts.Master_services.indexservice',compact('Master_services'))->with('i',(request()->input('page',1)-1) * 5);
 
     }
     /**
@@ -68,7 +71,7 @@ class Master_servicesController extends Controller
 
     public function edit()
     {
-
+        return view('layouts.Master_services.editservice');
     }
     /**
      * Update the specified resource in storage.
