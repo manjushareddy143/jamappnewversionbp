@@ -18,15 +18,20 @@ Route::get('/', function () {
 });
 // Set the routes and resource for Users
 Route::resource('user', 'UserController');
+Route::get('/users', 'UserController@index');
 Route::get('/index', 'UserController@index');
 Route::get('/show/{$id}', 'UserController@show');
 Route::get('/addUser', 'UserController@addUser');
 Route::get('/edit','UserController@edit');
 Route::post('/register','UserController@store');
 
-
 Route::get('/home', 'UserController@home')->name('home');
-Route::get('/homeservices', 'HomeController@services')->name('homeservices');
+
+Route::post('/services', 'ServicesController@store');
+Route::get('/services', 'ServicesController@show_all')->name('services');
+// Route::get('/detailpage', 'ServicesController@show_all')->name('detailpage');
+
+
 
 // Route::get('/show', function ($id)
 // {
@@ -60,8 +65,11 @@ Auth::routes();
     Route::post('/profile','UserController@profile');
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-
-
+//Set the routes and resource for master_service
+Route::resource('master_services', 'Master_servicesController');
+//Route::get('/addUser', 'UserController@addUser');
+Route::get('/edit', 'Master_servicesController@edit');
+Route::get('Master_services/index', 'Master_servicesController@index');
 
 
 

@@ -25,9 +25,13 @@ class HomeController extends Controller
     {
         return view('home');
     }
-    public function services()
+    public function homeservices()
     {
-        return view('homeservices');
+        return view('services');
+    }
+    public function subservices()
+    {
+        return view('detailpage');
     }
 
 }
