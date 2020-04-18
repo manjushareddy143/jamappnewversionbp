@@ -35,14 +35,14 @@
       </li>
 
       <li class="nav-item active">
-        <a class="nav-link" href="/index">
+        <a class="nav-link" href="/users">
           <i class="fas fa-users"></i>
           <span>Users</span>
         </a>
       </li>
 
       <li class="nav-item active">
-        <a class="nav-link" href="/homeservices">
+        <a class="nav-link" href="/services">
           <i class="fas fa-users"></i>
           <span>Services</span>
         </a>
