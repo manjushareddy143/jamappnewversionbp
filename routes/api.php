@@ -20,20 +20,38 @@ use Illuminate\Http\Request;
 });*/
 
 
-Route::post('login', 'UserController@login');
-Route::post('register', 'UserController@register');
-Route::post('adduser', 'UserController@store');
-Route::post('customer_register', 'UserController@customer_register');
+Route::get('v1/details', 'UserController@getSingupDetail');
+Route::post('v1/login', 'UserController@login');
+Route::post('v1/register', 'UserController@register');
+Route::post('v1/adduser', 'UserController@store');
+Route::post('v1/customer_register', 'UserController@customer_register');
+Route::post('v1/profile', 'UserController@profile');
 
-Route::post('service', 'ServicesController@store');
-Route::get('service', 'ServicesController@show_all');
 
 
-Route::post('sub_category', 'SubCategoryController@store');
-Route::get('sub_category', 'SubCategoryController@show_all');
 
-Route::post('service_mapping', 'ServiceMappingController@store');
-Route::get('all_services', 'ServiceMappingController@get_services');
+Route::post('v1/service', 'ServicesController@store');
+Route::get('v1/service', 'ServicesController@show_all');
+
+
+Route::post('v1/sub_category', 'SubCategoryController@store');
+Route::get('v1/sub_category', 'SubCategoryController@show_all');
+
+Route::post('v1/service_mapping', 'ServiceMappingController@store');
+Route::get('v1/all_services', 'ServiceMappingController@get_services');
+
+// User Type Mng
+Route::post('v1/usertype', 'UserTypeController@add_type');
+Route::get('v1/usertype', 'UserTypeController@show_all');
+
+
+// Terms & Conditions
+Route::post('v1/term', 'TermConditionController@add_term');
+Route::get('v1/term', 'TermConditionController@show_all');
+
+// Terms & Conditions Agreement
+Route::post('v1/term_agree', 'TermAgreementController@add_term_agreement');
+Route::get('v1/term_agree', 'TermAgreementController@show_all');
 
 
 Route::get('/', function () {

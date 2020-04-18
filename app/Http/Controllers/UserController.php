@@ -4,22 +4,27 @@ namespace App\Http\Controllers;
 
 use App\IndividualServiceProvider;
 use App\Role;
+//use App\ServiceMapping;
+use App\ServiceProvider;
+use App\TermAgreement;
+use App\TermCondition;
 use App\User;
+use App\UserTypes;
 use DB;
-use CreateIndividualserviceprovidermasterTable;
-use Exception;
-use GuzzleHttp\Middleware;
+//use CreateIndividualserviceprovidermasterTable;
+//use Exception;
+//use GuzzleHttp\Middleware;
 //use Illuminate\Contracts\Validation\Validator;
 use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB as FacadesDB;
+//use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Swagger\Annotations\Post;
-use Swagger\Annotations\Response;
-use Symfony\Component\Console\Input\Input;
-use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
+//use Illuminate\Support\Facades\Mail;
+//use Swagger\Annotations\Post;
+//use Swagger\Annotations\Response;
+//use Symfony\Component\Console\Input\Input;
+//use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
 use Validator;
 
 class UserController extends Controller
@@ -36,8 +41,8 @@ class UserController extends Controller
         return view('layouts.Users.index')->with('data',$users)->with('individualserviceprovider', $individualserviceprovidermaster);
        // $users = User::latest()->paginate(5);
         return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
-
     }
+
     /** Form for creating a new resource
      *
      *@return \Illuminate\Http\Response
@@ -51,6 +56,7 @@ class UserController extends Controller
     }
 
     protected $usermaster, $IndividualServiceProvider;
+
     public function __construct(User $users, IndividualServiceProvider $IndividualServiceProvider)
     {
         $this->users = new user();
@@ -64,9 +70,6 @@ class UserController extends Controller
      */
     public function store(Request $request, Role $roles)
     {
-
-
-//        echo ($request); exit();
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [
@@ -129,6 +132,7 @@ class UserController extends Controller
 
         //return redirect()->route('user.index')->with('Success','User created successfully.');
     }
+
     /**Display the specified resource
      *
      * @param \App\User $users
@@ -242,16 +246,19 @@ class UserController extends Controller
      */
     public function login(Request $request) {
         try {
-
             $response = array();
             $username = $request->input('email');
             $password = $request->input('password');
             $access_type = $request->input('access_type');
             $checkuser  = User::where('email', '=', $username)->first();
             if (isset($checkuser)) {
-                if (Hash::check($password,$checkuser->password)) {
-                    $details = $this->IndividualServiceProvider::where('user_id', '=', $checkuser['id'])->first();
-                    $checkuser['detail'] = $details;
+                if (Hash::check($password,$checkuser->password))
+                {
+                    if($checkuser['type_id'] != 4)
+                    {
+                        $service_provider = ServiceProvider::where('user_id', '=', $checkuser['id'])->first();
+                        $checkuser['resident_country'] = $service_provider['resident_country'];
+                    }
                     $response = $checkuser;
                 } else {
                     $response['code'] = false;
@@ -272,6 +279,8 @@ class UserController extends Controller
             $response['message'] = "There is some error";
         }
     }
+
+
 
     // User Register API
     /**
@@ -326,52 +335,89 @@ class UserController extends Controller
     public function register(Request $request) {
 
         $response = array();
-        $initialValidator = Validator::make($request->all(),
-            [
-                'name' => 'required',
-                'email' => 'required|unique:users,email',
-                'password' => 'required',
-                'contact' => 'required',
-            ]);
+        if($request->get('type_id') == 4) {
+            $initialValidator = Validator::make($request->all(),
+                [
+                    'name' => 'required',
+                    'email' => 'required|unique:users,email',
+                    'password' => 'required',
+                    'contact' => 'required|unique:users,contact',
+                    'type_id' => 'required|exists:user_types,id',
+                    'term_id' => 'required|exists:term_conditions,id',
+                ]);
 
-        if ($initialValidator->fails())
-        {
-            return response()->json(['error'=>$initialValidator->errors()], 401);
+            if ($initialValidator->fails())
+            {
+                return response()->json(['error'=>$initialValidator->errors()], 401);
+            }
+        } else {
+            $initialValidator = Validator::make($request->all(),
+                [
+                    'name' => 'required',
+                    'email' => 'required|unique:users,email',
+                    'password' => 'required',
+                    'contact' => 'required|unique:users,contact',
+                    'type_id' => 'required|exists:user_types,id',
+                    'term_id' => 'required|exists:term_conditions,id',
+                    'resident_country' => 'required',
+                ]);
+
+            if ($initialValidator->fails())
+            {
+                return response()->json(['error'=>$initialValidator->errors()], 401);
+            }
         }
 
         $input = $request->all();
 
-        if($input['type'] == "Individual service provider") {
-            $detailValidator = Validator::make($request->all(),
-                [
-                    "gender" => "required",
-                    "language" => "required",
-	                "start_time" => "required|before:end_time",
-                    "end_time" => "required",
-	                "experience" => "required"
-                ]);
-
-            if($detailValidator->fails())
-            {
-                return response()->json(['error'=>$detailValidator->errors()], 401);
-            }
-        }
+//        if($input['type'] == "Individual service provider") {
+//            $detailValidator = Validator::make($request->all(),
+//                [
+//                    "gender" => "required",
+//                    "language" => "required",
+//	                "start_time" => "required|before:end_time",
+//                    "end_time" => "required",
+//	                "experience" => "required"
+//                ]);
+//
+//            if($detailValidator->fails())
+//            {
+//                return response()->json(['error'=>$detailValidator->errors()], 401);
+//            }
+//        }
 
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
-        if($input['type'] == "Individual service provider") {
-            $user_id=$user->id;
-            $dataArray= [
+//        if($input['type'] == "Individual service provider") {
+//            $user_id=$user->id;
+//            $dataArray= [
+//                'user_id' => $user_id,
+//                'gender' => $input['gender'],
+//                'languages_known' => $input['language'],
+//                'start_time' => $input['start_time'],
+//                'end_time' => $input['end_time'],
+//                'experience' => $input['experience'],
+//            ];
+//            $details = IndividualServiceProvider::create($dataArray);
+//            $user["details"] = $details;
+//        }
+        $user_id=$user->id;
+        $now = now()->utc();
+        $term_agreement= [
                 'user_id' => $user_id,
-                'gender' => $input['gender'],
-                'languages_known' => $input['language'],
-                'start_time' => $input['start_time'],
-                'end_time' => $input['end_time'],
-                'experience' => $input['experience'],
+                'term_id' => $input['term_id'],
+                'agreed_at' => $now
             ];
-            $details = IndividualServiceProvider::create($dataArray);
-            $user["details"] = $details;
+        TermAgreement::create($term_agreement);
+
+        if($input['type_id'] != 4) {
+            $service_provider= [
+                'user_id' => $user_id,
+                'resident_country' => $input['resident_country']
+            ];
+            $service_provider_detail = ServiceProvider::create($service_provider);
+            $user['resident_country'] = $service_provider_detail['resident_country'];
         }
 
         if (isset($user)) {
@@ -381,6 +427,110 @@ class UserController extends Controller
         }
         return response()->json($response);
 
+    }
+
+    //User profile API
+    /**
+     * @SWG\Get(
+     *   path="/profile",
+     *   summary="User Profile by ID",
+     *     description="User profile",
+     *   operationId="userProfile",
+     *   consumes={"application/xml","application/json"},
+     *   produces={"application/json"},
+     *     @SWG\Parameter(
+     *      in="body",
+     *      name="body",
+     *      description="Enter required Id for user profile",
+     *      required=true,
+     *     @SWG\Definition(
+     *         definition="users",
+     *         required={"id"},
+     *         @SWG\Property(
+     *             description="Enter user id",
+     *             property="id",
+     *             type="integer"
+     *         ),
+     *       )
+     *      ),
+     *   @SWG\Response(
+     *     response=200,
+     *     description="User Profile created Successfully!"
+     *   ),
+     *   @SWG\Response(response=404, description="Page not Found"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     * )
+     *
+     */
+
+    //User profile
+    public function profile(Request $request)
+    {
+        try {
+            $response = array();
+            $validator = Validator::make($request->all(),
+                [
+                    'id'  => 'required|exists:users,id',
+                    'profile_photo' => 'required|image',  //|max:2048
+                    'identity_proof' => 'required|image',
+                    'services' => 'required'
+                ]);
+
+            if ($validator->fails())
+            {
+                return response()->json(['error'=>$validator->errors()], 401);
+            }
+
+            $input = $request->all();
+
+            $id = $request->input('id');
+            $user = User::find($id);
+
+            $profileImg = $request->file('profile_photo');
+            $profileImg = rand() . '.' . $profileImg->getClientOriginalExtension();
+//            echo (public_path('images\profiles')); exit();
+//            $profileImg
+                //->move(public_path('images\profiles'), $profileImg);
+
+            if($user['type_id'] == 2) {
+//                $service_provider= [
+//                    'user_id' => $user_id,
+//                    'resident_country' => $input['resident_country']
+//                ];
+//                $service_provider_detail = ServiceProvider::create($service_provider);
+//                $user['resident_country'] = $service_provider_detail['resident_country'];
+            } else {
+                $idproof = $request->file('identity_proof');
+                $idproof = rand() . '.' . $idproof->getClientOriginalExtension();
+                $idproof->move(public_path('images/documents'), $idproof);
+            }
+
+            echo ($user); exit();
+
+
+
+
+
+
+            return response($response, 200)
+                ->header('content-type', 'application/json');
+        } catch (\Exception $e) {
+            $response['code'] = 400;
+            $response['message'] = "There is some error";
+        }
+    }
+
+    public function getSingupDetail() {
+
+        $response = array();
+
+        // get latest terms
+        $term = TermCondition::where('is_latest','=', 1)->get();
+
+        $response['terms'] = $term;
+        $types = UserTypes::all();
+        $response['type'] = $types;
+        return response()->json($response);
     }
 
 
@@ -603,75 +753,6 @@ class UserController extends Controller
             return redirect()->back()->withErrors(['email' => trans('A Network Error occurred. Please try again.')]);
         }
 
-    }
-//User profile API
-    /**
-     * @SWG\Get(
-     *   path="/profile",
-     *   summary="User Profile by ID",
-     *     description="User profile",
-     *   operationId="userProfile",
-     *   consumes={"application/xml","application/json"},
-     *   produces={"application/json"},
-     *     @SWG\Parameter(
-     *      in="body",
-     *      name="body",
-     *      description="Enter required Id for user profile",
-     *      required=true,
-     *     @SWG\Definition(
-     *         definition="users",
-     *         required={"id"},
-     *         @SWG\Property(
-     *             description="Enter user id",
-     *             property="id",
-     *             type="integer"
-     *         ),
-     *       )
-     *      ),
-     *   @SWG\Response(
-     *     response=200,
-     *     description="User Profile created Successfully!"
-     *   ),
-     *   @SWG\Response(response=404, description="Page not Found"),
-     *   @SWG\Response(response=500, description="internal server error"),
-     * )
-     *
-     */
-
-    //User profile
-    public function profile(Request $request)
-    {
-        try {
-
-            $response = array();
-            $id = $request->input('id');
-
-            $user = User::get();
-            print_r($user);
-                $user = User::find($id);
-            $user = User::where('id', '=', $id)->first();
-
-            $checkuser  = User::where('id', '=', $id)->first();
-            if (isset($checkuser)) {
-                if (Hash::check($checkuser->id)) {
-                    $response['status']= true;
-                    $response['message'] = "user authenticated";
-                    $response['data'] = '$dataArray';
-                } else {
-                    $response['code'] = false;
-                    $response['message'] = "user unauthorized";
-                }
-
-            } else {
-                $response['code'] = false;
-                $response['message'] = "user unauthorized";
-            }
-            return response($response, 200)
-                ->header('content-type', 'application/json');
-        } catch (\Exception $e) {
-            $response['code'] = 400;
-            $response['message'] = "There is some error";
-        }
     }
 
 }

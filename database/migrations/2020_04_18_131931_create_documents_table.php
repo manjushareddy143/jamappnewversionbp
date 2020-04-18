@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTermConditionsTable extends Migration
+class CreateDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateTermConditionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('term_conditions', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('term_code');
+            $table->integer('user_id');
             $table->string('type');
-            $table->integer('is_latest');
+            $table->string('doc_name');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateTermConditionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('term_conditions');
+        Schema::dropIfExists('documents');
     }
 }
