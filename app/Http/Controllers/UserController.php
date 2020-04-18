@@ -484,28 +484,30 @@ class UserController extends Controller
             $input = $request->all();
 
             $id = $request->input('id');
+
             $user = User::find($id);
-
             $profileImg = $request->file('profile_photo');
-            $profileImg = rand() . '.' . $profileImg->getClientOriginalExtension();
-//            echo (public_path('images\profiles')); exit();
-//            $profileImg
-                //->move(public_path('images\profiles'), $profileImg);
-
-            if($user['type_id'] == 2) {
-//                $service_provider= [
-//                    'user_id' => $user_id,
-//                    'resident_country' => $input['resident_country']
-//                ];
-//                $service_provider_detail = ServiceProvider::create($service_provider);
-//                $user['resident_country'] = $service_provider_detail['resident_country'];
-            } else {
+            $profileName = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profileName);
+            $idproofName = "";
+            $type_id = $user['type_id'];
+            if($type_id != 4) {
                 $idproof = $request->file('identity_proof');
-                $idproof = rand() . '.' . $idproof->getClientOriginalExtension();
-                $idproof->move(public_path('images/documents'), $idproof);
+                $idproofName = rand() . '.' . $idproof->getClientOriginalExtension();
+                $idproof->move(public_path('images/documents'), $idproofName);
+            } else {
+                echo ($user['type_id']); exit();
             }
 
+            
+
+
+
+            $host = url('/');
+            $user["profile_image"] = $host . "/images/profiles/" . $profileName;
+            $user["identity_proof"] = $host . "/images/documents/" . $idproofName;
             echo ($user); exit();
+
 
 
 
