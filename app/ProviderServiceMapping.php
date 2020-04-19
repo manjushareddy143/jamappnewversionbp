@@ -8,5 +8,5 @@ class ProviderServiceMapping extends Model
 {
     protected $table = "provider_service_mappings";
 
-    protected $fillable = ['user_id', 'service_id', 'sub_category__id'];
+    protected $fillable = ['user_id', 'service_id', 'category_id'];
 }

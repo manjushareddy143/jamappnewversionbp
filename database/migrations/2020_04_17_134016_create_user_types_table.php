@@ -18,6 +18,28 @@ class CreateUserTypesTable extends Migration
             $table->string('type')->unique();
             $table->timestamps();
         });
+
+        DB::table('user_types')->insert(
+            array(
+                'type' => 'Corporate Service Provider'
+            )
+        );
+        DB::table('user_types')->insert(
+            array(
+                'type' => 'Individual Service Provider'
+            )
+        );
+
+        DB::table('user_types')->insert(
+            array(
+                'type' => 'Corporate Service Provider Associate'
+            )
+        );
+        DB::table('user_types')->insert(
+            array(
+                'type' => 'Consumer'
+            )
+        );
     }
 
     /**

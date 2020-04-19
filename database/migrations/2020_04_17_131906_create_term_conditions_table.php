@@ -20,6 +20,22 @@ class CreateTermConditionsTable extends Migration
             $table->integer('is_latest');
             $table->timestamps();
         });
+
+        DB::table('term_conditions')->insert(
+            array(
+                'term_code' => 1,
+                'type' => 'Consumer Terms',
+                'is_latest' => 1
+            )
+        );
+
+        DB::table('term_conditions')->insert(
+            array(
+                'term_code' => 1,
+                'type' => 'Provider Terms',
+                'is_latest' => 1
+            )
+        );
     }
 
     /**

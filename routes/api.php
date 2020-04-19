@@ -34,11 +34,15 @@ Route::post('v1/service', 'ServicesController@store');
 Route::get('v1/service', 'ServicesController@show_all');
 
 
+
 Route::post('v1/sub_category', 'SubCategoryController@store');
 Route::get('v1/sub_category', 'SubCategoryController@show_all');
 
 Route::post('v1/service_mapping', 'ServiceMappingController@store');
 Route::get('v1/all_services', 'ServiceMappingController@get_services');
+Route::get('v1/servicesbyuser', 'ServiceMappingController@get_services_by_user');
+
+
 
 // User Type Mng
 Route::post('v1/usertype', 'UserTypeController@add_type');

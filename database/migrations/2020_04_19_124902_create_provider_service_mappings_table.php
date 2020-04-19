@@ -17,7 +17,7 @@ class CreateProviderServiceMappingsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('service_id');
-            $table->integer('sub_category__id');
+            $table->integer('category_id');
             $table->timestamps();
         });
     }

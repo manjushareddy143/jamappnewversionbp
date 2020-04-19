@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ProviderServiceMapping;
 use App\ServiceMapping;
 use App\services;
 use App\SubCategories;
@@ -38,6 +39,21 @@ class ServiceMappingController extends Controller
         } else {
             return response()->json(null, 409);
         }
+    }
+
+    public function get_services_by_user(Request $request) {
+        $id = $request->input('id');
+        $host = url('/');
+        $results = ProviderServiceMapping::where('user_id', '=', $id)
+            ->leftJoin('services', 'services.id', '=','provider_service_mappings.service_id')
+            ->leftJoin('sub_categories', 'sub_categories.id', '=','provider_service_mappings.category_id')
+            ->select('services.id as service_id',
+                'services.name as service','services.icon_image as service_icon',
+                'services.banner_image as service_banner', 'services.description as service_description' ,
+                'sub_categories.name as category', 'sub_categories.id as category_id',
+                'sub_categories.image as category_image', 'sub_categories.description as category_description')
+            ->get();
+        return response()->json($results);
     }
 
     public function get_services(Request $request)

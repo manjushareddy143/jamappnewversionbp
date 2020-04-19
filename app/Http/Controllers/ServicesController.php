@@ -34,19 +34,15 @@ class ServicesController extends Controller
         }
 
         $input = $request->all();
+        $host = url('/');
         $form_data = array(
             'name'  => $input['name'],
-            'icon_image' => $iconName,
-            'banner_image' => $bannerName,
+            'icon_image' => $host . "/images/category/" . $iconName,
+            'banner_image' => $host . "/images/category/" . $bannerName,
             'description' => $input['description']
         );
-
         $myResult = services::create($form_data);
-        $host = url('/');
-        $myResult["icon_image"] = $host . "/images/category/" . $iconName;
-        if($bannerImg) {
-            $myResult["banner_image"] = $host . "/images/category/" . $bannerName;
-        }
+
         return response()->json($myResult);
     }
 
