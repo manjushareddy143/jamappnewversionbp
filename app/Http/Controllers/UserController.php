@@ -504,7 +504,7 @@ class UserController extends Controller
                    // Service mapping
 
                    $services = $input['services'];
-                   $services = json_decode($services, true);=
+                   $services = json_decode($services, true);
                    foreach ($services as $data) {
                        $data['user_id'] = $id;
                        ProviderServiceMapping::create($data);
