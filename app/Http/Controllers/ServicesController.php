@@ -46,15 +46,21 @@ class ServicesController extends Controller
         return response()->json($myResult);
     }
 
-    public function show_all() {
-        $listServices = services::all();
+    public function show_all(Request $request) {
+       $access_type = $request->input('access_type');
+       $listServices = services::all();
 
-        if($listServices->count() > 0) {
-            return view('services')->with('data',$listServices);
-           // return response()->json($listServices);
-        } else {
-            return response()->json(null, 204);
-        }
-    }
+       if($access_type == null) {
+           return view('services')->with('data',$listServices);
+       } else {
+           if($listServices->count() > 0) {
+                return response()->json($listServices);
+           } else {
+               return response()->json(null, 204);
+           }
+       }
+
+   } 
+    
 
 }
