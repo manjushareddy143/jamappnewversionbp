@@ -531,8 +531,8 @@ class UserController extends Controller
 
             if($this->update_profile_photo($imagedata, $id)) {
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
-                echo ('out side'); exit();
             } else {
+                echo ('out side'); exit();
                 $response['message'] = "Profile image not update";
                 return response($response, 406)
                     ->header('content-type', 'application/json');
