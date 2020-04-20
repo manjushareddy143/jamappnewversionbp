@@ -19,14 +19,14 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Users Management</h6>
                 </div>
-    
-<!-- 
+
+<!--
         <div class="pull-left">
 
             <h2 align='center'>Users Management</h2>
 
         </div> -->
-<!-- 
+<!--
         <div class="pull-right" style="padding-bottom:7px;">
 
             <a class="btn btn-success" href= "/addUser"> Create New User</a>
@@ -58,6 +58,7 @@
 
    <!-- <th>Contact</th> -->
 
+     <th>Image</th>
    <th>Type</th>
 
    <th>Gender</th>
@@ -102,8 +103,9 @@
 
     </td>
 
-    <!-- <td><img src="{{ URL::to('/') }}/images/{{ $user->image }}" class="square" width="60" height="50" /></td> -->
+{{--     <td><img src="{{ URL::to('/') }}/images/{{ $user->image }}" class="square" width="60" height="50" /></td>--}}
 
+      <td><img src="{{ asset($user->image) }}" class="square" width="60" height="50" /></td>
     <!-- <td>{{ $user->contact }}</td> -->
 
     <td>{{ $user->type }}</td>
@@ -142,7 +144,7 @@
  </tbody>
 </table>
 </div>
-</div>  
+</div>
 @if (isset($data) && !empty($data))
 {{-- {!! $data->render() !!} --}}
 @endif
