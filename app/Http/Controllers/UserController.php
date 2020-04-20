@@ -485,6 +485,7 @@ class UserController extends Controller
             $type_id = $user['type_id'];
             $host = url('/');
             if($type_id != 4) {
+                echo ($type_id); exit();
                 // ID Proof Upload
                 $validator_provider = Validator::make($request->all(),
                     [
@@ -519,7 +520,7 @@ class UserController extends Controller
                }
             }
 
-
+            echo ('out side'); exit();
             // Profile Image insert
             $profileImg = $request->file('profile_photo');
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
