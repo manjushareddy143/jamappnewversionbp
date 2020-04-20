@@ -529,6 +529,7 @@ class UserController extends Controller
                 'image' => $host . "/images/profiles/" . $profile_name,
             ];
 
+            echo ($host . "/images/profiles/" . $profile_name); exit();
             if($this->update_profile_photo($imagedata, $id)) {
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {
