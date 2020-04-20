@@ -27,16 +27,16 @@ class SubCategoryController extends Controller
         $iconName = rand() . '.' . $iconImg->getClientOriginalExtension();
         $iconImg->move(public_path('images/subcategories'), $iconName);
 
+        $host = url('/');
         $input = $request->all();
         $form_data = array(
             'name'  => $input['name'],
-            'image' => $iconName,
+            'image' =>  $host . "/images/subcategories/" . $iconName,
             'description' => $input['description']
         );
 
         $myResult = SubCategories::create($form_data);
-        $host = url('/');
-        $myResult["icon_image"] = $host . "/images/subcategories/" . $iconName;
+
         return response()->json($myResult);
     }
 

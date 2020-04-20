@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
+use App\Document;
 use App\IndividualServiceProvider;
+use App\ProviderServiceMapping;
 use App\Role;
 //use App\ServiceMapping;
 use App\ServiceProvider;
+use App\services;
+use App\SubCategories;
 use App\TermAgreement;
 use App\TermCondition;
 use App\User;
@@ -26,6 +31,7 @@ use Illuminate\Support\Facades\Hash;
 //use Symfony\Component\Console\Input\Input;
 //use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
 use Validator;
+use PHPUnit\Util\Json;
 
 class UserController extends Controller
 {
@@ -37,8 +43,9 @@ class UserController extends Controller
     public function index()
     {
         $users=User::all();
-        $individualserviceprovidermaster = IndividualServiceProvider::all();
-        return view('layouts.Users.index')->with('data',$users)->with('individualserviceprovider', $individualserviceprovidermaster);
+//        echo ($users); exit();
+//        $individualserviceprovidermaster = IndividualServiceProvider::all();
+        return view('layouts.Users.index')->with('data',$users);  //->with('individualserviceprovider', $individualserviceprovidermaster);
        // $users = User::latest()->paginate(5);
         return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
     }
@@ -206,7 +213,6 @@ class UserController extends Controller
     }
 
     // User Login API
-
     /**
      * @SWG\Post(
      *   path="/login",
@@ -280,8 +286,6 @@ class UserController extends Controller
         }
     }
 
-
-
     // User Register API
     /**
      * @SWG\Post(
@@ -331,7 +335,6 @@ class UserController extends Controller
      * )
      *
      */
-
     public function register(Request $request) {
 
         $response = array();
@@ -462,7 +465,6 @@ class UserController extends Controller
      * )
      *
      */
-
     //User profile
     public function profile(Request $request)
     {
@@ -475,49 +477,116 @@ class UserController extends Controller
                     'identity_proof' => 'required|image',
                     'services' => 'required'
                 ]);
-
             if ($validator->fails())
             {
                 return response()->json(['error'=>$validator->errors()], 401);
             }
-
             $input = $request->all();
-
             $id = $request->input('id');
+
             $user = User::find($id);
 
-            $profileImg = $request->file('profile_photo');
-            $profileImg = rand() . '.' . $profileImg->getClientOriginalExtension();
-//            echo (public_path('images\profiles')); exit();
-//            $profileImg
-                //->move(public_path('images\profiles'), $profileImg);
+            $type_id = $user['type_id'];
+            if($type_id != 4) {
 
-            if($user['type_id'] == 2) {
-//                $service_provider= [
-//                    'user_id' => $user_id,
-//                    'resident_country' => $input['resident_country']
-//                ];
-//                $service_provider_detail = ServiceProvider::create($service_provider);
-//                $user['resident_country'] = $service_provider_detail['resident_country'];
+                // ID Proof Upload
+               $id_proof =  $this->add_document($request, $input, $id);
+               if($id_proof != null) {
+                   $user['identity_proofs'] = $id_proof;
+               } else {
+                   $response['message'] = "Id proof not inserted";
+                   return response($response, 406)
+                       ->header('content-type', 'application/json');
+               }
             } else {
-                $idproof = $request->file('identity_proof');
-                $idproof = rand() . '.' . $idproof->getClientOriginalExtension();
-                $idproof->move(public_path('images/documents'), $idproof);
+                echo ($user['type_id']); exit();
             }
 
-            echo ($user); exit();
+            $host = url('/');
+            // Profile Image insert
+            $profileImg = $request->file('profile_photo');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
+            $imagedata = [
+                'image' => $host . "/images/profiles/" . $profile_name,
+            ];
 
+            if($this->update_profile_photo($imagedata, $id)) {
+                $user["image"] = $host . "/images/profiles/" . $profile_name;
+            } else {
+                $response['message'] = "Profile image not update";
+                return response($response, 406)
+                    ->header('content-type', 'application/json');
+            }
 
+            // Service mapping
 
+            $services = $input['services'];
+            $services = json_decode($services, true);
+            $servicedata =  array();
+            foreach ($services as $data) {
+                $data['user_id'] = $id;
+                ProviderServiceMapping::create($data);
 
+            }
 
+            $user['services'] = $this->get_user_services($id);
 
-            return response($response, 200)
+            // ADDRESS
+            $address = $input['address'];
+            $address = json_decode($address, true);
+
+            $adddressdata = Address::create($address);
+            $user['address'] = $adddressdata;
+
+            return response($user, 200)
                 ->header('content-type', 'application/json');
         } catch (\Exception $e) {
             $response['code'] = 400;
             $response['message'] = "There is some error";
         }
+    }
+
+    public function get_user_services($id) {
+        return  ProviderServiceMapping::where('user_id', '=', $id)
+            ->leftJoin('services', 'services.id', '=','provider_service_mappings.service_id')
+            ->leftJoin('sub_categories', 'sub_categories.id', '=','provider_service_mappings.category_id')
+            ->select('services.id as service_id',
+                'services.name as service','services.icon_image as service_icon',
+                'services.banner_image as service_banner', 'services.description as service_description' ,
+                'sub_categories.name as category', 'sub_categories.id as category_id',
+                'sub_categories.image as category_image', 'sub_categories.description as category_description')
+            ->get();
+    }
+
+    public function add_document($request, $input, $id) {
+        $doc_file = $request->file('identity_proof');
+        $doc_name = rand() . '.' . $doc_file->getClientOriginalExtension();
+        $doc_file->move(public_path('images/documents'), $doc_name);
+
+        $doc_type = $input['doc_type'];
+        $host = url('/');
+        $docdata = [
+            'user_id' => $id,
+            'type' => $doc_type,
+            'doc_name' => $host . "/images/documents/" . $doc_name
+        ];
+        $id_proof = Document::create($docdata);
+
+        $updatedata = [
+            'prooft_id' => $id_proof['id'],
+        ];
+        DB::table('service_providers')
+            ->where('user_id', $id)
+            ->update($updatedata);
+
+        return $id_proof;
+    }
+
+    public function update_profile_photo($dataArray, $id) {
+        return DB::table('users')
+            ->where('id', $id)
+            ->update($dataArray);
     }
 
     public function getSingupDetail() {
