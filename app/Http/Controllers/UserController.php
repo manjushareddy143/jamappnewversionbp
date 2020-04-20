@@ -596,9 +596,12 @@ class UserController extends Controller
     }
 
     public function update_profile_photo($dataArray, $id) {
-        return DB::table('users')
+        echo ('update profile');
+        $val = DB::table('users')
             ->where('id', $id)
             ->update($dataArray);
+        echo ($val);
+        return $val;
     }
 
     public function getSingupDetail() {
