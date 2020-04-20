@@ -39,7 +39,6 @@
    <th>Icon_image</th>
    <th>Banner_image</th>
    <th>Description</th>
-   <th width="280px">Action</th>
  </tr>
 </thead>
 
@@ -56,8 +55,6 @@
               <td><img src="{{ asset('images/category/' . $validator->icon_image) }}" class="square" width="60" height="50" /></td>
               <td><img src="{{ asset('images/category/' . $validator->banner_image) }}" class="square" width="60" height="50" /></td>
               <td>{{ $validator->description }}</td>
-              <td>
-              </td>
             </tr>
            @endforeach
            @endif

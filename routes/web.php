@@ -29,7 +29,7 @@ Route::get('/home', 'UserController@home')->name('home');
 
 Route::post('/services', 'ServicesController@store');
 Route::get('/services', 'ServicesController@show_all')->name('services');
-// Route::get('/detailpage', 'ServicesController@show_all')->name('detailpage');
+Route::get('/detailpage', 'ServicesController@show_all')->name('detailpage');
 
 
 

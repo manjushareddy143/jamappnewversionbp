@@ -56,7 +56,7 @@
               <td><img src="{{ asset($validator->icon_image) }}" class="square" width="60" height="50" /></td>
               <td><img src="{{ asset($validator->banner_image) }}" class="square" width="60" height="50" /></td>
               <td>{{ $validator->description }}</td>
-              <td><a href="/" class="btn btn-sm btn-primary">Detail</a></td>
+              <td><button id="myButton" class="btn btn-sm btn-primary">Detail</button></td>
             </tr>
            @endforeach
            @endif
@@ -69,4 +69,12 @@
 </div>
 </div>
 
+<script type="text/javascript">
+    document.getElementById("myButton").onclick = function () {
+        location.href = "/detailpage";
+    };
+</script>
 @endsection
+
+
+
