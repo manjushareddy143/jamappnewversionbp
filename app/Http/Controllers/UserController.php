@@ -501,17 +501,17 @@ class UserController extends Controller
                 echo ($user['type_id']); exit();
             }
 
+            $host = url('/');
             // Profile Image insert
             $profileImg = $request->file('profile_photo');
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
             $imagedata = [
-                'image' => $profile_name
+                'image' => $host . "/images/profiles/" . $profile_name,
             ];
 
             if($this->update_profile_photo($imagedata, $id)) {
-                $host = url('/');
-                $user["profile_image"] = $host . "/images/profiles/" . $profile_name;
+                $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {
                 $response['message'] = "Profile image not update";
                 return response($response, 406)
@@ -519,7 +519,6 @@ class UserController extends Controller
             }
 
             // Service mapping
-
 
             $services = $input['services'];
             $services = json_decode($services, true);
@@ -565,15 +564,21 @@ class UserController extends Controller
         $doc_file->move(public_path('images/documents'), $doc_name);
 
         $doc_type = $input['doc_type'];
-
+        $host = url('/');
         $docdata = [
             'user_id' => $id,
             'type' => $doc_type,
-            'doc_name' => $doc_name
+            'doc_name' => $host . "/images/documents/" . $doc_name
         ];
         $id_proof = Document::create($docdata);
-        $host = url('/');
-        $id_proof["doc_file"] = $host . "/images/documents/" . $doc_name;
+
+        $updatedata = [
+            'prooft_id' => $id_proof['id'],
+        ];
+        DB::table('service_providers')
+            ->where('user_id', $id)
+            ->update($updatedata);
+
         return $id_proof;
     }
 

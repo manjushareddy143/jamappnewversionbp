@@ -43,7 +43,6 @@ class ServiceMappingController extends Controller
 
     public function get_services_by_user(Request $request) {
         $id = $request->input('id');
-        $host = url('/');
         $results = ProviderServiceMapping::where('user_id', '=', $id)
             ->leftJoin('services', 'services.id', '=','provider_service_mappings.service_id')
             ->leftJoin('sub_categories', 'sub_categories.id', '=','provider_service_mappings.category_id')
@@ -52,6 +51,54 @@ class ServiceMappingController extends Controller
                 'services.banner_image as service_banner', 'services.description as service_description' ,
                 'sub_categories.name as category', 'sub_categories.id as category_id',
                 'sub_categories.image as category_image', 'sub_categories.description as category_description')
+            ->get();
+        return response()->json($results);
+    }
+
+    public function get_providers_by_service(Request $request) {
+        $id = $request->input('id');
+        $host = url('/');
+        $results = ProviderServiceMapping::where('service_id', '=', $id)
+            ->leftJoin('users', 'users.id', '=','provider_service_mappings.user_id')
+            ->leftJoin('service_providers', 'service_providers.user_id', '=','users.id')
+            ->leftJoin('documents', 'documents.user_id', '=','users.id')
+            ->select('users.*',
+                'service_providers.resident_country',
+                'documents.type as doc',
+                'documents.doc_name as document_image')
+            ->groupBy('provider_service_mappings.user_id')
+            ->get();
+        return response()->json($results);
+    }
+
+    public function get_providers_by_category(Request $request) {
+        $id = $request->input('id');
+        $results = ProviderServiceMapping::where('category_id', '=', $id)
+            ->leftJoin('users', 'users.id', '=','provider_service_mappings.user_id')
+            ->leftJoin('service_providers', 'service_providers.user_id', '=','users.id')
+            ->leftJoin('documents', 'documents.user_id', '=','users.id')
+            ->select('users.*',
+                'service_providers.resident_country',
+                'documents.type as doc',
+                'documents.doc_name as document_image')
+            ->groupBy('provider_service_mappings.user_id')
+            ->get();
+        return response()->json($results);
+    }
+
+    public function get_providers_by_service_category(Request $request) {
+        $service_id = $request->input('service_id');
+        $category_id = $request->input('category_id');
+        $results = ProviderServiceMapping::where('service_id', '=', $service_id)
+            ->where('category_id', '=', $category_id)
+            ->leftJoin('users', 'users.id', '=','provider_service_mappings.user_id')
+            ->leftJoin('service_providers', 'service_providers.user_id', '=','users.id')
+            ->leftJoin('documents', 'documents.user_id', '=','users.id')
+            ->select('users.*',
+                'service_providers.resident_country',
+                'documents.type as doc',
+                'documents.doc_name as document_image')
+            ->groupBy('provider_service_mappings.user_id')
             ->get();
         return response()->json($results);
     }

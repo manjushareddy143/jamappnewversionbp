@@ -41,6 +41,10 @@ Route::get('v1/sub_category', 'SubCategoryController@show_all');
 Route::post('v1/service_mapping', 'ServiceMappingController@store');
 Route::get('v1/all_services', 'ServiceMappingController@get_services');
 Route::get('v1/servicesbyuser', 'ServiceMappingController@get_services_by_user');
+Route::get('v1/providers/service', 'ServiceMappingController@get_providers_by_service');
+Route::get('v1/providers/category', 'ServiceMappingController@get_providers_by_category');
+Route::get('v1/providers/service_category', 'ServiceMappingController@get_providers_by_service_category');
+
 
 
 
