@@ -43,7 +43,7 @@ class UserController extends Controller
     public function index()
     {
         $users=User::all();
-        echo ($users); exit();
+//        echo ($users); exit();
 //        $individualserviceprovidermaster = IndividualServiceProvider::all();
         return view('layouts.Users.index')->with('data',$users);  //->with('individualserviceprovider', $individualserviceprovidermaster);
        // $users = User::latest()->paginate(5);
@@ -485,7 +485,6 @@ class UserController extends Controller
             $type_id = $user['type_id'];
             $host = url('/');
             if($type_id != 4) {
-                echo ($type_id); exit();
                 // ID Proof Upload
                 $validator_provider = Validator::make($request->all(),
                     [
@@ -528,12 +527,9 @@ class UserController extends Controller
             $imagedata = [
                 'image' => $host . "/images/profiles/" . $profile_name,
             ];
-
-            echo ($host . "/images/profiles/" . $profile_name); exit();
             if($this->update_profile_photo($imagedata, $id)) {
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {
-                echo ('out side'); exit();
                 $response['message'] = "Profile image not update";
                 return response($response, 406)
                     ->header('content-type', 'application/json');
@@ -597,12 +593,9 @@ class UserController extends Controller
     }
 
     public function update_profile_photo($dataArray, $id) {
-        echo ('update profile');
-        $val = DB::table('users')
+        return DB::table('users')
             ->where('id', $id)
             ->update($dataArray);
-        echo ($val);
-        return $val;
     }
 
     public function getSingupDetail() {
