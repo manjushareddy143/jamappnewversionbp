@@ -43,7 +43,7 @@ class UserController extends Controller
     public function index()
     {
         $users=User::all();
-//        echo ($users); exit();
+        echo ($users); exit();
 //        $individualserviceprovidermaster = IndividualServiceProvider::all();
         return view('layouts.Users.index')->with('data',$users);  //->with('individualserviceprovider', $individualserviceprovidermaster);
        // $users = User::latest()->paginate(5);
