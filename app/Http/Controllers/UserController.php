@@ -520,7 +520,7 @@ class UserController extends Controller
                }
             }
 
-            echo ('out side'); exit();
+
             // Profile Image insert
             $profileImg = $request->file('profile_photo');
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
@@ -531,6 +531,7 @@ class UserController extends Controller
 
             if($this->update_profile_photo($imagedata, $id)) {
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
+                echo ('out side'); exit();
             } else {
                 $response['message'] = "Profile image not update";
                 return response($response, 406)
