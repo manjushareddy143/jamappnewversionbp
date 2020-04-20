@@ -110,15 +110,15 @@ class ServiceMappingController extends Controller
         if($id) {
             $service = services::find($id);
             if($service) {
-                $service["icon_image"] = $host . "/images/category/" . $service['icon_image'];
-                if($service['banner_image']) {
-                    $service["banner_image"] = $host . "/images/category/" . $service['banner_image'];
-                }
+//                $service["icon_image"] =  $service['icon_image'];
+//                if($service['banner_image']) {
+////                    $service["banner_image"] = $host . "/images/category/" . $service['banner_image'];
+//                }
                 $listMapped = ServiceMapping::where('service_id','=',$service['id'])->get();
                 $category = new Collection();
                 foreach ($listMapped as $mapping) {
                     $listCategories = SubCategories::find($mapping['category_id']);
-                    $listCategories["image"] = $host . "/images/subcategories/" . $listCategories['image'];
+//                    $listCategories["image"] = $host . "/images/subcategories/" . $listCategories['image'];
                     $category->push($listCategories);
                 }
                 $service["categories"] = $category;
@@ -133,15 +133,15 @@ class ServiceMappingController extends Controller
                 foreach ($listService as $service) {
                     $data = [];
                     $data = $service;
-                    $service["icon_image"] = $host . "/images/category/" . $service['icon_image'];
-                    if($service['banner_image']) {
-                        $service["banner_image"] = $host . "/images/category/" . $service['banner_image'];
-                    }
+//                    $service["icon_image"] = $host . "/images/category/" . $service['icon_image'];
+//                    if($service['banner_image']) {
+//                        $service["banner_image"] = $host . "/images/category/" . $service['banner_image'];
+//                    }
                     $listMapped = ServiceMapping::where('service_id','=',$service['id'])->get();
                     $category = new Collection();
                     foreach ($listMapped as $mapping) {
                         $listCategories = SubCategories::find($mapping['category_id']);
-                        $listCategories["image"] = $host . "/images/subcategories/" . $listCategories['image'];
+//                        $listCategories["image"] = $host . "/images/subcategories/" . $listCategories['image'];
                         $category->push($listCategories);
                     }
                     $data["categories"] = $category;
