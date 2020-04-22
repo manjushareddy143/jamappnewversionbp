@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\services;
 use Illuminate\Http\Request;
 use Validator;
+use App\ServiceMapping;
 
 class ServicesController extends Controller
 {
@@ -72,6 +73,7 @@ class ServicesController extends Controller
 
           return view('detailpage')->with('data',$results);
           }
+          
     
 
 }

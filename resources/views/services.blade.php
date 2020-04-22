@@ -51,7 +51,7 @@
 
             <tr>
 
-              <td>{{ ++$i }}</td>
+              <td>{{ $validator->id }}</td>
               <td> {{ $validator->name }} </td>
               <td><img src="{{ asset($validator->icon_image) }}" class="square" width="60" height="50" /></td>
               <td><img src="{{ asset($validator->banner_image) }}" class="square" width="60" height="50" /></td>
