@@ -36,7 +36,7 @@ Route::get('/detailpage', 'ServicesController@show_all')->name('detailpage');
 // Route::get('/show', function ($id)
 // {
 //     return view('/layouts/Users/show');
-// });                  
+// });
 Route::get('/edit', function ($id)
 {
     return view('/layouts/Users/edit');

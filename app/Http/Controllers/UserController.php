@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Hash;
 //use Swagger\Annotations\Response;
 //use Symfony\Component\Console\Input\Input;
 //use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
+use Kreait\Laravel\Firebase\Facades\FirebaseAuth;
 use Validator;
 use PHPUnit\Util\Json;
 
@@ -430,6 +431,45 @@ class UserController extends Controller
         }
         return response()->json($response);
 
+    }
+    public function mobileRegi() {
+
+
+        echo  '<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
+<script>
+     var firebaseConfig = {
+            apiKey: "AIzaSyAByZ6mHqPhd1Pl3KHcUiXJSQ-8EGOW-6s",
+            authDomain: "jamqatar-bf1c1.firebaseapp.com",
+            databaseURL: "https://jamqatar-bf1c1.firebaseio.com",
+            projectId: "jamqatar-bf1c1",
+            storageBucket: "jamqatar-bf1c1.appspot.com",
+            messagingSenderId: "    ",
+            appId: "1:429814769026:web:5790f80f8fb2a30a675b9b",
+            measurementId: "G-CJ5BZCGH6X"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        firebase.auth().useDeviceLanguage();
+
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("signin", {
+            "size": "invisible",
+            "callback": function(response) {
+                console.log(\"response ===\" + response);
+                // reCAPTCHA solved, allow signInWithPhoneNumber.
+            }
+        });
+        </script>
+';
+
+
+
+//        echo '<script type="text/JavaScript">
+//     prompt("GeeksForGeeks");
+//     </script>';
     }
 
     //User profile API
