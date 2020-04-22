@@ -41,7 +41,7 @@
    <th>Description</th>
    <th width="280px">Action</th>
  </tr>
-</thead>
+</thead>  
 
  <tbody>
 
@@ -56,7 +56,7 @@
               <td><img src="{{ asset($validator->icon_image) }}" class="square" width="60" height="50" /></td>
               <td><img src="{{ asset($validator->banner_image) }}" class="square" width="60" height="50" /></td>
               <td>{{ $validator->description }}</td>
-              <td><button id="myButton" class="btn btn-sm btn-primary">Detail</button></td>
+              <td><a href="{{route('detailpage',['id'=>$validator->id])}}" class = "btn btn-sm btn-primary">Detail</a></td> 
             </tr>
            @endforeach
            @endif
@@ -69,11 +69,7 @@
 </div>
 </div>
 
-<script type="text/javascript">
-    document.getElementById("myButton").onclick = function () {
-        location.href = "/detailpage";
-    };
-</script>
+
 @endsection
 
 

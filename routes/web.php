@@ -27,9 +27,9 @@ Route::post('/register','UserController@store');
 
 Route::get('/home', 'UserController@home')->name('home');
 
-Route::post('/services', 'ServicesController@store');
-Route::get('/services', 'ServicesController@show_all')->name('services');
-Route::get('/detailpage', 'ServicesController@show_all')->name('detailpage');
+Route::post('/services/', 'ServicesController@store');
+Route::get('/services', 'ServicesController@show_all');
+Route::get('/detailpage/{id}', 'ServicesController@get_service_categories')->name('detailpage');
 
 
 
