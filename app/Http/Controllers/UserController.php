@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Hash;
 //use Swagger\Annotations\Response;
 //use Symfony\Component\Console\Input\Input;
 //use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
+use Kreait\Laravel\Firebase\Facades\FirebaseAuth;
 use Validator;
 use PHPUnit\Util\Json;
 
@@ -42,7 +43,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=User::all();
+        // SELECT * FROM `users` LEFT JOIN `user_types` ON `users`.`type_id` = `user_types`.`id`
+        $users=User::where('users.id', '>', 0)
+            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
+            ->select('users.*', 'user_types.*')
+//            ->groupBy('users.id')
+            ->get();
 //        echo ($users); exit();
 //        $individualserviceprovidermaster = IndividualServiceProvider::all();
         return view('layouts.Users.index')->with('data',$users);  //->with('individualserviceprovider', $individualserviceprovidermaster);
@@ -431,6 +437,45 @@ class UserController extends Controller
         return response()->json($response);
 
     }
+    public function mobileRegi() {
+
+
+        echo  '<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
+<script>
+     var firebaseConfig = {
+            apiKey: "AIzaSyAByZ6mHqPhd1Pl3KHcUiXJSQ-8EGOW-6s",
+            authDomain: "jamqatar-bf1c1.firebaseapp.com",
+            databaseURL: "https://jamqatar-bf1c1.firebaseio.com",
+            projectId: "jamqatar-bf1c1",
+            storageBucket: "jamqatar-bf1c1.appspot.com",
+            messagingSenderId: "    ",
+            appId: "1:429814769026:web:5790f80f8fb2a30a675b9b",
+            measurementId: "G-CJ5BZCGH6X"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        firebase.auth().useDeviceLanguage();
+
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("signin", {
+            "size": "invisible",
+            "callback": function(response) {
+                console.log(\"response ===\" + response);
+                // reCAPTCHA solved, allow signInWithPhoneNumber.
+            }
+        });
+        </script>
+';
+
+
+
+//        echo '<script type="text/JavaScript">
+//     prompt("GeeksForGeeks");
+//     </script>';
+    }
 
     //User profile API
     /**
@@ -474,8 +519,6 @@ class UserController extends Controller
                 [
                     'id'  => 'required|exists:users,id',
                     'profile_photo' => 'required|image',  //|max:2048
-                    'identity_proof' => 'required|image',
-                    'services' => 'required'
                 ]);
             if ($validator->fails())
             {
@@ -483,26 +526,45 @@ class UserController extends Controller
             }
             $input = $request->all();
             $id = $request->input('id');
-
             $user = User::find($id);
-
             $type_id = $user['type_id'];
+            $host = url('/');
             if($type_id != 4) {
-
                 // ID Proof Upload
+                $validator_provider = Validator::make($request->all(),
+                    [
+                        'id'  => 'required|exists:users,id',
+                        'profile_photo' => 'required|image',  //|max:2048
+                        'identity_proof' => 'required|image',
+                        'services' => 'required'
+                    ]);
+                if ($validator_provider->fails())
+                {
+                    return response()->json(['error'=>$validator_provider->errors()], 401);
+                }
                $id_proof =  $this->add_document($request, $input, $id);
                if($id_proof != null) {
                    $user['identity_proofs'] = $id_proof;
+
+                   // Service mapping
+
+                   $services = $input['services'];
+                   $services = json_decode($services, true);
+                   foreach ($services as $data) {
+                       $data['user_id'] = $id;
+                       ProviderServiceMapping::create($data);
+                   }
+
+                   $user['services'] = $this->get_user_services($id);
+
                } else {
                    $response['message'] = "Id proof not inserted";
                    return response($response, 406)
                        ->header('content-type', 'application/json');
                }
-            } else {
-                echo ($user['type_id']); exit();
             }
 
-            $host = url('/');
+
             // Profile Image insert
             $profileImg = $request->file('profile_photo');
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
@@ -510,7 +572,6 @@ class UserController extends Controller
             $imagedata = [
                 'image' => $host . "/images/profiles/" . $profile_name,
             ];
-
             if($this->update_profile_photo($imagedata, $id)) {
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {
@@ -519,25 +580,17 @@ class UserController extends Controller
                     ->header('content-type', 'application/json');
             }
 
-            // Service mapping
-
-            $services = $input['services'];
-            $services = json_decode($services, true);
-            $servicedata =  array();
-            foreach ($services as $data) {
-                $data['user_id'] = $id;
-                ProviderServiceMapping::create($data);
-
-            }
-
-            $user['services'] = $this->get_user_services($id);
 
             // ADDRESS
-            $address = $input['address'];
-            $address = json_decode($address, true);
+            if(array_key_exists('address', $input)) {
+                $address = $input['address'];
+                $address = json_decode($address, true);
 
-            $adddressdata = Address::create($address);
-            $user['address'] = $adddressdata;
+                $adddressdata = Address::create($address);
+                $user['address'] = $adddressdata;
+            }
+
+
 
             return response($user, 200)
                 ->header('content-type', 'application/json');
@@ -573,8 +626,9 @@ class UserController extends Controller
         ];
         $id_proof = Document::create($docdata);
 
+
         $updatedata = [
-            'prooft_id' => $id_proof['id'],
+            'proof_id' => $id_proof['id'],
         ];
         DB::table('service_providers')
             ->where('user_id', $id)

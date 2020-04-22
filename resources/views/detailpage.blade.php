@@ -18,8 +18,8 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
                 </div>
-    
-        </div> 
+
+        </div>
            @if ($message = Session::get('success'))
 
               <div class="alert alert-success">
@@ -43,7 +43,7 @@
 </thead>
 
  <tbody>
-         
+
           @if (isset($data) && !empty($data))
            <?php $i=0; ?>
            @foreach ($data as $validator)
@@ -52,16 +52,16 @@
 
               <td>{{ $validator->id }}</td>
               <td> {{ $validator->name }} </td>
-              <td><img src="{{ asset('images/category/' . $validator->icon_image) }}" class="square" width="60" height="50" /></td>
-              <td><img src="{{ asset('images/category/' . $validator->banner_image) }}" class="square" width="60" height="50" /></td>
-              <td>{{ $validator->description }}</td>
+{{--              <td><img src="{{ asset('images/category/' . $validator->icon_image) }}" class="square" width="60" height="50" /></td>--}}
+{{--              <td><img src="{{ asset('images/category/' . $validator->banner_image) }}" class="square" width="60" height="50" /></td>--}}
+{{--              <td>{{ $validator->description }}</td>--}}
             </tr>
            @endforeach
            @endif
  </tbody>
 </table>
 </div>
-</div>  
+</div>
 </div>
 </div>
 </div>

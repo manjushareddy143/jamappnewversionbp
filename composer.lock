@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ef71c5e5892f1a09e3e86ee2fbfa66d",
+    "content-hash": "74f6872ed8e7cf899b72b64b6f7f2119",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1220,16 +1220,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "5.1.0",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "69f0682592ea4e6a02ce565be8092890619fbbac"
+                "reference": "ec99153ae1fcfc69edbcdbc86a11db07338496ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/69f0682592ea4e6a02ce565be8092890619fbbac",
-                "reference": "69f0682592ea4e6a02ce565be8092890619fbbac",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/ec99153ae1fcfc69edbcdbc86a11db07338496ba",
+                "reference": "ec99153ae1fcfc69edbcdbc86a11db07338496ba",
                 "shasum": ""
             },
             "require": {
@@ -1295,13 +1295,7 @@
                 "google",
                 "sdk"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/jeromegamez",
-                    "type": "github"
-                }
-            ],
-            "time": "2020-04-05T22:04:44+00:00"
+            "time": "2020-04-16T14:33:24+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
