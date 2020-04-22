@@ -43,7 +43,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=User::all();
+        // SELECT * FROM `users` LEFT JOIN `user_types` ON `users`.`type_id` = `user_types`.`id`
+        $users=User::where('users.id', '>', 0)
+            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
+            ->select('users.*', 'user_types.*')
+//            ->groupBy('users.id')
+            ->get();
 //        echo ($users); exit();
 //        $individualserviceprovidermaster = IndividualServiceProvider::all();
         return view('layouts.Users.index')->with('data',$users);  //->with('individualserviceprovider', $individualserviceprovidermaster);

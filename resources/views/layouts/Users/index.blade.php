@@ -52,20 +52,20 @@
 
    <th>Email</th>
 
-   <th>Roles</th>
+{{--   <th>Roles</th>--}}
 
    <!-- <th width=10%> Image</th> -->
 
    <!-- <th>Contact</th> -->
 
-     <th>Image</th>
+     <th>Profile</th>
    <th>Type</th>
 
    <th>Gender</th>
 
    <!-- <th>Languages Known</th> -->
 
-   <th>Start_time</th>
+{{--   <th>Start_time</th>--}}
 
    <!-- <th>End_time</th> -->
 
@@ -89,19 +89,19 @@
 
     <td>{{ $user->email }}</td>
 
-   <td>
+{{--   <td>--}}
 
-      {{-- @if(!empty($user->getRoleNames()))
+{{--      --}}{{-- @if(!empty($user->getRoleNames()))--}}
 
-        @foreach($user->getRoleNames() as $v)
+{{--        @foreach($user->getRoleNames() as $v)--}}
 
-           <label class="badge badge-success">{{ $v }}</label>
+{{--           <label class="badge badge-success">{{ $v }}</label>--}}
 
-        @endforeach
+{{--        @endforeach--}}
 
-      @endif --}}
+{{--      @endif --}}
 
-    </td>
+{{--    </td>--}}
 
 {{--     <td><img src="{{ URL::to('/') }}/images/{{ $user->image }}" class="square" width="60" height="50" /></td>--}}
 
@@ -114,7 +114,7 @@
 
     <!-- <td>{{ $user->languages_known }}</td> -->
 
-    <td>{{ $user->start_time }}</td>
+{{--    <td>{{ $user->start_time }}</td>--}}
 
     <!-- <td>{{ $user->end_time }}</td> -->
 
