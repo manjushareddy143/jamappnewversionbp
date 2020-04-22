@@ -63,5 +63,3 @@ Route::get('/edit', 'Master_servicesController@edit');
 Route::get('Master_services/index', 'Master_servicesController@index');
 
 
-
-
