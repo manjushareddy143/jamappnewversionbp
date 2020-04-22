@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ServiceMapping;
 use App\services;
 use Illuminate\Http\Request;
 use Validator;
@@ -47,19 +48,32 @@ class ServicesController extends Controller
     }
 
     public function show_all(Request $request) {
-        $access_type = $request->input('access_type');
-        $listServices = services::all();
+       $access_type = $request->input('access_type');
+       $listServices = services::all();
 
-        if($access_type == null) {
-            return view('services')->with('data',$listServices);
-        } else {
-            if($listServices->count() > 0) {
-                 return response()->json($listServices);
-            } else {
-                return response()->json(null, 204);
-            }
-        }
+       if($access_type == null) {
+           return view('services')->with('data',$listServices);
+       } else {
 
-    }
+           if($listServices->count() > 0) {
+                return response()->json($listServices);
+           } else {
+               return response()->json(null, 204);
+           }
+       }
+
+   }
+
+    public function get_service_categories(Request $request)
+          {
+          $service_id = $request->input('id');
+
+          echo ($service_id); exit();
+          $results = ServiceMapping::where('service_id', '=', $service_id)
+          ->leftJoin('sub_categories', 'sub_categories.id', '=','service_mappings.category_id')->get();
+
+          return view('detailpage')->with('data',$results);
+          }
+
 
 }
