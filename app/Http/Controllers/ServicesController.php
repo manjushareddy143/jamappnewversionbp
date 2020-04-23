@@ -68,7 +68,6 @@ class ServicesController extends Controller
           {
           $service_id = $request->input('id');
 
-          echo ($service_id); exit();
           $results = ServiceMapping::where('service_id', '=', $service_id)
           ->leftJoin('sub_categories', 'sub_categories.id', '=','service_mappings.category_id')->get();
 

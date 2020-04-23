@@ -52,9 +52,9 @@
 
               <td>{{ $validator->id }}</td>
               <td> {{ $validator->name }} </td>
-{{--              <td><img src="{{ asset('images/category/' . $validator->icon_image) }}" class="square" width="60" height="50" /></td>--}}
-{{--              <td><img src="{{ asset('images/category/' . $validator->banner_image) }}" class="square" width="60" height="50" /></td>--}}
-{{--              <td>{{ $validator->description }}</td>--}}
+              <td><img src="{{ asset('images/category/' . $validator->icon_image) }}" class="square" width="60" height="50" /></td>
+              <td><img src="{{ asset('images/category/' . $validator->banner_image) }}" class="square" width="60" height="50" /></td>
+              <td>{{ $validator->description }}</td>
             </tr>
            @endforeach
            @endif
