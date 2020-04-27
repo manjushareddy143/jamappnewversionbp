@@ -1884,6 +1884,7 @@
      border-radius: 100px;
      text-align: center;
      line-height: 35px;
+     margin-right: 10px;
 }
  .upload-photo span .fas {
      color: #fff;
@@ -1892,13 +1893,98 @@
  .upload-photo p {
      float: left;
      font-family: 'Manrope3-Regular';
-     margin: 7px 0 0 10px;
+     margin: 7px 0 0 0;
      color: #757575;
 }
  .upload-photo a {
      float: left;
 }
 /*Service Provider Sign Up*/
+
+.btn { font-size: 14px; }
+
+.user-profile-popup .modal-header h5 {
+    color: #04bfac;
+    padding-bottom: 8px;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+.user-profile-popup .modal-header h5::after {
+    position: absolute;
+    border-bottom: 3px solid #04bfac;
+    content: "";
+    display: inline-block;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    border-radius: 10px;
+}
+
+.user-profile-popup .modal-header {
+    border-bottom: none;
+    padding: 25px;
+}
+.user-profile-popup .close span img {
+    width: 16px;
+    
+}
+
+.user-profile-popup .close{
+    opacity: 1;
+}
+
+.user-profile-popup .modal-footer {
+    border-top: none;
+    padding: 25px;
+}
+
+.user-profile-popup .modal-body {
+    padding: 0 25px 25px 25px;
+}
+
+.popup-user-profile {
+    float: left;
+    width: 100%;
+    
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.upload-photo.identity-proof {
+    margin: 25px 0;
+}
+
+.identity-proof-upload {
+    float: left;
+    font-family: 'Manrope3-Regular';
+    margin: 0px 0 0 0;
+    color: #757575;
+    width: 87%;
+}
+.note {
+    float: left;
+    width: 100%;
+    color: #04bfac;
+    font-size: 12px;
+}
+.upload-photo.identity-proof a {
+    width: 100%;
+    
+}
+
+.user-profile-popup .modal-body label strong {
+    font-size: 14px;
+    color: #e60606;
+}
+
+.custom-buttons { float: right; }
+.custom-buttons .btn {
+    margin-left: 5px;
+}
+
+/*Responsive CSS*/
  @media (max-width: 1024px) {
      .container-login.service-provider-sign-up {
          margin-left: 10rem;
@@ -1916,6 +2002,9 @@
     }
 }
  @media (max-width: 667px) {
+    .identity-proof-upload {width: auto;}
+
+
      .container-login.service-provider-sign-up {
          margin-left: 0;
          margin-right: 0;

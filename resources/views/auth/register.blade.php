@@ -8,9 +8,9 @@
     <meta name="author" content="">
     <link href="img/logo/logo.png" rel="icon">
     <title>JAM - Register</title>
-    <link href="css/ruang-admin.css" rel="stylesheet">
    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/ruang-admin.css" rel="stylesheet" type="text/css">
     
   </head>
   <body class="bg-gradient-login">
@@ -194,9 +194,9 @@
     <!-- Service Provider Sign-Up Content -->
   
   <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
-  <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
   <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+  <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
   </body>
 </html>
 
