@@ -24,7 +24,7 @@
   </head>
   <body>
     <div class="open-btn">
-      <button class="open-button" onclick="openForm()"><strong>Open Form</strong></button>
+      <button class="btn btn-sm btn-primary" onclick="openForm()"><strong>Open Form</strong></button>
     </div>
     <div class="login-popup">
       <div class="form-popup" id="popupForm">
