@@ -16,20 +16,20 @@ use App\TermCondition;
 use App\User;
 use App\UserTypes;
 use DB;
-//use CreateIndividualserviceprovidermasterTable;
-//use Exception;
-//use GuzzleHttp\Middleware;
+use CreateIndividualserviceprovidermasterTable;
+use Exception;
+use GuzzleHttp\Middleware;
 //use Illuminate\Contracts\Validation\Validator;
 use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-//use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Hash;
-//use Illuminate\Support\Facades\Mail;
-//use Swagger\Annotations\Post;
-//use Swagger\Annotations\Response;
-//use Symfony\Component\Console\Input\Input;
-//use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
+use Illuminate\Support\Facades\Mail;
+use Swagger\Annotations\Post;
+use Swagger\Annotations\Response;
+use Symfony\Component\Console\Input\Input;
+use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
 use Kreait\Laravel\Firebase\Facades\FirebaseAuth;
 use Validator;
 use PHPUnit\Util\Json;
@@ -342,24 +342,27 @@ class UserController extends Controller
      *
      */
     public function register(Request $request) {
-
         $response = array();
         if($request->get('type_id') == 4) {
             $initialValidator = Validator::make($request->all(),
                 [
-                    'name' => 'required',
-                    'email' => 'required|unique:users,email',
-                    'password' => 'required',
+                    'first_name' => 'required',
+                    'last_name' => 'required',
                     'contact' => 'required|unique:users,contact',
                     'type_id' => 'required|exists:user_types,id',
                     'term_id' => 'required|exists:term_conditions,id',
                 ]);
 
+//            echo($initialValidator); exit();
+
             if ($initialValidator->fails())
             {
+//                echo (123); exit();
                 return response()->json(['error'=>$initialValidator->errors()], 401);
             }
-        } else {
+//            echo (456); exit();
+        }
+        else {
             $initialValidator = Validator::make($request->all(),
                 [
                     'name' => 'required',
@@ -379,23 +382,8 @@ class UserController extends Controller
 
         $input = $request->all();
 
-//        if($input['type'] == "Individual service provider") {
-//            $detailValidator = Validator::make($request->all(),
-//                [
-//                    "gender" => "required",
-//                    "language" => "required",
-//	                "start_time" => "required|before:end_time",
-//                    "end_time" => "required",
-//	                "experience" => "required"
-//                ]);
-//
-//            if($detailValidator->fails())
-//            {
-//                return response()->json(['error'=>$detailValidator->errors()], 401);
-//            }
-//        }
 
-        $input['password'] = bcrypt($input['password']);
+//        $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
 //        if($input['type'] == "Individual service provider") {
@@ -437,45 +425,92 @@ class UserController extends Controller
         return response()->json($response);
 
     }
-    public function mobileRegi() {
 
-
-        echo  '<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
-<script>
-     var firebaseConfig = {
-            apiKey: "AIzaSyAByZ6mHqPhd1Pl3KHcUiXJSQ-8EGOW-6s",
-            authDomain: "jamqatar-bf1c1.firebaseapp.com",
-            databaseURL: "https://jamqatar-bf1c1.firebaseio.com",
-            projectId: "jamqatar-bf1c1",
-            storageBucket: "jamqatar-bf1c1.appspot.com",
-            messagingSenderId: "    ",
-            appId: "1:429814769026:web:5790f80f8fb2a30a675b9b",
-            measurementId: "G-CJ5BZCGH6X"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-        firebase.auth().useDeviceLanguage();
-
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("signin", {
-            "size": "invisible",
-            "callback": function(response) {
-                console.log(\"response ===\" + response);
-                // reCAPTCHA solved, allow signInWithPhoneNumber.
+    // User Initial Profile
+    public function init_profile(Request $request) {
+        try {
+            $response = array();
+            $validator = Validator::make($request->all(),
+                [
+                    'id'  => 'required|exists:users,id',
+                    'profile_photo' => 'required|image',  //|max:2048
+                    'gender' => 'required'
+                ]);
+            if ($validator->fails())
+            {
+                return response()->json(['error'=>$validator->errors()], 401);
             }
-        });
-        </script>
-';
+
+            $input = $request->all();
+            $id = $request->input('id');
+            $user = User::find($id);
+            $type_id = $user['type_id'];
+            $host = url('/');
+
+            // Profile Image insert
+            $profileImg = $request->file('profile_photo');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
+            $requestdata = array();
+
+            $imagedata =  [
+                'image' => $host . "/images/profiles/" . $profile_name,
+            ];
+            if(array_key_exists('first_name', $input)) {
+                $imagedata +=  [
+                    'first_name' => $input['first_name'],
+                ];
+            }
+            if(array_key_exists('last_name', $input)) {
+                $imagedata +=  [
+                    'last_name' => $input['last_name'],
+                ];
+            }
+            if(array_key_exists('gender', $input)) {
+                $imagedata +=  [
+                    'gender' => $input['gender'],
+                ];
 
 
+            }
 
-//        echo '<script type="text/JavaScript">
-//     prompt("GeeksForGeeks");
-//     </script>';
+            if(array_key_exists('email', $input)) {
+                $imagedata +=  [
+                    'email' => $input['email'],
+                ];
+            }
+
+            if($this->update_profile_photo($imagedata, $id)) {
+                $user = User::find($id);
+                $user["image"] = $host . "/images/profiles/" . $profile_name;
+            } else {
+                $response['message'] = "Profile image not update";
+                return response($response, 406)
+                    ->header('content-type', 'application/json');
+            }
+
+
+            // ADDRESS
+            if(array_key_exists('address', $input)) {
+                $address = $input['address'];
+                $address = json_decode($address, true);
+                $address += [
+                    "user_id" => $id
+                ];
+
+                $adddressdata = Address::create($address);
+                $user['address'] = $adddressdata;
+            }
+
+            return response($user, 200)
+                ->header('content-type', 'application/json');
+
+        } catch (\Exception $e) {
+            $response['code'] = 400;
+            $response['message'] = "There is some error";
+        }
     }
+
 
     //User profile API
     /**
@@ -564,7 +599,6 @@ class UserController extends Controller
                }
             }
 
-
             // Profile Image insert
             $profileImg = $request->file('profile_photo');
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
@@ -572,7 +606,9 @@ class UserController extends Controller
             $imagedata = [
                 'image' => $host . "/images/profiles/" . $profile_name,
             ];
+
             if($this->update_profile_photo($imagedata, $id)) {
+
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {
                 $response['message'] = "Profile image not update";
@@ -594,7 +630,8 @@ class UserController extends Controller
 
             return response($user, 200)
                 ->header('content-type', 'application/json');
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             $response['code'] = 400;
             $response['message'] = "There is some error";
         }
