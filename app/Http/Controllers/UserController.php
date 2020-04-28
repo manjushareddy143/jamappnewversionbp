@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use App\Document;
+use App\Http\Controllers\Auth\RegisterController;
 use App\IndividualServiceProvider;
 use App\ProviderServiceMapping;
 use App\Role;
@@ -21,11 +22,14 @@ use Exception;
 use GuzzleHttp\Middleware;
 //use Illuminate\Contracts\Validation\Validator;
 use http\Message;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Psy\Util\Str;
 use Swagger\Annotations\Post;
 use Swagger\Annotations\Response;
 use Symfony\Component\Console\Input\Input;
@@ -83,6 +87,7 @@ class UserController extends Controller
      */
     public function store(Request $request, Role $roles)
     {
+        dd('2123213'); exit();
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [
@@ -259,15 +264,18 @@ class UserController extends Controller
     public function login(Request $request) {
         try {
             $response = array();
+
             $username = $request->input('email');
             $password = $request->input('password');
             $access_type = $request->input('access_type');
+
             $checkuser  = User::where('email', '=', $username)->first();
             if (isset($checkuser)) {
                 if (Hash::check($password,$checkuser->password))
                 {
                     if($checkuser['type_id'] != 4)
                     {
+//                        dd(\Session::getId());
                         $service_provider = ServiceProvider::where('user_id', '=', $checkuser['id'])->first();
                         $checkuser['resident_country'] = $service_provider['resident_country'];
                     }
@@ -280,6 +288,7 @@ class UserController extends Controller
                 $response['code'] = false;
                 $response['message'] = "user unauthorized";
             }
+
             if($access_type == null) {
                 return redirect('/home')->with('success', 'User Login!');
             } else {
@@ -341,64 +350,100 @@ class UserController extends Controller
      * )
      *
      */
-    public function register(Request $request) {
+
+        public function register_provider(Request $request) {
         $response = array();
-        if($request->get('type_id') == 4) {
-            $initialValidator = Validator::make($request->all(),
-                [
-                    'first_name' => 'required',
-                    'last_name' => 'required',
-                    'contact' => 'required|unique:users,contact',
-                    'type_id' => 'required|exists:user_types,id',
-                    'term_id' => 'required|exists:term_conditions,id',
-                ]);
-
-//            echo($initialValidator); exit();
-
-            if ($initialValidator->fails())
-            {
-//                echo (123); exit();
-                return response()->json(['error'=>$initialValidator->errors()], 401);
-            }
-//            echo (456); exit();
-        }
-        else {
-            $initialValidator = Validator::make($request->all(),
-                [
-                    'name' => 'required',
-                    'email' => 'required|unique:users,email',
-                    'password' => 'required',
-                    'contact' => 'required|unique:users,contact',
-                    'type_id' => 'required|exists:user_types,id',
-                    'term_id' => 'required|exists:term_conditions,id',
-                    'resident_country' => 'required',
-                ]);
-
-            if ($initialValidator->fails())
-            {
-                return response()->json(['error'=>$initialValidator->errors()], 401);
-            }
-        }
+//        $initialValidator = Validator::make($request->all(),
+//            [
+//                'first_name' => 'required',
+//                'contact' => 'required|unique:users,contact',
+//                'type_id' => 'required|exists:user_types,id',
+//                'term_id' => 'required|exists:term_conditions,id',
+//                'resident_country' => 'required',
+//            ]);
+//        if ($initialValidator->fails())
+//        {
+//            return response()->json(['error'=>$initialValidator->errors()], 401);
+//        }
 
         $input = $request->all();
 
 
-//        $input['password'] = bcrypt($input['password']);
+//        if(array_key_exists('email', $input)) {
+//
+//            $emailValidator = Validator::make($request->all(),
+//                [
+//                    'email' => '|unique:users,email',
+//                ]);
+//            if ($emailValidator->fails())
+//            {
+//                return response()->json(['error'=>$emailValidator->errors()], 401);
+//            }
+//        }
+        $input['password'] = Hash::make('password');
         $user = User::create($input);
 
-//        if($input['type'] == "Individual service provider") {
-//            $user_id=$user->id;
-//            $dataArray= [
-//                'user_id' => $user_id,
-//                'gender' => $input['gender'],
-//                'languages_known' => $input['language'],
-//                'start_time' => $input['start_time'],
-//                'end_time' => $input['end_time'],
-//                'experience' => $input['experience'],
-//            ];
-//            $details = IndividualServiceProvider::create($dataArray);
-//            $user["details"] = $details;
-//        }
+        $user_id=$user->id;
+        $now = now()->utc();
+        $term_agreement= [
+            'user_id' => $user_id,
+            'term_id' => $input['term_id'],
+            'agreed_at' => $now
+        ];
+        TermAgreement::create($term_agreement);
+
+        $service_provider= [
+            'user_id' => $user_id,
+            'resident_country' => $input['resident_country']
+        ];
+        $service_provider_detail = ServiceProvider::create($service_provider);
+        $user['resident_country'] = $service_provider_detail['resident_country'];
+
+
+        if (isset($user)) {
+            $response  = $user;
+        } else {
+            $response['message']  = "Please add valid details";
+        }
+
+        $credentials = ['email' => $input['email'],
+            'password' => 'password'];
+
+        if( Auth::attempt($credentials)) {
+            //dd(\Session::getId());
+//            $encryptedCookie = Crypt::encrypt(\Session::getId(), true);
+            return response()->json($response, 200);
+               // ->withCookie(cookie(\Str::slug(env('APP_NAME', 'laravel'), '_').'_session', $encryptedCookie, 45000));
+            //$request->session()->regenerate();
+        }
+        return response()->json($response, 200);
+
+    }
+
+    public function register(Request $request) {
+
+        $response = array();
+        $initialValidator = Validator::make($request->all(),
+            [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'contact' => 'required|unique:users,contact',
+                'type_id' => 'required|exists:user_types,id',
+                'term_id' => 'required|exists:term_conditions,id',
+
+            ]
+        );
+
+            if ($initialValidator->fails())
+            {
+                return response()->json(['error'=>$initialValidator->errors()], 401);
+            }
+
+
+        $input = $request->all();
+
+        $user = User::create($input);
+
         $user_id=$user->id;
         $now = now()->utc();
         $term_agreement= [
@@ -408,14 +453,6 @@ class UserController extends Controller
             ];
         TermAgreement::create($term_agreement);
 
-        if($input['type_id'] != 4) {
-            $service_provider= [
-                'user_id' => $user_id,
-                'resident_country' => $input['resident_country']
-            ];
-            $service_provider_detail = ServiceProvider::create($service_provider);
-            $user['resident_country'] = $service_provider_detail['resident_country'];
-        }
 
         if (isset($user)) {
             $response  = $user;
