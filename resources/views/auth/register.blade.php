@@ -10,7 +10,7 @@
     <title>JAM - Register</title>
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="css/ruang-admin.css" rel="stylesheet">
+    <link href="css/ruang-admin.css" rel="stylesheet" type="text/css">
 
 </head>
 <body class="bg-gradient-login">
@@ -32,27 +32,41 @@
                                 <div class="service-provider-tab">
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         <li class="nav-item first-tab">
-                                            <a class="nav-link active" id="individual-tab" data-toggle="tab" href="#individual" role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-user"></i> For Individual</a>
+                                            <a class="nav-link active" id="individual-tab" data-toggle="tab" href="#individual" role="tab"
+                                               aria-controls="home" aria-selected="true">
+                                                <i class="fas fa-user"></i> For Individual</a>
                                         </li>
                                         <li class="nav-item second-tab">
-                                            <a class="nav-link" id="organization-tab" data-toggle="tab" href="#organization" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-users"></i> For Organization <br/></a>
+                                            <a class="nav-link" id="organization-tab" data-toggle="tab" href="#organization" role="tab"
+                                               aria-controls="profile" aria-selected="false">
+                                                <i class="fas fa-users"></i> For Organization <br/></a>
                                         </li>
                                     </ul>
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="individual" role="tabpanel" aria-labelledby="individual-tab">
 
+                                    <div class="tab-content" id="myTabContent">
+
+                                        <div class="tab-pane fade show active" id="individual" role="tabpanel"
+                                             aria-labelledby="individual-tab">
                                             <form>
                                                 <div class="form-group">
                                                     <label>Name <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="first_name" placeholder="Enter Your Name">
+                                                    <input type="text" class="form-control"
+                                                           id="first_name" placeholder="Enter Your First Name">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Name <strong>*</strong></label>
+                                                    <input type="text" class="form-control"
+                                                           id="last_name" placeholder="Enter Your Last Name">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Mobile Number <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="mobile" placeholder="Enter Mobile Number">
+                                                    <input type="text" class="form-control"
+                                                           id="mobile" placeholder="Enter Mobile Number">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Email Address <strong>*</strong></label>
-                                                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                                                    <input type="email" class="form-control"
+                                                           id="email" aria-describedby="emailHelp"
                                                            placeholder="Enter Your Email Address">
                                                 </div>
                                                 <div class="form-group">
@@ -85,34 +99,38 @@
                                                             class="btn btn-primary btn-block"
                                                             id="singupbtn"
                                                             onclick="mobileSignup()">Sign Up</button>
+                                                    {{--                                --}}
                                                 </div>
                                             </form>
-                                        </div>
 
+                                            <!-- OTP FOrm -->
+
+                                            <div class="login-popup">
+                                                <div class="form-popup" id="popupFormotp">
+                                                    <form action="#" class="form-container">
+                                                        <div class="form-group">
+                                                            <label>Mobile Number <strong>*</strong></label>
+                                                            <input type="text" class="form-control" id="mobileotp" placeholder="Enter OTP">
+                                                        </div>
+                                                        <button type="button" name="sendotp" class="btn btn-sm btn-primary"
+                                                                onclick="mobileOTPVerify()">Send OTP</button>
+                                                        <button type="button" class="btn btn-sm btn-primary" onclick="closeForm()">Close</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <!-- OTP FOrm -->
+                                        </div>
                                         @if(Session::has('laravel_session'))
                                             <div class="inspire">
                                                 { { session('laravel_session', '') } }
                                             </div>
                                         @endif
 
-                                        <div class="login-popup">
-                                            <div class="form-popup" id="popupFormotp">
-                                                <form action="#" class="form-container">
-                                                    <div class="form-group">
-                                                        <label>Mobile Number <strong>*</strong></label>
-                                                        <input type="text" class="form-control" id="mobileotp" placeholder="Enter OTP">
-                                                    </div>
-                                                    <button type="button" name="sendotp" class="btn btn-sm btn-primary"
-                                                            onclick="mobileOTPVerify()">Send OTP</button>
-                                                    <button type="button" class="btn btn-sm btn-primary" onclick="closeForm()">Close</button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="tab-pane fade" id="organization" role="tabpanel" aria-labelledby="organization-tab">
+                                        <div class="tab-pane fade" id="organization" role="tabpanel"
+                                             aria-labelledby="organization-tab">
                                             <span>Proprietorship Firm / Partnership Firm / Company / Business Establishment</span>
-                                            <form method="POST" action="{{ route('register') }}">
+                                            <form action="#">
                                                 <div class="form-group">
                                                     <label>Name <strong>*</strong></label>
                                                     <input type="text" class="form-control" id="first_name" placeholder="Enter Your Name">
@@ -152,10 +170,36 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button type="button" class="btn btn-primary btn-block"
+                                                    <button type="submit" class="btn btn-primary btn-block"
                                                             onclick="registerOrganisation()">Sign Up</button>
                                                 </div>
                                             </form>
+
+                                            <!-- OTP FOrm -->
+
+                                            <div class="login-popup">
+                                                <div class="form-popup" id="popupForm">
+                                                    <form action="#" class="form-container">
+                                                        <div class="form-group">
+                                                            <label>Mobile Number <strong>*</strong></label>
+                                                            <input type="text" class="form-control" id="mobile" placeholder="Enter Number">
+                                                        </div>
+                                                        <button type="submit" name="sendotp" class="btn btn-sm btn-primary">Send OTP</button>
+                                                        <button type="button" class="btn btn-sm btn-primary" onclick="closeForm()">Close</button>
+                                                    </form>
+                                                </div>
+                                                <script>
+                                                    function openForm() {
+                                                        console.log("789");
+                                                    }
+
+                                                    function closeForm() {
+                                                        document.getElementById("popupForm").style.display="none";
+                                                    }
+                                                </script>
+                                            </div>
+
+                                            <!-- OTP FOrm -->
                                         </div>
                                     </div>
                                 </div>
@@ -174,7 +218,6 @@
     <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
 </body>
 </html>
-
 
 <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
 
@@ -237,9 +280,8 @@
         confirmationResult.confirm(code).then(function (result) {
             // User signed in successfully.
             console.log("otp result =" + JSON.stringify(result));
-            // var user = result.user;
+            var user = result.user;
             registerIndividuals();
-            // document.getElementById("popupFormotp").style.display="none";
             // ...
         }).catch(function (error) {
             console.log("otp err =" + JSON.stringify(error));
@@ -249,7 +291,7 @@
     }
 
     function registerIndividuals() {
-        closeForm();
+
         var x = document.getElementById("select1").selectedIndex;
         // alert(document.getElementsByTagName("option")[x].value);
         console.log("Individuals = " + document.getElementById("first_name").value);
@@ -281,12 +323,12 @@
     }
 
     function closeForm() {
-        document.getElementById("popupFormotp").style.display="none";
+        document.getElementById("popupForm").style.display="none";
     }
 </script>
 
 <!-- css for otp popup form -->
-/*<style>
+<style>
     * {
         box-sizing: border-box;
     }
@@ -346,7 +388,7 @@
     }
     /* Style submit/login button */
     .form-container .btn {
-        background-color: #04bfac;
+        background-color: #8ebf42;
         color: #fff;
         padding: 12px 20px;
         border: none;
@@ -363,262 +405,4 @@
     .form-container .btn:hover, .open-button:hover {
         opacity: 1;
     }
-</style>*/
-
-
-
-
-
-<!-- OTP FOrm -->
-
-<!--                                                     <div class="login-popup">
-                                                    <div class="form-popup" id="popupForm">
-                                                      <form action="#" class="form-container">
-                                                    <div class="form-group">
-                                                    <label>Mobile Number <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="mobile" placeholder="Enter Number" required>
-                                                  </div>
-                                                  <button type="submit" name="sendotp" class="btn btn-sm btn-primary">Send OTP</button>
-                                                  <button type="button" class="btn btn-sm btn-primary" onclick="closeForm()">Close</button>
-                                                    </form>
-                                                 </div>
-                                                  <script>
-                                                    function openForm() {
-                                                      document.getElementById("popupForm").style.display="block";
-                                                    }
-
-                                                    function closeForm() {
-                                                      document.getElementById("popupForm").style.display="none";
-                                                    }
-                                                  </script>
-                                                </div>
- -->
-<!-- OTP FOrm -->
-
-
-
-<!-- OTP FOrm -->
-<!--
-                                                    <div class="login-popup">
-                                                    <div class="form-popup" id="popupForm">
-                                                      <form action="#" class="form-container">
-                                                    <div class="form-group">
-                                                   <label>Mobile Number <strong>*</strong></label>
-                                                    <input type="text" name="mobile" class="form-control" id="mobile" maxlength="11" placeholder="Enter Number" required>
-                                                  </div>
-                                                  <button type="submit" name="sendotp" class="btn btn-sm btn-primary">Send OTP</button>
-                                                  <button type="button" class="btn btn-sm btn-primary" onclick="closeForm()">Close</button>
-                                                    </form>
-                                                 </div>
-                                                  <script>
-                                                    function openForm() {
-                                                      document.getElementById("popupForm").style.display="block";
-                                                    }
-
-                                                    function closeForm() {
-                                                      document.getElementById("popupForm").style.display="none";
-                                                    }
-                                                  </script>
-                                                </div>
-                                                 -->
-<!-- OTP FOrm -->
-
-
-
-<!-- register form css -->                                              -->
-<style type="text/css">
-
-    .container-login.service-provider-sign-up {
-        margin-left: 17rem;
-        margin-right: 17rem;
-    }
-    .container, .container-fluid, .container-login {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
-    .nav-tabs .nav-item {
-        width: 50%;
-    }
-    .login-form {
-        padding: 3rem !important;
-    }
-
-    .nav-item.first-tab a {
-        border-radius: .375rem 0 0 0;
-    }
-    .nav-item.second-tab a {
-        border-radius: 0 .375rem 0 0;
-    }
-    .nav-tabs {
-        border-radius: .375rem .375rem 0 0;
-        background: #fff;
-        border-bottom: 1px solid #04bfac;
-    }
-    .nav-tabs .nav-link {
-        text-transform: uppercase;
-        letter-spacing: 0.7px;
-        color: #777;
-        font-family: 'Manrope3-Medium';
-        font-size: 15px;
-        padding: 16px 15px;
-        display: inline-block;
-        width: 100%;
-        text-align: center;
-    }
-    .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-        color: #fff;
-        background-color: #04bfac;
-        border-color: transparent;
-        font-family: 'Manrope3-Semibold';
-    }
-    .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-        border-color: transparent;
-    }
-    .service-provider-tab .tab-content {
-        display: inline-block;
-        width: 100%;
-        padding: 30px;
-    }
-    .login-form h1 {
-        font-size: 22px;
-        font-family: 'Manrope3-Medium';
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-    }
-    .login-form .form-group {
-        float: left;
-        width: 100%;
-    }
-    .service-provider-tab {
-        float: none;
-        width: 100%;
-        margin: 20px 0 0 0;
-        display: inline-block;
-        border: none;
-        border-radius: .375rem;
-        border: 1px solid #04bfac;
-    }
-
-    .tab-content span {
-        float: left;
-        width: 100%;
-        font-family: 'Manrope3-Bold';
-        font-size: 14px;
-        line-height: 22px;
-        margin-bottom: 20px;
-        color: #04bfac;
-    }
-    .register-rc-button .custom-control {
-        float: left;
-        width: auto;
-        margin-right: 30px;
-    }
-    .custom-control {
-        position: relative;
-        display: block;
-        min-height: 1.5rem;
-        padding-left: 1.5rem;
-    }
-    .upload-photo {
-        float: left;
-        width: 100%;
-        margin: 10px 0 0 0;
-    }
-    .upload-photo span {
-        float: left;
-        background: #04bfac;
-        margin: 0;
-        width: 35px;
-        height: 35px;
-        border-radius: 100px;
-        text-align: center;
-        line-height: 35px;
-        margin-right: 10px;
-    }
-    .nav-tabs .nav-item .fas{
-        margin-right: 5px;
-        font-size: 17px;
-    }
-    .nav-tabs .nav-item.second-tab .fas{
-        font-size: 19px;
-    }
-    .login-form .form-group label strong {
-        font-size: 14px;
-        color: #e60606;
-    }
-
-    .upload-photo span .fas {
-        color: #fff;
-        font-size: 16px;
-    }
-    .nav-tabs .nav-item {
-        margin-bottom: -1px;
-    }
-    .login-form .btn {
-        border-radius: 5px;
-        margin-top: 25px;
-        padding: 0.575rem 0.75rem;
-        font-size: 18px;
-        letter-spacing: 0.8px;
-        font-family: 'Manrope3-Regular';
-    }
-    .upload-photo a {
-        float: left;
-    }
-    a {
-        color: #04bfac;
-    }
-    .upload-photo span .fas {
-        color: #fff;
-        font-size: 16px;
-    }
-    .upload-photo p {
-        float: left;
-        font-family: 'Manrope3-Regular';
-        margin: 7px 0 0 0;
-        color: #757575;
-    }
-
-    /*Service Provider Sign Up*/
-
-    .btn { font-size: 14px; }
-
-    .user-profile-popup .modal-header h5 {
-        color: #04bfac;
-        padding-bottom: 8px;
-        font-size: 20px;
-        letter-spacing: 0.5px;
-        position: relative;
-    }
-    .user-profile-popup .modal-header h5::after {
-        position: absolute;
-        border-bottom: 3px solid #04bfac;
-        content: "";
-        display: inline-block;
-        left: 0;
-        bottom: 0;
-        width: 50px;
-        border-radius: 10px;
-    }
-    .user-profile-popup .modal-header {
-        border-bottom: none;
-        padding: 25px;
-    }
-    .user-profile-popup .close span img {
-        width: 16px;
-
-    }
-
-    .user-profile-popup .close{
-        opacity: 1;
-    }
-    .user-profile-popup .modal-footer {
-        border-top: none;
-        padding: 25px;
-    }
-
-    .user-profile-popup .modal-body {
-        padding: 0 25px 25px 25px;
-    }
 </style>
-<!-- register form css -->                                              -->
