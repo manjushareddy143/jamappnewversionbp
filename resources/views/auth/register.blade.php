@@ -291,6 +291,7 @@
     }
 
     function registerIndividuals() {
+
         var x = document.getElementById("select1").selectedIndex;
         // alert(document.getElementsByTagName("option")[x].value);
         console.log("Individuals = " + document.getElementById("first_name").value);
@@ -308,10 +309,12 @@
             }
         }).done(function( response ) {
             console.log(response);
+            //
             // document.getElementById("popupForm").style.display="none";
             window.location = '/home';
             //
         });
+
         // document.getElementById("popupForm").style.display="block";
     }
 

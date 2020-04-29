@@ -137,7 +137,7 @@
                         data:data,
                         success: function(response) {
                             console.log(response);
-                            // window.location = '/home';
+                            window.location = '/home';
                         }
                     });
                 }
