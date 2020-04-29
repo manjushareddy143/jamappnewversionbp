@@ -10,7 +10,7 @@
     <title>JAM - Register</title>
    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="css/ruang-admin.css" rel="stylesheet" type="text/css">
+    <link href="css/ruang-admin.css" rel="stylesheet">
     
   </head>
   <body class="bg-gradient-login">
@@ -40,7 +40,8 @@
                       </ul>
                       <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="individual" role="tabpanel" aria-labelledby="individual-tab">
-                          <form methpd="post" action="">
+                          
+                          <form method="POST" action="{{ route('register') }}">
                             <div class="form-group">
                               <label>Name <strong>*</strong></label>
                               <input type="text" class="form-control" id="first_name" placeholder="Enter Your Name">
@@ -83,36 +84,10 @@
                               <button type="submit" class="btn btn-primary btn-block" onclick="openForm()">Sign Up</button>
                             </div>
                           </form>
-
-                         <!-- OTP FOrm -->
-
-                                                    <div class="login-popup">
-                                                    <div class="form-popup" id="popupForm">
-                                                      <form action="#" class="form-container">
-                                                    <div class="form-group">
-                                                    <label>Mobile Number <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="mobile" placeholder="Enter Number">
-                                                  </div>
-                                                  <button type="submit" name="sendotp" class="btn btn-sm btn-primary">Send OTP</button>       
-                                                  <button type="button" class="btn btn-sm btn-primary" onclick="closeForm()">Close</button>       
-                                                    </form>
-                                                 </div>
-                                                  <script>
-                                                    function openForm() {
-                                                      document.getElementById("popupForm").style.display="block";
-                                                    }
-                                                    
-                                                    function closeForm() {
-                                                      document.getElementById("popupForm").style.display="none";
-                                                    }
-                                                  </script>
-                                                </div>
-                                                
-                                                <!-- OTP FOrm -->
                         </div>
                         <div class="tab-pane fade" id="organization" role="tabpanel" aria-labelledby="organization-tab">
                           <span>Proprietorship Firm / Partnership Firm / Company / Business Establishment</span>
-                          <form action="#">
+                          <form method="POST" action="{{ route('register') }}">
                             <div class="form-group">
                               <label>Name <strong>*</strong></label>
                               <input type="text" class="form-control" id="first_name" placeholder="Enter Your Name">
@@ -155,32 +130,6 @@
                              <button type="submit" class="btn btn-primary btn-block" onclick="openForm()">Sign Up</button>
                             </div>
                          </form>
-
-                         <!-- OTP FOrm -->
-
-                                                    <div class="login-popup">
-                                                    <div class="form-popup" id="popupForm">
-                                                      <form action="#" class="form-container">
-                                                    <div class="form-group">
-                                                    <label>Mobile Number <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="mobile" placeholder="Enter Number">
-                                                  </div>
-                                                  <button type="submit" name="sendotp" class="btn btn-sm btn-primary">Send OTP</button>       
-                                                  <button type="button" class="btn btn-sm btn-primary" onclick="closeForm()">Close</button>       
-                                                    </form>
-                                                 </div>
-                                                  <script>
-                                                    function openForm() {
-                                                      document.getElementById("popupForm").style.display="block";
-                                                    }
-                                                    
-                                                    function closeForm() {
-                                                      document.getElementById("popupForm").style.display="none";
-                                                    }
-                                                  </script>
-                                                </div>
-
-                                                <!-- OTP FOrm -->
                       </div>
                     </div>
                   </div>
@@ -202,7 +151,7 @@
 
 
 <!-- css for otp popup form -->
-<style>
+/*<style>
       * {
       box-sizing: border-box;
       }
@@ -262,7 +211,7 @@
       }
       /* Style submit/login button */
       .form-container .btn {
-      background-color: #8ebf42;
+      background-color: #04bfac;
       color: #fff;
       padding: 12px 20px;
       border: none;
@@ -279,4 +228,262 @@
       .form-container .btn:hover, .open-button:hover {
       opacity: 1;
       }
-    </style>
+    </style>*/
+
+
+
+
+
+     <!-- OTP FOrm -->
+
+<!--                                                     <div class="login-popup">
+                                                    <div class="form-popup" id="popupForm">
+                                                      <form action="#" class="form-container">
+                                                    <div class="form-group">
+                                                    <label>Mobile Number <strong>*</strong></label>
+                                                    <input type="text" class="form-control" id="mobile" placeholder="Enter Number" required>
+                                                  </div>
+                                                  <button type="submit" name="sendotp" class="btn btn-sm btn-primary">Send OTP</button>       
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="closeForm()">Close</button>       
+                                                    </form>
+                                                 </div>
+                                                  <script>
+                                                    function openForm() {
+                                                      document.getElementById("popupForm").style.display="block";
+                                                    }
+                                                    
+                                                    function closeForm() {
+                                                      document.getElementById("popupForm").style.display="none";
+                                                    }
+                                                  </script>
+                                                </div>
+ -->
+                                                <!-- OTP FOrm -->
+
+
+
+                         <!-- OTP FOrm -->
+<!-- 
+                                                    <div class="login-popup">
+                                                    <div class="form-popup" id="popupForm">
+                                                      <form action="#" class="form-container">
+                                                    <div class="form-group">
+                                                   <label>Mobile Number <strong>*</strong></label>
+                                                    <input type="text" name="mobile" class="form-control" id="mobile" maxlength="11" placeholder="Enter Number" required>
+                                                  </div>
+                                                  <button type="submit" name="sendotp" class="btn btn-sm btn-primary">Send OTP</button>       
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="closeForm()">Close</button>       
+                                                    </form>
+                                                 </div>
+                                                  <script>
+                                                    function openForm() {
+                                                      document.getElementById("popupForm").style.display="block";
+                                                    }
+                                                    
+                                                    function closeForm() {
+                                                      document.getElementById("popupForm").style.display="none";
+                                                    }
+                                                  </script>
+                                                </div>
+                                                 -->
+                                                <!-- OTP FOrm -->
+
+
+
+<!-- register form css -->                                              -->
+<style type="text/css">
+
+.container-login.service-provider-sign-up {
+    margin-left: 17rem;
+    margin-right: 17rem;
+}
+.container, .container-fluid, .container-login {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+.nav-tabs .nav-item {
+     width: 50%;
+}
+.login-form {
+    padding: 3rem !important;
+}
+
+.nav-item.first-tab a {
+     border-radius: .375rem 0 0 0;
+}
+.nav-item.second-tab a {
+    border-radius: 0 .375rem 0 0;
+}
+ .nav-tabs {
+     border-radius: .375rem .375rem 0 0;
+     background: #fff;
+     border-bottom: 1px solid #04bfac;
+}
+.nav-tabs .nav-link {
+     text-transform: uppercase;
+     letter-spacing: 0.7px;
+     color: #777;
+     font-family: 'Manrope3-Medium';
+     font-size: 15px;
+     padding: 16px 15px;
+     display: inline-block;
+     width: 100%;
+     text-align: center;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #fff;
+    background-color: #04bfac;
+    border-color: transparent;
+    font-family: 'Manrope3-Semibold';
+}
+.nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+    border-color: transparent;
+}
+ .service-provider-tab .tab-content {
+     display: inline-block;
+     width: 100%;
+     padding: 30px;
+}
+.login-form h1 {
+    font-size: 22px;
+    font-family: 'Manrope3-Medium';
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.login-form .form-group {
+    float: left;
+    width: 100%;
+}
+.service-provider-tab {
+    float: none;
+    width: 100%;
+    margin: 20px 0 0 0;
+    display: inline-block;
+    border: none;
+    border-radius: .375rem;
+    border: 1px solid #04bfac;
+}
+
+.tab-content span {
+    float: left;
+    width: 100%;
+    font-family: 'Manrope3-Bold';
+    font-size: 14px;
+    line-height: 22px;
+    margin-bottom: 20px;
+    color: #04bfac;
+}
+.register-rc-button .custom-control {
+    float: left;
+    width: auto;
+    margin-right: 30px;
+}
+.custom-control {
+    position: relative;
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 1.5rem;
+}
+.upload-photo {
+    float: left;
+    width: 100%;
+    margin: 10px 0 0 0;
+}
+.upload-photo span {
+    float: left;
+    background: #04bfac;
+    margin: 0;
+    width: 35px;
+    height: 35px;
+    border-radius: 100px;
+    text-align: center;
+    line-height: 35px;
+    margin-right: 10px;
+}
+.nav-tabs .nav-item .fas{
+     margin-right: 5px;
+     font-size: 17px;
+}
+.nav-tabs .nav-item.second-tab .fas{
+     font-size: 19px;
+}
+.login-form .form-group label strong {
+     font-size: 14px;
+     color: #e60606;
+}
+
+.upload-photo span .fas {
+     color: #fff;
+     font-size: 16px;
+}
+.nav-tabs .nav-item {
+    margin-bottom: -1px;
+}
+.login-form .btn {
+    border-radius: 5px;
+    margin-top: 25px;
+    padding: 0.575rem 0.75rem;
+    font-size: 18px;
+    letter-spacing: 0.8px;
+    font-family: 'Manrope3-Regular';
+}
+.upload-photo a {
+    float: left;
+}
+a {
+    color: #04bfac;
+}
+.upload-photo span .fas {
+    color: #fff;
+    font-size: 16px;
+}
+.upload-photo p {
+    float: left;
+    font-family: 'Manrope3-Regular';
+    margin: 7px 0 0 0;
+    color: #757575;
+}
+ 
+ /*Service Provider Sign Up*/
+
+ .btn { font-size: 14px; }
+
+.user-profile-popup .modal-header h5 {
+    color: #04bfac;
+    padding-bottom: 8px;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+.user-profile-popup .modal-header h5::after {
+    position: absolute;
+    border-bottom: 3px solid #04bfac;
+    content: "";
+    display: inline-block;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    border-radius: 10px;
+}
+.user-profile-popup .modal-header {
+    border-bottom: none;
+    padding: 25px;
+}
+.user-profile-popup .close span img {
+    width: 16px;
+    
+}
+
+.user-profile-popup .close{
+    opacity: 1;
+}
+.user-profile-popup .modal-footer {
+    border-top: none;
+    padding: 25px;
+}
+
+.user-profile-popup .modal-body {
+    padding: 0 25px 25px 25px;
+}
+</style>
+<!-- register form css -->                                              -->
