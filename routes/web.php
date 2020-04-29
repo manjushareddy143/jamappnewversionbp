@@ -17,12 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 // Set the routes and resource for Users
-Route::resource('user', 'UserController');
-Route::get('/index', 'UserController@index');
-Route::get('/show/{$id}', 'UserController@show');
-Route::get('/addUser', 'UserController@addUser');
-Route::get('/edit','UserController@edit');
-Route::post('/register','UserController@store');
+
+
+
+
+Route::get('/home', 'HomeController@index');
+
+
+
+
 
 // Route::get('/show', function ($id)
 // {
@@ -47,14 +50,37 @@ Auth::routes();
 
 //Route::get('/index', 'UserController@index');
 
-    Route::post('/login', 'UserController@login');
-    Route::post('/register', 'UserController@store');
-    Route::post('/changepassword','UserController@changepassword');
-    Route::post('/resetPassword','UserController@resetPassword');
+Route::post('/login', '\App\Http\Controllers\Auth\LoginController@customLogin');
+
+Route::post('/register', '\App\Http\Controllers\Auth\RegisterController@customRegister');
+
+
+//Route::post('/register', 'UserController@register');
+//    Route::post('/register', 'UserController@store');
+Route::post('/changepassword','UserController@changepassword');
+Route::post('/resetPassword','UserController@resetPassword');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::post('/logout', '\App\Http\Controllers\Auth\LoginController@customLogOut')->name('logout');
+
+    Route::resource('user', 'UserController');
+    Route::get('/users', 'UserController@index');
+    Route::get('/index', 'UserController@index');
+    Route::get('/show/{$id}', 'UserController@show');
+    Route::get('/addUser', 'UserController@addUser');
+    Route::get('/edit','UserController@edit');
 
     Route::get('/profile','UserController@profile');
     Route::post('/profile','UserController@profile');
-Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
+
+    Route::post('/services/', 'ServicesController@store');
+    Route::get('/services', 'ServicesController@show_all');
+    Route::get('/detailpage/{id}', 'ServicesController@get_service_categories')->name('detailpage');
+
+});
+
 
 //Set the routes and resource for master_service
 Route::resource('master_services', 'Master_servicesController');
