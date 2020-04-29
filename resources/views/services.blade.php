@@ -28,11 +28,11 @@
     </div>
     <div class="login-popup">
       <div class="form-popup" id="popupForm">
-        <form action="/action_page.php" class="form-container">
+        <form class="form-container">
           <label for="name">
           <strong>Name</strong>
           </label>
-           <input id="name" type="text" name="name" value="" placeholder="Your Name" autocomplete="name" autofocus="autofocus" required>
+           <input type="text" id="name"  name="name" placeholder="Your Name"required>
             <div class="form-group row">
                         <label for="image">
                           Icon_Image
@@ -53,7 +53,7 @@
           <strong>description</strong>
           </label>
            <input id="description" type="text" name="description" value="" placeholder="Your Description" required>
-          <button type="submit" class="btn">Save</button>
+          <button type="button" name="savebtn" class="btn" onclick="store()">Save</button>
           <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
         </form>
       </div>
@@ -122,10 +122,39 @@
 </div>
 </div>
 
+            
+
 @endsection
 
 
+<script>
 
+                public function store() {
+
+        console.log("Individuals = " + document.getElementById("name").value);
+        $.ajax({
+            type: "POST",
+            url: '/v1/service',
+            data: {
+                name: document.getElementById("name").value,
+                icon_image: document.getElementById("icon_image").value,
+                banner_image: document.getElementById("banner_image").value,
+                description: document.getElementById("description").value,
+            }
+        }).done(function( response ) {
+            console.log(response);
+            //
+            // document.getElementById("popupForm").style.display="none";
+            // window.location = '/home';
+            //
+        });
+
+        // document.getElementById("popupForm").style.display="block";
+    }
+            </script>
+
+
+            
 <style>
       * {
       box-sizing: border-box;
@@ -186,7 +215,7 @@
       }
       /* Style submit/login button */
       .form-container .btn {
-      background-color: #8ebf42;
+      background-color: #0aa698;;
       color: #fff;
       padding: 12px 20px;
       border: none;
