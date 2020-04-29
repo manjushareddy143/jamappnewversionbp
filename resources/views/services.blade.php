@@ -68,11 +68,10 @@
       }
     </script>
   </body>
+
 </html>
-                </div>
-
-
-       </div>
+ </div>
+</div>
            @if ($message = Session::get('success'))
 
               <div class="alert alert-success">
@@ -83,7 +82,7 @@
 
           @endif
  <div class="table-responsive">
-<table class="table align-items-center table-flush">
+<table class="table align-items-center table-flush" id="mytable">
 <thead class="thead-light">
  <tr>
 
@@ -124,44 +123,25 @@
 
  <script>
      function store() {
-
-         console.log("Individuals = " + document.getElementById("name").value);
-
-         var fd = new FormData();
+         var form = new FormData();
          var files = $('#icon_image')[0].files[0];
-         fd.append('icon_image',files);
+         form.append('icon_image',files);
          var banner_files = $('#banner_image')[0].files[0];
-         fd.append('banner_image',banner_files);
-         fd.append('name', document.getElementById("name").value);
-         fd.append('description', document.getElementById("description").value);
-         // $.ajax({
-         //     type: "POST",
-         //     url: '/v1/service',
-         //     cache: false,
-         //     contentType: false,
-         //     processData: false,
-         //     data: fd
-         // }).done(function( response ) {
-         //     console.log(response);
-         //     //
-         //     // document.getElementById("popupForm").style.display="none";
-         //     // window.location = '/home';
-         //     //
-         // });
+         form.append('banner_image',banner_files);
+         form.append('name', document.getElementById("name").value);
+         form.append('description', document.getElementById("description").value);
          $.ajax({
              url: '/services',
              type: 'POST',
-             data: fd,
+             data: form,
              contentType: false,
              processData: false,
              success: function(response){
                  console.log(response);
-                 // if(response != 0){
-                 //     $("#img").attr("src",response);
-                 //     $(".preview img").show(); // Display image element
-                 // }else{
-                 //     alert('file not uploaded');
-                 // }
+                 // $('#mytable').data.reload();
+                 window.top.location = window.top.location;
+                 // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                 // $('#table align-items-center table-flush').dataTable().ajax.reload();
              },
              fail: function (error) {
                  console.log(error);
