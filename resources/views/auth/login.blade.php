@@ -2,7 +2,13 @@
     <html lang="en">
         <head>
 
+            <style>
+                #spinner { display:none; }
+                body.busy .spinner { display:block !important; }
+
+            </style>
             <meta charset="utf-8">
+
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <meta name="description" content="">
@@ -12,7 +18,6 @@
             <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
             <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
             <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
-
         </head>
 
         <body class="bg-gradient-login">
@@ -82,7 +87,7 @@
 
 {{--                                                <div class="form-group row mb-0">--}}
 {{--                                                    <div class="col-md-8 offset-md-4">--}}
-                                                        <button id="submit" type="submit" class="btn btn-primary btn-block btn-box-shadow">
+                                                        <button id="submit" type="button" onclick="doLogin()" class="btn btn-primary btn-block btn-box-shadow">
                                                             {{ __('Login') }}
                                                         </button>
 
@@ -118,7 +123,25 @@
             <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
             <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
             <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
-
+            <script>
+                function doLogin() {
+                    $('body').addClass('busy');
+                    var data = {
+                        email: $("#email").val(),
+                        password: $("#password").val(),
+                        _token: $("input[name=_token]").val()
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: '/login',
+                        data:data,
+                        success: function(response) {
+                            console.log(response);
+                            window.location = '/home';
+                        }
+                    });
+                }
+            </script>
         </body>
     </html>
 </html>

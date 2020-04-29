@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\ServiceProvider;
+use App\TermAgreement;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -38,7 +42,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+//        $this->middleware('guest');
     }
 
     /**
@@ -66,11 +70,85 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'first_name' => $data['first_name'],
             'contact' => $data['contact'],
-            'type' => $data['type'],
+            'password' => Hash::make($data['password']),
+            'type_id' => $data['type_id'],
+            'term_id' => $data['term_id'],
         ]);
+    }
+
+
+    public function customRegister(Request $request) {
+        $initialValidator = Validator::make($request->all(),
+        [
+            'first_name' => 'required',
+            'contact' => 'required|unique:users,contact',
+            'type_id' => 'required|exists:user_types,id',
+            'term_id' => 'required|exists:term_conditions,id',
+            'resident_country' => 'required',
+        ]);
+        if ($initialValidator->fails())
+        {
+            return response()->json(['error'=>$initialValidator->errors()], 401);
+        }
+
+        $input = $request->all();
+
+
+        if(array_key_exists('email', $input))
+        {
+            $emailValidator = Validator::make($request->all(),
+                [
+                    'email' => '|unique:users,email',
+                ]);
+            if ($emailValidator->fails())
+            {
+                return response()->json(['error'=>$emailValidator->errors()], 401);
+            }
+        }
+
+        $input['password'] = Hash::make('password');
+        $user = User::create($input);
+
+        $user_id=$user->id;
+        $now = now()->utc();
+        $term_agreement= [
+            'user_id' => $user_id,
+            'term_id' => $input['term_id'],
+            'agreed_at' => $now
+        ];
+        TermAgreement::create($term_agreement);
+
+        $service_provider= [
+            'user_id' => $user_id,
+            'resident_country' => $input['resident_country']
+        ];
+        $service_provider_detail = ServiceProvider::create($service_provider);
+        $user['resident_country'] = $service_provider_detail['resident_country'];
+
+
+        if (isset($user)) {
+            $response  = $user;
+        } else {
+            $response['message']  = "Please add valid details";
+        }
+
+        $credentials = ['email' => $input['email'],
+            'password' => 'password'];
+
+        if( Auth::attempt($credentials)) {
+            //dd(\Session::getId());
+//            $encryptedCookie = Crypt::encrypt(\Session::getId(), true);
+            return response()->json($response, 200);
+            // ->withCookie(cookie(\Str::slug(env('APP_NAME', 'laravel'), '_').'_session', $encryptedCookie, 45000));
+            //$request->session()->regenerate();
+        }
+        return response()->json($response, 200);
+
+//        $credentials = $request->only('email', 'password');
+//        if (Auth::attempt($credentials)) {
+//            return response()->json(['status' => true]);
+//        }
     }
 }
