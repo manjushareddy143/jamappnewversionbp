@@ -38,7 +38,7 @@
                           Icon_Image
                         </label>
                          <div class="col-md-6">
-                          <input id="image" type="file" name="image" class="form-control ">
+                          <input id="icon_image" type="file" name="image" class="form-control ">
                        </div>
                      </div>
                      <div class="form-group row">
@@ -46,7 +46,7 @@
                           Banner_Image
                         </label>
                          <div class="col-md-6">
-                          <input id="image" type="file" name="image" class="form-control ">
+                          <input id="banner_image" type="file" name="image" class="form-control ">
                        </div>
                      </div>
                      <label for="description">
@@ -62,16 +62,16 @@
       function openForm() {
         document.getElementById("popupForm").style.display="block";
       }
-      
+
       function closeForm() {
         document.getElementById("popupForm").style.display="none";
       }
     </script>
   </body>
-</html>              
+</html>
                 </div>
 
-                 
+
        </div>
            @if ($message = Session::get('success'))
 
@@ -119,40 +119,59 @@
 </div>
 </div>
 </div>
-</div>
-</div>
+{{--</div>--}}
+{{--</div>--}}
 
-            
+ <script>
+     function store() {
 
+         console.log("Individuals = " + document.getElementById("name").value);
+
+         var fd = new FormData();
+         var files = $('#icon_image')[0].files[0];
+         fd.append('icon_image',files);
+         var banner_files = $('#banner_image')[0].files[0];
+         fd.append('banner_image',banner_files);
+         fd.append('name', document.getElementById("name").value);
+         fd.append('description', document.getElementById("description").value);
+         // $.ajax({
+         //     type: "POST",
+         //     url: '/v1/service',
+         //     cache: false,
+         //     contentType: false,
+         //     processData: false,
+         //     data: fd
+         // }).done(function( response ) {
+         //     console.log(response);
+         //     //
+         //     // document.getElementById("popupForm").style.display="none";
+         //     // window.location = '/home';
+         //     //
+         // });
+         $.ajax({
+             url: '/services',
+             type: 'POST',
+             data: fd,
+             contentType: false,
+             processData: false,
+             success: function(response){
+                 console.log(response);
+                 // if(response != 0){
+                 //     $("#img").attr("src",response);
+                 //     $(".preview img").show(); // Display image element
+                 // }else{
+                 //     alert('file not uploaded');
+                 // }
+             },
+             fail: function (error) {
+                 console.log(error);
+             }
+         });
+
+         // document.getElementById("popupForm").style.display="block";
+     }
+ </script>
 @endsection
-
-
-<script>
-
-                public function store() {
-
-        console.log("Individuals = " + document.getElementById("name").value);
-        $.ajax({
-            type: "POST",
-            url: '/v1/service',
-            data: {
-                name: document.getElementById("name").value,
-                icon_image: document.getElementById("icon_image").value,
-                banner_image: document.getElementById("banner_image").value,
-                description: document.getElementById("description").value,
-            }
-        }).done(function( response ) {
-            console.log(response);
-            //
-            // document.getElementById("popupForm").style.display="none";
-            // window.location = '/home';
-            //
-        });
-
-        // document.getElementById("popupForm").style.display="block";
-    }
-            </script>
-
 
 
 <style>
