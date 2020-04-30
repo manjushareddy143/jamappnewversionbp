@@ -18,9 +18,57 @@ use Illuminate\Http\Request;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
+
+
+Route::get('v1/details', 'UserController@getSingupDetail');
+Route::post('v1/login', 'UserController@login');
+Route::post('v1/register', 'UserController@register');
+Route::post('v1/register_provider', 'UserController@register_provider');
+Route::post('v1/adduser', 'UserController@store');
+Route::post('v1/customer_register', 'UserController@customer_register');
+Route::post('v1/profile', 'UserController@profile');
+Route::post('v1/init_profile', 'UserController@init_profile');
+Route::post('v1/booking', 'BookingController@booking');
+
+
+
+
+Route::post('v1/service', 'ServicesController@store');
+Route::get('v1/service', 'ServicesController@show_all');
+
+
+
+Route::post('v1/sub_category', 'SubCategoryController@store');
+Route::get('v1/sub_category', 'SubCategoryController@show_all');
+
+Route::post('v1/service_mapping', 'ServiceMappingController@store');
+Route::get('v1/all_services', 'ServiceMappingController@get_services');
+Route::get('v1/servicesbyuser', 'ServiceMappingController@get_services_by_user');
+Route::get('v1/providers/service', 'ServiceMappingController@get_providers_by_service');
+Route::get('v1/providers/category', 'ServiceMappingController@get_providers_by_category');
+Route::get('v1/providers/service_category', 'ServiceMappingController@get_providers_by_service_category');
+
+Route::get('/ma', 'UserController@mobileRegi');
+
+
+// User Type Mng
+Route::post('v1/usertype', 'UserTypeController@add_type');
+Route::get('v1/usertype', 'UserTypeController@show_all');
+
+
+// Terms & Conditions
+Route::post('v1/term', 'TermConditionController@add_term');
+Route::get('v1/term', 'TermConditionController@show_all');
+
+// Terms & Conditions Agreement
+Route::post('v1/term_agree', 'TermAgreementController@add_term_agreement');
+Route::get('v1/term_agree', 'TermAgreementController@show_all');
+
+
 Route::get('/', function () {
     return [1, 2, 3];
 });
+
 // Route defines to get the services list from database
 
 /*Route::get('/serviceslist', 'ServiceController@serviceslist');

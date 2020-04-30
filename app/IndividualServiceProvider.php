@@ -16,6 +16,5 @@ class IndividualServiceProvider extends Model
          'start_time',
          'end_time',
          'experience',
-
      ];
 }
