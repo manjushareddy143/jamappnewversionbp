@@ -49,12 +49,12 @@
                                              aria-labelledby="individual-tab">
                                             <form>
                                                 <div class="form-group">
-                                                    <label>Name <strong>*</strong></label>
+                                                    <label>First Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="first_name" placeholder="Enter Your First Name">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Name <strong>*</strong></label>
+                                                    <label>Last Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="last_name" placeholder="Enter Your Last Name">
                                                 </div>
@@ -68,6 +68,12 @@
                                                     <input type="email" class="form-control"
                                                            id="email" aria-describedby="emailHelp"
                                                            placeholder="Enter Your Email Address">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Password <strong>*</strong></label>
+                                                    <input type="password" class="form-control"
+                                                           id="password" aria-describedby="emailHelp"
+                                                           placeholder="Enter Password">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Resident Status <strong>*</strong></label>
@@ -303,6 +309,7 @@
                 last_name: document.getElementById("last_name").value,
                 contact: document.getElementById("mobile").value,
                 email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
                 resident_country: document.getElementsByTagName("option")[x].value,
                 type_id : 2,
                 term_id : 2

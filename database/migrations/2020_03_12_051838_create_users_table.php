@@ -24,8 +24,8 @@ class CreateUsersTable extends Migration
             $table->string('contact')->unique();
             $table->string('gender')->nullable();
             $table->string('languages')->nullable();
-            $table->integer('type_id');
-            $table->integer('term_id');
+            $table->integer('type_id')->unsigned();
+            $table->integer('term_id')->unsigned();
             $table->integer('org_id')->nullable();
             $table->rememberToken();
             $table->timestamps();

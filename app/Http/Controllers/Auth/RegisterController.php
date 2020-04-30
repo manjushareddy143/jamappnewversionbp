@@ -83,6 +83,7 @@ class RegisterController extends Controller
         $initialValidator = Validator::make($request->all(),
         [
             'first_name' => 'required',
+            'password' => 'required',
             'contact' => 'required|unique:users,contact',
             'type_id' => 'required|exists:user_types,id',
             'term_id' => 'required|exists:term_conditions,id',
@@ -108,7 +109,7 @@ class RegisterController extends Controller
             }
         }
 
-        $input['password'] = Hash::make('password');
+        $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
 
         $user_id=$user->id;
