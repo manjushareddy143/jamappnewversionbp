@@ -29,6 +29,8 @@ Route::post('v1/customer_register', 'UserController@customer_register');
 Route::post('v1/profile', 'UserController@profile');
 Route::post('v1/init_profile', 'UserController@init_profile');
 Route::post('v1/booking', 'BookingController@booking');
+Route::get('v1/booking', 'BookingController@getorderbyuser');
+Route::get('v1/booking/{id}', 'BookingController@getorder');
 
 
 
