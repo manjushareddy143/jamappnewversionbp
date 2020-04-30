@@ -75,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile','UserController@profile');
     Route::post('/profile','UserController@profile');
 
-    Route::post('/services/', 'ServicesController@store');
+    Route::post('/services', 'ServicesController@store');
     Route::get('/services', 'ServicesController@show_all');
     Route::get('/detailpage/{id}', 'ServicesController@get_service_categories')->name('detailpage');
 

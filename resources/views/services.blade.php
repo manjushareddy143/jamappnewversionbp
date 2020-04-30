@@ -28,17 +28,17 @@
     </div>
     <div class="login-popup">
       <div class="form-popup" id="popupForm">
-        <form action="/action_page.php" class="form-container">
+        <form class="form-container">
           <label for="name">
           <strong>Name</strong>
           </label>
-           <input id="name" type="text" name="name" value="" placeholder="Your Name" autocomplete="name" autofocus="autofocus" required>
+           <input type="text" id="name"  name="name" placeholder="Your Name"required>
             <div class="form-group row">
                         <label for="image">
                           Icon_Image
                         </label>
                          <div class="col-md-6">
-                          <input id="image" type="file" name="image" class="form-control ">
+                          <input id="icon_image" type="file" name="image" class="form-control ">
                        </div>
                      </div>
                      <div class="form-group row">
@@ -46,14 +46,14 @@
                           Banner_Image
                         </label>
                          <div class="col-md-6">
-                          <input id="image" type="file" name="image" class="form-control ">
+                          <input id="banner_image" type="file" name="image" class="form-control ">
                        </div>
                      </div>
                      <label for="description">
           <strong>description</strong>
           </label>
            <input id="description" type="text" name="description" value="" placeholder="Your Description" required>
-          <button type="submit" class="btn">Save</button>
+          <button type="button" name="savebtn" class="btn" onclick="store()">Save</button>
           <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
         </form>
       </div>
@@ -62,17 +62,16 @@
       function openForm() {
         document.getElementById("popupForm").style.display="block";
       }
-      
+
       function closeForm() {
         document.getElementById("popupForm").style.display="none";
       }
     </script>
   </body>
-</html>              
-                </div>
 
-                 
-       </div>
+</html>
+ </div>
+</div>
            @if ($message = Session::get('success'))
 
               <div class="alert alert-success">
@@ -83,7 +82,7 @@
 
           @endif
  <div class="table-responsive">
-<table class="table align-items-center table-flush">
+<table class="table align-items-center table-flush" id="mytable">
 <thead class="thead-light">
  <tr>
 
@@ -119,11 +118,40 @@
 </div>
 </div>
 </div>
-</div>
-</div>
+{{--</div>--}}
+{{--</div>--}}
 
+ <script>
+     function store() {
+         var form = new FormData();
+         var files = $('#icon_image')[0].files[0];
+         form.append('icon_image',files);
+         var banner_files = $('#banner_image')[0].files[0];
+         form.append('banner_image',banner_files);
+         form.append('name', document.getElementById("name").value);
+         form.append('description', document.getElementById("description").value);
+         $.ajax({
+             url: '/services',
+             type: 'POST',
+             data: form,
+             contentType: false,
+             processData: false,
+             success: function(response){
+                 console.log(response);
+                 // $('#mytable').data.reload();
+                 window.top.location = window.top.location;
+                 // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                 // $('#table align-items-center table-flush').dataTable().ajax.reload();
+             },
+             fail: function (error) {
+                 console.log(error);
+             }
+         });
+
+         // document.getElementById("popupForm").style.display="block";
+     }
+ </script>
 @endsection
-
 
 
 <style>
@@ -186,7 +214,7 @@
       }
       /* Style submit/login button */
       .form-container .btn {
-      background-color: #8ebf42;
+      background-color: #0aa698;;
       color: #fff;
       padding: 12px 20px;
       border: none;

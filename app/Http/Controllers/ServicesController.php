@@ -12,6 +12,7 @@ class ServicesController extends Controller
 
     public function store(Request $request)
     {
+//        return response()->json($request->get('name'));
         $validator = Validator::make($request->all(),
             [
                 'name'  => 'required',
