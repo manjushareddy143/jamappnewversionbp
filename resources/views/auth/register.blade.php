@@ -47,14 +47,14 @@
 
                                         <div class="tab-pane fade show active" id="individual" role="tabpanel"
                                              aria-labelledby="individual-tab">
-                                            <form>
+                                            <form id="form">
                                                 <div class="form-group">
-                                                    <label>Name <strong>*</strong></label>
+                                                    <label>First Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="first_name" placeholder="Enter Your First Name">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Name <strong>*</strong></label>
+                                                    <label>Last Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="last_name" placeholder="Enter Your Last Name">
                                                 </div>
@@ -70,6 +70,12 @@
                                                            placeholder="Enter Your Email Address">
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Password <strong>*</strong></label>
+                                                    <input type="password" class="form-control"
+                                                           id="password" aria-describedby="emailHelp"
+                                                           placeholder="Enter Password">
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Resident Status <strong>*</strong></label>
                                                     <select class="form-control" id="select1">
                                                         <option>Select Country</option>
@@ -82,24 +88,19 @@
                                                 </div>
                                                 <div class="form-group register-rc-button">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                        <label class="custom-control-label" for="customCheck2">Vendor Consent to Terms & Conditions</label>
+                                                        <input type="checkbox" class="custom-control-input"
+                                                               id="terms" name="terms">
+                                                        <label class="custom-control-label" for="terms">Vendor Consent to Terms & Conditions</label>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="upload-photo">
-                                                        <a href="#">
-                                                            <span><i class="fas fa-camera"></i></span>
-                                                            <p>Upload A Photo</p>
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                                <br>
+                                                <p id="termErr"></p>
                                                 <div class="form-group">
                                                     <button type="button"
                                                             class="btn btn-primary btn-block"
                                                             id="singupbtn"
-                                                            onclick="mobileSignup()">Sign Up</button>
-                                                    {{--                                --}}
+                                                            onclick="registerIndividuals()">Sign Up</button>
+                                                    {{--          mobileSignup                      --}}
                                                 </div>
                                             </form>
 
@@ -157,18 +158,19 @@
                                                 </div>
                                                 <div class="form-group register-rc-button">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                               id="customCheck2">
                                                         <label class="custom-control-label" for="customCheck2">Vendor Consent to Terms & Conditions</label>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="upload-photo">
-                                                        <a href="#">
-                                                            <span><i class="fas fa-camera"></i></span>
-                                                            <p>Upload A Photo</p>
-                                                        </a>
-                                                    </div>
-                                                </div>
+{{--                                                <div class="form-group">--}}
+{{--                                                    <div class="upload-photo">--}}
+{{--                                                        <a href="#">--}}
+{{--                                                            <span><i class="fas fa-camera"></i></span>--}}
+{{--                                                            <p>Upload A Photo</p>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
                                                 <div class="form-group">
                                                     <button type="submit" class="btn btn-primary btn-block"
                                                             onclick="registerOrganisation()">Sign Up</button>
@@ -256,22 +258,29 @@
 
     function mobileSignup() {
         console.log("mobileSignup");
-        // Phone NUMBER
-        var phoneNumber = document.getElementById("mobile").value;
-        var appVerifier = window.recaptchaVerifier;
-        firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
-            .then(function (confirmationResult) {
-                console.log("confirmationResult == " + JSON.stringify(confirmationResult));
-                // SMS sent. Prompt user to type the code from the message, then sign the
-                // user in with confirmationResult.confirm(code).
-                window.confirmationResult = confirmationResult;
-                document.getElementById("popupFormotp").style.display="block";
+        if(!form.terms.checked) {
+            form.terms.focus();
+            document.getElementById("termErr").innerHTML = "Please select terms and conditions";
+        } else {
+            document.getElementById("termErr").innerHTML = "";
+            // Phone NUMBER
+            var phoneNumber = document.getElementById("mobile").value;
+            var appVerifier = window.recaptchaVerifier;
+            firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+                .then(function (confirmationResult) {
+                    console.log("confirmationResult == " + JSON.stringify(confirmationResult));
+                    // SMS sent. Prompt user to type the code from the message, then sign the
+                    // user in with confirmationResult.confirm(code).
+                    window.confirmationResult = confirmationResult;
+                    document.getElementById("popupFormotp").style.display="block";
 
-            }).catch(function (error) {
-            console.log("error  == " + error);
-            // Error; SMS not sent
-            // ...
-        });
+                }).catch(function (error) {
+                console.log("error  == " + error);
+                // Error; SMS not sent
+                // ...
+            });
+        }
+
     }
 
     function mobileOTPVerify() {
@@ -292,30 +301,26 @@
 
     function registerIndividuals() {
 
-        var x = document.getElementById("select1").selectedIndex;
-        // alert(document.getElementsByTagName("option")[x].value);
-        console.log("Individuals = " + document.getElementById("first_name").value);
-        $.ajax({
-            type: "POST",
-            url: '/register',
-            data: {
-                first_name: document.getElementById("first_name").value,
-                last_name: document.getElementById("last_name").value,
-                contact: document.getElementById("mobile").value,
-                email: document.getElementById("email").value,
-                resident_country: document.getElementsByTagName("option")[x].value,
-                type_id : 2,
-                term_id : 2
-            }
-        }).done(function( response ) {
-            console.log(response);
-            //
-            // document.getElementById("popupForm").style.display="none";
-            window.location = '/home';
-            //
-        });
+        document.getElementById("popupFormotp").style.display="block";
 
-        // document.getElementById("popupForm").style.display="block";
+        // var x = document.getElementById("select1").selectedIndex;
+        // console.log("Individuals = " + document.getElementById("first_name").value);
+        // $.ajax({
+        //     type: "POST",
+        //     url: '/register',
+        //     data: {
+        //         first_name: document.getElementById("first_name").value,
+        //         last_name: document.getElementById("last_name").value,
+        //         contact: document.getElementById("mobile").value,
+        //         email: document.getElementById("email").value,
+        //         password: document.getElementById("password").value,
+        //         resident_country: document.getElementsByTagName("option")[x].value,
+        //         type_id : 2,
+        //         term_id : 2
+        //     }
+        // }).done(function( response ) {
+        //     window.location = '/home';
+        // });
     }
 
     function registerOrganisation() {

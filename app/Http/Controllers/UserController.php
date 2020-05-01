@@ -87,7 +87,6 @@ class UserController extends Controller
      */
     public function store(Request $request, Role $roles)
     {
-        dd('2123213'); exit();
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [
@@ -430,18 +429,18 @@ class UserController extends Controller
                 'contact' => 'required|unique:users,contact',
                 'type_id' => 'required|exists:user_types,id',
                 'term_id' => 'required|exists:term_conditions,id',
-
             ]
         );
 
-            if ($initialValidator->fails())
-            {
-                return response()->json(['error'=>$initialValidator->errors()], 401);
-            }
+        if ($initialValidator->fails())
+        {
+            return response()->json(['error'=>$initialValidator->errors()], 401);
+        }
 
 
         $input = $request->all();
-
+        $input['type_id'] = (int) $request->get('type_id');
+        $input['term_id'] = (int) $request->get('term_id');
         $user = User::create($input);
 
         $user_id=$user->id;
@@ -455,6 +454,7 @@ class UserController extends Controller
 
 
         if (isset($user)) {
+            return response()->json($user);
             $response  = $user;
         } else {
             $response['message']  = "Please add valid details";
@@ -465,6 +465,7 @@ class UserController extends Controller
 
     // User Initial Profile
     public function init_profile(Request $request) {
+
         try {
             $response = array();
             $validator = Validator::make($request->all(),
@@ -486,6 +487,7 @@ class UserController extends Controller
 
             // Profile Image insert
             $profileImg = $request->file('profile_photo');
+//            return response()->json($profileImg);
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
             $requestdata = array();
@@ -527,13 +529,18 @@ class UserController extends Controller
             }
 
 
+
             // ADDRESS
             if(array_key_exists('address', $input)) {
+
                 $address = $input['address'];
+
                 $address = json_decode($address, true);
+
                 $address += [
                     "user_id" => $id
                 ];
+
 
                 $adddressdata = Address::create($address);
                 $user['address'] = $adddressdata;
