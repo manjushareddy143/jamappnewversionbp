@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+<!-- jQuery Modal -->
 
 @section('content')
          <div class="container-fluid" id="container-wrapper">
@@ -17,9 +17,9 @@
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
-                </div>
-
-        </div>
+     <!DOCTYPE html>
+ </div>
+</div>
            @if ($message = Session::get('success'))
 
               <div class="alert alert-success">
@@ -46,15 +46,14 @@
 
           @if (isset($data) && !empty($data))
            <?php $i=0; ?>
-           @foreach ($data as $validator)
-
+           @foreach ($data as $results)                                                                                                                     
             <tr>
-
-              <td>{{ $validator->id }}</td>
-              <td> {{ $validator->name }} </td>
-              <td><img src="{{ asset('images/category/' . $validator->icon_image) }}" class="square" width="60" height="50" /></td>
-              <td><img src="{{ asset('images/category/' . $validator->banner_image) }}" class="square" width="60" height="50" /></td>
-              <td>{{ $validator->description }}</td>
+              
+              <td>{{ $results->id }}</td>
+              <td> {{ $results->name }} </td>
+              <td><img src="{{ asset($results->icon_image) }}" class="square" width="60" height="50" /></td>
+              <td><img src="{{ asset($results->banner_image) }}" class="square" width="60" height="50" /></td>
+              <td>{{ $results->description }}</td>
             </tr>
            @endforeach
            @endif
@@ -64,7 +63,5 @@
 </div>
 </div>
 </div>
-</div>
-</div>
-
 @endsection
+

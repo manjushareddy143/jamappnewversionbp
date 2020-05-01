@@ -67,11 +67,11 @@ class ServicesController extends Controller
 
     public function get_service_categories(Request $request)
           {
-          $service_id = $request->input('id');
 
+          $service_id = $request->input('id');
           $results = ServiceMapping::where('service_id', '=', $service_id)
           ->leftJoin('sub_categories', 'sub_categories.id', '=','service_mappings.category_id')->get();
-
+            
           return view('detailpage')->with('data',$results);
           }
 
