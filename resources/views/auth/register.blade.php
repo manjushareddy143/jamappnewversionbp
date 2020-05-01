@@ -47,14 +47,14 @@
 
                                         <div class="tab-pane fade show active" id="individual" role="tabpanel"
                                              aria-labelledby="individual-tab">
-                                            <form>
+                                            <form id="form">
                                                 <div class="form-group">
-                                                    <label>Name <strong>*</strong></label>
+                                                    <label>First Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="first_name" placeholder="Enter Your First Name">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Name <strong>*</strong></label>
+                                                    <label>Last Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="last_name" placeholder="Enter Your Last Name">
                                                 </div>
@@ -70,6 +70,12 @@
                                                            placeholder="Enter Your Email Address">
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Password<strong>*</strong></label>
+                                                    <input type="password" class="form-control"
+                                                           id="password" aria-describedby="passwordHelp"
+                                                           placeholder="Enter Your Password">
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Resident Status <strong>*</strong></label>
                                                     <select class="form-control" id="select1">
                                                         <option>Select Country</option>
@@ -82,52 +88,36 @@
                                                 </div>
                                                 <div class="form-group register-rc-button">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                        <label class="custom-control-label" for="customCheck2">Vendor Consent to Terms & Conditions</label>
+                                                        <input type="checkbox" class="custom-control-input"
+                                                               id="terms" name="terms">
+                                                        <label class="custom-control-label" for="terms">
+                                                            Vendor Consent to <a href="http://www.savitriya.com/privacy-policy/"
+                                                                                 target="_blank">
+                                                                Terms & Conditions</a>
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="upload-photo">
-                                                        <a href="#">
-                                                            <span><i class="fas fa-camera"></i></span>
-                                                            <p>Upload A Photo</p>
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                                <br>
+                                                <p id="termErr" style="color: red"></p>
+{{--                                                <div class="form-group">--}}
+{{--                                                    <div class="upload-photo">--}}
+{{--                                                        <a href="#">--}}
+{{--                                                            <span><i class="fas fa-camera"></i></span>--}}
+{{--                                                            <p>Upload A Photo</p>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
                                                 <div class="form-group">
                                                     <button type="button"
                                                             class="btn btn-primary btn-block"
                                                             id="singupbtn"
                                                             onclick="mobileSignup()">Sign Up</button>
-                                
+{{--                                                    mobileSignup--}}
+
                                                 </div>
                                             </form>
 
                 <!-- OTP FORM -->
-<!--                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLabel">OTP Verification</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                      </button>
-                                    </div>
-                                        <div class="modal-body">
-                                     <form action="#" class="form-container">
-                                     <div class="form-group">
-                                     <input type="text" class="form-control" id="mobile" placeholder="Enter Number">
-                                    </div>  
-                                    <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Send OTP</button>
-                                      </div>
-                                    </form>
-                                 </div>
-                              </div>
-                            </div>
-                          </div>
- -->                          <!-- OTP FORM -->
 
 
 
@@ -182,39 +172,40 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <button type="submit" class="btn btn-primary btn-block"
-                                                            data-toggle="modal" id="#myBtn" data-target="#exampleModal">Sign Up</button>
+                                                            data-toggle="modal" id="#myBtn" data-target="#exampleModal">
+                                                        Sign Up</button>
                                                 </div>
                                             </form>
-
-                                            
-
-                                           <!-- OTP FORM -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLabel">OTP Verification</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                      </button>
-                                    </div>
-                                        <div class="modal-body">
-                                     <form action="#" class="form-container">
-                                     <div class="form-group">
-                                     <input type="text" class="form-control" id="mobile" placeholder="Enter Number">
-                                    </div>  
-                                    <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Send OTP</button>
-                                      </div>
-                                    </form>
-                                 </div>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- OTP FORM -->
-
                                         </div>
+
+                                        <p data-toggle="modal" id="#showdailog" data-target="#exampleModal"></p>
+
+                                        <!-- OTP FORM -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">OTP Verification</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">X</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="#" class="form-container">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" id="otpinput" placeholder="Enter OTP">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-primary" onclick="mobileOTPVerify()">Send OTP</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +234,6 @@
 <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
 <script>
     window.onload = function() {
-        console.log("ONLOAD");
         var firebaseConfig = {
             apiKey: "AIzaSyAByZ6mHqPhd1Pl3KHcUiXJSQ-8EGOW-6s",
             authDomain: "jamqatar-bf1c1.firebaseapp.com",
@@ -270,26 +260,32 @@
 
     function mobileSignup() {
         console.log("mobileSignup");
-        // Phone NUMBER
-        var phoneNumber = document.getElementById("mobile").value;
-        var appVerifier = window.recaptchaVerifier;
-        firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
-            .then(function (confirmationResult) {
-                console.log("confirmationResult == " + JSON.stringify(confirmationResult));
-                // SMS sent. Prompt user to type the code from the message, then sign the
-                // user in with confirmationResult.confirm(code).
-                window.confirmationResult = confirmationResult;
-                document.getElementById("popupFormotp").style.display="block";
+        if(!form.terms.checked) {
+            form.terms.focus();
+            document.getElementById("termErr").innerHTML = "Please select terms and conditions";
+        } else {
+            document.getElementById("termErr").innerHTML = "";
+            // Phone NUMBER
+            var phoneNumber = document.getElementById("mobile").value;
+            var appVerifier = window.recaptchaVerifier;
+            firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+                .then(function (confirmationResult) {
+                    console.log("confirmationResult == " + JSON.stringify(confirmationResult));
+                    // SMS sent. Prompt user to type the code from the message, then sign the
+                    // user in with confirmationResult.confirm(code).
+                    window.confirmationResult = confirmationResult;
+                    $("#exampleModal").modal()
 
-            }).catch(function (error) {
-            console.log("error  == " + error);
-            // Error; SMS not sent
-            // ...
-        });
+                }).catch(function (error) {
+                console.log("error  == " + error);
+                // Error; SMS not sent
+                // ...
+            });
+        }
     }
 
     function mobileOTPVerify() {
-        var code = document.getElementById("mobileotp").value;
+        var code = document.getElementById("otpinput").value;
         console.log("on submit call" + code);
         confirmationResult.confirm(code).then(function (result) {
             // User signed in successfully.
@@ -307,8 +303,6 @@
     function registerIndividuals() {
 
         var x = document.getElementById("select1").selectedIndex;
-        // alert(document.getElementsByTagName("option")[x].value);
-        console.log("Individuals = " + document.getElementById("first_name").value);
         $.ajax({
             type: "POST",
             url: '/register',
@@ -316,20 +310,17 @@
                 first_name: document.getElementById("first_name").value,
                 last_name: document.getElementById("last_name").value,
                 contact: document.getElementById("mobile").value,
+                password: document.getElementById("password").value,
                 email: document.getElementById("email").value,
                 resident_country: document.getElementsByTagName("option")[x].value,
                 type_id : 2,
                 term_id : 2
             }
         }).done(function( response ) {
+            $("#exampleModal").modal("hide");
             console.log(response);
-            //
-            // document.getElementById("popupForm").style.display="none";
             window.location = '/home';
-            //
         });
-
-        // document.getElementById("popupForm").style.display="block";
     }
 
     function registerOrganisation() {
