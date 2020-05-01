@@ -72,15 +72,15 @@
 </html>
  </div>
 </div>
-           @if ($message = Session::get('success'))
+{{--           @if ($message = Session::get('success'))--}}
 
-              <div class="alert alert-success">
+{{--              <div class="alert alert-success">--}}
 
-                  <p>{{ $message }}</p>
+{{--                  <p>{{ $message }}</p>--}}
 
-              </div>
+{{--              </div>--}}
 
-          @endif
+{{--          @endif--}}
  <div class="table-responsive">
 <table class="table align-items-center table-flush" id="mytable">
 <thead class="thead-light">
@@ -100,7 +100,6 @@
           @if (isset($data) && !empty($data))
            <?php $i=0; ?>
            @foreach ($data as $validator)
-
             <tr>
 
               <td>{{ $validator->id }}</td>
@@ -108,7 +107,10 @@
               <td><img src="{{ asset($validator->icon_image) }}" class="square" width="60" height="50" /></td>
               <td><img src="{{ asset($validator->banner_image) }}" class="square" width="60" height="50" /></td>
               <td>{{ $validator->description }}</td>
-              <td><a href="{{route('detailpage',['id'=>$validator->id])}}" class = "btn btn-sm btn-primary">Detail</a></td>
+                <td>
+                    <button class = "btn btn-sm btn-primary" onclick="detailpage({{ $validator->id }})"> Detail </button>
+                </td>
+{{--              <td><a href="{{route('detailpage',['id'=>$validator->id])}}" class = "btn btn-sm btn-primary">Detail</a></td>--}}
             </tr>
            @endforeach
            @endif
@@ -122,6 +124,11 @@
 {{--</div>--}}
 
  <script>
+     function detailpage(id) {
+         console.log(id);
+         window.location = '/detailpage?id=' + id;
+     }
+
      function store() {
          var form = new FormData();
          var files = $('#icon_image')[0].files[0];
