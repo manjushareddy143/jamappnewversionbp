@@ -72,7 +72,7 @@
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
-                            <a href="{{ url('/addUser') }}">Register</a>
+                            <a href="{{ url('/register') }}">Register</a>
                     @endauth
                 </div>
             @endif
@@ -82,9 +82,9 @@
                     JAM
                 </div> -->
                 <div>
-                    <img src="{{ URL::to('/') }}/logo.png">
+                    <img src="{{ URL::to('/') }}/img/logo/logo2.png" style="width: 50%;height: 50%;">
                 </div>
-              
+
             </div>
 
 
@@ -94,5 +94,5 @@
   <div id="copyright" class="flex-center">© Copyright 2020 JAM</div>
     </footer>
     </body>
-    
+
 </html>

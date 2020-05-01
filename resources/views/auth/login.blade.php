@@ -25,7 +25,7 @@
             <!-- Login Content -->
             <div class="container-login">
                 <div class="row justify-content-center">
-                    <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="col-xl-11 col-lg-12 col-md-9">
                         <div class="card shadow-sm my-5">
                             <div class="card-body p-0">
                                 <div class="row">
@@ -82,7 +82,7 @@
 
 
                                                     <div class="col-md-6 f-left paddingnone">
-                                                        <a href="#" class="forgot-password">Forgot Password?</a>
+                                                        <a href="#" class="forgot-password" style="color: #f79548;">Forgot Password?</a>
                                                     </div>
                                                 </div>
 
@@ -92,11 +92,11 @@
                                                             {{ __('Login') }}
                                                         </button>
 
-                                                        @if (Route::has('password.request'))
-                                                            <a class="btn btn-link" href="{{ route('password.request') }}">
-                                                                {{ __('Forgot Your Password?') }}
-                                                            </a>
-                                                        @endif
+{{--                                                        @if (Route::has('password.request'))--}}
+{{--                                                            <a class="btn btn-link" href="{{ route('password.request') }}">--}}
+{{--                                                                {{ __('Forgot Your Password?') }}--}}
+{{--                                                            </a>--}}
+{{--                                                        @endif--}}
 {{--                                                    </div>--}}
 {{--                                                </div>--}}
 
@@ -107,8 +107,8 @@
                                             </form>
                                             <hr>
                                             <div class="text-center login-signin">
-                                                Already have an account?
-{{--                                                <a class="font-weight-bold small" href="register.html">Sign In</a>--}}
+                                                Already have an account? <a class="font-weight-bold small"
+                                                                            href="/register" style="color: #f79548;">Sign Up</a>
                                             </div>
 
                                         </div>

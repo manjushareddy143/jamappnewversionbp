@@ -29,6 +29,8 @@ Route::post('v1/customer_register', 'UserController@customer_register');
 Route::post('v1/profile', 'UserController@profile');
 Route::post('v1/init_profile', 'UserController@init_profile');
 Route::post('v1/booking', 'BookingController@booking');
+Route::get('v1/booking', 'BookingController@getorderbyuser');
+Route::get('v1/booking/{id}', 'BookingController@getorder');
 
 
 
@@ -48,7 +50,7 @@ Route::get('v1/providers/service', 'ServiceMappingController@get_providers_by_se
 Route::get('v1/providers/category', 'ServiceMappingController@get_providers_by_category');
 Route::get('v1/providers/service_category', 'ServiceMappingController@get_providers_by_service_category');
 
-Route::get('/ma', 'UserController@mobileRegi');
+Route::get('/ma', 'ServicesController@get_service_categories');
 
 
 // User Type Mng

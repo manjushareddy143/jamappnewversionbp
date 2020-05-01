@@ -31,8 +31,21 @@ class BookingController extends Controller
 
         $booking = Booking::create($input);
 
-
+        return response($booking, 200)
+            ->header('content-type', 'application/json');
 
         return response()->json($request);
     }
+
+    public  function getorderbyuser(Request $request) {
+        $user_id = $request->input('id');
+        $result = Booking::where('user_id', '=', $user_id)->get();
+        return response()->json($result);
+    }
+
+    public  function getorder($id) {
+        $result = Booking::where('id', '=', $id)->first();
+        return response()->json($result);
+    }
+
 }
