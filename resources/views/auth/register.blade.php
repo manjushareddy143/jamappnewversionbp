@@ -262,7 +262,7 @@
         console.log("mobileSignup");
         if(!form.terms.checked) {
             form.terms.focus();
-            document.getElementById("termErr").innerHTML = "Please select terms and conditions";
+            document.getElementById("termErr").innerHTML = "Please accept terms conditions";
         } else {
             document.getElementById("termErr").innerHTML = "";
             // Phone NUMBER
