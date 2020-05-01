@@ -50,7 +50,7 @@ Route::get('v1/providers/service', 'ServiceMappingController@get_providers_by_se
 Route::get('v1/providers/category', 'ServiceMappingController@get_providers_by_category');
 Route::get('v1/providers/service_category', 'ServiceMappingController@get_providers_by_service_category');
 
-Route::get('/ma', 'UserController@mobileRegi');
+Route::get('/ma', 'ServicesController@get_service_categories');
 
 
 // User Type Mng

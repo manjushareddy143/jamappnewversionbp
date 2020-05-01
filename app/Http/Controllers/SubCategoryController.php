@@ -49,4 +49,6 @@ class SubCategoryController extends Controller
             return response()->json(null, 204);
         }
     }
+
+    
 }
