@@ -135,9 +135,9 @@ class RegisterController extends Controller
             $response['message']  = "Please add valid details";
         }
 
-        $credentials = ['email' => $input['email'],
-            'password' => 'password'];
-
+//        $credentials = ['email' => $input['email'],
+//            'password' => $input['password']];
+        $credentials = $request->only('email', 'password');
         if( Auth::attempt($credentials)) {
             //dd(\Session::getId());
 //            $encryptedCookie = Crypt::encrypt(\Session::getId(), true);
@@ -145,7 +145,7 @@ class RegisterController extends Controller
             // ->withCookie(cookie(\Str::slug(env('APP_NAME', 'laravel'), '_').'_session', $encryptedCookie, 45000));
             //$request->session()->regenerate();
         }
-        return response()->json($response, 200);
+        return response()->json($response, 403);
 
 //        $credentials = $request->only('email', 'password');
 //        if (Auth::attempt($credentials)) {
