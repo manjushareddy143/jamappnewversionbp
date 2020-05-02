@@ -19,12 +19,14 @@ class CreateBookingsTable extends Migration
             $table->integer('service_id');
             $table->integer('category_id');
             $table->string('orderer_name');
-            $table->string('email');
+            $table->string('email')->nullable(true);;
             $table->string('contact');
-            $table->dateTime('booking_date');
+            $table->date('booking_date');
             $table->time('start_time');
             $table->time('end_time');
-            $table->string('remark');
+            $table->string('remark')->nullable(true);
+            $table->integer('provider_id');
+            $table->integer('status');
             $table->timestamps();
         });
     }
