@@ -17,70 +17,92 @@
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
-     <!DOCTYPE html>
-  <html>
-  <head>
-    <title>Title of the document</title>
-  </head>
-  <body>
-    <div class="open-btn">
+  
+    <!-- <div class="open-btn">
       <button class="btn btn-sm btn-primary" onclick="openForm()"><strong>Open Form</strong></button>
-    </div>
-    <div class="login-popup">
-      <div class="form-popup" id="popupForm">
-        <form class="form-container">
-          <label for="name">
-          <strong>Name</strong>
-          </label>
-           <input type="text" id="name"  name="name" placeholder="Your Name"required>
-            <div class="form-group row">
-                        <label for="image">
-                          Icon_Image
-                        </label>
-                         <div class="col-md-6">
+    </div> -->
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  
+     <div class="container-fluid" id="container-wrapper">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Create User</h1>
+            <div class="custom-buttons">
+              <button type="button" class="btn btn-primary mb-1">Create</button>
+              <button type="button" class="btn btn-secondary mb-1" onclick="service()">Back</button>
+            </div>
+          </div>
+
+          <div class="row sectionrow">
+            <div class="col-lg-12">              
+              <!-- Horizontal Form -->
+              <div class="card mb-4">
+                
+              
+                <div class="card-body">
+                  <div class="login-form create-user">
+                  <form>
+                    <div class="col-md-6 float-l">
+                    <div class="form-group">
+                      <label>Name</label>
+                      <input type="text" class="form-control" name="name" id="name" placeholder="Enter First Name">
+                    </div>
+                  </div>
+                  <div class="col-md-6 float-l">
+                    <div class="form-group">
+                        <label>Icon_Image</label>
                           <input id="icon_image" type="file" name="image" class="form-control ">
-                       </div>
                      </div>
-                     <div class="form-group row">
-                        <label for="image">
-                          Banner_Image
-                        </label>
-                         <div class="col-md-6">
+                   </div>
+                    <div class="col-md-6 float-l">
+                     <div class="form-group">
+                        <label>Banner_Image</label>
                           <input id="banner_image" type="file" name="image" class="form-control ">
-                       </div>
                      </div>
-                     <label for="description">
-          <strong>description</strong>
-          </label>
-           <input id="description" type="text" name="description" value="" placeholder="Your Description" required>
-          <button type="button" name="savebtn" class="btn" onclick="store()">Save</button>
-          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-        </form>
-      </div>
-    </div>
-    <script>
-      function openForm() {
-        document.getElementById("popupForm").style.display="block";
-      }
+                      </div>
+                      <div class="col-md-6 float-l">
+                      <div class="form-group">
+                      <label>description</label>
+                     <input id="description" type="text" name="description"  class="form-control" required>
+                      </div>
+                    </div>
+                  <div class="col-md-6 float-l">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-primary btn-block" onclick="store()">Save</button>
+                    </div>
+                  </div>
+                  </form>
+                </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Row-->
+        
+</div>
 
-      function closeForm() {
-        document.getElementById("popupForm").style.display="none";
-      }
-    </script>
-  </body>
 
-</html>
+<span type="button"  class="btn btn-sm btn-primary" onclick="openNav()">Open Form</span>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "83%";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
  </div>
 </div>
-{{--           @if ($message = Session::get('success'))--}}
+           @if ($message = Session::get('success'))
+         <div class="alert alert-success">
+        <p>{{ $message }}</p>
+        </div>
 
-{{--              <div class="alert alert-success">--}}
-
-{{--                  <p>{{ $message }}</p>--}}
-
-{{--              </div>--}}
-
-{{--          @endif--}}
+               @endif
  <div class="table-responsive">
 <table class="table align-items-center table-flush" id="mytable">
 <thead class="thead-light">
@@ -162,80 +184,48 @@
 
 
 <style>
-      * {
-      box-sizing: border-box;
-      }
-      body {
-      font-family: Roboto, Helvetica, sans-serif;
-      }
-      /* Fix the button on the left side of the page */
-      .open-btn {
-      display: flex;
-      justify-content: left;
-      }
-      /* Style and fix the button on the page */
-      .open-button {
-      background-color: #1c87c9;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      opacity: 0.8;
-      /*position: fixed;*/
-      }
-      /* Position the Popup form */
-      .login-popup {
-      position: relative;
-      text-align: center;
-      width: 100%;
-      }
-      /* Hide the Popup form */
-      .form-popup {
-      display: none;
-      position: fixed;
-      left: 45%;
-      top:5%;
-      transform: translate(-45%,5%);
-      border: 2px solid #666;
-      z-index: 9;
-      }
-      /* Styles for the form container */
-      .form-container {
-      max-width: 300px;
-      padding: 20px;
-      background-color: #fff;
-      }
-      /* Full-width for input fields */
-      .form-container input[type=text], .form-container input[type=password] {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0 22px 0;
-      border: none;
-      background: #eee;
-      }
-      /* When the inputs get focus, do something */
-      .form-container input[type=text]:focus, .form-container input[type=password]:focus {
-      background-color: #ddd;
-      outline: none;
-      }
-      /* Style submit/login button */
-      .form-container .btn {
-      background-color: #0aa698;;
-      color: #fff;
-      padding: 12px 20px;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-      margin-bottom:10px;
-      opacity: 0.8;
-      }
-      /* Style cancel button */
-      .form-container .cancel {
-      background-color: #cc0000;
-      }
-      /* Hover effects for buttons */
-      .form-container .btn:hover, .open-button:hover {
-      opacity: 1;
-      }
-    </style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 175;
+  left: 227;
+  background-color: #eaecf4;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  text-align:center;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+
+}
+
+.sidenav a:hover{
+  color: #04bfac;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
