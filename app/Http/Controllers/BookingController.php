@@ -34,10 +34,11 @@ class BookingController extends Controller
         $input = $request->all();
 
         $startTime = new \DateTime($input['booking_date']);
-        $dd = $startTime->format('d-m-yy');
+        $dd = $startTime->format('d-m-Y');
 
-        $dateTime = Carbon::parse($dd);
 
+        $dateTime = Carbon::parse($dd);//->format('d-m-Y');
+//        echo $dateTime; exit();
         $input['booking_date'] = $dateTime;
         $input['status'] = 1;
 
