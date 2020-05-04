@@ -138,7 +138,15 @@
                         data:data,
                         success: function(response) {
                             console.log(response);
-                            window.location = '/home';
+                            var test = response->status;
+                            console.log(test);
+                            if(response['status'] == true) {
+                                window.location = '/home';
+                            } else {
+
+
+                            }
+                          //
                         }
                     });
                 }

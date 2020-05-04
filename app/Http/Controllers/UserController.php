@@ -266,7 +266,7 @@ class UserController extends Controller
 
             $username = $request->input('email');
             $password = $request->input('password');
-            $access_type = $request->input('access_type');
+//            $access_type = $request->input('access_type');
 
             $checkuser  = User::where('email', '=', $username)->first();
             if (isset($checkuser)) {
@@ -279,21 +279,29 @@ class UserController extends Controller
                         $checkuser['resident_country'] = $service_provider['resident_country'];
                     }
                     $response = $checkuser;
+
+                    $address = Address::where('user_id', '=', $checkuser['id'])->first();
+                    $response['address'] = $address;
+                    return response($response, 200, JSON_NUMERIC_CHECK)
+                        ->header('content-type', 'application/json');
                 } else {
                     $response['code'] = false;
                     $response['message'] = "user unauthorized";
+                    return response($response, 401)
+                        ->header('content-type', 'application/json');
                 }
             } else {
                 $response['code'] = false;
                 $response['message'] = "user unauthorized";
-            }
-
-            if($access_type == null) {
-                return redirect('/home')->with('success', 'User Login!');
-            } else {
-                return response($response, 200)
+                return response($response, 401, JSON_NUMERIC_CHECK)
                     ->header('content-type', 'application/json');
             }
+
+//            if($access_type == null) {
+//                return redirect('/home')->with('success', 'User Login!');
+//            } else {
+
+//            }
         } catch (\Exception $e) {
             $response['code'] = 400;
             $response['message'] = "There is some error";
@@ -350,7 +358,7 @@ class UserController extends Controller
      *
      */
 
-        public function register_provider(Request $request) {
+    public function register_provider(Request $request) {
         $response = array();
 //        $initialValidator = Validator::make($request->all(),
 //            [
@@ -465,9 +473,9 @@ class UserController extends Controller
 
     // User Initial Profile
     public function init_profile(Request $request) {
-
+        $response = array();
         try {
-            $response = array();
+
             $validator = Validator::make($request->all(),
                 [
                     'id'  => 'required|exists:users,id',
@@ -480,6 +488,21 @@ class UserController extends Controller
             }
 
             $input = $request->all();
+
+            if(array_key_exists('email', $input)) {
+                $validatorEmail = Validator::make($request->all(),
+                    [
+                        'email'  => '|unique:users,email',
+                    ]);
+                if ($validatorEmail->fails())
+                {
+                    return response()->json(['error'=>$validatorEmail->errors()], 401);
+                }
+            }
+
+
+
+
             $id = $request->input('id');
             $user = User::find($id);
             $type_id = $user['type_id'];
@@ -543,7 +566,10 @@ class UserController extends Controller
 
 
                 $adddressdata = Address::create($address);
-                $user['address'] = $adddressdata;
+//
+                $addressRes = Address::where('user_id', '=', $id)->first();
+//                return response($addressRes, 403);
+                $user['address'] = $addressRes;
             }
 
             return response($user, 200)
@@ -551,7 +577,9 @@ class UserController extends Controller
 
         } catch (\Exception $e) {
             $response['code'] = 400;
-            $response['message'] = "There is some error";
+            $response['message'] = $e->getMessage();
+            return response($response, 400)
+                ->header('content-type', 'application/json');
         }
     }
 
