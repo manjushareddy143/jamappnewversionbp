@@ -137,17 +137,16 @@
                         url: '/login',
                         data:data,
                         success: function(response) {
-                            var data = JSON.parse(response);
+                            var data = response['status'];
 
-                            console.log(data);
+
                             // var test = response->status;
                             // console.log(test);
-                            // if(response['status'] == true) {
-                            //     window.location = '/home';
-                            // } else {
-                            //
-                            //
-                            // }
+                            if(data === true) {
+                                window.location = '/home';
+                            } else {
+                                alert("Invalid email or password");
+                            }
                           //
                         }
                     });
