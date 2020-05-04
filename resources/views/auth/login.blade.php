@@ -137,15 +137,17 @@
                         url: '/login',
                         data:data,
                         success: function(response) {
-                            console.log(response);
-                            var test = response->status;
-                            console.log(test);
-                            if(response['status'] == true) {
-                                window.location = '/home';
-                            } else {
+                            var data = JSON.parse(response);
 
-
-                            }
+                            console.log(data);
+                            // var test = response->status;
+                            // console.log(test);
+                            // if(response['status'] == true) {
+                            //     window.location = '/home';
+                            // } else {
+                            //
+                            //
+                            // }
                           //
                         }
                     });

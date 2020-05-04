@@ -434,6 +434,7 @@ class UserController extends Controller
             [
                 'first_name' => 'required',
                 'last_name' => 'required',
+                'password' => 'required',
                 'contact' => 'required|unique:users,contact',
                 'type_id' => 'required|exists:user_types,id',
                 'term_id' => 'required|exists:term_conditions,id',
@@ -449,6 +450,8 @@ class UserController extends Controller
         $input = $request->all();
         $input['type_id'] = (int) $request->get('type_id');
         $input['term_id'] = (int) $request->get('term_id');
+
+        $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
 
         $user_id=$user->id;

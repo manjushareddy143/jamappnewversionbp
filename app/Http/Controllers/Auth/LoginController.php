@@ -41,9 +41,10 @@ class LoginController extends Controller
     }
 
     public function customLogin(Request $request) {
-        //dd($request->all());
-//        echo ($request); exit();
+
+
         $credentials = $request->only('email', 'password');
+//        dd(Auth::attempt($credentials));
         if (Auth::attempt($credentials)) {
             return response()->json(['status' => true]);
         } else {
