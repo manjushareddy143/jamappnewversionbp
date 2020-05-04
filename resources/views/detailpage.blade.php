@@ -19,7 +19,7 @@
                   <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
 
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="#myBtn"> Create New Category</button>              
+                    id="#myBtn"> Create New Category</button>
 
 
 
@@ -35,20 +35,43 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form>
-                     <div class="col-md-12 float-l">
-                    <div class="form-group">
-                      <label>Name</label>
-                      <input type="text" class="form-control" name="name" id="name" placeholder="Enter First Name" required>
-                    </div>
-                  </div>
+                  <form id="addform">
+
+                      <div class="col-md-12">
+                          <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input"
+                                     id="terms" name="terms" onclick="checkClick()">
+                              <label class="custom-control-label" for="terms">
+                                  Select category from existing list
+                              </label>
+                          </div>
+                      </div>
+
+                      <div class="col-md-12" id="namediv">
+                          <div class="form-group">
+                              <label>Name</label>
+                              <input id="name" type="text" name="name"  class="form-control"
+                                     placeholder="Enter Category Name" required>
+                          </div>
+                      </div>
+
+                      <div class="col-md-12" id="categorydiv">
+                          <div class="form-group">
+                              <label for="exampleFormControlSelect1">Type</label>
+                              <select class="form-control" id="categorieslist">
+                              </select>
+                          </div>
+                      </div>
 
                   <div class="col-md-12">
                     <div class="form-group">
                         <label>Image</label>
-                          <input id="image" type="file" name="image" class="form-control" required>
+{{--                        <input id="image" type="file" name="image" class="form-control" required>--}}
+                        <input id="image" type="file" name="image" class="form-control ">
+
                      </div>
                    </div>
+
 
                   <div class="col-md-12">
                       <div class="form-group">
@@ -56,25 +79,24 @@
                      <input id="description" type="text" name="description"  class="form-control" required>
                       </div>
                     </div>
-
                     <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="button" onclick="store()" class="btn btn-primary">Save</button>
                 </div>
                 </form>
-                  
+
                 </div>
-                
+
               </div>
             </div>
           </div>
           <!-- Modal -->
 </div>
 </div>
-                  
-          
-     
- 
+
+
+
+
 {{--           @if ($message = Session::get('success'))--}}
 
 {{--              <div class="alert alert-success">--}}
@@ -120,7 +142,51 @@
         window.onload = function() {
             let searchParams = getUrlParameter('id');
             console.log(searchParams);
+            $("#categorydiv").hide();
+            getCategories();
         };
+
+        function checkClick() {
+            if(!addform.terms.checked) {
+                addform.terms.focus();
+                console.log('cancel');
+                $("#namediv").show(1000);
+                $("#categorydiv").hide(1000);
+            } else {
+                console.log('click');
+                $("#namediv").hide(1000);
+                $("#categorydiv").show(1000);
+            }
+        }
+
+        function getCategories() {
+            $.ajax({
+                url: '/subcategories',
+                type: 'GET',
+                success: function(response){
+                    console.log(response);
+                    if(response['status'] == 204) {
+                        console.log(response);
+                    } else {
+                        for(var i = 0; i < response.length; i ++) {
+                            console.log(response[i].name);
+                            $('#categorieslist').append(`<option value="${response[i].id}">
+                                       ${response[i].name}
+                                  </option>`);
+                        }
+
+
+                    }
+                    // $('#mytable').data.reload();
+                    // window.top.location = window.top.location;
+                    // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                    // $('#table align-items-center table-flush').dataTable().ajax.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
         var getUrlParameter = function getUrlParameter(sParam) {
             var sPageURL = window.location.search.substring(1),
@@ -137,42 +203,39 @@
             }
         };
 
+
+        function detailpage(id) {
+            console.log(id);
+            window.location = '/detailpage?id=' + id;
+        }
+
+        function store() {
+            var form = new FormData();
+            var files = $('#image')[0].files[0];
+            form.append('image',files);
+            form.append('name', document.getElementById("name").value);
+            form.append('description', document.getElementById("description").value);
+            $.ajax({
+                url: '/subcategories',
+                type: 'POST',
+                data: form,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    console.log(response);
+                    // $('#mytable').data.reload();
+                    window.top.location = window.top.location;
+                    // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                    // $('#table align-items-center table-flush').dataTable().ajax.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+
+            // document.getElementById("popupForm").style.display="block";
+        }
+
     </script>
-
-
-
-    <script>
-     function detailpage(id) {
-         console.log(id);
-         window.location = '/detailpage?id=' + id;
-     }
-
-     function store() {
-         var form = new FormData();
-         var files = $('image')[0].files[0];
-         form.append('image',files);
-         form.append('name', document.getElementById("name").value);
-         form.append('description', document.getElementById("description").value);
-         $.ajax({
-             url: '/detailpage',
-             type: 'POST',
-             data: form,
-             contentType: false,
-             processData: false,
-             success: function(response){
-                 console.log(response);
-                 // $('#mytable').data.reload();
-                 window.top.location = window.top.location;
-                 // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
-                 // $('#table align-items-center table-flush').dataTable().ajax.reload();
-             },
-             fail: function (error) {
-                 console.log(error);
-             }
-         });
-
-         // document.getElementById("popupForm").style.display="block";
-     }
- </script>
 @endsection
 

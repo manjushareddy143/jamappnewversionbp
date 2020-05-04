@@ -17,7 +17,7 @@
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
-  
+
     <!-- <div class="open-btn">
       <button class="btn btn-sm btn-primary" onclick="openForm()"><strong>Open Form</strong></button>
     </div> -->
@@ -28,17 +28,18 @@
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Create User</h1>
             <div class="custom-buttons">
-              <button type="button" class="btn btn-primary mb-1">Create</button>
-              <button type="button" class="btn btn-secondary mb-1" onclick="service()">Back</button>
+              <button type="button" class="btn btn-primary mb-1" onclick="store()">Create</button>
+{{--            <button type="button" class="btn btn-primary btn-block" onclick="store()">Save</button>--}}
+              <button type="button" class="btn btn-secondary mb-1" onclick="closeNav()">Back</button>
             </div>
           </div>
 
           <div class="row sectionrow">
-            <div class="col-lg-12">              
+            <div class="col-lg-12">
               <!-- Horizontal Form -->
               <div class="card mb-4">
-                
-              
+
+
                 <div class="card-body">
                   <div class="login-form create-user">
                   <form>
@@ -54,23 +55,25 @@
                           <input id="icon_image" type="file" name="image" class="form-control ">
                      </div>
                    </div>
+
                     <div class="col-md-6 float-l">
-                     <div class="form-group">
-                        <label>Banner_Image</label>
-                          <input id="banner_image" type="file" name="image" class="form-control ">
-                     </div>
-                      </div>
+                        <div class="form-group">
+                            <label>Banner_Image</label>
+                            <input id="banner_image" type="file" name="image" class="form-control ">
+                        </div>
+                    </div>
+
                       <div class="col-md-6 float-l">
                       <div class="form-group">
                       <label>description</label>
                      <input id="description" type="text" name="description"  class="form-control" required>
                       </div>
                     </div>
-                  <div class="col-md-6 float-l">
-                    <div class="form-group">
-                      <button type="button" class="btn btn-primary btn-block" onclick="store()">Save</button>
-                    </div>
-                  </div>
+{{--                  <div class="col-md-6 float-l">--}}
+{{--                    <div class="form-group">--}}
+{{--                      <button type="button" class="btn btn-primary btn-block" onclick="store()">Save</button>--}}
+{{--                    </div>--}}
+{{--                  </div>--}}
                   </form>
                 </div>
                 </div>
@@ -79,7 +82,7 @@
             </div>
           </div>
           <!--Row-->
-        
+
 </div>
 
 

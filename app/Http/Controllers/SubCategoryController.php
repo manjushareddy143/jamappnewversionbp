@@ -42,13 +42,12 @@ class SubCategoryController extends Controller
 
     public function show_all() {
         $listServices = SubCategories::all();
-
         if($listServices->count() > 0) {
             return response()->json($listServices);
         } else {
-            return response()->json(null, 204);
+            return response()->json(['status'=> 204]);
         }
     }
 
-    
+
 }
