@@ -29,6 +29,7 @@ class ServiceMappingController extends Controller
         $input = $request->all();
 
         $returnValue = ServiceMapping::where('service_id','=',$input['service_id'])->where('category_id','=',$input['category_id'])->get();
+
         if($returnValue->count() == 0) {
             $form_data = array(
                 'service_id'  => $input['service_id'],
@@ -39,6 +40,7 @@ class ServiceMappingController extends Controller
         } else {
             return response()->json(null, 409);
         }
+
     }
 
     public function get_services_by_user(Request $request) {

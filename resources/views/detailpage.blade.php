@@ -89,7 +89,7 @@
                               <span aria-hidden="true">&times;</span>
                           </button>
                           <h6><i class="fas fa-ban"></i><b> Error!</b></h6>
-                          A simple danger alert—check it out!
+                          <p id="errormsg"> Unknow Error from Server side!</p>
                       </div>
 
                 </form>
@@ -176,8 +176,6 @@
             }
         }
 
-
-
         function getCategories() {
             $.ajax({
                 url: '/subcategories',
@@ -221,7 +219,6 @@
                 }
             }
         };
-
 
         function detailpage(id) {
             console.log(id);
@@ -271,6 +268,7 @@
                     service_id: service_id,
                     category_id: category_id, //document.getElementById("last_name").value,
                 },
+
                 success: function(response){
                     console.log(response);
                     // $('#mytable').data.reload();
@@ -278,8 +276,9 @@
                     // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
                     // $('#table align-items-center table-flush').dataTable().ajax.reload();
                 },
-                error: function (error) {
 
+                error: function (error) {
+                    $("#alerterror").text(error['statusText']);
                     $("#alerterror").show();
                     setTimeout(function() {
                         $("#alerterror").hide()
