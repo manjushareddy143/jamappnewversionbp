@@ -130,7 +130,7 @@
                     var data = {
                         email: $("#email").val(),
                         password: $("#password").val(),
-                        // _token: $("input[name=_token]").val()
+                        _token: $("input[name=_token]").val()
                     };
                     $.ajax({
                         type: 'POST',

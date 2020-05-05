@@ -1,11 +1,7 @@
-
 @extends('layouts.admin')
 
 
-
-
 @section('content')
-
          <div class="container-fluid" id="container-wrapper">
           <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Simple Tables</h1>
@@ -13,12 +9,8 @@
               <li class="breadcrumb-item"><a href="/login">Home</a></li>
               <li class="breadcrumb-item">Tables</li>
               <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>
-            </ol>-->
-
-          </div>
-
-
-
+            </ol>
+          </div> -->
 
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -55,7 +47,7 @@
                     <input type="text" class="form-control"id="last_name" placeholder="Enter Your Last Name">
                       </div>
                       </div>
-
+                  
 
                    <div class="col-md-6 float-l">
                 <div class="form-group">
@@ -120,16 +112,16 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-
+                            
                         </div>
                   </div>
 
-
+                             
                             <div class="col-md-6 float-l">
                         <div class="form-group">
                           <label>Category</label>
                                 <select id="category" class="form-control">
-                                    <option selected value="Please Select">Category</option>
+                                    <option selected value="Please Select">Category</option>           
                                     <option value="car">Cars</option>
                                     <option value="truck">Trucks</option>
                                     <option value="motor">Motorcycles</option>
@@ -147,7 +139,7 @@
                                     {{-- <input id="experience" type="text" class="form-control " name="Experience"> --}}
                             </div>
 
-                    </form>
+                    </form>  
                     </div>
                   <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -260,13 +252,13 @@
 
     <td>
 
-{{--       <a class="btn btn-info" href="{{ route('user.show',$user->id) }}"><i class="fas fa-eye"></i></a>--}}
+       <a class="btn btn-info" href="{{ route('user.show',$user->id) }}"><i class="fas fa-eye"></i></a>
 
 
-{{--       <a class="btn btn-primary" href="{{ route('user.edit',$user->id) }}"><i class="fas fa-edit"></i></a>--}}
+       <a class="btn btn-primary" href="{{ route('user.edit',$user->id) }}"><i class="fas fa-edit"></i></a>
 
 
-{{--        {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id],'style'=>'display:inline']) !!}--}}
+        {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id],'style'=>'display:inline']) !!}
 
             <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
             <a href="" class="btn btn-danger">
@@ -287,8 +279,70 @@
 {{-- {!! $data->render() !!} --}}
 @endif
 
+<!-- <p class="text-center text-primary"><small>com.jam</small></p> -->
+
+{{--
+    <table class="table table-bordered">
+
+        <tr>
+
+            <th>id</th>
+
+            <th>Name</th>
+
+            <th>email</th>
+
+            <th width="280px">Action</th>
+
+        </tr>
+
+        @foreach ($errors as $user)
+
+        <tr>
+
+            <td>{{ ++$i }}</td>
+
+            <td>{{ $user->name }}</td>
+
+            <td>{{ $user->email }}</td>
+
+            <td>
+
+                <form action="{{ route('Users.destroy',$user->id) }}" method="POST">
+
+
+
+                    <a class="btn btn-info" href="{{ route('Users.show',$user->id) }}">Show</a>
+
+
+
+                    <a class="btn btn-primary" href="{{ route('Users.edit',$user->id) }}">Edit</a>
+
+
+
+                    @csrf
+
+                    @method('DELETE')
+
+
+
+                    <button type="submit" class="btn btn-danger">Delete</button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        @endforeach
+
+    </table>
+
+
+    {{-- {!! $errors->links() !!} @endsection --}}
+
 </div>
 </div>
-{{--</div>--}}
+</div>
 
 @endsection
