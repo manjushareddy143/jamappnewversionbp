@@ -8,8 +8,8 @@
                 <div class="card-header">{{ __('Create User') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.store') }}">
-
+                    <form method="GET" action="/index">
+                        {{-- {{ route('user.store') }} --}}
                         @csrf
 
                         <div class="form-group row">
@@ -94,7 +94,7 @@
                             <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
 
                             <div class="col-md-6">
-                                <select name="ServiceProvider" id="category" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
+                                <select name="type" id="category" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
                                     <option value="Selected">Select</option>
                                     <option value="Corporate service provider">Corporate service provider</option>
                                     <option value="Individual service provider">Individual service provider</option>
@@ -135,11 +135,16 @@
                                 <div class="col-md-6">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="arabic"> Arabic
+                                            <input type="checkbox" name="arabic" value="arabic"> Arabic
                                         </label>
                                         <label>
-                                            <input type="checkbox" name="english"> English
+                                            <input type="checkbox" name="english" value="english"> English
                                         </label>
+                                 @error('language')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                     </div>
                               </div>
                             </div>
@@ -176,7 +181,7 @@
                         </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" onclick="responsecall">
                                     {{ __('Create User') }}
                                 </button>
                             </div>
@@ -208,5 +213,41 @@
         return ;
     }
     </script>
+$.ajax({
+    type:"POST",
+    url:"/index/"+id,
+    success : function(results)
+    {
+        var $table = $('<table></table>');
+        $('#destination').html('');
 
+        for(var i=0;i<=results.length;i++)
+        {
+            $table.append('<tr><td>name</td><td>'+results[i].design_name+'</td></tr>)
+            $table.append('<tr><td>email</td><td>'+results[i].design_email+'</td></tr>)
+            $table.append('<tr><td>password</td><td>'+results[i].design_password+'</td></tr>)
+            $table.append('<tr><td>contact</td><td>'+results[i].design_contact+'</td></tr>)
+            $table.append('<tr><td>type</td><td>'+results[i].design_type+'</td></tr>)
+        }
+        $('#destination').append($table);
+    }
+})
+{{-- <script>
+
+    function responsecall() {
+        console.log("test1");
+        // $design = design::select('name','email','password','contact','type');
+        // return Response::json($design);
+        return response()
+                ->json(['name','email','contact','type'])
+                ->withCallback($request->input('responsecall'));
+        print("hello");
+        exit;
+        if (Request::format() == 'json')
+        {
+            //when condition is true then below statement will excute
+            return view('layouts.Users.index');
+        }
+    }
+  </script> --}}
 @endsection
