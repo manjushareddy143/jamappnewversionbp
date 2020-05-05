@@ -71,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/show/{$id}', 'UserController@show');
     Route::get('/addUser', 'UserController@addUser');
     Route::get('/edit','UserController@edit');
+    
 
     Route::get('/profile','UserController@profile');
     Route::post('/profile','UserController@profile');
