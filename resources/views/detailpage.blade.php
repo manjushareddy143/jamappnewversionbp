@@ -47,15 +47,15 @@
                           </div>
                       </div>
 
-                      <div class="col-md-12" id="namediv">
-                          <div class="form-group">
-                              <label>Name</label>
-                              <input id="name" type="text" name="name"  class="form-control"
-                                     placeholder="Enter Category Name" required>
-                          </div>
-                      </div>
+                  <div class="col-md-12" id="namediv">
+                    <div class="form-group">
+                      <label>Name</label>
+                          <input id="name" type="text" name="name"  class="form-control"
+                                 placeholder="Enter Category Name" required>
+                    </div>
+                  </div>
 
-                      <div class="col-md-12" id="categorydiv">
+                  <div class="col-md-12" id="categorydiv">
                           <div class="form-group">
                               <label for="exampleFormControlSelect1">Type</label>
                               <select class="form-control" id="categorieslist">
@@ -63,26 +63,35 @@
                           </div>
                       </div>
 
-                  <div class="col-md-12">
+                  <div class="col-md-12" id="imagediv">
                     <div class="form-group">
                         <label>Image</label>
-{{--                        <input id="image" type="file" name="image" class="form-control" required>--}}
                         <input id="image" type="file" name="image" class="form-control ">
 
                      </div>
                    </div>
 
 
-                  <div class="col-md-12">
+                  <div class="col-md-12" id="descriptiondiv">
                       <div class="form-group">
                       <label>Description</label>
                      <input id="description" type="text" name="description"  class="form-control" required>
                       </div>
                     </div>
-                    <div class="modal-footer">
+
+                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="button" onclick="store()" class="btn btn-primary">Save</button>
                 </div>
+
+                      <div class="alert alert-success alert-dismissible" role="alert" id="alertsuccess">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h6><i class="fas fa-check"></i><b> Success!</b></h6>
+                          A simple success alert—check it out!
+                      </div>
+
                 </form>
 
                 </div>
@@ -139,10 +148,13 @@
 </div>
 </div>
     <script>
+        var service_id;
         window.onload = function() {
-            let searchParams = getUrlParameter('id');
-            console.log(searchParams);
+            service_id = getUrlParameter('id');
+            console.log(service_id);
             $("#categorydiv").hide();
+            $("#alertsuccess").hide();
+
             getCategories();
         };
 
@@ -150,14 +162,21 @@
             if(!addform.terms.checked) {
                 addform.terms.focus();
                 console.log('cancel');
-                $("#namediv").show(1000);
                 $("#categorydiv").hide(1000);
+                $("#namediv").show(1000);
+                $("#imagediv").show(1000);
+                $("#descriptiondiv").show(1000);
+
             } else {
                 console.log('click');
-                $("#namediv").hide(1000);
                 $("#categorydiv").show(1000);
+                $("#namediv").hide(1000);
+                $("#imagediv").hide(1000);
+                $("#descriptiondiv").hide(1000);
             }
         }
+
+
 
         function getCategories() {
             $.ajax({
@@ -210,17 +229,48 @@
         }
 
         function store() {
-            var form = new FormData();
-            var files = $('#image')[0].files[0];
-            form.append('image',files);
-            form.append('name', document.getElementById("name").value);
-            form.append('description', document.getElementById("description").value);
+            var selected_id = $('#categorieslist').children("option:selected").val();
+            console.log(selected_id);
+            if(!addform.terms.checked) {
+                addform.terms.focus();
+                console.log('cancel');
+                var form = new FormData();
+                var files = $('#image')[0].files[0];
+                form.append('image',files);
+                form.append('name', document.getElementById("name").value);
+                form.append('description', document.getElementById("description").value);
+                $.ajax({
+                    url: '/subcategories',
+                    type: 'POST',
+                    data: form,
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        console.log(response['id']);
+                        mappingService(response['id']);
+                        // $('#mytable').data.reload();
+                        // window.top.location = window.top.location;
+                        // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                        // $('#table align-items-center table-flush').dataTable().ajax.reload();
+                    },
+                    fail: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+            else {
+                mappingService(selected_id);
+            }
+        }
+
+        function mappingService(category_id) {
             $.ajax({
-                url: '/subcategories',
+                url: '/service_mapping',
                 type: 'POST',
-                data: form,
-                contentType: false,
-                processData: false,
+                data: {
+                    service_id: service_id,
+                    category_id: category_id, //document.getElementById("last_name").value,
+                },
                 success: function(response){
                     console.log(response);
                     // $('#mytable').data.reload();
@@ -228,12 +278,11 @@
                     // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
                     // $('#table align-items-center table-flush').dataTable().ajax.reload();
                 },
-                fail: function (error) {
-                    console.log(error);
+                error: function (error) {
+                    $("#alertsuccess").show();
+                    console.log("ERR ====="+JSON.stringify(error));
                 }
             });
-
-            // document.getElementById("popupForm").style.display="block";
         }
 
     </script>

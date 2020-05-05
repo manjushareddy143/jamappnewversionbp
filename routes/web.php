@@ -81,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/subcategories', 'SubCategoryController@show_all');
     Route::post('/subcategories', 'SubCategoryController@store');
 
+    Route::post('/service_mapping', 'ServiceMappingController@store');
 });
 
 
