@@ -84,12 +84,12 @@
                   <button type="button" onclick="store()" class="btn btn-primary">Save</button>
                 </div>
 
-                      <div class="alert alert-success alert-dismissible" role="alert" id="alertsuccess">
+                      <div class="alert alert-danger alert-dismissible" role="alert" id="alerterror">
                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                           </button>
-                          <h6><i class="fas fa-check"></i><b> Success!</b></h6>
-                          A simple success alert—check it out!
+                          <h6><i class="fas fa-ban"></i><b> Error!</b></h6>
+                          A simple danger alert—check it out!
                       </div>
 
                 </form>
@@ -153,7 +153,7 @@
             service_id = getUrlParameter('id');
             console.log(service_id);
             $("#categorydiv").hide();
-            $("#alertsuccess").hide();
+            $("#alerterror").hide();
 
             getCategories();
         };
@@ -279,7 +279,12 @@
                     // $('#table align-items-center table-flush').dataTable().ajax.reload();
                 },
                 error: function (error) {
-                    $("#alertsuccess").show();
+
+                    $("#alerterror").show();
+                    setTimeout(function() {
+                        $("#alerterror").hide()
+                    }, 1000);
+
                     console.log("ERR ====="+JSON.stringify(error));
                 }
             });
