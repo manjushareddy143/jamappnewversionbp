@@ -47,7 +47,7 @@
                     <input type="text" class="form-control"id="last_name" placeholder="Enter Your Last Name">
                       </div>
                       </div>
-                  
+
 
                    <div class="col-md-6 float-l">
                 <div class="form-group">
@@ -112,16 +112,16 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            
+
                         </div>
                   </div>
 
-                             
+
                             <div class="col-md-6 float-l">
                         <div class="form-group">
                           <label>Category</label>
                                 <select id="category" class="form-control">
-                                    <option selected value="Please Select">Category</option>           
+                                    <option selected value="Please Select">Category</option>
                                     <option value="car">Cars</option>
                                     <option value="truck">Trucks</option>
                                     <option value="motor">Motorcycles</option>
@@ -139,7 +139,7 @@
                                     {{-- <input id="experience" type="text" class="form-control " name="Experience"> --}}
                             </div>
 
-                    </form>  
+                    </form>
                     </div>
                   <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -252,13 +252,14 @@
 
     <td>
 
-       <a class="btn btn-info" href="{{ route('user.show',$user->id) }}"><i class="fas fa-eye"></i></a>
+       <a class="btn btn-info" ><i class="fas fa-eye"></i></a>
+{{--        href="{{ route('user.show',$user->id) }}"--}}
 
 
-       <a class="btn btn-primary" href="{{ route('user.edit',$user->id) }}"><i class="fas fa-edit"></i></a>
+       <a class="btn btn-primary" ><i class="fas fa-edit"></i></a>
+{{--        href="{{ route('user.edit',$user->id) }}"--}}
 
-
-        {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id],'style'=>'display:inline']) !!}
+{{--        {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id],'style'=>'display:inline']) !!}--}}
 
             <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
             <a href="" class="btn btn-danger">
