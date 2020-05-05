@@ -15,7 +15,6 @@
 </head>
 
 <body id="page-top">
-
   <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
@@ -31,8 +30,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="home">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-
+          <span>Dashboard</span>
         </a>
       </li>
 
@@ -292,7 +290,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <img class="img-profile rounded-circle" src="{{ asset('img/boy.png') }}" style="max-width: 60px">
-                <span class="ml-2 d-none d-lg-inline text-white small">user->firt_name</span>
+                <span class="ml-2 d-none d-lg-inline text-white small">Maman Ketoprak</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">

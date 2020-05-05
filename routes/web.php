@@ -13,18 +13,24 @@
 
 //use Illuminate\Routing\Route;
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::get('/', function () {
+    return view('welcome');
+});
 // Set the routes and resource for Users
 
 
 
 
-//Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
 
 
 
+
+
+// Route::get('/show', function ($id)
+// {
+//     return view('/layouts/Users/show');
+// });
 Route::get('/edit', function ($id)
 {
     return view('/layouts/Users/edit');
@@ -54,33 +60,18 @@ Route::post('/register', '\App\Http\Controllers\Auth\RegisterController@customRe
 Route::post('/changepassword','UserController@changepassword');
 Route::post('/resetPassword','UserController@resetPassword');
 
-Route::get('/roles', 'PermissionController@Permission');
-
-
-Route::get('/usersss', '\App\Http\Controllers\Auth\LoginController@userobj');
 
 Route::middleware(['auth'])->group(function () {
-
-    Route::get('/', function () {
-        return view('welcome');
-    });
-
-
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/logout', '\App\Http\Controllers\Auth\LoginController@customLogOut')->name('logout');
 
-    Route::group(['middleware' => 'role:developer'], function() {
-//        Route::resource('user', 'UserController');
-    });
-
-
-
+    Route::resource('user', 'UserController');
     Route::get('/users', 'UserController@index');
     Route::get('/index', 'UserController@index');
     Route::get('/show/{$id}', 'UserController@show');
     Route::get('/addUser', 'UserController@addUser');
     Route::get('/edit','UserController@edit');
-
+    
 
     Route::get('/profile','UserController@profile');
     Route::post('/profile','UserController@profile');
