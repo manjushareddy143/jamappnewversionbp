@@ -45,19 +45,32 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // SELECT * FROM `users` LEFT JOIN `user_types` ON `users`.`type_id` = `user_types`.`id`
-        $users=User::where('users.id', '>', 0)
-            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
-            ->select('users.*', 'user_types.*')
+        $user = $request->user();
+//        var_dump($user->hasAnyRole(Role::all()));
+
+        if($user->hasRole('manager')) {
+
+            $users=User::where('users.id', '>', 0)
+                ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
+                ->select('users.*', 'user_types.*')
 //            ->groupBy('users.id')
-            ->get();
+                ->get();
 //        echo ($users); exit();
 //        $individualserviceprovidermaster = IndividualServiceProvider::all();
-        return view('layouts.Users.index')->with('data',$users);  //->with('individualserviceprovider', $individualserviceprovidermaster);
+            return view('layouts.Users.index')->with('data',$users);  //->with('individualserviceprovider', $individualserviceprovidermaster);
+        } else {
+
+        }
+//        dd($user->hasRole('developer')); //will return true, if user has role
+//        dd($user->givePermissionsTo('create-tasks'));// will return permission, if not null
+//        dd($user->can('create-tasks'));
+
+        // SELECT * FROM `users` LEFT JOIN `user_types` ON `users`.`type_id` = `user_types`.`id`
+
        // $users = User::latest()->paginate(5);
-        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
+//        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
     }
 
     /** Form for creating a new resource
@@ -453,6 +466,7 @@ class UserController extends Controller
 
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
+//        $user->assign()
 
         $user_id=$user->id;
         $now = now()->utc();

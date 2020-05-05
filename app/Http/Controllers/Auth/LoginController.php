@@ -42,8 +42,11 @@ class LoginController extends Controller
 
     public function customLogin(Request $request) {
 
+//        echo (1322); exit();
 
+//        return response()->json(['status' => false]);
         $credentials = $request->only('email', 'password');
+
 //        dd(Auth::attempt($credentials));
         if (Auth::attempt($credentials)) {
             return response()->json(['status' => true]);
@@ -55,5 +58,10 @@ class LoginController extends Controller
     public function customLogOut(Request $request) {
         Auth::logout();
         return redirect('login');
+    }
+
+    public function userobj(Request $request) {
+        $user = Auth::user();
+        return response()->json($user);
     }
 }
