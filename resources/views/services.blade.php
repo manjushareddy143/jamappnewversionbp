@@ -3,14 +3,14 @@
 
 @section('content')
          <div class="container-fluid" id="container-wrapper">
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Simple Tables</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/login">Home</a></li>
               <li class="breadcrumb-item">Tables</li>
               <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>
             </ol>
-          </div>
+          </div> -->
 
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -26,7 +26,7 @@
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
      <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Create User</h1>
+            <h1 class="h3 mb-0 text-gray-800">Add Services</h1>
             <div class="custom-buttons">
               <button type="button" class="btn btn-primary mb-1">Create</button>
               <button type="button" class="btn btn-secondary mb-1" onclick="service()">Back</button>
@@ -50,13 +50,13 @@
                   </div>
                   <div class="col-md-6 float-l">
                     <div class="form-group">
-                        <label>Icon_Image</label>
+                        <label>Icon Image</label>
                           <input id="icon_image" type="file" name="image" class="form-control ">
                      </div>
                    </div>
                     <div class="col-md-6 float-l">
                      <div class="form-group">
-                        <label>Banner_Image</label>
+                        <label>Banner Image</label>
                           <input id="banner_image" type="file" name="image" class="form-control ">
                      </div>
                       </div>
@@ -83,7 +83,7 @@
 </div>
 
 
-<span type="button"  class="btn btn-sm btn-primary" onclick="openNav()">Open Form</span>
+<span type="button"  class="btn btn-sm btn-primary" onclick="openNav()">Add Services</span>
 
 <script>
 function openNav() {
@@ -107,10 +107,10 @@ function closeNav() {
 <thead class="thead-light">
  <tr>
 
-   <th>id</th>
+   <!-- <th>Id</th> -->
    <th>Name</th>
-   <th>Icon_image</th>
-   <th>Banner_image</th>
+   <th>Icon Image</th>
+   <th>Banner Image</th>
    <th>Description</th>
    <th width="280px">Action</th>
  </tr>
@@ -123,7 +123,7 @@ function closeNav() {
            @foreach ($data as $validator)
             <tr>
 
-              <td>{{ $validator->id }}</td>
+              <!-- <td>{{ $validator->id }}</td> -->
               <td> {{ $validator->name }} </td>
               <td><img src="{{ asset($validator->icon_image) }}" class="square" width="60" height="50" /></td>
               <td><img src="{{ asset($validator->banner_image) }}" class="square" width="60" height="50" /></td>
