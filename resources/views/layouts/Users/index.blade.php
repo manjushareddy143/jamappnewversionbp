@@ -18,7 +18,7 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Users Management</h6>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="#myBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add User</button>
+                    id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add User</button>
                 </div>
 
 
@@ -102,7 +102,7 @@
                 <div class="col-md-6 float-l">
                   <div class="form-group">
                             <label>Services</label>
-                                <select name="type" id="category" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
+                                <select name="type" id="service_provider" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
                                     <option value="Selected">Select</option>
                                     <option value="Corporate service provider">Corporate service provider</option>
                                     <option value="Individual service provider">Individual service provider</option>
@@ -176,7 +176,7 @@
 <thead class="thead-light">
  <tr>
 
-   <th>id</th>
+   <!-- <th>id</th> -->
 
    <th>Name</th>
 
@@ -213,7 +213,7 @@
 
   <tr>
 
-    <td>{{ ++$i }}</td>
+    <!-- <td>{{ ++$i }}</td> -->
 
     <td>{{ $user->name }}</td>
 

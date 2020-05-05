@@ -3,14 +3,14 @@
 
 @section('content')
          <div class="container-fluid" id="container-wrapper">
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Sub Categories</h1>
 {{--            <ol class="breadcrumb">--}}
 {{--              <li class="breadcrumb-item"><a href="/login">Home</a></li>--}}
 {{--              <li class="breadcrumb-item">Tables</li>--}}
 {{--              <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>--}}
 {{--            </ol>--}}
-          </div>
+          </div> -->
 
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -19,7 +19,7 @@
                   <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
 
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="#myBtn"> Create New Category</button>
+                    id="category_btn"> <i class="fa fa-plus" aria-hidden="true"></i> Create New Category</button>
 
 
 
@@ -75,7 +75,7 @@
                   <div class="col-md-12" id="descriptiondiv">
                       <div class="form-group">
                       <label>Description</label>
-                     <input id="description" type="text" name="description"  class="form-control" required>
+                     <input id="description" type="text" name="description" placeholder="Enter Description"  class="form-control" required>
                       </div>
                     </div>
 
@@ -120,7 +120,7 @@
 <thead class="thead-light">
  <tr>
 
-   <th>id</th>
+   <!-- <th>id</th> -->
    <th>Name</th>
    <th>Image</th>
    <th>Description</th>
@@ -134,7 +134,7 @@
            @foreach ($data as $results)
             <tr>
 
-              <td>{{ $results->id }}</td>
+              <!-- <td>{{ $results->id }}</td> -->
               <td> {{ $results->name }} </td>
               <td><img src="{{ asset($results->image) }}" class="square" width="60" height="50" /></td>
               <td>{{ $results->description }}</td>
