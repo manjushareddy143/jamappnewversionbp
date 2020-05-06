@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::group(['middleware' => 'role:manager'], function() {
-        
+
     });
 
     Route::get('/home', 'HomeController@index')->name('home');
