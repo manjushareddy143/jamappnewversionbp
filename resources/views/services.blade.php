@@ -19,7 +19,7 @@
                   <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                     id="add_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Services</button>
-
+</div>
 
  <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -38,7 +38,7 @@
                      <div class="col-md-6 float-l">
                         <div class="form-group">
                       <label>Name</label>
-                      <input type="text" class="form-control" name="name" id="name" placeholder="Enter Name">
+                      <input type="text" class="form-control" name="name" id="first_name" placeholder="Enter Name">
                         </div>
                       </div>
                       
@@ -63,20 +63,21 @@
                       </div>
                     </div>
 
-                      <div class="col-md-12">
+                      <div class="col-md-12 float-l">
+                        <div class="form-group">
                           <div class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input"
-                                     id="terms" name="terms" onclick="checkClick()">
+                              <input type="checkbox" class="custom-control-input" id="terms" name="terms" onclick="checkClick()">
                               <label class="custom-control-label" for="terms">
                                   Select category from existing list
                               </label>
                           </div>
+                        </div>
                       </div>
 
                       <div class="col-md-6 float-l" id="namediv">
                         <div class="form-group">
                       <label>Name</label>
-                          <input id="name" type="text" name="name"  class="form-control" placeholder="Enter Name" required>
+                          <input id="cat_name" type="text" name="name"  class="form-control" placeholder="Enter Name" required>
                         </div>
                       </div>
 
@@ -97,10 +98,10 @@
                      </div>
                    </div>
 
-                   <div class="col-md-6" id="descriptiondiv">
+                   <div class="col-md-12 float-l" id="description">
                       <div class="form-group">
                       <label>Description</label>
-                     <input id="description" type="text" name="description" placeholder="Enter Description"  class="form-control" required>
+                     <input id="descriptions" type="text" name="description" placeholder="Enter Description"  class="form-control" required>
                       </div>
                     </div>
 
@@ -125,7 +126,7 @@
           </div>
           <!-- Modal -->
  
-</div>
+
 </div>
            @if ($message = Session::get('success'))
          <div class="alert alert-success">
