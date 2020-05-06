@@ -3,14 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="8a3fd0e7-3aac-4aee-a6a8-f237993968d0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/Users/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/Users/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/PermissionServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/PermissionServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_12_054122_create_users_roles_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_12_054122_create_users_roles_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_12_054258_create_users_permissions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_12_054258_create_users_permissions_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_12_054343_create_roles_permissions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_12_054343_create_roles_permissions_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings">
+  <component name="ComposerSettings" doNotAsk="true">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
       <executable />
@@ -156,13 +162,27 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f1f5dbf9-046e-4fe8-b181-1e05e85bbe7b" name="Default Changelist" comment="" />
+      <changelist id="8a3fd0e7-3aac-4aee-a6a8-f237993968d0" name="Default Changelist" comment="" />
       <created>1587365911272</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1587365911272</updated>
       <workItem from="1587365919121" duration="18000" />
+      <workItem from="1588742868554" duration="3594000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1588742895320">
+      <screen x="0" y="0" width="1280" height="683" />
+    </state>
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.683@0.0.1280.683" timestamp="1588742895320" />
+    <state x="334" y="73" width="612" height="536" key="find.popup" timestamp="1588745670513">
+      <screen x="0" y="0" width="1280" height="683" />
+    </state>
+    <state x="334" y="73" width="612" height="536" key="find.popup/0.0.1280.683@0.0.1280.683" timestamp="1588745670513" />
   </component>
 </project>

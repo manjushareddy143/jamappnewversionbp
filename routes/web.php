@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 // Set the routes and resource for Users
 
+Route::get('/roles', 'PermissionController@Permission');
 
 
 
@@ -45,12 +46,16 @@ Route::get('/store', function () {
     return view('/layouts/Users/storeimage');
 });
 // Set the routes and resource for roles
-Route::resource('roles', 'RoleController');
-Auth::routes();
+//Route::resource('roles', 'RoleController');
+//Auth::routes();
 
 //Route::get('/index', 'UserController@index');
 
-Route::post('/login', '\App\Http\Controllers\Auth\LoginController@customLogin');
+//Route::get('/login', function () {
+//    return view('login');
+//});
+
+Route::get('/login', '\App\Http\Controllers\Auth\LoginController@customLogin');
 
 Route::post('/register', '\App\Http\Controllers\Auth\RegisterController@customRegister');
 
