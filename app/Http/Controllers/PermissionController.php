@@ -61,7 +61,7 @@ class PermissionController extends Controller
         $manager->email = 'hafiz@gmail.com';
         $manager->contact = "12345";
         $manager->password = bcrypt('secrettt');
-        $manager->save();
+        $manager->save  ();
         $manager->roles()->attach($manager_role);
         $manager->permissions()->attach($manager_perm);
 

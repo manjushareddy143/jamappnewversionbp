@@ -13,9 +13,11 @@
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+
 
 Route::get('/home', 'HomeController@index');
 
@@ -29,6 +31,14 @@ Route::post('/changepassword','UserController@changepassword');
 Route::post('/resetPassword','UserController@resetPassword');
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/', function() {
+        return view('welcome');
+    });
+
+    Route::group(['middleware' => 'role:manager'], function() {
+        
+    });
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/logout', '\App\Http\Controllers\Auth\LoginController@customLogOut')->name('logout');
