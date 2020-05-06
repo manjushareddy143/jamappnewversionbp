@@ -51,7 +51,7 @@
                     <div class="form-group">
                       <label>Name</label>
                           <input id="name" type="text" name="name"  class="form-control"
-                                 placeholder="Enter Category Name" required>
+                                 placeholder="Enter Name" required>
                     </div>
                   </div>
 

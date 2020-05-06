@@ -17,6 +17,7 @@ class ServicesController extends Controller
             [
                 'name'  => 'required',
                 'icon_image' => 'required|image',  //|max:2048
+                'banner_image' => 'required|image', //|max:2048
             ]);
 
         if ($validator->fails())
