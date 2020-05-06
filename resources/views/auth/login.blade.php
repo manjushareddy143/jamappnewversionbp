@@ -38,7 +38,7 @@
                                                 <h1 class="h4 text-gray-900 mb-4">LOGIN</h1>
                                             </div>
 
-                                            <form id="loginForm">
+                                            <form id="loginForm" method="POST" action="{{ route('login') }}">
 
                                                 @csrf
 

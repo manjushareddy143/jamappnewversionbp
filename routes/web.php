@@ -11,60 +11,22 @@
 |
 */
 
-//use Illuminate\Routing\Route;
+
 
 Route::get('/', function () {
     return view('welcome');
 });
-// Set the routes and resource for Users
-
-Route::get('/roles', 'PermissionController@Permission');
-
-
 
 Route::get('/home', 'HomeController@index');
 
-
-
-
-
-// Route::get('/show', function ($id)
-// {
-//     return view('/layouts/Users/show');
-// });
-Route::get('/edit', function ($id)
-{
-    return view('/layouts/Users/edit');
-});
-
-Route::get('/serviceslist', function()
-{
-    return view('/layouts/serviceshow');
-});
-
-Route::get('/store', function () {
-    return view('/layouts/Users/storeimage');
-});
 // Set the routes and resource for roles
-//Route::resource('roles', 'RoleController');
-//Auth::routes();
+Route::resource('roles', 'RoleController');
+Auth::routes();
 
-//Route::get('/index', 'UserController@index');
-
-//Route::get('/login', function () {
-//    return view('login');
-//});
-
-Route::get('/login', '\App\Http\Controllers\Auth\LoginController@customLogin');
-
+Route::post('/login', '\App\Http\Controllers\Auth\LoginController@customLogin');
 Route::post('/register', '\App\Http\Controllers\Auth\RegisterController@customRegister');
-
-
-//Route::post('/register', 'UserController@register');
-//    Route::post('/register', 'UserController@store');
 Route::post('/changepassword','UserController@changepassword');
 Route::post('/resetPassword','UserController@resetPassword');
-
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
@@ -89,10 +51,3 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/service_mapping', 'ServiceMappingController@store');
 });
-
-
-//Set the routes and resource for master_service
-Route::resource('master_services', 'Master_servicesController');
-//Route::get('/addUser', 'UserController@addUser');
-Route::get('/edit', 'Master_servicesController@edit');
-Route::get('Master_services/index', 'Master_servicesController@index');
