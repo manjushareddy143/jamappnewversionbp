@@ -165,6 +165,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
 
+        App\Providers\PermissionServiceProvider::class,
         /*
          * Package Service Providers...
          */

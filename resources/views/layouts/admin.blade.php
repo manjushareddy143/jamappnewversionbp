@@ -34,12 +34,29 @@
         </a>
       </li>
 
-      <li class="nav-item active">
-        <a class="nav-link" href="/users">
-          <i class="fas fa-users"></i>
-          <span>Users</span>
-        </a>
-      </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/users">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
+            <div class="bg-white py-2 collapse-inner rounded">
+
+                <h6 class="collapse-header">Users</h6>
+
+                <a class="collapse-item" href="alerts.html">Consumers</a>
+
+                <a class="collapse-item active" href="buttons.html">Vendors</a>
+
+                <a class="collapse-item" href="dropdowns.html"></a>
+
+                <a class="collapse-item" href="modals.html">Modals</a>
+
+                <a class="collapse-item" href="popovers.html">Popovers</a>
+
+                <a class="collapse-item" href="progress-bar.html">Progress Bars</a>
+
+            </div>
+        </li>
 
       <li class="nav-item active">
         <a class="nav-link" href="/services">

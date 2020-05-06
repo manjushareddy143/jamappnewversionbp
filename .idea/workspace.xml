@@ -1,40 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f1f5dbf9-046e-4fe8-b181-1e05e85bbe7b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ProviderServiceMappingController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/documents/1382662153.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/documents/176162678.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/documents/Thumbs.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/profiles/1360629253.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/profiles/751171254.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/profiles/Thumbs.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ServiceMappingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ServiceMappingController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ServicesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ServicesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SubCategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SubCategoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ProviderServiceMapping.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ProviderServiceMapping.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/users_type.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/users_type.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_08_061155_create_users_type_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_08_061155_create_users_type_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_17_131906_create_term_conditions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_17_131906_create_term_conditions_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_17_134016_create_user_types_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_17_134016_create_user_types_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_18_120411_create_provider_service_mappings_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_19_124902_create_provider_service_mappings_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Thumbs.db" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/Thumbs.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/category/Thumbs.db" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/category/Thumbs.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/subcategories/Thumbs.db" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/subcategories/Thumbs.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/Users/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/Users/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/services.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/services.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+    <list default="true" id="8a3fd0e7-3aac-4aee-a6a8-f237993968d0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings">
+  <component name="ComposerSettings" doNotAsk="true">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
-    <execution />
+    <execution>
+      <executable />
+    </execution>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -158,6 +138,9 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1anKRXhfhc7YCPogu6JH8LdXV8s" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -166,20 +149,41 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/routes" />
     <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\savitriya\Documents\GitHub\jam-backend\jam-backend\routes" />
+      <recent name="C:\Users\savitriya\Documents\GitHub\jam-backend\jam-backend\resources\views\auth" />
+    </key>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f1f5dbf9-046e-4fe8-b181-1e05e85bbe7b" name="Default Changelist" comment="" />
+      <changelist id="8a3fd0e7-3aac-4aee-a6a8-f237993968d0" name="Default Changelist" comment="" />
       <created>1587365911272</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1587365911272</updated>
       <workItem from="1587365919121" duration="18000" />
+      <workItem from="1588742868554" duration="3594000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1588742895320">
+      <screen x="0" y="0" width="1280" height="683" />
+    </state>
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.683@0.0.1280.683" timestamp="1588742895320" />
+    <state x="334" y="73" width="612" height="536" key="find.popup" timestamp="1588745670513">
+      <screen x="0" y="0" width="1280" height="683" />
+    </state>
+    <state x="334" y="73" width="612" height="536" key="find.popup/0.0.1280.683@0.0.1280.683" timestamp="1588745670513" />
   </component>
 </project>
