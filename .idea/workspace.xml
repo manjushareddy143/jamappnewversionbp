@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8a3fd0e7-3aac-4aee-a6a8-f237993968d0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="f1f5dbf9-046e-4fe8-b181-1e05e85bbe7b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ProviderServiceMappingController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/documents/1382662153.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/documents/176162678.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/documents/Thumbs.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/profiles/1360629253.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/profiles/751171254.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/profiles/Thumbs.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ServiceMappingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ServiceMappingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ServicesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ServicesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SubCategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SubCategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ProviderServiceMapping.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/ProviderServiceMapping.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/users_type.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/users_type.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_08_061155_create_users_type_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_08_061155_create_users_type_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_17_131906_create_term_conditions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_17_131906_create_term_conditions_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_17_134016_create_user_types_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_17_134016_create_user_types_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_18_120411_create_provider_service_mappings_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_19_124902_create_provider_service_mappings_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/Thumbs.db" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/Thumbs.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/Thumbs.db" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/category/Thumbs.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/subcategories/Thumbs.db" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/subcategories/Thumbs.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/Users/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/Users/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/services.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/services.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,9 +34,7 @@
   </component>
   <component name="ComposerSettings">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
-    <execution>
-      <executable />
-    </execution>
+    <execution />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -138,9 +158,6 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1anKRXhfhc7YCPogu6JH8LdXV8s" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
