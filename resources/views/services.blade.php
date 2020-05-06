@@ -32,16 +32,26 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                
+
                   <div class="modal-body">
                   <form id="addform">
+
                      <div class="col-md-6 float-l">
                         <div class="form-group">
                       <label>Name</label>
                       <input type="text" class="form-control" name="name" id="first_name" placeholder="Enter Name">
                         </div>
+
+
+                      <div class="col-md-6 float-l">
+                          <div class="form-group">
+                              <label>Name</label>
+                              <input id="name" type="text" name="name" placeholder="Enter Name"
+                                     class="form-control" required>
+                          </div>
+
                       </div>
-                      
+
                       <div class="col-md-6 float-l">
                          <div class="form-group">
                         <label>Icon</label>
@@ -54,14 +64,8 @@
                             <label>Banner</label>
                             <input id="banner_image" type="file" name="image" class="form-control ">
                         </div>
-                    </div>  
-                  
-                    <div class="col-md-6 float-l">
-                      <div class="form-group">
-                      <label>Description</label>
-                     <input id="description" type="text" name="description" placeholder="Enter Description"  class="form-control" required>
-                      </div>
                     </div>
+
 
                       <div class="col-md-12 float-l">
                         <div class="form-group">
@@ -70,45 +74,83 @@
                               <label class="custom-control-label" for="terms">
                                   Select category from existing list
                               </label>
+
+
+                      <div class="col-md-6 float-l">
+                          <div class="form-group">
+                              <label>Description</label>
+                              <input id="description" type="text" name="description" placeholder="Enter Description"
+                            class="form-control" required>
+
                           </div>
                         </div>
                       </div>
+
 
                       <div class="col-md-6 float-l" id="namediv">
                         <div class="form-group">
                       <label>Name</label>
                           <input id="cat_name" type="text" name="name"  class="form-control" placeholder="Enter Name" required>
                         </div>
+
+{{--                      SUB CATEGORIES--}}
+
+                      <div class="form-group row">
+                          <div class="col-sm-9">
+                              <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="terms" name="terms" onclick="checkClick()">
+                                  <label class="custom-control-label" for="terms">Click to select category from existing list</label>
+                              </div>
+                          </div>
+
                       </div>
 
-                  <div class="col-md-12" id="categorydiv">
+                      <div class="col-md-12" id="categorydiv">
                           <div class="form-group">
                               <label for="exampleFormControlSelect1">Category</label>
                               <select class="form-control" id="categorieslist">
                               </select>
                           </div>
-                   </div>
+                      </div>
+
+                      <div class="col-md-6 float-l" id="namediv">
+                          <div class="form-group">
+                              <label>Name</label>
+                              <input id="namecate" type="text" name="namecate"  class="form-control"
+                                     placeholder="Enter Name">
+                          </div>
+                      </div>
+
+                      <div class="col-md-6 float-right" id="imagediv">
+                          <div class="form-group">
+                              <label>Image</label>
+                              <input id="image" type="file" name="image" class="form-control ">
+                          </div>
+                      </div>
 
 
-                   <div class="col-md-6 float-l" id="imagediv">
-                    <div class="form-group">
-                        <label>Image</label>
-                        <input id="image" type="file" name="image" class="form-control ">
-
-                     </div>
-                   </div>
 
                    <div class="col-md-12 float-l" id="description">
                       <div class="form-group">
                       <label>Description</label>
                      <input id="descriptions" type="text" name="description" placeholder="Enter Description"  class="form-control" required>
-                      </div>
-                    </div>
 
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" onclick="store()" class="btn btn-primary">Save</button>
-                </div>
+                      <div class="col-md-6 float-left" id="descriptiondiv">
+                          <div class="form-group">
+                              <label>Description</label>
+                              <input id="description" type="text" name="description" placeholder="Enter Description"
+                                     class="form-control" required>
+                          </div>
+
+                      </div>
+
+
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" onclick="store()" class="btn btn-primary">Save</button>
+                      </div>
+
+
 
                       <div class="alert alert-danger alert-dismissible" role="alert" id="alerterror">
                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -119,13 +161,20 @@
                       </div>
 
                  </form>
+
+
                 </div>
-                  
+
               </div>
             </div>
           </div>
           <!-- Modal -->
+
  
+
+
+
+</div>
 
 </div>
            @if ($message = Session::get('success'))
@@ -210,151 +259,149 @@
 
          // document.getElementById("popupForm").style.display="block";
      }
- </script>
 
- <script>
-        var service_id;
-        window.onload = function() {
-            service_id = getUrlParameter('id');
-            console.log(service_id);
-            $("#categorydiv").hide();
-            $("#alerterror").hide();
 
-            getCategories();
-        };
+     var service_id;
+     window.onload = function() {
+         service_id = getUrlParameter('id');
+         console.log(service_id);
+         $("#categorydiv").hide();
+         $("#alerterror").hide();
 
-        function checkClick() {
-            if(!addform.terms.checked) {
-                addform.terms.focus();
-                console.log('cancel');
-                $("#categorydiv").hide(1000);
-                $("#namediv").show(1000);
-                $("#imagediv").show(1000);
-                $("#descriptiondiv").show(1000);
+         getCategories();
+     };
 
-            } else {
-                console.log('click');
-                $("#categorydiv").show(1000);
-                $("#namediv").hide(1000);
-                $("#imagediv").hide(1000);
-                $("#descriptiondiv").hide(1000);
-            }
-        }
+     function checkClick() {
+         if(!addform.terms.checked) {
+             addform.terms.focus();
+             console.log('cancel');
+             $("#categorydiv").hide(1000);
+             $("#namediv").show(1000);
+             $("#imagediv").show(1000);
+             $("#descriptiondiv").show(1000);
 
-        function getCategories() {
-            $.ajax({
-                url: '/subcategories',
-                type: 'GET',
-                success: function(response){
-                    console.log(response);
-                    if(response['status'] == 204) {
-                        console.log(response);
-                    } else {
-                        for(var i = 0; i < response.length; i ++) {
-                            console.log(response[i].name);
-                            $('#categorieslist').append(`<option value="${response[i].id}">
+         } else {
+             console.log('click');
+             $("#categorydiv").show(1000);
+             $("#namediv").hide(1000);
+             $("#imagediv").hide(1000);
+             $("#descriptiondiv").hide(1000);
+         }
+     }
+
+     function getCategories() {
+         $.ajax({
+             url: '/subcategories',
+             type: 'GET',
+             success: function(response){
+                 console.log(response);
+                 if(response['status'] == 204) {
+                     console.log(response);
+                 } else {
+                     for(var i = 0; i < response.length; i ++) {
+                         console.log(response[i].name);
+                         $('#categorieslist').append(`<option value="${response[i].id}">
                                        ${response[i].name}
                                   </option>`);
-                        }
+                     }
 
 
-                    }
-                    // $('#mytable').data.reload();
-                    // window.top.location = window.top.location;
-                    // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
-                    // $('#table align-items-center table-flush').dataTable().ajax.reload();
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
-            });
-        }
+                 }
+                 // $('#mytable').data.reload();
+                 // window.top.location = window.top.location;
+                 // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                 // $('#table align-items-center table-flush').dataTable().ajax.reload();
+             },
+             fail: function (error) {
+                 console.log(error);
+             }
+         });
+     }
 
-        var getUrlParameter = function getUrlParameter(sParam) {
-            var sPageURL = window.location.search.substring(1),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
+     var getUrlParameter = function getUrlParameter(sParam) {
+         var sPageURL = window.location.search.substring(1),
+             sURLVariables = sPageURL.split('&'),
+             sParameterName,
+             i;
 
-            for (i = 0; i < sURLVariables.length; i++) {
-                sParameterName = sURLVariables[i].split('=');
+         for (i = 0; i < sURLVariables.length; i++) {
+             sParameterName = sURLVariables[i].split('=');
 
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-                }
-            }
-        };
+             if (sParameterName[0] === sParam) {
+                 return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+             }
+         }
+     };
 
-        function detailpage(id) {
-            console.log(id);
-            window.location = '/detailpage?id=' + id;
-        }
+     function detailpage(id) {
+         console.log(id);
+         window.location = '/detailpage?id=' + id;
+     }
 
-        function store() {
-            var selected_id = $('#categorieslist').children("option:selected").val();
-            console.log(selected_id);
-            if(!addform.terms.checked) {
-                addform.terms.focus();
-                console.log('cancel');
-                var form = new FormData();
-                var files = $('#image')[0].files[0];
-                form.append('image',files);
-                form.append('name', document.getElementById("name").value);
-                form.append('description', document.getElementById("description").value);
-                $.ajax({
-                    url: '/subcategories',
-                    type: 'POST',
-                    data: form,
-                    contentType: false,
-                    processData: false,
-                    success: function(response){
-                        console.log(response['id']);
-                        mappingService(response['id']);
-                        // $('#mytable').data.reload();
-                        // window.top.location = window.top.location;
-                        // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
-                        // $('#table align-items-center table-flush').dataTable().ajax.reload();
-                    },
-                    fail: function (error) {
-                        console.log(error);
-                    }
-                });
-            }
-            else {
-                mappingService(selected_id);
-            }
-        }
+     function store() {
+         var selected_id = $('#categorieslist').children("option:selected").val();
+         console.log(selected_id);
+         if(!addform.terms.checked) {
+             addform.terms.focus();
+             console.log('cancel');
+             var form = new FormData();
+             var files = $('#image')[0].files[0];
+             form.append('image',files);
+             form.append('name', document.getElementById("name").value);
+             form.append('description', document.getElementById("description").value);
+             $.ajax({
+                 url: '/subcategories',
+                 type: 'POST',
+                 data: form,
+                 contentType: false,
+                 processData: false,
+                 success: function(response){
+                     console.log(response['id']);
+                     mappingService(response['id']);
+                     // $('#mytable').data.reload();
+                     // window.top.location = window.top.location;
+                     // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                     // $('#table align-items-center table-flush').dataTable().ajax.reload();
+                 },
+                 fail: function (error) {
+                     console.log(error);
+                 }
+             });
+         }
+         else {
+             mappingService(selected_id);
+         }
+     }
 
-        function mappingService(category_id) {
-            $.ajax({
-                url: '/service_mapping',
-                type: 'POST',
-                data: {
-                    service_id: service_id,
-                    category_id: category_id, //document.getElementById("last_name").value,
-                },
+     function mappingService(category_id) {
+         $.ajax({
+             url: '/service_mapping',
+             type: 'POST',
+             data: {
+                 service_id: service_id,
+                 category_id: category_id, //document.getElementById("last_name").value,
+             },
 
-                success: function(response){
-                    console.log(response);
-                    // $('#mytable').data.reload();
-                    window.top.location = window.top.location;
-                    // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
-                    // $('#table align-items-center table-flush').dataTable().ajax.reload();
-                },
+             success: function(response){
+                 console.log(response);
+                 // $('#mytable').data.reload();
+                 window.top.location = window.top.location;
+                 // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                 // $('#table align-items-center table-flush').dataTable().ajax.reload();
+             },
 
-                error: function (error) {
-                    $("#alerterror").text(error['statusText']);
-                    $("#alerterror").show();
-                    setTimeout(function() {
-                        $("#alerterror").hide()
-                    }, 1000);
+             error: function (error) {
+                 $("#alerterror").text(error['statusText']);
+                 $("#alerterror").show();
+                 setTimeout(function() {
+                     $("#alerterror").hide()
+                 }, 1000);
 
-                    console.log("ERR ====="+JSON.stringify(error));
-                }
-            });
-        }
-
-    </script>
+                 console.log("ERR ====="+JSON.stringify(error));
+             }
+         });
+     }
+ </script>
 @endsection
 
 

@@ -45,9 +45,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // SELECT * FROM `users` LEFT JOIN `user_types` ON `users`.`type_id` = `user_types`.`id`
+        $usr = $request->user();
+//        dd($usr->hasRole('manager'));
+//        dd($usr->givePermissionsTo('edit-users'));
+//        dd($usr->can('create-tasks'));
+
+
+//         SELECT * FROM `users` LEFT JOIN `user_types` ON `users`.`type_id` = `user_types`.`id`
         $users=User::where('users.id', '>', 0)
             ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
             ->select('users.*', 'user_types.*')
@@ -57,7 +63,7 @@ class UserController extends Controller
 //        $individualserviceprovidermaster = IndividualServiceProvider::all();
         return view('layouts.Users.index')->with('data',$users);  //->with('individualserviceprovider', $individualserviceprovidermaster);
        // $users = User::latest()->paginate(5);
-        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
+//        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
     }
 
     /** Form for creating a new resource
