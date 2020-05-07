@@ -3,14 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="8a3fd0e7-3aac-4aee-a6a8-f237993968d0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/Users/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/Users/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/register.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/services.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/services.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings">
+  <component name="ComposerSettings" doNotAsk="true">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
       <executable />
@@ -149,20 +154,51 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/routes" />
     <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\savitriya\Documents\GitHub\jam-backend\jam-backend\routes" />
+      <recent name="C:\Users\savitriya\Documents\GitHub\jam-backend\jam-backend\resources\views\auth" />
+    </key>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f1f5dbf9-046e-4fe8-b181-1e05e85bbe7b" name="Default Changelist" comment="" />
+      <changelist id="8a3fd0e7-3aac-4aee-a6a8-f237993968d0" name="Default Changelist" comment="" />
       <created>1587365911272</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1587365911272</updated>
       <workItem from="1587365919121" duration="18000" />
+      <workItem from="1588742868554" duration="3594000" />
+      <workItem from="1588749139520" duration="4447000" />
+      <workItem from="1588824749782" duration="15384000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1588825005466">
+      <screen x="0" y="0" width="1280" height="683" />
+    </state>
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.683@0.0.1280.683" timestamp="1588825005466" />
+    <state x="334" y="73" width="612" height="536" key="find.popup" timestamp="1588827911545">
+      <screen x="0" y="0" width="1280" height="683" />
+    </state>
+    <state x="334" y="73" width="612" height="536" key="find.popup/0.0.1280.683@0.0.1280.683" timestamp="1588827911545" />
+    <state x="297" y="145" key="run.anything.popup" timestamp="1588834648406">
+      <screen x="0" y="0" width="1280" height="683" />
+    </state>
+    <state x="297" y="145" key="run.anything.popup/0.0.1280.683@0.0.1280.683" timestamp="1588834648406" />
+    <state x="303" y="3" width="672" height="678" key="search.everywhere.popup" timestamp="1588832799884">
+      <screen x="0" y="0" width="1280" height="683" />
+    </state>
+    <state x="303" y="3" width="672" height="678" key="search.everywhere.popup/0.0.1280.683@0.0.1280.683" timestamp="1588832799884" />
   </component>
 </project>
