@@ -66,6 +66,9 @@ class UserController extends Controller
 //        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
     }
 
+
+    ///
+
     /** Form for creating a new resource
      *
      *@return \Illuminate\Http\Response

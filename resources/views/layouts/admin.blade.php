@@ -307,7 +307,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <img class="img-profile rounded-circle" src="{{ asset('img/boy.png') }}" style="max-width: 60px">
-                <span class="ml-2 d-none d-lg-inline text-white small">Maman Ketoprak</span>
+                <span class="ml-2 d-none d-lg-inline text-white small" id="user_name">Maman Ketoprak</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -362,13 +362,27 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
-  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-  <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
-  <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-  <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
+{{--  <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>--}}
+{{--  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>--}}
+{{--  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>--}}
+{{--  <script src="{{ asset('js/ruang-admin.min.js') }}"></script>--}}
+{{--  <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>--}}
+{{--  <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>--}}
 
+
+  <script >
+      window.onload = function() {
+          // console.log('retrievedObject: ');
+          var retrievedObject = localStorage.getItem('userObject');
+          var obj = JSON.parse(retrievedObject);
+
+          $('#user_name').text(obj.first_name);
+          // console.log('retrievedObject: ', JSON.parse(retrievedObject));
+          // console.log('retrievedObject: ', obj.first_name);
+
+      }
+  </script>
 </body>
+
 
 </html>
