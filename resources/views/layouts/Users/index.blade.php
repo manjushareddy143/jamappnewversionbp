@@ -235,7 +235,7 @@
 
 {{--     <td><img src="{{ URL::to('/') }}/images/{{ $user->image }}" class="square" width="60" height="50" /></td>--}}
 
-      <td><img src="{{ asset($user->image) }}" class="square" width="60" height="50" /></td>
+      <td><img src="{{ ($user->image == null) ?  asset('img/boy.png') : asset($user->image) }}" class="square" width="60" height="50" /></td>
     <!-- <td>{{ $user->contact }}</td> -->
 
     <td>{{ $user->type }}</td>
