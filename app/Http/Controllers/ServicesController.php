@@ -20,6 +20,7 @@ class ServicesController extends Controller
                 'banner_image' => 'required|image', //|max:2048
             ]);
 
+
         if ($validator->fails())
         {
             return response()->json(['error'=>$validator->errors()], 401);
@@ -42,10 +43,11 @@ class ServicesController extends Controller
             'name'  => $input['name'],
             'icon_image' => $host . "/images/category/" . $iconName,
             'banner_image' => $host . "/images/category/" . $bannerName,
-            'description' => $input['description']
+            'description' => array_key_exists('description', $input) ? $input['description'] : ""
         );
+//        return response()->json($form_data);
         $myResult = services::create($form_data);
-
+        return response()->json($myResult);
         return response()->json($myResult);
     }
 
