@@ -125,6 +125,10 @@
             <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
             <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
             <script>
+                window.onload = function() {
+                    localStorage.removeItem('userObject')
+                }
+
                 function doLogin() {
                     $('body').addClass('busy');
                     var data = {
@@ -143,6 +147,8 @@
                             // var test = response->status;
                             // console.log(test);
                             if(data === true) {
+                                console.log("test" + JSON.stringify(response));
+                                localStorage.setItem('userObject', JSON.stringify(response));
                                 window.location = '/home';
                             } else {
                                 alert("Invalid email or password");

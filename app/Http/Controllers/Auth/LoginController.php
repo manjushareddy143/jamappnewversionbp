@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Address;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\ServiceProvider;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,9 +49,29 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 //        dd(Auth::attempt($credentials));
         if (Auth::attempt($credentials)) {
-            return response()->json(['status' => true]);
+            $response = array();
+            $username = $request->input('email');
+            $checkuser  = User::where('email', '=', $username)->first();
+
+            if($checkuser['type_id'] != 4)
+            {
+//                        dd(\Session::getId());
+                $service_provider = ServiceProvider::where('user_id', '=', $checkuser['id'])->first();
+                $checkuser['resident_country'] = $service_provider['resident_country'];
+
+            }
+            $response = $checkuser;
+//            echo ($checkuser['id']); exit();
+            $address = Address::where('user_id', '=', $checkuser['id'])->first();
+
+//            echo ($address); exit();
+            $response['address'] = $address;
+            $response['status'] = true;
+            return response($response, 200)
+                ->header('content-type', 'application/json');
+//            return response()->json(['status' => true]);
         } else {
-            return response()->json(['status' => false]);
+            return response()->json(['status' => false], 401);
         }
     }
 

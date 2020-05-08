@@ -306,7 +306,8 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <img class="img-profile rounded-circle" src="{{ asset('img/boy.png') }}" style="max-width: 60px">
+                <img class="img-profile rounded-circle" id="profile_img" src="{{ asset('img/boy.png') }}" style="max-width: 60px">
+
                 <span class="ml-2 d-none d-lg-inline text-white small" id="user_name">Maman Ketoprak</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -330,6 +331,7 @@
 
                 </a>
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+{{--                      localStorage.removeItem('key')--}}
                       @csrf
                   </form>
               </div>
@@ -377,6 +379,7 @@
           var obj = JSON.parse(retrievedObject);
 
           $('#user_name').text(obj.first_name);
+          $('#profile_img').attr("src", obj.image);
           // console.log('retrievedObject: ', JSON.parse(retrievedObject));
           // console.log('retrievedObject: ', obj.first_name);
 

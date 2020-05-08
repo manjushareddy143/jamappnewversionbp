@@ -704,6 +704,9 @@ class UserController extends Controller
             // ADDRESS
             if(array_key_exists('address', $input)) {
                 $address = $input['address'];
+//                $address += [
+//                    "user_id" => $id
+//                ];
                 $address = json_decode($address, true);
 
                 $adddressdata = Address::create($address);

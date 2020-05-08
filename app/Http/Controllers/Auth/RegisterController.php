@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Address;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\ServiceProvider;
@@ -129,8 +130,14 @@ class RegisterController extends Controller
         $user['resident_country'] = $service_provider_detail['resident_country'];
 
 
+
         if (isset($user)) {
+            $address = Address::where('user_id', '=', $user['id'])->first();
+
+//            echo ($address); exit();
+            $user['address'] = $address;
             $response  = $user;
+
         } else {
             $response['message']  = "Please add valid details";
         }

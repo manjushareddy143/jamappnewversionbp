@@ -325,10 +325,10 @@
             localStorage.setItem('userObject', JSON.stringify(response));
 
 // Retrieve the object from storage
-            var retrievedObject = localStorage.getItem('userObject');
+//             var retrievedObject = localStorage.getItem('userObject');
 
 
-            // window.location = '/home';
+            window.location = '/home';
         });
     }
 

@@ -36,7 +36,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="service_btn">Add Services</h5>
+                    <h5 class="modal-title" id="service_btn">Complete your Profile</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -51,9 +51,6 @@
                                        style="width: 100px; height: 100px; border-radius: 100%;"/>
                                 <input id="imageUpload" type="file"
                                        name="profile_photo" placeholder="Photo" required="" capture>
-{{--                                <label for="imageUpload">upload</label>--}}
-{{--                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="img-circle profile-avatar" alt="User avatar">--}}
-{{--                                <input type="file" class="form-control">--}}
                             </div>
                         </div>
 
@@ -77,7 +74,7 @@
 
 
 
-                        <div class="col-md-6 float-l" id="servicediv">
+                        <div class="row-cols-md-6" id="servicediv">
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Service</label>
                                 <select class="form-control" id="servicelist">
@@ -86,18 +83,16 @@
                         </div>
 
 
-                        <div class="col-md-6 float-r" id="categorydiv">
+                        <div class="col" id="categorydiv">
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Category</label>
-                                <select class="form-control" id="categorylist">
+                                <select class="form-control" id="categorylist" multiple="multiple">
                                 </select>
                             </div>
                         </div>
 
 
 {{--                        ADDRESSS                        --}}
-
-
 
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
                            aria-controls="collapseTable">
@@ -107,7 +102,6 @@
                         </a>
 
                         <div class="col-md-12 collapse" id="collapseTable">
-
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -151,10 +145,6 @@
                                     </div>
                                 </div>
 
-
-
-
-
                                 <div class="col-md-6 float-l">
                                     <div class="form-group">
                                         <label>City</label>
@@ -178,7 +168,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" onclick="store()" class="btn btn-primary">Save</button>
+                            <button type="button" onclick="saveProfile()" class="btn btn-primary">Save</button>
                         </div>
 
 
@@ -208,21 +198,15 @@
     <!-- Modal -->
 
 
-{{--    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">--}}
-
-
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 {{--    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>--}}
 {{--    <script src="{{ asset('js/ruang-admin.min.js') }}"></script>--}}
 {{--    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>--}}
 {{--    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>--}}
+<script type="text/javascript">
 
-
-
-    <script type="text/javascript">
-
-        function previewProfileImage( uploader ) {
+    function previewProfileImage( uploader ) {
             if (uploader.files && uploader.files[0]) {
                 var imageFile = uploader.files[0];
                 var reader = new FileReader();
@@ -233,63 +217,220 @@
             }
         }
 
-        $("#imageUpload").change(function(){
+    $("#imageUpload").change(function(){
             previewProfileImage( this );
         });
 
-        $("#profileImage").click(function(e) {
+    $("#profileImage").click(function(e) {
             $("#imageUpload").click();
         });
 
-        window.addEventListener ?
-        window.addEventListener("load",onLoad(),false) :
-        window.attachEvent && window.attachEvent("onload",onLoad());
+    window.addEventListener ?
+    window.addEventListener("load",onLoad(),false) :
+    window.attachEvent && window.attachEvent("onload",onLoad());
 
-        function onLoad() {
+    function onLoad() {
             console.log("asdasdas");
 
+        var retrievedObject = localStorage.getItem('userObject');
+        console.log(retrievedObject)
+        var obj = JSON.parse(retrievedObject);
+
+        if(obj.address === null) {
             getServices();
 
             $('#exampleModal').modal({
                 backdrop: 'static',
                 keyboard: false
             })
-            // EXPAND ADDRESS FORM
-            // $('#collapseTable').modal();
+        }
+
         }
 
 
 
-        function getServices() {
-            $.ajax({
-                url: '/api/v1/all_services',
-                type: 'GET',
-                success: function(response){
+    function getServices() {
+        $.ajax({
+            url: '/api/v1/all_services',
+            type: 'GET',
+            success: function(response){
+                console.log(response);
+                if(response['status'] == 204) {
                     console.log(response);
-                    if(response['status'] == 204) {
-                        console.log(response);
-                    } else {
-                        for(var i = 0; i < response.length; i ++) {
-                            console.log(response[i].name);
-                            $('#servicelist').append(`<option value="${response[i].id}">
-                                       ${response[i].name}
-                                  </option>`);
-                            var categories  =response[i].categories;
-                            for(var j = 0; j < categories.length; j ++) {
-
-                                $('#categorylist').append(`<option value="${categories[j].id}">
-                                       ${categories[j].name}
-                                  </option>`);
-                            }
-
-                        }
+                } else {
+                    for(var i = 0; i < response.length; i ++) {
+                        console.log(response[i].name);
+                        $('#servicelist').append(`<option value="${response[i].id}">
+                                   ${response[i].name}
+                              </option>`);
                     }
-                },
-                fail: function (error) {
-                    console.log(error);
+                    var selected_id = $('#servicelist').children("option:selected").val();
+                    console.log(selected_id);
+                    setCategories(selected_id);
                 }
-            });
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    $("#servicelist").change(function(){
+            var selected_id = $('#servicelist').children("option:selected").val();
+            $('#categorylist').empty();
+            setCategories( selected_id );
+        });
+
+
+
+    function setCategories(selected_id) {
+        console.log(selected_id);
+        $.ajax({
+            url: '/api/v1/services/category?id=' + selected_id,
+            type: 'GET',
+            success: function(response){
+                console.log(response);
+                if(response['status'] == 204) {
+                    console.log(response);
+                } else {
+                    for(var i = 0; i < response.length; i ++) {
+                        $('#categorylist').append(`<option value="${response[i].id}">
+                                   ${response[i].name}
+                              </option>`);
+                    }
+                }
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function validateForm() {
+        var profilePhoto = $('#imageUpload')[0].files[0];
+        if (!profilePhoto) {
+            return false;
         }
+
+        var docupload = $('#docupload')[0].files[0];
+        if (!docupload) {
+            return false;
+        }
+
+        var selectedCategories  = $('#categorylist').children("option:selected");
+
+        if (selectedCategories.length <= 0) {
+            return false;
+        }
+
+        if($('#collapseTable').is(':visible')) {
+            console.log("TOTOTO");
+        } else {
+            $('#collapseTable').modal('show');
+        }
+
+        if(document.getElementById("address_name").value == "" ) {
+            // EXPAND ADDRESS FORM
+            return false;
+        }
+
+        if(document.getElementById("address_line1").value == "" ) {
+            return false;
+        }
+
+        if(document.getElementById("district").value == "" ) {
+            return false;
+        }
+
+        if(document.getElementById("city").value == "" ) {
+            // EXPAND ADDRESS FORM
+            return false;
+        }
+
+        if(document.getElementById("postal_code").value == "" ) {
+            // EXPAND ADDRESS FORM
+            return false;
+        }
+        return true;
+    }
+
+    function saveProfile() {
+        if(validateForm()) {
+            console.log("VALIDATE FORM");
+            apiCall();
+        } else {
+            console.log("INVALIDATE FORM");
+        }
+
+    }
+
+    function apiCall() {
+        var form = new FormData();
+        var files = $('#imageUpload')[0].files[0];
+        form.append('profile_photo',files);
+        var doc_files = $('#docupload')[0].files[0];
+        form.append('identity_proof',doc_files);
+        var retrievedObject = localStorage.getItem('userObject');
+        var obj = JSON.parse(retrievedObject);
+        console.log("IDDD==" + obj.id);
+        $addressdata = {
+            name: document.getElementById("address_name").value,
+            address_line1: document.getElementById("address_line1").value,
+            address_line2: document.getElementById("address_line2").value,
+            landmark: document.getElementById("landmark").value,
+            district: document.getElementById("district").value,
+            city: document.getElementsByTagName("city").value,
+            postal_code : document.getElementsByTagName("postal_code").value,
+            user_id : obj.id,
+            location : "",
+        };
+        console.log($addressdata)
+        form.append('address', JSON.stringify($addressdata));
+
+        var services = [];
+        var selected_id = $('#servicelist').children("option:selected").val();
+        var selectedCategories  = $('#categorylist').children("option:selected");
+        selectedCategories.each(function () {
+            console.log($(this).val());
+            var data = {};
+            data.service_id = parseInt(selected_id),
+            data.category_id = parseInt($(this).val());
+            services.push(data);
+        })
+
+        console.log(services)
+        form.append('services', JSON.stringify(services));
+
+        form.append('doc_type', $('#doctypelist').children("option:selected").val());
+        console.log($('#doctypelist').children("option:selected").val());
+
+
+
+        form.append('id', obj.id);
+
+
+
+
+        $.ajax({
+            url: '/api/v1/profile',
+            type: 'POST',
+            data: form,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                console.log(response);
+                $('#exampleModal').modal('hide')
+                localStorage.setItem('userObject', JSON.stringify(response));
+                // $('#mytable').data.reload();
+                window.top.location = window.top.location;
+                // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                // $('#table align-items-center table-flush').dataTable().ajax.reload();
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    }
 
     </script>
     </body>
