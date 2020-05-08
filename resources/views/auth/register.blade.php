@@ -51,29 +51,29 @@
                                                 <div class="form-group">
                                                     <label>First Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
-                                                           id="first_name" placeholder="Enter Your First Name">
-                                                </div>
+                                                           id="first_name" placeholder="Enter Your First Name" required>
+                                                </div>  
                                                 <div class="form-group">
                                                     <label>Last Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
-                                                           id="last_name" placeholder="Enter Your Last Name">
+                                                           id="last_name" placeholder="Enter Your Last Name" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Mobile Number <strong>*</strong></label>
                                                     <input type="text" class="form-control"
-                                                           id="mobile" placeholder="Enter Mobile Number">
+                                                           id="mobile" placeholder="Enter Mobile Number" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Email Address <strong>*</strong></label>
                                                     <input type="email" class="form-control"
                                                            id="email" aria-describedby="emailHelp"
-                                                           placeholder="Enter Your Email Address">
+                                                           placeholder="Enter Your Email Address" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Password<strong>*</strong></label>
                                                     <input type="password" class="form-control"
                                                            id="password" aria-describedby="passwordHelp"
-                                                           placeholder="Enter Your Password">
+                                                           placeholder="Enter Your Password" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Resident Status <strong>*</strong></label>
