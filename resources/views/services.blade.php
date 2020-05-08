@@ -19,7 +19,7 @@
                   <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                     id="add_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Services</button>
-</div>
+
 
  <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -36,76 +36,48 @@
                   <div class="modal-body">
                   <form id="addform">
 
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                      <label>Name</label>
-                      <input type="text" class="form-control" name="name" id="first_name" placeholder="Enter Name">
-                        </div>
-
-
                       <div class="col-md-6 float-l">
                           <div class="form-group">
                               <label>Name</label>
-                              <input id="name" type="text" name="name" placeholder="Enter Name"
-                                     class="form-control" required>
+                              <input id="name" type="text" name="name" placeholder="Enter Name" class="form-control" required>
                           </div>
-
                       </div>
 
                       <div class="col-md-6 float-l">
                          <div class="form-group">
                         <label>Icon</label>
-                          <input id="icon_image" type="file" name="image" class="form-control ">
+                          <input id="icon_image" type="file" name="image" class="form-control" required>
                        </div>
                       </div>
 
                       <div class="col-md-6 float-l">
                         <div class="form-group">
                             <label>Banner</label>
-                            <input id="banner_image" type="file" name="image" class="form-control ">
+                            <input id="banner_image" type="file" name="image" class="form-control" required>
                         </div>
                     </div>
-
-
-                      <div class="col-md-12 float-l">
-                        <div class="form-group">
-                          <div class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input" id="terms" name="terms" onclick="checkClick()">
-                              <label class="custom-control-label" for="terms">
-                                  Select category from existing list
-                              </label>
 
 
                       <div class="col-md-6 float-l">
                           <div class="form-group">
                               <label>Description</label>
-                              <input id="description" type="text" name="description" placeholder="Enter Description"
-                            class="form-control" required>
-
+        <input id="description" type="text" name="description" placeholder="Enter Description" class="form-control" required>
                           </div>
-                        </div>
                       </div>
-
-
-                      <div class="col-md-6 float-l" id="namediv">
-                        <div class="form-group">
-                      <label>Name</label>
-                          <input id="cat_name" type="text" name="name"  class="form-control" placeholder="Enter Name" required>
-                        </div>
 
 {{--                      SUB CATEGORIES--}}
 
-                      <div class="form-group row">
-                          <div class="col-sm-9">
+
+                          <div class="col-md-12 float-l">
+                            <div class="form-group">
                               <div class="custom-control custom-checkbox">
                                   <input type="checkbox" class="custom-control-input" id="terms" name="terms" onclick="checkClick()">
                                   <label class="custom-control-label" for="terms">Click to select category from existing list</label>
                               </div>
                           </div>
-
                       </div>
 
-                      <div class="col-md-12" id="categorydiv">
+                      <div class="col-md-12 float-l" id="categorydiv">
                           <div class="form-group">
                               <label for="exampleFormControlSelect1">Category</label>
                               <select class="form-control" id="categorieslist">
@@ -116,32 +88,24 @@
                       <div class="col-md-6 float-l" id="namediv">
                           <div class="form-group">
                               <label>Name</label>
-                              <input id="namecate" type="text" name="namecate"  class="form-control"
-                                     placeholder="Enter Name">
+                              <input id="namecate" type="text" name="namecate"  class="form-control" placeholder="Enter Name" required>
                           </div>
                       </div>
 
-                      <div class="col-md-6 float-right" id="imagediv">
+                      <div class="col-md-6 float-l" id="imagediv">
                           <div class="form-group">
                               <label>Image</label>
-                              <input id="image" type="file" name="image" class="form-control ">
+                              <input id="image" type="file" name="image" class="form-control">
                           </div>
                       </div>
 
 
-
-                   <div class="col-md-12 float-l" id="description">
-                      <div class="form-group">
-                      <label>Description</label>
-                     <input id="descriptions" type="text" name="description" placeholder="Enter Description"  class="form-control" required>
-
-                      <div class="col-md-6 float-left" id="descriptiondiv">
+                      <div class="col-md-6 float-l" id="descriptiondiv">
                           <div class="form-group">
                               <label>Description</label>
-                              <input id="description" type="text" name="description" placeholder="Enter Description"
+                              <input id="descriptions" type="text" name="description" placeholder="Enter Description"
                                      class="form-control" required>
                           </div>
-
                       </div>
 
 
@@ -169,13 +133,7 @@
             </div>
           </div>
           <!-- Modal -->
-
- 
-
-
-
 </div>
-
 </div>
            @if ($message = Session::get('success'))
          <div class="alert alert-success">
@@ -228,7 +186,7 @@
  <script>
      function detailpage(id) {
          console.log(id);
-         window.location = '/detailpage?id=' + id;
+         window.location = '/services?id=' + id;
      }
 
      function store() {
@@ -338,7 +296,7 @@
          window.location = '/detailpage?id=' + id;
      }
 
-     function store() {
+     function createCategories() {
          var selected_id = $('#categorieslist').children("option:selected").val();
          console.log(selected_id);
          if(!addform.terms.checked) {
@@ -403,5 +361,4 @@
      }
  </script>
 @endsection
-
 
