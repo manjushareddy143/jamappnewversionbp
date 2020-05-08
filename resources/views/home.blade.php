@@ -1,13 +1,299 @@
 @extends('layouts.admin')
 
 @section('content')
- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="./">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-            </ol>
- </div>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link href="img/logo/logo.png" rel="icon">
+        <title>JAM - Dashboard</title>
+        <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
+
+{{--        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--}}
+{{--        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>--}}
+{{--        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>--}}
+
+{{--        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">--}}
+
+    </head>
+    <body>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard MMM</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+        </ol>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="service_btn">Add Services</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="addform">
+
+                        <div class="panel panel-default">
+                            <div class="panel-body text-center">
+                                <image id="profileImage" src="http://192.168.43.40/img/boy.png"
+                                       style="width: 100px; height: 100px; border-radius: 100%;"/>
+                                <input id="imageUpload" type="file"
+                                       name="profile_photo" placeholder="Photo" required="" capture>
+{{--                                <label for="imageUpload">upload</label>--}}
+{{--                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="img-circle profile-avatar" alt="User avatar">--}}
+{{--                                <input type="file" class="form-control">--}}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 float-l" id="doctypelistdiv">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select Document</label>
+                                <select class="form-control" id="doctypelist">
+                                    <option>Passport</option>
+                                    <option>Resident</option>
+                                    <option>Permit/Govt ID</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 float-r">
+                            <div class="form-group">
+                                <label>Document</label>
+                                <input id="docupload" type="file" name="docupload" class="form-control ">
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6 float-l" id="servicediv">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select Service</label>
+                                <select class="form-control" id="servicelist">
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 float-r" id="categorydiv">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select Category</label>
+                                <select class="form-control" id="categorylist">
+                                </select>
+                            </div>
+                        </div>
+
+
+{{--                        ADDRESSS                        --}}
+
+
+
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
+                           aria-controls="collapseTable">
+{{--                            <i class="fas fa-fw fa-table"></i>--}}
+                            <i class="fas fa-address-card"></i>
+                            <span>Address</span>
+                        </a>
+
+                        <div class="col-md-12 collapse" id="collapseTable">
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Address Name</label>
+                                        <input id="address_name" type="text" name="address_name" placeholder="Office Address"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6 float-l">
+                                    <div class="form-group">
+                                        <label>Address line 1</label>
+                                        <input id="address_line1" type="text" name="address_line1" placeholder="Address line 1"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 float-r">
+                                    <div class="form-group">
+                                        <label>Address line 2</label>
+                                        <input id="address_line2" type="text" name="address_line2" placeholder="Address line 2"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 float-l">
+                                    <div class="form-group">
+                                        <label>Landmark</label>
+                                        <input id="landmark" type="text" name="landmark" placeholder="Enter Landmark"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6 float-r">
+                                    <div class="form-group">
+                                        <label>District</label>
+                                        <input id="district" type="text" name="district" placeholder="Enter District"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="col-md-6 float-l">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        <input id="city" type="text" name="city" placeholder="Enter City"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 float-r">
+                                    <div class="form-group">
+                                        <label>Postal Code</label>
+                                        <input id="postal_code" type="text" name="postal_code" placeholder="Enter Postal Code"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" onclick="store()" class="btn btn-primary">Save</button>
+                        </div>
+
+
+
+                    </form>
+
+                </div>
+
+                <style>
+                    hr.solid {
+                        border-top: 3px solid #bbb;
+                    }
+                    #imageUpload
+                    {
+                        display: none;
+                    }
+
+                    #profileImage
+                    {
+                        cursor: pointer;
+                    }
+                </style>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+
+{{--    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">--}}
+
+
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+{{--    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('js/ruang-admin.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>--}}
+
+
+
+    <script type="text/javascript">
+
+        function previewProfileImage( uploader ) {
+            if (uploader.files && uploader.files[0]) {
+                var imageFile = uploader.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#profileImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL( imageFile );
+            }
+        }
+
+        $("#imageUpload").change(function(){
+            previewProfileImage( this );
+        });
+
+        $("#profileImage").click(function(e) {
+            $("#imageUpload").click();
+        });
+
+        window.addEventListener ?
+        window.addEventListener("load",onLoad(),false) :
+        window.attachEvent && window.attachEvent("onload",onLoad());
+
+        function onLoad() {
+            console.log("asdasdas");
+
+            getServices();
+
+            $('#exampleModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+            // EXPAND ADDRESS FORM
+            // $('#collapseTable').modal();
+        }
+
+
+
+        function getServices() {
+            $.ajax({
+                url: '/api/v1/all_services',
+                type: 'GET',
+                success: function(response){
+                    console.log(response);
+                    if(response['status'] == 204) {
+                        console.log(response);
+                    } else {
+                        for(var i = 0; i < response.length; i ++) {
+                            console.log(response[i].name);
+                            $('#servicelist').append(`<option value="${response[i].id}">
+                                       ${response[i].name}
+                                  </option>`);
+                            var categories  =response[i].categories;
+                            for(var j = 0; j < categories.length; j ++) {
+
+                                $('#categorylist').append(`<option value="${categories[j].id}">
+                                       ${categories[j].name}
+                                  </option>`);
+                            }
+
+                        }
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+    </script>
+    </body>
+
 
 {{--          <div class="row mb-3">--}}
 {{--            <!-- Earnings (Monthly) Card Example -->--}}
@@ -297,4 +583,5 @@
 {{--            </div>--}}
 {{--          </div>--}}
           <!--Row-->
+
 @endsection

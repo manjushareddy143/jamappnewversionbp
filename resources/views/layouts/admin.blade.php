@@ -34,29 +34,17 @@
         </a>
       </li>
 
-        <li class="nav-item active">
-            <a class="nav-link" href="/users">
-                <i class="fas fa-users"></i>
-                <span>Users</span>
-            </a>
-            <div class="bg-white py-2 collapse-inner rounded">
-
-                <h6 class="collapse-header">Users</h6>
-
-                <a class="collapse-item" href="alerts.html">Consumers</a>
-
-                <a class="collapse-item active" href="buttons.html">Vendors</a>
-
-                <a class="collapse-item" href="dropdowns.html"></a>
-
-                <a class="collapse-item" href="modals.html">Modals</a>
-
-                <a class="collapse-item" href="popovers.html">Popovers</a>
-
-                <a class="collapse-item" href="progress-bar.html">Progress Bars</a>
-
-            </div>
-        </li>
+      <li class="nav-item active">
+         <a class="nav-link" href="/users">{{--data-target="users" data-toggle="collapse" --}}
+          <i class="fa fa-users"></i>
+          <span>Users</span>
+          {{-- <ul class="nav nav-item collapse left-submenu" id="users"> --}}
+            <ul>
+            <li><a class="collapse-item" href="/customer">Customers</a></li>
+            <li><a class="collapse-item active" href="/vendors">Vendors</a></li>
+          </ul>
+        </a>
+      </li>
 
       <li class="nav-item active">
         <a class="nav-link" href="/services">
@@ -307,7 +295,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <img class="img-profile rounded-circle" src="{{ asset('img/boy.png') }}" style="max-width: 60px">
-                <span class="ml-2 d-none d-lg-inline text-white small">Maman Ketoprak</span>
+                <span class="ml-2 d-none d-lg-inline text-white small" id="user_name">Maman Ketoprak</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -362,13 +350,27 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
-  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-  <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
-  <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-  <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
+{{--  <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>--}}
+{{--  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>--}}
+{{--  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>--}}
+{{--  <script src="{{ asset('js/ruang-admin.min.js') }}"></script>--}}
+{{--  <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>--}}
+{{--  <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>--}}
 
+
+  <script >
+      window.onload = function() {
+          // console.log('retrievedObject: ');
+          var retrievedObject = localStorage.getItem('userObject');
+          var obj = JSON.parse(retrievedObject);
+
+          $('#user_name').text(obj.first_name);
+          // console.log('retrievedObject: ', JSON.parse(retrievedObject));
+          // console.log('retrievedObject: ', obj.first_name);
+
+      }
+  </script>
 </body>
+
 
 </html>

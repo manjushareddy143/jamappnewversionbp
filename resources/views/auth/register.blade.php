@@ -111,7 +111,7 @@
                                                     <button type="button"
                                                             class="btn btn-primary btn-block"
                                                             id="singupbtn"
-                                                            onclick="mobileSignup()">Sign Up</button>
+                                                            onclick="registerIndividuals()">Sign Up</button>
 {{--                                                    mobileSignup--}}
 
                                                 </div>
@@ -319,7 +319,16 @@
         }).done(function( response ) {
             $("#exampleModal").modal("hide");
             console.log(response);
-            window.location = '/home';
+
+
+// Put the object into storage
+            localStorage.setItem('userObject', JSON.stringify(response));
+
+// Retrieve the object from storage
+            var retrievedObject = localStorage.getItem('userObject');
+
+
+            // window.location = '/home';
         });
     }
 
