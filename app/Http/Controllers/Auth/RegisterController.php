@@ -84,7 +84,9 @@ class RegisterController extends Controller
         $initialValidator = Validator::make($request->all(),
         [
             'first_name' => 'required',
+            'last_name' => 'required',
             'password' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'contact' => 'required|unique:users,contact',
             'type_id' => 'required|exists:user_types,id',
             'term_id' => 'required|exists:term_conditions,id',
