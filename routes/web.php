@@ -49,7 +49,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/show/{$id}', 'UserController@show');
     Route::get('/addUser', 'UserController@addUser');
     Route::get('/edit','UserController@edit');
+    // for customer
 
+    Route::get('/customer', function()
+    {
+        return view('layouts.Users.customer');
+    });
 
     Route::get('/profile','UserController@profile');
     Route::post('/profile','UserController@profile');
