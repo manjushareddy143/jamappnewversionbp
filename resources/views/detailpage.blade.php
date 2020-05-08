@@ -147,9 +147,15 @@
 </div>
 </div>
 </div>
+         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
+         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
+        window.addEventListener ?
+            window.addEventListener("load",onLoad(),false) :
+            window.attachEvent && window.attachEvent("onload",onLoad());
+
         var service_id;
-        window.onload = function() {
+        function onLoad() {
             service_id = getUrlParameter('id');
             console.log(service_id);
             $("#categorydiv").hide();
@@ -205,7 +211,7 @@
             });
         }
 
-        var getUrlParameter = function getUrlParameter(sParam) {
+        function getUrlParameter(sParam) {
             var sPageURL = window.location.search.substring(1),
                 sURLVariables = sPageURL.split('&'),
                 sParameterName,
