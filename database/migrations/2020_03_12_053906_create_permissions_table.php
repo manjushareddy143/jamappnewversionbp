@@ -85,6 +85,26 @@ class CreatePermissionsTable extends Migration
             )
         );
 
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'Create Order',
+                'slug' =>  'create-order'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'View Order',
+                'slug' =>  'view-order'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'Delete Order',
+                'slug' =>  'delete-order'
+            )
+        );
     }
 
 

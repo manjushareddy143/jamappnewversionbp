@@ -28,38 +28,41 @@
       </a>
       <hr class="sidebar-divider my-0">
 
-        @if (Auth::user()->roles[0]->slug == 'manager')
-
-            <li class="nav-item active">
-                <a class="nav-link" href="/users">{{--data-target="users" data-toggle="collapse" --}}
-                    <i class="fa fa-users"></i>
-                    <span>Users</span>
-
-                    {{-- <ul class="nav nav-item collapse left-submenu" id="users"> --}}
-                    <ul>
-                        <li><a class="collapse-item" href="/customer">Customers</a></li>
-                        <li><a class="collapse-item active" href="/vendors">Vendors</a></li>
-                    </ul>
-                </a>
-            </li>
-        @else
+        @if (Auth::user()->roles[0]->slug == 'admin-admin')
             <li class="nav-item active">
                 <a class="nav-link" href="home">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/users">{{--data-target="users" data-toggle="collapse" --}}
+                    <i class="fa fa-users"></i>
+                    <span>Users</span>
+                    <ul>
+                        <li><a class="collapse-item" href="/customer">Customers</a></li>
+                        <li><a class="collapse-item active" href="/vendors">Vendors</a></li>
+                    </ul>
+                </a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/services">
+                    <i class="fas fa-users"></i>
+                    <span>Services</span>
+                </a>
+            </li>
+        @elseif (Auth::user()->roles[0]->slug == 'admin-admin')
+
+
+        @elseif (Auth::user()->roles[0]->slug == 'organisation-admin')
+
+        @elseif (Auth::user()->roles[0]->slug == 'provider')
+
+        @elseif (Auth::user()->roles[0]->slug == 'customer')
+
         @endif
 
-
-
-
-      <li class="nav-item active">
-        <a class="nav-link" href="/services">
-          <i class="fas fa-users"></i>
-          <span>Services</span>
-        </a>
-      </li>
 
 {{--      <hr class="sidebar-divider">--}}
 {{--      <div class="sidebar-heading">--}}
@@ -375,7 +378,11 @@
           var obj = JSON.parse(retrievedObject);
 
           $('#user_name').text(obj.first_name);
-          $('#profile_img').attr("src", obj.image);
+          if(obj.image) {
+              $('#profile_img').attr("src", obj.image);
+          } else {
+              $('#profile_img').attr("src", asset('img/boy.png'));
+          }
           // console.log('retrievedObject: ', JSON.parse(retrievedObject));
           // console.log('retrievedObject: ', obj.first_name);
 

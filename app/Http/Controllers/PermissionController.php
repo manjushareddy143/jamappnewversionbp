@@ -6,6 +6,7 @@ use App\Permission;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PermissionController extends Controller
 {
@@ -14,9 +15,17 @@ class PermissionController extends Controller
         $admin_permission = Permission::all();
         $admin_role = Role::where('slug', 'admin-admin');
         $admin_role->permissions()->attach($admin_permission);
-
         return response()->json($admin_role);
     }
+
+    public function getPermissions($role_id, $role) {
+        $customer_permission = DB::select('select permission_id from roles_permissions where role_id ='.$role_id);
+        $customer_role = Role::where('slug', $role);
+        $customer_role->permissions()->attach($customer_permission);
+        return $customer_role;// response()->json($customer_role);
+    }
+
+
 
     public function Permission()
     {

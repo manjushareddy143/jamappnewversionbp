@@ -3,14 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="8a3fd0e7-3aac-4aee-a6a8-f237993968d0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PermissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PermissionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_12_051838_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_12_051838_create_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_12_053738_create_roles_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_12_053738_create_roles_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_12_053906_create_permissions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_12_053906_create_permissions_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_12_054122_create_users_roles_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_12_054122_create_users_roles_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_12_054343_create_roles_permissions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_12_054343_create_roles_permissions_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,7 +179,8 @@
       <workItem from="1588824749782" duration="30786000" />
       <workItem from="1588910487455" duration="19133000" />
       <workItem from="1588995403997" duration="5446000" />
-      <workItem from="1589010076346" duration="1472000" />
+      <workItem from="1589010076346" duration="1562000" />
+      <workItem from="1589026164659" duration="6574000" />
     </task>
     <servers />
   </component>
@@ -189,22 +188,22 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1589011297203">
+    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1589030121491">
       <screen x="0" y="0" width="1280" height="683" />
     </state>
-    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.683@0.0.1280.683" timestamp="1589011297203" />
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1589010095035">
+    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.683@0.0.1280.683" timestamp="1589030121491" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1589026164733">
       <screen x="0" y="0" width="1280" height="683" />
     </state>
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.683@0.0.1280.683" timestamp="1589010095035" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.683@0.0.1280.683" timestamp="1589026164733" />
     <state x="298" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588846451386">
       <screen x="0" y="0" width="1280" height="683" />
     </state>
     <state x="298" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1280.683@0.0.1280.683" timestamp="1588846451386" />
-    <state x="350" y="76" width="612" height="536" key="find.popup" timestamp="1588940828524">
+    <state x="350" y="76" width="612" height="536" key="find.popup" timestamp="1589030318512">
       <screen x="0" y="0" width="1280" height="683" />
     </state>
-    <state x="350" y="76" width="612" height="536" key="find.popup/0.0.1280.683@0.0.1280.683" timestamp="1588940828524" />
+    <state x="350" y="76" width="612" height="536" key="find.popup/0.0.1280.683@0.0.1280.683" timestamp="1589030318512" />
     <state x="297" y="145" key="run.anything.popup" timestamp="1588928898399">
       <screen x="0" y="0" width="1280" height="683" />
     </state>
