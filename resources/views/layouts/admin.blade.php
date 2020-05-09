@@ -27,24 +27,32 @@
         </div>
       </a>
       <hr class="sidebar-divider my-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="home">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
 
-      <li class="nav-item active">
-         <a class="nav-link" href="/users">{{--data-target="users" data-toggle="collapse" --}}
-          <i class="fa fa-users"></i>
-          <span>Users</span>
-          {{-- <ul class="nav nav-item collapse left-submenu" id="users"> --}}
-            <ul>
-            <li><a class="collapse-item" href="/customer">Customers</a></li>
-            <li><a class="collapse-item active" href="/vendors">Vendors</a></li>
-          </ul>
-        </a>
-      </li>
+        @if (Auth::user()->roles[0]->slug == 'manager')
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/users">{{--data-target="users" data-toggle="collapse" --}}
+                    <i class="fa fa-users"></i>
+                    <span>Users</span>
+
+                    {{-- <ul class="nav nav-item collapse left-submenu" id="users"> --}}
+                    <ul>
+                        <li><a class="collapse-item" href="/customer">Customers</a></li>
+                        <li><a class="collapse-item active" href="/vendors">Vendors</a></li>
+                    </ul>
+                </a>
+            </li>
+        @else
+            <li class="nav-item active">
+                <a class="nav-link" href="home">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+        @endif
+
+
+
 
       <li class="nav-item active">
         <a class="nav-link" href="/services">

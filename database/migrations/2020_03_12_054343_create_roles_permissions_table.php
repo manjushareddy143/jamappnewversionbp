@@ -22,6 +22,71 @@ class CreateRolesPermissionsTable extends Migration
 
             $table->primary(['role_id','permission_id']);
         });
+
+
+        DB::table('roles_permissions')->insert(
+            array(
+                'role_id' => 1,
+                'permission_id' => 1,
+            )
+        );
+
+        DB::table('roles_permissions')->insert(
+            array(
+                'role_id' => 1,
+                'permission_id' => 2,
+            )
+        );
+
+        DB::table('roles_permissions')->insert(
+            array(
+                'role_id' => 1,
+                'permission_id' => 3,
+            )
+        );
+
+        DB::table('roles_permissions')->insert(
+            array(
+                'role_id' => 1,
+                'permission_id' => 4,
+            )
+        );
+
+        DB::table('roles_permissions')->insert(
+            array(
+                'role_id' => 1,
+                'permission_id' => 5,
+            )
+        );
+
+        DB::table('roles_permissions')->insert(
+            array(
+                'role_id' => 1,
+                'permission_id' => 6,
+            )
+        );
+
+        DB::table('roles_permissions')->insert(
+            array(
+                'role_id' => 1,
+                'permission_id' => 7,
+            )
+        );
+
+        DB::table('roles_permissions')->insert(
+            array(
+                'role_id' => 1,
+                'permission_id' => 8,
+            )
+        );
+
+        DB::table('roles_permissions')->insert(
+            array(
+                'role_id' => 1,
+                'permission_id' => 9,
+            )
+        );
+
     }
 
     /**

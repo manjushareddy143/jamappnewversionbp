@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
@@ -30,6 +31,23 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+//        $permissions = new \App\Http\Controllers\PermissionController();
+       DB::table('users')->insert(
+            array(
+                'first_name' => 'Admin',
+                'last_name' =>  'JAM',
+                'email'=> 'admin@jam.com',
+                'password' => Hash::make('admin@jam.com'),
+                'contact' => '',
+                'type_id' => 1,
+                'term_id' => 2,
+            )
+        );
+
+
+//        $admin_user->roles()->attach($permissions->adminPermissions());
+
     }
 
     /**

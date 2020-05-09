@@ -20,7 +20,37 @@ class CreateRolesTable extends Migration
             $table->string('slug');
             $table->timestamps();
         });
+
+        DB::table('roles')->insert(
+            array(
+                'name' => 'Admin',
+                'slug' =>  'admin-admin'
+            )
+        );
+
+        DB::table('roles')->insert(
+            array(
+                'name' => 'Corporate Service Provider',
+                'slug' =>  'organisation-admin'
+            )
+        );
+
+        DB::table('roles')->insert(
+            array(
+                'name' => 'Individual Service Provider',
+                'slug' =>  'provider'
+            )
+        );
+
+        DB::table('roles')->insert(
+            array(
+                'name' => 'Consumer',
+                'slug' =>  'customer'
+            )
+        );
     }
+
+
 
     /**
      * Reverse the migrations.
