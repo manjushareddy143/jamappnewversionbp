@@ -50,20 +50,20 @@
 
                               <div class="col-md-12" >
                                   <div class="form-group">
-                                      <label>Name</label>
+                                      <label>Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                       <input id="service_name" type="text" name="name" placeholder="Enter Name" class="form-control" required>
                                   </div>
                               </div>
                               <div class="col-md-12">
                                   <div class="form-group">
-                                      <label>Icon</label>
+                                      <label>Icon<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                       <input id="icon_image" type="file" name="image" class="form-control" required>
                                   </div>
                               </div>
 
                               <div class="col-md-12">
                                   <div class="form-group">
-                                      <label>Banner</label>
+                                      <label>Banner<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                       <input id="banner_image" type="file" name="image" class="form-control" required>
                                   </div>
                               </div>
@@ -72,7 +72,7 @@
                               <div class="col-md-12">
                                   <div class="form-group">
                                       <label>Description</label>
-                                      <input id="service_description" type="text" name="description" placeholder="Enter Description" class="form-control" required>
+                                      <input id="service_description" type="text" name="description" placeholder="Enter Description" class="form-control">
                                   </div>
                               </div>
 
@@ -98,7 +98,7 @@
                       <div class="col-md-12" id="categorydiv">
                           <div class="form-group">
                               <label for="exampleFormControlSelect1">Category</label>
-                              <select class="form-control" id="categorieslist">
+                              <select class="form-control" id="categorieslist" required>
                               </select>
                           </div>
                       </div>
@@ -109,7 +109,7 @@
                       <div class="form-group" id="cate_namediv">
                           <div class="col-md-6 float-l">
                               <div class="form-group">
-                                  <label>Name</label>
+                                  <label>Name<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                   <input id="categoy_name" type="text" name="categoy_name"
                                          class="form-control" placeholder="Enter Name" required>
                               </div>
@@ -119,7 +119,7 @@
 
                           <div class="col-md-6 float-r" id="cate_imgdiv">
                             <div class="form-group">
-                                <label>Image</label>
+                                <label>Image<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                 <input id="category_image" type="file" name="category_image" class="form-control">
                             </div>
                           </div>
