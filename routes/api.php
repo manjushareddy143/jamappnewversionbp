@@ -32,6 +32,8 @@ Route::post('v1/booking', 'BookingController@booking');
 Route::get('v1/booking', 'BookingController@getorderbyuser');
 Route::get('v1/booking/{id}', 'BookingController@getorder');
 
+Route::get('test', '\App\Http\Controllers\Auth\RegisterController@getPermissions');
+
 
 
 

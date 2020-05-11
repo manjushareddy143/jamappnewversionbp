@@ -50,19 +50,31 @@ class LoginController extends Controller
 //        dd(Auth::attempt($credentials));
         if (Auth::attempt($credentials)) {
             $response = array();
-            $username = $request->input('email');
-            $checkuser  = User::where('email', '=', $username)->first();
+            $response = Auth::user();
+            $roles = Auth::user()->roles;
+//            $permission = Auth::user()->permissions;
+//            echo $response; exit();
+            //->roles
 
-            if($checkuser['type_id'] != 4)
+//            $username = $request->input('email');
+//            $checkuser  = User::where('email', '=', $username)->first();
+
+            if($response->type_id == 1){
+                $response['status'] = true;
+                return response($response, 200)
+                    ->header('content-type', 'application/json');
+            }
+
+            if($response->type_id != 4)
             {
 //                        dd(\Session::getId());
-                $service_provider = ServiceProvider::where('user_id', '=', $checkuser['id'])->first();
-                $checkuser['resident_country'] = $service_provider['resident_country'];
+                $service_provider = ServiceProvider::where('user_id', '=', $response->id)->first();
+                $response['resident_country'] = $service_provider['resident_country'];
 
             }
-            $response = $checkuser;
+//            $response = $checkuser;
 //            echo ($checkuser['id']); exit();
-            $address = Address::where('user_id', '=', $checkuser['id'])->first();
+            $address = Address::where('user_id', '=', $response->id)->first();
 
 //            echo ($address); exit();
             $response['address'] = $address;

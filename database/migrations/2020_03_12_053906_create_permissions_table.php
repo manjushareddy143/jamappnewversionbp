@@ -19,7 +19,96 @@ class CreatePermissionsTable extends Migration
             $table->string('slug');
             $table->timestamps();
         });
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'Create User',
+                'slug' =>  'create-user'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'View User',
+                'slug' =>  'view-user'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'Delete User',
+                'slug' =>  'delete-user'
+            )
+        );
+
+
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'Create Provider',
+                'slug' =>  'create-provider'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'View Provider',
+                'slug' =>  'view-provider'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'Delete Provider',
+                'slug' =>  'delete-provider'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'Create Organisation',
+                'slug' =>  'create-organisation'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'View Organisation',
+                'slug' =>  'view-organisation'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'Delete Organisation',
+                'slug' =>  'delete-organisation'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'Create Order',
+                'slug' =>  'create-order'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'View Order',
+                'slug' =>  'view-order'
+            )
+        );
+
+        DB::table('permissions')->insert(
+            array(
+                'name' => 'Delete Order',
+                'slug' =>  'delete-order'
+            )
+        );
     }
+
+
+
 
     /**
      * Reverse the migrations.

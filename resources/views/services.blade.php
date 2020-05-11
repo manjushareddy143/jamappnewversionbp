@@ -71,7 +71,7 @@
 
                               <div class="col-md-12">
                                   <div class="form-group">
-                                      <label>Description</label>
+                                      <label>Descriptions</label>
                                       <input id="service_description" type="text" name="description" placeholder="Enter Description" class="form-control">
                                   </div>
                               </div>
