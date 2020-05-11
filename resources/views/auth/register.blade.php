@@ -52,7 +52,7 @@
                                                     <label>First Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="first_name" placeholder="Enter Your First Name" required>
-                                                </div>  
+                                                </div>
                                                 <div class="form-group">
                                                     <label>Last Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
@@ -133,7 +133,11 @@
                                             <span>Proprietorship Firm / Partnership Firm / Company / Business Establishment</span>
                                             <form action="#">
                                                 <div class="form-group">
-                                                    <label>Name <strong>*</strong></label>
+                                                    <label>Company Name <strong>*</strong></label>
+                                                    <input type="text" class="form-control" id="company_name" placeholder="Enter Your Company Name">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Admin Name <strong>*</strong></label>
                                                     <input type="text" class="form-control" id="first_name" placeholder="Enter Your Name">
                                                 </div>
                                                 <div class="form-group">
@@ -146,7 +150,7 @@
                                                            placeholder="Enter Your Email Address">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleFormControlSelect1">Resident Status <strong>*</strong></label>
+                                                    <label for="exampleFormControlSelect1">Country <strong>*</strong></label>
                                                     <select class="form-control" id="select1">
                                                         <option>Select Country</option>
                                                         <option>India</option>
