@@ -299,7 +299,7 @@ class UserController extends Controller
 
                     $address = Address::where('user_id', '=', $checkuser['id'])->first();
                     $response['address'] = $address;
-                    return response($response, 200, JSON_NUMERIC_CHECK)
+                    return response($response, 200)
                         ->header('content-type', 'application/json');
                 } else {
                     $response['code'] = false;
@@ -310,7 +310,7 @@ class UserController extends Controller
             } else {
                 $response['code'] = false;
                 $response['message'] = "user unauthorized";
-                return response($response, 401, JSON_NUMERIC_CHECK)
+                return response($response, 401)
                     ->header('content-type', 'application/json');
             }
 

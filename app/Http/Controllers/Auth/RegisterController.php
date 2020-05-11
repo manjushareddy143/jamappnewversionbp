@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Address;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PermissionController;
 use App\Providers\RouteServiceProvider;
+use App\Role;
 use App\ServiceProvider;
 use App\TermAgreement;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -84,7 +87,9 @@ class RegisterController extends Controller
         $initialValidator = Validator::make($request->all(),
         [
             'first_name' => 'required',
+            'last_name' => 'required',
             'password' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'contact' => 'required|unique:users,contact',
             'type_id' => 'required|exists:user_types,id',
             'term_id' => 'required|exists:term_conditions,id',
@@ -112,51 +117,42 @@ class RegisterController extends Controller
 
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
+        $customer_role = Role::where('slug','=', 'provider')->first();
+        $user->roles()->attach($customer_role);
 
-        $user_id=$user->id;
-        $now = now()->utc();
-        $term_agreement= [
-            'user_id' => $user_id,
-            'term_id' => $input['term_id'],
-            'agreed_at' => $now
-        ];
-        TermAgreement::create($term_agreement);
+//        if (isset($user)) {
+//            $address = Address::where('user_id', '=', $user['id'])->first();
+//            $user['address'] = $address;
+//            $response  = $user;
+//
+//        } else {
+//            $response['message']  = "Please add valid details";
+//        }
 
-        $service_provider= [
-            'user_id' => $user_id,
-            'resident_country' => $input['resident_country']
-        ];
-        $service_provider_detail = ServiceProvider::create($service_provider);
-        $user['resident_country'] = $service_provider_detail['resident_country'];
-
-
-
-        if (isset($user)) {
-            $address = Address::where('user_id', '=', $user['id'])->first();
-
-//            echo ($address); exit();
-            $user['address'] = $address;
-            $response  = $user;
-
-        } else {
-            $response['message']  = "Please add valid details";
-        }
-
-//        $credentials = ['email' => $input['email'],
-//            'password' => $input['password']];
         $credentials = $request->only('email', 'password');
         if( Auth::attempt($credentials)) {
-            //dd(\Session::getId());
-//            $encryptedCookie = Crypt::encrypt(\Session::getId(), true);
+
+            $response = Auth::user();
+            $roles = Auth::user()->roles;
+            
+            $now = now()->utc();
+            $term_agreement= [
+                'user_id' => $user->id,
+                'term_id' => $input['term_id'],
+                'agreed_at' => $now
+            ];
+            TermAgreement::create($term_agreement);
+
+            $service_provider= [
+                'user_id' => $user->id,
+                'resident_country' => $input['resident_country']
+            ];
+            $service_provider_detail = ServiceProvider::create($service_provider);
+            $response['resident_country'] = $service_provider_detail['resident_country'];
+
+
             return response()->json($response, 200);
-            // ->withCookie(cookie(\Str::slug(env('APP_NAME', 'laravel'), '_').'_session', $encryptedCookie, 45000));
-            //$request->session()->regenerate();
         }
         return response()->json($response, 403);
-
-//        $credentials = $request->only('email', 'password');
-//        if (Auth::attempt($credentials)) {
-//            return response()->json(['status' => true]);
-//        }
     }
 }

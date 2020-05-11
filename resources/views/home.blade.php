@@ -47,7 +47,7 @@
 
                         <div class="panel panel-default">
                             <div class="panel-body text-center">
-                                <image id="profileImage" src="http://192.168.43.40/img/boy.png"
+                                <image id="profileImage" src="{{ asset('img/boy.png') }}"
                                        style="width: 100px; height: 100px; border-radius: 100%;"/>
                                 <input id="imageUpload" type="file"
                                        name="profile_photo" placeholder="Photo" required="" capture>

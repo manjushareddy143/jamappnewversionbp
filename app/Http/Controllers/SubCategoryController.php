@@ -34,7 +34,7 @@ class SubCategoryController extends Controller
             $form_data = array(
                 'name'  => $input['name'],
                 'image' =>  $host . "/images/subcategories/" . $iconName,
-                'description' => $input['description']
+                'description' => array_key_exists('description', $input) ? $input['description'] : ""
             );
 
             $myResult = SubCategories::create($form_data);
