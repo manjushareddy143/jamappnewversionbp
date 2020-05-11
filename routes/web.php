@@ -49,11 +49,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/show/{$id}', 'UserController@show');
     Route::get('/addUser', 'UserController@addUser');
     Route::get('/edit','UserController@edit');
-    // for customer
 
+    //routes for customer
     Route::get('/customer', function()
     {
         return view('layouts.Users.customer');
+    });
+
+    //routes for orders
+    Route::get('/orders', function()
+    {
+        return view('layouts.orders');
     });
 
     Route::get('/profile','UserController@profile');

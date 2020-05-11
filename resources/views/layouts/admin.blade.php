@@ -61,6 +61,13 @@
         @endif
 
 
+      <li class="nav-item active">
+        <a class="nav-link" href="/orders">
+          <i class="fas fa-users"></i>
+          <span>Orders</span>
+        </a>
+      </li>
+
 {{--      <hr class="sidebar-divider">--}}
 {{--      <div class="sidebar-heading">--}}
 {{--        Features--}}
