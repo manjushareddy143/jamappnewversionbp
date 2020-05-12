@@ -41,6 +41,8 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+class_alias('Illuminate\Support\Facades\Gate', 'Gate');
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

@@ -56,6 +56,13 @@ Route::middleware(['auth'])->group(function () {
         return view('layouts.Users.customer');
     });
 
+    //routes for vendor
+
+    Route::get('/vendors', function()
+    {
+        return view('layouts.Users.vendors');
+    });
+
     //routes for orders
     Route::get('/orders', function()
     {
