@@ -21,6 +21,7 @@ class CreateUsersRolesTable extends Migration
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->primary(['user_id','role_id']);
         });
+
         DB::table('users_roles')->insert(
             array(
                 'role_id' => 1,

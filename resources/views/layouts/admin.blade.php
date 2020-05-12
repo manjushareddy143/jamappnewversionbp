@@ -3,16 +3,16 @@
 
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link href="img/logo/logo.png" rel="icon">
-  <title>JAM - Dashboard</title>
-  <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-  <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
-  <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
-</head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <link href="img/logo/logo.png" rel="icon">
+      <title>JAM - Dashboard</title>
+      <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+      <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+      <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
+    </head>
 
 <body id="page-top">
   <div id="wrapper">
@@ -69,9 +69,6 @@
                     <span>Services</span>
                 </a>
             </li>
-        @elseif (Auth::user()->roles[0]->slug == 'admin-admin')
-
-
         @elseif (Auth::user()->roles[0]->slug == 'organisation-admin')
 
         @elseif (Auth::user()->roles[0]->slug == 'provider')
@@ -410,7 +407,8 @@
           if(obj.image) {
               $('#profile_img').attr("src", obj.image);
           } else {
-              $('#profile_img').attr("src", asset('img/boy.png'));
+              $('#profile_img').attr("src",'{{ URL::asset('/img/boy.png') }}')
+                  //{{asset('img/boy.png')}});
           }
           // console.log('retrievedObject: ', JSON.parse(retrievedObject));
           // console.log('retrievedObject: ', obj.first_name);

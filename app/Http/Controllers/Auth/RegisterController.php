@@ -121,9 +121,8 @@ class RegisterController extends Controller
         $user->roles()->attach($customer_role);
 
 //        if (isset($user)) {
-//            $address = Address::where('user_id', '=', $user['id'])->first();
-//            $user['address'] = $address;
-//            $response  = $user;
+
+
 //
 //        } else {
 //            $response['message']  = "Please add valid details";
@@ -134,7 +133,12 @@ class RegisterController extends Controller
 
             $response = Auth::user();
             $roles = Auth::user()->roles;
-            
+
+            $address = Address::where('user_id', '=', $user->id)->first();
+            $response['address'] = $address;
+
+//            $response  = $user;
+
             $now = now()->utc();
             $term_agreement= [
                 'user_id' => $user->id,
@@ -153,6 +157,6 @@ class RegisterController extends Controller
 
             return response()->json($response, 200);
         }
-        return response()->json($response, 403);
+//        return response()->json($response, 403);
     }
 }

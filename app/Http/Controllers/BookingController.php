@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\Booking;
 use App\User;
 use Carbon\Carbon;
@@ -56,13 +57,26 @@ class BookingController extends Controller
             ->leftJoin('users', 'users.id', '=','bookings.provider_id')
             ->leftJoin('services', 'services.id', '=','bookings.service_id')
             ->leftJoin('sub_categories', 'sub_categories.id', '=','bookings.category_id')
+            ->leftJoin('experiences', 'experiences.booking_id', '=','bookings.id')
             ->select('bookings.*',
                 'users.first_name as provider_first_name', 'users.last_name as provider_last_name',
                 'users.image as provider_image',
                 'services.name as service',
-                'sub_categories.name as category')
+                'sub_categories.name as category',
+                'experiences.rating as rating', 'experiences.comment as comment')
             ->get();
-        return response()->json($result);
+
+        $response = array();
+        foreach ($result as $obj) {
+            $data = array();
+            $data = $obj;
+            $address = Address::where('user_id', '=', $obj->user_id)->first();
+            $data['address'] = $address;
+            array_push($response, $data);
+        }
+
+
+        return response()->json($response);
     }
 
     public  function getorder($id) {
