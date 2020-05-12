@@ -138,7 +138,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Admin Name <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="first_name" placeholder="Enter Your Name">
+                                                    <input type="text" class="form-control" id="admin_name" placeholder="Enter Your Name">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Mobile Number <strong>*</strong></label>
@@ -176,7 +176,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <button type="submit" class="btn btn-primary btn-block"
-                                                            data-toggle="modal" id="#myBtn" data-target="#exampleModal">
+                                                            data-toggle="modal" id="#myBtn" data-target="#exampleModal" onclick="registerOrganisation()">
                                                         Sign Up</button>
                                                 </div>
                                             </form>
@@ -327,21 +327,78 @@
 
 // Put the object into storage
             localStorage.setItem('userObject', JSON.stringify(response));
-
+        )
 // Retrieve the object from storage
 //             var retrievedObject = localStorage.getItem('userObject');
 
-
+        }
             window.location = '/home';
         });
     }
 
+    function organisation_validate() {
+         console.log("organisation_validate");
+         if(document.getElementById("company_name").value == "" ) {
+             // EXPAND ADDRESS FORM
+             return "Missing Company Name";
+         }
+         //var admin_name = $('#admin_name')[0].files[0];
+         if (document.getElementById("admin_name").value == "") {
+             return "Missing Admin Name";
+         }
+         //var mobilenum = $('#mobile')[0].files[0];
+         if (document.getElementById("mobile").value == "") {
+             return "Missing Contact Number";
+         }
+        //  var email = $('#email')[0].files[0];
+         if(document.getElementById("email").value == "") {
+             return "Missing Email Address";
+         }
+         //var Country = $('#select1')[0].files[0];
+         if(document.getElementById("select1").value == "") {
+             return "Choose a Country";
+         }
+
+         if(!addform.terms.checked) {
+             addform.terms.focus();
+             console.log('cancel');
+             if(document.getElementById("company_name").value == "" ) {
+                 // EXPAND ADDRESS FORM
+                 return "Missing Company Name";
+             }
+         }
+         return null;
+    }
+    //          var category_image = $('#category_image')[0].files[0];
+    //          if (!category_image) {
+    //              return "Missing Category Icon";
+    //          }
+    //      }
+    //      return null;
+    //  }
+
     function registerOrganisation() {
-        console.log("789");
+        console.log("organisation_validate");
+        var formvalidate = organisation_validate();
+        console.log("organisation_validate ::"+ formvalidate);
+        if(formvalidate == null){
+            console.log("CREATE SERVER CALL");
+
+            $.ajax({
+                url:'/'
+            });
+
+        }
+        else{
+            $("#alerterror").text(formvalidate);
+            $("#alerterror").show();
+            setTimeout(function(){
+                $("#alerterror").hide()
+            },1000);
+        }
     }
 
     function closeForm() {
         document.getElementById("popupForm").style.display="none";
     }
 </script>
-
