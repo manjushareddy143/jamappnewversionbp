@@ -35,7 +35,7 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item active">
+            <!-- <li class="nav-item active">
                 <a class="nav-link" href="/users">{{--data-target="users" data-toggle="collapse" --}}
                     <i class="fa fa-users"></i>
                     <span>Users</span>
@@ -44,9 +44,26 @@
                         <li><a class="collapse-item active" href="/vendors">Vendors</a></li>
                     </ul>
                 </a>
-            </li>
+            </li> -->
+ <hr class="sidebar-divider">
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true"
+          aria-controls="collapsePage">         
+          <i class="fas fa-user"></i>
+          <span>Users</span>
+        </a>
+        <div id="collapsePage" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            
+            <a class="collapse-item" href="/users">Organisations</a>
+            <a class="collapse-item" href="/vendors">Vendors</a>
+            <a class="collapse-item" href="/customer">Customers</a>
+          </div>
+        </div>
+      </li>
 
-            <li class="nav-item active">
+
+            <li class="nav-item">
                 <a class="nav-link" href="/services">
                     <i class="fas fa-users"></i>
                     <span>Services</span>
@@ -61,7 +78,7 @@
         @endif
 
 
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="/orders">
           <i class="fas fa-users"></i>
           <span>Orders</span>
@@ -366,6 +383,11 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
+
+
+
+ <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
+ <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 {{--  <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>--}}
 {{--  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>--}}

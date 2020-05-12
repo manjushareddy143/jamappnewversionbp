@@ -16,9 +16,9 @@
     <div class="col-lg-12 margin-tb">
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Customers Management</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Vendors Management</h6>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button>
+                    id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Vendors</button>
                 </div>
 
 
@@ -28,7 +28,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add Consumer</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Add Vendors</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -163,26 +163,23 @@
 <thead class="thead-light">
 <tr>
 
-<!-- <th>id</th> -->
-
-
-<th>First Name</th>
-<th>Last Name</th>
-<th>Email</th>
-{{--   <th>Roles</th>--}}
-<!-- <th width=10%> Image</th> -->
-<!-- <th>Contact</th> -->
-  <th>Profile</th>
-{{-- <th>Type</th> --}}
-<th>Gender</th>
-<!-- <th>Languages Known</th> -->
-{{--   <th>Start_time</th>--}}
-<!-- <th>End_time</th> -->
-<!-- <th>Experience</th> -->
-<th width="280px">Action</th>
+          <!-- <th>id</th> -->
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+          {{--   <th>Roles</th>--}}
+          <!-- <th width=10%> Image</th> -->
+          <!-- <th>Contact</th> -->
+            <th>Profile</th>
+          {{-- <th>Type</th> --}}
+            <th>Gender</th>
+          <!-- <th>Languages Known</th> -->
+          {{--   <th>Start_time</th>--}}
+          <!-- <th>End_time</th> -->
+          <!-- <th>Experience</th> -->
+          <th width="280px">Action</th>
 </tr>
 </thead>
-
 <tbody>
 @if (isset($data) && !empty($data))
  <?php $i=0; ?>
@@ -191,42 +188,26 @@
 <tr>
 
  <!-- <td>{{ ++$i }}</td> -->
-
- <td>{{ $user->name }}</td>
+ <td>{{ $user->first_name }}</td>
+ <td>{{ $user->last_name }}</td>
 
  <td>{{ $user->email }}</td>
-
 {{--   <td>--}}
-
 {{--      --}}{{-- @if(!empty($user->getRoleNames()))--}}
-
 {{--        @foreach($user->getRoleNames() as $v)--}}
-
 {{--           <label class="badge badge-success">{{ $v }}</label>--}}
-
 {{--        @endforeach--}}
-
 {{--      @endif --}}
-
 {{--    </td>--}}
-
 {{--     <td><img src="{{ URL::to('/') }}/images/{{ $user->image }}" class="square" width="60" height="50" /></td>--}}
-
    <td><img src="{{ asset($user->image) }}" class="square" width="60" height="50" /></td>
  <!-- <td>{{ $user->contact }}</td> -->
-
  {{-- <td>{{ $user->type }}</td> --}}
-
  <td>{{ $user->gender }}</td>
-
  <!-- <td>{{ $user->languages_known }}</td> -->
-
 {{--    <td>{{ $user->start_time }}</td>--}}
-
  <!-- <td>{{ $user->end_time }}</td> -->
-
  <!-- <td>{{ $user->experience }}</td> -->
-
  <td>
 
     <a class="btn btn-info" ><i class="fas fa-eye"></i></a>
