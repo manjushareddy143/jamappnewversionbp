@@ -64,6 +64,7 @@ class BookingController extends Controller
                 'services.name as service',
                 'sub_categories.name as category',
                 'experiences.rating as rating', 'experiences.comment as comment')
+            ->groupBy('bookings.id')
             ->get();
 
         $response = array();

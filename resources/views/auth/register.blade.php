@@ -122,36 +122,38 @@
 
 
                                         </div>
+
                                         @if(Session::has('laravel_session'))
                                             <div class="inspire">
                                                 { { session('laravel_session', '') } }
                                             </div>
                                         @endif
 
+
                                         <div class="tab-pane fade" id="organization" role="tabpanel"
                                              aria-labelledby="organization-tab">
                                             <span>Proprietorship Firm / Partnership Firm / Company / Business Establishment</span>
-                                            <form action="#">
+                                            <form id="org_form">
                                                 <div class="form-group">
                                                     <label>Company Name <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="company_name" placeholder="Enter Your Company Name">
+                                                    <input type="text" class="form-control" id="org_company_name" placeholder="Enter Your Company Name">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Admin Name <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="first_name" placeholder="Enter Your Name">
+                                                    <input type="text" class="form-control" id="org_name" placeholder="Enter Your Name">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Mobile Number <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="mobile" placeholder="Enter Number">
+                                                    <input type="text" class="form-control" id="org_mobile" placeholder="Enter Number">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Email Address <strong>*</strong></label>
-                                                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                                                    <input type="email" class="form-control" id="org_email" aria-describedby="emailHelp"
                                                            placeholder="Enter Your Email Address">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Country <strong>*</strong></label>
-                                                    <select class="form-control" id="select1">
+                                                    <select class="form-control" id="org_select_country">
                                                         <option>Select Country</option>
                                                         <option>India</option>
                                                         <option>Bangladesh</option>
@@ -162,27 +164,24 @@
                                                 </div>
                                                 <div class="form-group register-rc-button">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                        <label class="custom-control-label" for="customCheck2">Vendor Consent to Terms & Conditions</label>
+                                                        <input type="checkbox" class="custom-control-input" id="org_checkbox">
+                                                        <label class="custom-control-label" for="org_checkbox">Vendor Consent to Terms & Conditions</label>
                                                     </div>
+
                                                 </div>
+                                                <p id="myError"></p>
+
                                                 <div class="form-group">
-                                                    <div class="upload-photo">
-                                                        <a href="#">
-                                                            <span><i class="fas fa-camera"></i></span>
-                                                            <p>Upload A Photo</p>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <button type="submit" class="btn btn-primary btn-block"
-                                                            data-toggle="modal" id="#myBtn" data-target="#exampleModal">
+                                                    <button type="button" class="btn btn-primary btn-block"
+                                                            data-toggle="modal" id="#myBtn" onclick="registerOrganisation()">
                                                         Sign Up</button>
                                                 </div>
                                             </form>
                                         </div>
 
-                                        <p data-toggle="modal" id="#showdailog" data-target="#exampleModal"></p>
+                                        <div>
+
+                                        </div>
 
                                         <!-- OTP FORM -->
                                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -305,7 +304,6 @@
     }
 
     function registerIndividuals() {
-
         var x = document.getElementById("select1").selectedIndex;
         $.ajax({
             type: "POST",
@@ -323,25 +321,62 @@
         }).done(function( response ) {
             $("#exampleModal").modal("hide");
             console.log(response);
-
-
-// Put the object into storage
+            // Put the object into storage
             localStorage.setItem('userObject', JSON.stringify(response));
-
-// Retrieve the object from storage
-//             var retrievedObject = localStorage.getItem('userObject');
-
-
             window.location = '/home';
         });
     }
 
+    function organisation_validate() {
+         console.log("organisation_validate");
+         if(document.getElementById("org_company_name").value == "" ) {
+             // EXPAND ADDRESS FORM
+             return "Missing Company Name";
+         }
+         //var admin_name = $('#admin_name')[0].files[0];
+         if (document.getElementById("org_name").value == "") {
+             return "Missing Admin Name";
+         }
+         //var mobilenum = $('#mobile')[0].files[0];
+         if (document.getElementById("org_mobile").value == "") {
+             return "Missing Contact Number";
+         }
+        //  var email = $('#email')[0].files[0];
+         if(document.getElementById("org_email").value == "") {
+             return "Missing Email Address";
+         }
+         //var Country = $('#select1')[0].files[0];
+         if(document.getElementById("org_select_country").value == "") {
+             return "Choose a Country";
+         }
+
+         if(!org_form.org_checkbox.checked) {
+             org_form.org_checkbox.focus();
+             console.log('cancel');
+             $('#myError').text('Please select terms and conditions')
+             return "Missing terms";
+         }
+         return null;
+    }
+
     function registerOrganisation() {
-        console.log("789");
+        console.log("organisation_validate");
+        var formvalidate = organisation_validate();
+        console.log("organisation_validate ::"+ formvalidate);
+        if(formvalidate == null){
+            console.log("CREATE SERVER CALL");
+
+        }
+        else{
+            $("#alerterror").text(formvalidate);
+            $("#alerterror").show();
+            setTimeout(function(){
+                $("#alerterror").hide()
+            },1000);
+        }
     }
 
     function closeForm() {
         document.getElementById("popupForm").style.display="none";
     }
 </script>
-
