@@ -491,117 +491,7 @@ class UserController extends Controller
 
     }
 
-    // User Initial Profile
-    public function init_profile(Request $request) {
-        $response = array();
-        try {
 
-            $validator = Validator::make($request->all(),
-                [
-                    'id'  => 'required|exists:users,id',
-                    'profile_photo' => 'required|image',  //|max:2048
-                    'gender' => 'required'
-                ]);
-            if ($validator->fails())
-            {
-                return response()->json(['error'=>$validator->errors()], 401);
-            }
-
-            $input = $request->all();
-
-            if(array_key_exists('email', $input)) {
-                $validatorEmail = Validator::make($request->all(),
-                    [
-                        'email'  => '|unique:users,email',
-                    ]);
-                if ($validatorEmail->fails())
-                {
-                    return response()->json(['error'=>$validatorEmail->errors()], 401);
-                }
-            }
-
-
-
-
-            $id = $request->input('id');
-            $user = User::find($id);
-            $type_id = $user['type_id'];
-            $host = url('/');
-
-            // Profile Image insert
-            $profileImg = $request->file('profile_photo');
-//            return response()->json($profileImg);
-            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
-            $profileImg->move(public_path('images/profiles'), $profile_name);
-            $requestdata = array();
-
-            $imagedata =  [
-                'image' => $host . "/images/profiles/" . $profile_name,
-            ];
-            if(array_key_exists('first_name', $input)) {
-                $imagedata +=  [
-                    'first_name' => $input['first_name'],
-                ];
-            }
-            if(array_key_exists('last_name', $input)) {
-                $imagedata +=  [
-                    'last_name' => $input['last_name'],
-                ];
-            }
-            if(array_key_exists('gender', $input)) {
-                $imagedata +=  [
-                    'gender' => $input['gender'],
-                ];
-
-
-            }
-
-            if(array_key_exists('email', $input)) {
-                $imagedata +=  [
-                    'email' => $input['email'],
-                ];
-            }
-
-            if($this->update_profile_photo($imagedata, $id)) {
-                $user = User::find($id);
-                $user["image"] = $host . "/images/profiles/" . $profile_name;
-            } else {
-                $response['message'] = "Profile image not update";
-                return response($response, 406)
-                    ->header('content-type', 'application/json');
-            }
-
-
-
-            // ADDRESS
-            if(array_key_exists('address', $input)) {
-
-                $address = $input['address'];
-
-                $address = json_decode($address, true);
-
-                $address += [
-                    "user_id" => $id
-                ];
-
-
-                $adddressdata = Address::create($address);
-//
-                $addressRes = Address::where('user_id', '=', $id)->first();
-//                return response($addressRes, 403);
-                $user['address'] = $addressRes;
-            }
-
-            return response($user, 200)
-                ->header('content-type', 'application/json');
-
-        } catch (\Exception $e) {
-            $response['code'] = 400;
-            $response['message'] = $e->getMessage();
-            return response($response, 400)
-                ->header('content-type', 'application/json');
-        }
-    }
 
 
     //User profile API
@@ -788,6 +678,168 @@ class UserController extends Controller
         return response()->json($response);
     }
 
+    // User Initial Profile
+    public function init_profile(Request $request) {
+        $response = array();
+        try {
+
+            $validator = Validator::make($request->all(),
+                [
+                    'id'  => 'required|exists:users,id',
+                    'profile_photo' => 'required|image',  //|max:2048
+                    'gender' => 'required'
+                ]);
+            if ($validator->fails())
+            {
+                return response()->json(['error'=>$validator->errors()], 401);
+            }
+
+            $input = $request->all();
+
+            if(array_key_exists('email', $input)) {
+                $validatorEmail = Validator::make($request->all(),
+                    [
+                        'email'  => '|unique:users,email',
+                    ]);
+                if ($validatorEmail->fails())
+                {
+                    return response()->json(['error'=>$validatorEmail->errors()], 401);
+                }
+            }
+
+
+
+
+            $id = $request->input('id');
+            $user = User::find($id);
+            $type_id = $user['type_id'];
+            $host = url('/');
+
+            // Profile Image insert
+            $profileImg = $request->file('profile_photo');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
+            $requestdata = array();
+
+            $imagedata =  [
+                'image' => $host . "/images/profiles/" . $profile_name,
+            ];
+            if(array_key_exists('first_name', $input)) {
+                $imagedata +=  [
+                    'first_name' => $input['first_name'],
+                ];
+            }
+            if(array_key_exists('last_name', $input)) {
+                $imagedata +=  [
+                    'last_name' => $input['last_name'],
+                ];
+            }
+            if(array_key_exists('gender', $input)) {
+                $imagedata +=  [
+                    'gender' => $input['gender'],
+                ];
+
+
+            }
+
+            if(array_key_exists('email', $input)) {
+                $imagedata +=  [
+                    'email' => $input['email'],
+                ];
+            }
+
+            if($this->update_profile_photo($imagedata, $id)) {
+                $user = User::find($id);
+                $user["image"] = $host . "/images/profiles/" . $profile_name;
+            } else {
+                $response['message'] = "Profile image not update";
+                return response($response, 406)
+                    ->header('content-type', 'application/json');
+            }
+            // ADDRESS
+            if(array_key_exists('address', $input)) {
+
+                $address = $input['address'];
+
+                $address = json_decode($address, true);
+
+                $address += [
+                    "user_id" => $id
+                ];
+
+
+                $adddressdata = Address::create($address);
+//
+                $addressRes = Address::where('user_id', '=', $id)->first();
+//                return response($addressRes, 403);
+                $user['address'] = $addressRes;
+            }
+            return response($user, 200)
+                ->header('content-type', 'application/json');
+        } catch (\Exception $e) {
+            $response['code'] = 400;
+            $response['message'] = $e->getMessage();
+            return response($response, 400)
+                ->header('content-type', 'application/json');
+        }
+    }
+
+    public function add_customer(Request $request) {
+        $initialValidator = Validator::make($request->all(),
+            [
+                'first_name' => 'required',
+                'email' => 'required|unique:users,email',
+                'password' => 'required',
+                'contact' => 'required|unique:users,contact',
+                'gender' => 'required',
+                'language' => 'required',
+            ]);
+
+        if ($initialValidator->fails())
+        {
+            return response()->json(['error'=>$initialValidator->errors()], 401);
+        }
+
+        $input = $request->all();
+
+        $type = UserTypes::where('type', '=', 'Consumer')->first();
+        $input +=  [
+            'type_id' => $type->id,
+        ];
+
+
+        $term = TermCondition::where('type', '=', 'Consumer Terms')->where('is_latest', '=', 1)->first();
+        $input +=  [
+            'term_id' => $term->id,
+        ];
+
+        if(array_key_exists('profile_photo', $input)) {
+            $profileImg = $request->file('profile_photo');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
+            $host = url('/');
+            unset($input["profile_photo"]);
+            $input +=  [
+                'image' => $host . "/images/profiles/" . $profile_name,
+            ];
+        }
+
+
+        $input['password'] = bcrypt($input['password']);
+        $user = User::create($input);
+        $customer_role = Role::where('slug','=', 'provider')->first();
+        $user->roles()->attach($customer_role);
+
+        $now = now()->utc();
+        $term_agreement= [
+            'user_id' => $user->id,
+            'term_id' => $input['term_id'],
+            'agreed_at' => $now
+        ];
+        TermAgreement::create($term_agreement);
+
+        return response()->json($user, 200);
+    }
 
     public function customer_register(Request $request) {
         $response = array();

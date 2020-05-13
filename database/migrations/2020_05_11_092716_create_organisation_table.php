@@ -17,8 +17,8 @@ class CreateOrganisationTable extends Migration
             $table->Increments('id');
             $table->string('name');
             // $table->string('email')->unique()->nullable();
-            // $table->string('contact')->unique();
-            $table->string('number_of_employee');
+            $table->string('resident_country')->nullable();
+            $table->string('number_of_employee')->nullable();
             $table->timestamps();
         });
     }

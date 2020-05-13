@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Address;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PermissionController;
+use App\organisation;
 use App\Providers\RouteServiceProvider;
 use App\Role;
 use App\ServiceProvider;
@@ -82,6 +83,70 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function organisationRegister(Request $request) {
+
+        $initialValidator = Validator::make($request->all(),
+            [
+                'company' => 'required',
+                'first_name' => 'required',
+                'password' => 'required',
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'contact' => 'required|unique:users,contact',
+                'type_id' => 'required|exists:user_types,id',
+                'term_id' => 'required|exists:term_conditions,id',
+                'resident_country' => 'required',
+            ]);
+        if ($initialValidator->fails())
+        {
+            return response()->json(['error'=>$initialValidator->errors()], 401);
+        }
+
+        $input = $request->all();
+        $company= [
+            'name' => $input['company'],
+            'resident_country' => $input['resident_country'],
+        ];
+        $org = organisation::create($company);
+
+        $input += [
+          "org_id" => $org->id
+        ];
+
+
+
+        $input['password'] = Hash::make($input['password']);
+        $user = User::create($input);
+        $org_role = Role::where('slug','=', 'organisation-admin')->first();
+
+        $user->roles()->attach($org_role);
+
+        $credentials = $request->only('email', 'password');
+        if( Auth::attempt($credentials)) {
+
+            $response = Auth::user();
+            $roles = Auth::user()->roles;
+
+            $address = Address::where('user_id', '=', $user->id)->first();
+            $response['address'] = $address;
+            $response['company'] = $org;
+
+//            $response  = $user;
+
+            $now = now()->utc();
+            $term_agreement= [
+                'user_id' => $user->id,
+                'term_id' => $input['term_id'],
+                'agreed_at' => $now
+            ];
+            TermAgreement::create($term_agreement);
+
+            return response()->json($response, 200);
+        }
+        return response()->json(null, 403);
+
+
+        return response()->json($org, 200);
+    }
 
     public function customRegister(Request $request) {
         $initialValidator = Validator::make($request->all(),
@@ -120,14 +185,6 @@ class RegisterController extends Controller
         $customer_role = Role::where('slug','=', 'provider')->first();
         $user->roles()->attach($customer_role);
 
-//        if (isset($user)) {
-
-
-//
-//        } else {
-//            $response['message']  = "Please add valid details";
-//        }
-
         $credentials = $request->only('email', 'password');
         if( Auth::attempt($credentials)) {
 
@@ -157,6 +214,6 @@ class RegisterController extends Controller
 
             return response()->json($response, 200);
         }
-//        return response()->json($response, 403);
+        return response()->json(null, 403);
     }
 }
