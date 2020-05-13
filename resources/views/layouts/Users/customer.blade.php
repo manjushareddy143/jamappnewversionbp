@@ -36,18 +36,26 @@
                 <div class="modal-body">
 
                   <form>
-                     <div class="col-md-6 float-l">
-                     <div class="form-group">
-                     <label>First Name </label>
-                     <input type="text" class="form-control"id="first_name" placeholder="Enter Your First Name" required>
+                      <div class="row">
+
+                          <div class="col-md-6 float-l">
+                              <div class="form-group">
+                                  <label>First Name </label>
+                                  <input type="text" class="form-control"id="first_name" placeholder="Enter Your First Name" required>
+                              </div>
+                          </div>
+
+
+                          <div class="col-md-6 float-l">
+                              <div class="form-group">
+                                  <label>Last Name </label>
+                                  <input type="text" class="form-control"id="last_name" placeholder="Enter Your Last Name" required>
+                              </div>
+                          </div>
+
                       </div>
-                      </div>
-                      <div class="col-md-6 float-l">
-                      <div class="form-group">
-                    <label>Last Name </label>
-                    <input type="text" class="form-control"id="last_name" placeholder="Enter Your Last Name" required>
-                      </div>
-                      </div>
+
+
 
 
                    <div class="col-md-6 float-l">
@@ -157,15 +165,15 @@
                                 </div>
                             </div>
 
-                  
+
                             <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="button" onclick="create_users()" class="btn btn-primary">Save</button>
                           </div>
-                    
+
                     </form>
                     </div>
-                  
+
               </div>
             </div>
           </div>
@@ -428,30 +436,30 @@ function users_validate() {
 
           // Radiobutton
 
-            var checkRadio = document.querySelector( 
-                'input[name="gender"]:checked'); 
-              
-            if(checkRadio != null) { 
-                document.getElementById("gender").innerHTML 
-                    = checkRadio.value 
-                    + " radio button checked"; 
-            } 
-            else { 
-                document.getElementById("gender").innerHTML 
-                    = "No one selected"; 
+            var checkRadio = document.querySelector(
+                'input[name="gender"]:checked');
+
+            if(checkRadio != null) {
+                document.getElementById("gender").innerHTML
+                    = checkRadio.value
+                    + " radio button checked";
+            }
+            else {
+                document.getElementById("gender").innerHTML
+                    = "No one selected";
             }
 
             // Checkbox
 
-          if (theForm.MyCheckbox.checked == false) 
+          if (theForm.MyCheckbox.checked == false)
           {
             alert ('No one choose the checkboxes!');
               return false;
-              } 
-              else {    
+              }
+              else {
               return true;
-          } 
-        
+          }
+
          if(!addform.terms.checked) {
              addform.terms.focus();
              console.log('cancel');
@@ -489,9 +497,9 @@ function users_validate() {
              // form.append('image',image);
              // form.append('contact', document.getElementById("users_contact").value);
              // form.append('gender', document.getElementById("users_gender").value);
-            
 
-             
+
+
 
              $.ajax({
                  url: '/users',
