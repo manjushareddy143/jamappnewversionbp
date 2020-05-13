@@ -116,11 +116,10 @@
 
                                                 </div>
                                             </form>
-
-                <!-- OTP FORM -->
-
-
-
+                                            <div class="text-center login-signin">
+                                                Already have an account? <a class="font-weight-bold small"
+                                                                            href="/login" style="color: #f79548;">Login</a>
+                                            </div>
                                         </div>
 
                                         @if(Session::has('laravel_session'))
@@ -136,24 +135,30 @@
                                             <form id="org_form">
                                                 <div class="form-group">
                                                     <label>Company Name <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="org_company_name" placeholder="Enter Your Company Name">
+                                                    <input type="text" class="form-control" id="org_company_name" placeholder="Enter Your Company Name" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Admin Name <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="org_name" placeholder="Enter Your Name">
+                                                    <input type="text" class="form-control" id="org_name" placeholder="Enter Your Name" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Mobile Number <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="org_mobile" placeholder="Enter Number">
+                                                    <input type="text" class="form-control" id="org_mobile" placeholder="Enter Number" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Email Address <strong>*</strong></label>
                                                     <input type="email" class="form-control" id="org_email" aria-describedby="emailHelp"
-                                                           placeholder="Enter Your Email Address">
+                                                           placeholder="Enter Your Email Address" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Password<strong>*</strong></label>
+                                                    <input type="password" class="form-control"
+                                                           id="org_password" aria-describedby="passwordHelp"
+                                                           placeholder="Enter Your Password" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Country <strong>*</strong></label>
-                                                    <select class="form-control" id="org_select_country">
+                                                    <select class="form-control" id="org_select_country" required>
                                                         <option>Select Country</option>
                                                         <option>India</option>
                                                         <option>Bangladesh</option>
@@ -164,8 +169,9 @@
                                                 </div>
                                                 <div class="form-group register-rc-button">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="org_checkbox">
-                                                        <label class="custom-control-label" for="org_checkbox">Vendor Consent to Terms & Conditions</label>
+                                                        <input type="checkbox" class="custom-control-input" id="org_checkbox" required>
+                                                        <label class="custom-control-label" for="org_checkbox">Vendor Consent to <a href="http://www.savitriya.com/privacy-policy/"
+                                                            target="_blank">Terms & Conditions</a></label>
                                                     </div>
 
                                                 </div>
@@ -177,6 +183,10 @@
                                                         Sign Up</button>
                                                 </div>
                                             </form>
+                                            <div class="text-center login-signin">
+                                                Already have an account? <a class="font-weight-bold small"
+                                                                            href="/login" style="color: #f79548;">Login</a>
+                                            </div>
                                         </div>
 
                                         <div>
@@ -331,30 +341,126 @@
          console.log("organisation_validate");
          if(document.getElementById("org_company_name").value == "" ) {
              // EXPAND ADDRESS FORM
-             return "Missing Company Name";
+            $("#org_company_name").focus();
+            $("#org_company_name").focus();
+            $("#org_company_name").blur(function ()
+            {
+                var name = $('#org_company_name').val();
+                if (name.length == 0)
+                {
+                    $('#org_company_name').next('div.red').remove();
+                    $('#org_company_name').after('<div class="red" style="color:red">Company Name is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
          }
          //var admin_name = $('#admin_name')[0].files[0];
          if (document.getElementById("org_name").value == "") {
-             return "Missing Admin Name";
+            $("#org_name").focus();
+            $("#org_name").focus();
+            $("#org_name").blur(function ()
+            {
+                var name = $('#org_name').val();
+                if (name.length == 0)
+                {
+                    $('#org_name').next('div.red').remove();
+                    $('#org_name').after('<div class="red" style="color:red">Admin Name is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
          }
          //var mobilenum = $('#mobile')[0].files[0];
          if (document.getElementById("org_mobile").value == "") {
-             return "Missing Contact Number";
+            $("#org_mobile").focus();
+            $("#org_mobile").focus();
+            $("#org_mobile").blur(function ()
+            {
+                var name = $('#org_mobile').val();
+                if (name.length == 0)
+                {
+                    $('#org_mobile').next('div.red').remove();
+                    $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
          }
         //  var email = $('#email')[0].files[0];
          if(document.getElementById("org_email").value == "") {
-             return "Missing Email Address";
+            $("#org_email").focus();
+            $("#org_email").focus();
+            $("#org_email").blur(function ()
+            {
+                var name = $('#org_email').val();
+                if (name.length == 0)
+                {
+                    $('#org_email').next('div.red').remove();
+                    $('#org_email').after('<div class="red" style="color:red">Email is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+         }
+
+         if(document.getElementById("org_password").value == "") {
+            $("#org_password").focus();
+            $("#org_password").focus();
+            $("#org_password").blur(function ()
+            {
+                var name = $('#org_password').val();
+                if (name.length == 0)
+                {
+                    $('#org_password').next('div.red').remove();
+                    $('#org_password').after('<div class="red" style="color:red">Password is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
          }
          //var Country = $('#select1')[0].files[0];
          if(document.getElementById("org_select_country").value == "") {
-             return "Choose a Country";
+            $("#org_select_country").focus();
+            $("#org_select_country").focus();
+            $("#org_select_country").blur(function ()
+            {
+                var name = $('#org_select_country').val();
+                if (name.length == 0)
+                {
+                    $('#org_select_country').next('div.red').remove();
+                    $('#org_select_country').after('<div class="red" style="color:red">Country is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
          }
 
          if(!org_form.org_checkbox.checked) {
              org_form.org_checkbox.focus();
              console.log('cancel');
+             $('#myError').css('color','red');
              $('#myError').text('Please select terms and conditions')
              return "Missing terms";
+
          }
          return null;
     }
@@ -365,7 +471,28 @@
         console.log("organisation_validate ::"+ formvalidate);
         if(formvalidate == null){
             console.log("CREATE SERVER CALL");
-
+            //ajax call for organisation
+            var x = document.getElementById("select1").selectedIndex;
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: {
+                    org_company_name: document.getElementById("org_company_name").value,
+                    org_name: document.getElementById("org_name").value,
+                    org_mobile: document.getElementById("org_mobile").value,
+                    org_password: document.getElementById("org_password").value,
+                    org_email: document.getElementById("org_email").value,
+                    resident_country: document.getElementsByTagName("option")[x].value,
+                    type_id : 2,
+                    term_id : 2
+                }
+            }).done(function( response ) {
+                $("#exampleModal").modal("hide");
+                console.log(response);
+                // Put the object into storage
+                localStorage.setItem('userObject', JSON.stringify(response));
+                window.location = '/home';
+            });
         }
         else{
             $("#alerterror").text(formvalidate);
