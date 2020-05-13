@@ -149,96 +149,69 @@
             </div>
           </div>
            <!-- Modal -->
-           @if ($message = Session::get('success'))
-
-           <div class="alert alert-success">
-
-               <p>{{ $message }}</p>
-
-           </div>
-
-       @endif
 <div class="table-responsive">
-<table class="table align-items-center table-flush">
+<table class="table align-items-center table-flush" id="tbl_id">
 <thead class="thead-light">
 <tr>
-
-          <!-- <th>id</th> -->
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-          {{--   <th>Roles</th>--}}
-          <!-- <th width=10%> Image</th> -->
-          <!-- <th>Contact</th> -->
             <th>Profile</th>
-          {{-- <th>Type</th> --}}
             <th>Gender</th>
-          <!-- <th>Languages Known</th> -->
-          {{--   <th>Start_time</th>--}}
-          <!-- <th>End_time</th> -->
-          <!-- <th>Experience</th> -->
-          <th width="280px">Action</th>
+          <th width="280px">Action
+  </th>
 </tr>
 </thead>
 <tbody>
-@if (isset($data) && !empty($data))
- <?php $i=0; ?>
-@foreach ($data as $key => $user)
-
-<tr>
-
- <!-- <td>{{ ++$i }}</td> -->
- <td>{{ $user->first_name }}</td>
- <td>{{ $user->last_name }}</td>
-
- <td>{{ $user->email }}</td>
-{{--   <td>--}}
-{{--      --}}{{-- @if(!empty($user->getRoleNames()))--}}
-{{--        @foreach($user->getRoleNames() as $v)--}}
-{{--           <label class="badge badge-success">{{ $v }}</label>--}}
-{{--        @endforeach--}}
-{{--      @endif --}}
-{{--    </td>--}}
-{{--     <td><img src="{{ URL::to('/') }}/images/{{ $user->image }}" class="square" width="60" height="50" /></td>--}}
-   <td><img src="{{ asset($user->image) }}" class="square" width="60" height="50" /></td>
- <!-- <td>{{ $user->contact }}</td> -->
- {{-- <td>{{ $user->type }}</td> --}}
- <td>{{ $user->gender }}</td>
- <!-- <td>{{ $user->languages_known }}</td> -->
-{{--    <td>{{ $user->start_time }}</td>--}}
- <!-- <td>{{ $user->end_time }}</td> -->
- <!-- <td>{{ $user->experience }}</td> -->
- <td>
-
-    <a class="btn btn-info" ><i class="fas fa-eye"></i></a>
-{{--        href="{{ route('user.show',$user->id) }}"--}}
-
-
-    <a class="btn btn-primary" ><i class="fas fa-edit"></i></a>
-{{--        href="{{ route('user.edit',$user->id) }}"--}}
-
-{{--        {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id],'style'=>'display:inline']) !!}--}}
-
-         <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
-         <a href="" class="btn btn-danger">
-                 <i class="fas fa-trash"></i>
-               </a>
-
-     {!! Form::close() !!}
-
- </td>
-</tr>
-@endforeach
-@endif
 </tbody>
 </table>
 </div>
 </div>
-@if (isset($data) && !empty($data))
-{{-- {!! $data->render() !!} --}}
-@endif
-</div>
-</div>
-</div>
 
+</div>
+</div>
+</div>
+         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
+         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+         <script>
+             window.addEventListener ?
+                 window.addEventListener("load",onLoad(),false) :
+                 window.attachEvent && window.attachEvent("onload",onLoad());
+
+
+
+             function onLoad() {
+                 console.log("ON LOAD  tbl_id")
+                 getResult();
+
+             }
+
+             function getResult() {
+
+                 $.ajax({
+                     url: '/api/v1/getuser/3',
+                     type: 'GET',
+                     data: null,
+                     success: function(response){
+                         console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
+                         var trHTML = '';
+
+                         $.each(response, function (i, item) {
+                             var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
+                             trHTML += '<tr><td>' + response[i].first_name +
+                                 '</td><td>' + response[i].last_name  + '</td>' +
+                                 '</td><td>' + response[i].email  + '</td>' +
+                                 '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
+                                 '</td><td>' + response[i].gender  + '</td></tr>';
+
+                         });
+                         $('#tbl_id').append(trHTML);
+                     },
+                     fail: function (error) {
+                         console.log(error);
+                     }
+                 });
+             };
+         </script>
 @endsection

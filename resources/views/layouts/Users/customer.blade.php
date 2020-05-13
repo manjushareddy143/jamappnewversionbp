@@ -110,24 +110,14 @@
                </div>
             </div>
             <!-- Modal -->
-            @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-               <p>{{ $message }}</p>
-            </div>
-            @endif
             <div class="table-responsive">
-               <table class="table align-items-center table-flush">
+               <table class="table align-items-center table-flush" id="tbl_id">
                   <thead class="thead-light">
                      <tr>
                         <!-- <th>id</th> -->
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
-                        {{--
-                        <th>Roles</th>
-                        --}}
-                        <!-- <th width=10%> Image</th> -->
-                        <!-- <th>Contact</th> -->
                         <th>Profile</th>
                         <th>Gender</th>
                         <!-- <th>Languages Known</th> -->
@@ -135,33 +125,6 @@
                      </tr>
                   </thead>
                   <tbody>
-                     @if (isset($data) && !empty($data))
-                     <?php $i=0; ?>
-                     @foreach ($data as $key => $user)
-                     <tr>
-                        <!-- <td>{{ ++$i }}</td> -->
-                        <td>{{ $user->first_name }}</td>
-                        <td>{{ $user->last_name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td><img src="{{ ($user->image == null) ?  asset('img/boy.png') : asset($user->image) }}" class="square" width="60" height="50" /></td>
-                        <!-- <td>{{ $user->contact }}</td> -->
-                        <td>{{ $user->gender }}</td>
-                        <!-- <td>{{ $user->languages_known }}</td> -->
-                        <td>
-                           <a class="btn btn-info" ><i class="fas fa-eye"></i></a>
-                           {{--        href="{{ route('user.show',$user->id) }}"--}}
-                           <a class="btn btn-primary" ><i class="fas fa-edit"></i></a>
-                           {{--        href="{{ route('user.edit',$user->id) }}"--}}
-                           {{--        {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id],'style'=>'display:inline']) !!}--}}
-                           <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
-                           <a href="" class="btn btn-danger">
-                           <i class="fas fa-trash"></i>
-                           </a>
-                           {!! Form::close() !!}
-                        </td>
-                     </tr>
-                     @endforeach
-                     @endif
                   </tbody>
                </table>
             </div>
@@ -172,15 +135,58 @@
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script>
-   function create_user() {
-   
+
+
+    window.addEventListener ?
+        window.addEventListener("load",onLoad(),false) :
+        window.attachEvent && window.attachEvent("onload",onLoad());
+
+
+
+    function onLoad() {
+        console.log("ON LOAD  tbl_id")
+        getResult();
+
+    }
+
+    function getResult() {
+
+        $.ajax({
+            url: '/api/v1/getuser/4',
+            type: 'GET',
+            data: null,
+            success: function(response){
+                console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
+                var trHTML = '';
+
+                $.each(response, function (i, item) {
+                    var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
+                    trHTML += '<tr><td>' + response[i].first_name +
+                        '</td><td>' + response[i].last_name  + '</td>' +
+                        '</td><td>' + response[i].email  + '</td>' +
+                        '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
+                        '</td><td>' + response[i].gender  + '</td></tr>';
+
+                });
+                $('#tbl_id').append(trHTML);
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    };
+
+
+
+    function create_user() {
+
        console.log("create_service");
        var servicevalite = null; //users_validate();
        console.log("users_validate ::" + servicevalite);
        if(servicevalite == null)
        {
            console.log("CREATE SERVER CALL");
-   
+
            var form = new FormData();
            form.append('first_name', document.getElementById("first_name").value);
            form.append('last_name', document.getElementById("last_name").value);
@@ -191,8 +197,8 @@
            form.append('contact', document.getElementById("contact").value);
            form.append('gender', document.getElementById("gender").value);
            form.append('language', document.getElementById("languages").value);
-   
-   
+
+
            $.ajax({
                url: '/api/v1/add_customer',
                type: 'POST',
@@ -216,11 +222,11 @@
                $("#alerterror").hide()
            }, 1000);
        }
-   
+
    }
-   
+
    function users_validate() {
-   
+
            console.log("users_validate");
        if (document.getElementById("first_name").value == "") {
            // EXPAND ADDRESS FORM
@@ -236,9 +242,9 @@
                    return true;
                }
            });
-   
+
        }
-   
+
        if (document.getElementById("last_name").value == "") {
            // EXPAND ADDRESS FORM
            $("#last_name").focus();
@@ -254,7 +260,7 @@
                }
            });
        }
-   
+
        if (document.getElementById("email").value == "") {
            // EXPAND ADDRESS FORM
            $("#email").focus();
@@ -270,9 +276,9 @@
                }
            });
        }
-         
+
          //Password
-   
+
        if (document.getElementById("password").value == "") {
            // EXPAND ADDRESS FORM
            $("#password").focus();
@@ -288,18 +294,18 @@
                }
            });
        }
-   
-       
-   
+
+
+
            //Image
-   
+
                var image = $('#image')[0].files[0];
                if (!image) {
                    return "Missing Users Image";
                }
-           
-   
-   
+
+
+
          //contact
               if (document.getElementById("contact").value == "") {
            // EXPAND ADDRESS FORM
@@ -316,13 +322,13 @@
                }
            });
            }
-         
-   
+
+
        // Gender Radiobutton
-    
+
        var checkRadio = document.querySelector(
            'input[name="gender"]:checked');
-   
+
        if (checkRadio != null) {
            document.getElementById("gender").innerHTML
                = checkRadio.value
@@ -331,8 +337,8 @@
            document.getElementById("gender").innerHTML
                = "No one selected";
        }
-       
-  } 
+
+  }
 </script>
 @endsection
 
