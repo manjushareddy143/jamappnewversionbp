@@ -36,6 +36,14 @@ class CreateTermConditionsTable extends Migration
                 'is_latest' => 1
             )
         );
+
+        DB::table('term_conditions')->insert(
+            array(
+                'term_code' => 1,
+                'type' => 'Organisation Terms',
+                'is_latest' => 1
+            )
+        );
     }
 
     /**

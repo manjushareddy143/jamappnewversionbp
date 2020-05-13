@@ -27,6 +27,9 @@ Auth::routes();
 
 Route::post('/login', '\App\Http\Controllers\Auth\LoginController@customLogin');
 Route::post('/register', '\App\Http\Controllers\Auth\RegisterController@customRegister');
+
+Route::post('/org_register', '\App\Http\Controllers\Auth\RegisterController@organisationRegister');
+
 Route::post('/changepassword','UserController@changepassword');
 Route::post('/resetPassword','UserController@resetPassword');
 

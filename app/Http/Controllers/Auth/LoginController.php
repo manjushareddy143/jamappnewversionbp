@@ -65,7 +65,7 @@ class LoginController extends Controller
                     ->header('content-type', 'application/json');
             }
 
-            if($response->type_id != 4)
+            if($response->type_id == 3)
             {
 //                        dd(\Session::getId());
                 $service_provider = ServiceProvider::where('user_id', '=', $response->id)->first();

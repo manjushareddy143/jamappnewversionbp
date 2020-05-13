@@ -21,18 +21,18 @@ class CreateUserTypesTable extends Migration
 
         DB::table('user_types')->insert(
             array(
-                'type' => 'Corporate Service Provider'
+                'type' => 'Admin'
             )
         );
         DB::table('user_types')->insert(
             array(
-                'type' => 'Individual Service Provider'
+                'type' => 'Organisation'
             )
         );
 
         DB::table('user_types')->insert(
             array(
-                'type' => 'Corporate Service Provider Associate'
+                'type' => 'Individual Service Provider'
             )
         );
         DB::table('user_types')->insert(

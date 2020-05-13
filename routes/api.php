@@ -32,6 +32,8 @@ Route::post('v1/booking', 'BookingController@booking');
 Route::get('v1/booking', 'BookingController@getorderbyuser');
 Route::get('v1/booking/{id}', 'BookingController@getorder');
 
+Route::post('v1/add_customer', 'UserController@add_customer');
+
 Route::post('v1/experience', 'ExperienceController@add_experience');
 
 
