@@ -4,8 +4,6 @@
 /public/images
 /storage/*.key
 /vendor
-.idea
-.idea\workspace.xml
 .env
 .env.backup
 .phpunit.result.cache
