@@ -9,9 +9,13 @@
     <meta name="author" content="">
     <link href="img/logo/logo.png" rel="icon">
     <title>JAM - Dashboard</title>
+{{--    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>--}}
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+{{--    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">--}}
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
+{{--    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">--}}
+    <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet" type="text/css">
+{{--    <link href="css/ruang-admin.css" rel="stylesheet">--}}
 </head>
 
 <body id="page-top">
@@ -35,36 +39,47 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-        <!-- <li class="nav-item active">
-                <a class="nav-link" href="/users">{{--data-target="users" data-toggle="collapse" --}}
-            <i class="fa fa-users"></i>
-            <span>Users</span>
-            <ul>
-                <li><a class="collapse-item" href="/customer">Customers</a></li>
-                <li><a class="collapse-item active" href="/vendors">Vendors</a></li>
-            </ul>
-        </a>
-    </li> -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" onclick="clickCollaps()" href="#"
-                   data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
-                   aria-controls="collapseTable">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
+                   aria-expanded="true" aria-controls="collapseBootstrap">
+                    <i class="far fa-fw fa-window-maximize"></i>
+                    <span>Bootstrap UI</span>
                 </a>
-                <div id="collapseTable" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+                <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Tables</h6>
-                        <a class="collapse-item" href="simple-tables.html">Simple Tables</a>
-                        <a class="collapse-item" href="datatables.html">DataTables</a>
+                        <h6 class="collapse-header">Bootstrap UI</h6>
+                        <a class="collapse-item" href="alerts.html">Alerts</a>
+                        <a class="collapse-item" href="buttons.html">Buttons</a>
+                        <a class="collapse-item" href="dropdowns.html">Dropdowns</a>
+                        <a class="collapse-item" href="modals.html">Modals</a>
+                        <a class="collapse-item" href="popovers.html">Popovers</a>
+                        <a class="collapse-item" href="progress-bar.html">Progress Bars</a>
                     </div>
                 </div>
             </li>
+            {{--<li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
+                   aria-expanded="false" aria-controls="collapseBootstrap">
+                    <i class="far fa-fw fa-window-maximize"></i>
+                    <span>Bootstrap UI</span>
+                </a>
+                <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Bootstrap UI</h6>
+                        <a class="collapse-item" href="alerts.html">Alerts</a>
+                        <a class="collapse-item" href="buttons.html">Buttons</a>
+                        <a class="collapse-item" href="dropdowns.html">Dropdowns</a>
+                        <a class="collapse-item" href="modals.html">Modals</a>
+                        <a class="collapse-item" href="popovers.html">Popovers</a>
+                        <a class="collapse-item" href="progress-bar.html">Progress Bars</a>
+                    </div>
+                </div>
+            </li>--}}
 
-            <hr class="sidebar-divider">
+
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage"
+                <a id="nav-id" class="nav-link collapsed" data-toggle="collapse" data-target="#collapsePage"
                    aria-expanded="true"
                    aria-controls="collapsePage">
                     <i class="fas fa-user"></i>
@@ -345,30 +360,44 @@
 </a>
 
 
+
+
+
+
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
 
-
-{{--<script src="vendor/jquery/jquery.min.js"></script>--}}
-{{--<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>--}}
-{{--<script src="vendor/jquery-easing/jquery.easing.min.js"></script>--}}
 {{--<script src="js/ruang-admin.min.js"></script>--}}
 {{--<script src="vendor/chart.js/Chart.min.js"></script>--}}
 {{--<script src="js/demo/chart-area-demo.js"></script>--}}
 
-{{--  <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>--}}
-{{--  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>--}}
-  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-  <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
-  <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-  <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
+
+
 
 
 <script>
+    var hideShow = 0;
     function clickCollaps() {
-        console.log("clickCollaps()")
-        $('#collapsed').modal('hide');
+
+        console.log("clickCollaps()" + hideShow)
+
+        // $('#collapseTable').removeClass('collapse', '');
+        if(hideShow == 0) {
+            hideShow = 1;
+
+
+        } else {
+            hideShow =0;
+            $('#nav-id').removeClass('nav-link');
+            $('#nav-id').addClass('nav-link collapsed')
+            $("#collapseTable").addClass('collapse hide');
+
+            // $("#collapseTable").addClass('class', 'collapse');
+
+        }
+
     }
     window.onload = function () {
         // console.log('retrievedObject: ');
