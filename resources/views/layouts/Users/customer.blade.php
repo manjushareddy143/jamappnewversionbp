@@ -1,14 +1,6 @@
 @extends('layouts.admin')
 @section('content')
 <div class="container-fluid" id="container-wrapper">
-   <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Simple Tables</h1>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/login">Home</a></li>
-        <li class="breadcrumb-item">Tables</li>
-        <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>
-      </ol>
-      </div> -->
    <div class="row">
       <div class="col-lg-12 margin-tb">
          <div class="card">
@@ -29,7 +21,7 @@
                         </button>
                      </div>
                      <div class="modal-body">
-                        <form>
+                        <form id="usr_crt">
                            <div class="row">
                               <div class="col-md-6 float-l">
                                  <div class="form-group">
@@ -62,7 +54,7 @@
                               <div class="col-md-6 float-l">
                                  <div class="form-group">
                                     <label>Image <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input id="category_image" type="file" name="category_image" class="form-control" required>
+                                    <input id="image" type="file" name="image" class="form-control" required>
                                  </div>
                               </div>
                               <div class="col-md-6 float-l">
@@ -77,9 +69,9 @@
                               <div class="col-md-6 float-l">
                                  <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
                                     <label>Gender <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
-                                    <input type="radio" name="gender" value="male"> Male
-                                    <input type="radio" name="gender" value="female"> Female
-                                    <input type="radio" name="gender" value="other"> Other
+                                    <input type="radio" name="gender" id="gender" value="male"> Male
+                                    <input type="radio" name="gender" id="gender" value="female"> Female
+                                    <input type="radio" name="gender" id="gender" value="other"> Other
                                     @if ($errors->has('gender'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('gender') }}</strong>
@@ -92,10 +84,10 @@
                                     <label for="language">Languages known <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <div class="checkbox">
                                        <label>
-                                       <input type="checkbox" name="arabic" value="arabic"> Arabic
+                                       <input type="checkbox" name="arabic" id="languages" value="arabic"> Arabic
                                        </label>
                                        <label>
-                                       <input type="checkbox" name="english" value="english"> English
+                                       <input type="checkbox" name="english" id="languages" value="english"> English
                                        </label>
                                        @error('language')
                                        <span class="invalid-feedback" role="alert">
@@ -116,18 +108,10 @@
                </div>
             </div>
             <!-- Modal -->
-            <!--
-               <div class="pull-left">
 
-                   <h2 align='center'>Users Management</h2>
+            
+               
 
-               </div> -->
-            <!--
-               <div class="pull-right" style="padding-bottom:7px;">
-
-                   <a class="btn btn-success" href= "/addUser"> Create New User</a>
-
-               </div> -->
             @if ($message = Session::get('success'))
             <div class="alert alert-success">
                <p>{{ $message }}</p>
@@ -136,6 +120,7 @@
             <div class="table-responsive">
                <table class="table align-items-center table-flush">
                   <thead class="thead-light">
+                     
                      <tr>
                         <!-- <th>id</th> -->
                         <th>First Name</th>
@@ -183,43 +168,19 @@
                   </tbody>
                </table>
             </div>
-         </div>
-         @if (isset($data) && !empty($data))
-         {{-- {!! $data->render() !!} --}}
-         @endif
-         <!-- <p class="text-center text-primary"><small>com.jam</small></p> -->
-         {{--
-         <table class="table table-bordered">
-            <tr>
-               <th>id</th>
-               <th>Name</th>
-               <th>email</th>
-               <th width="280px">Action</th>
-            </tr>
-            @foreach ($errors as $user)
-            <tr>
-               <td>{{ ++$i }}</td>
-               <td>{{ $user->name }}</td>
-               <td>{{ $user->email }}</td>
-               <td>
-                  <form action="{{ route('Users.destroy',$user->id) }}" method="POST">
-                     <a class="btn btn-info" href="{{ route('Users.show',$user->id) }}">Show</a>
-                     <a class="btn btn-primary" href="{{ route('Users.edit',$user->id) }}">Edit</a>
-                     @csrf
-                     @method('DELETE')
-                     <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
-               </td>
-            </tr>
-            @endforeach
-         </table>
-         {{-- {!! $errors->links() !!} @endsection --}}
+         </div> 
       </div>
    </div>
 </div>
+
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
 <script>
+
+   
+
+
    function users_validate() {
             console.log("users_validate");
             if(document.getElementById("first_name").value == "" ) {
@@ -310,9 +271,61 @@
 
              // Radiobutton
 
+   
+               var checkRadio = document.querySelector( 
+                   'input[name="gender"]:checked'); 
+                 
+               if(checkRadio != null) { 
+                   document.getElementById("gender").innerHTML 
+                       = checkRadio.value 
+                       + " radio button checked"; 
+
+                $("#gender").focus();
+                $("#gender").focus();
+                $("#gender").blur(function () {
+               var name = $('#gender').val();
+               if (name.length == 0) {
+               $('#gender').next('div.red').remove();
+               $('#gender').after('<div class="red" style="color:red">Contact is Required</div>');
+             } else {
+               $(this).next('div.red').remove();
+               return true;
+             }
+                });
+
+               } 
+               else { 
+                   document.getElementById("gender").innerHTML 
+                       = "No one selected"; 
+               }
+                // Radiobutton
+               
+               // Checkbox
+   
+             if (#usr_crt.MyCheckbox.checked == false) 
+             {
+               $("#contact").focus();
+                $("#contact").focus();
+                $("#contact").blur(function () {
+               var name = $('#contact').val();
+               if (name.length == 0) {
+               $('#contact').next('div.red').remove();
+               $('#contact').after('<div class="red" style="color:red">Contact is Required</div>');
+             } else {
+               $(this).next('div.red').remove();
+               return true;
+             }
+                });
+                 } 
+                 else {    
+                 return true;
+             } 
+                // Checkbox
+                        
+            if(!usr_crt.terms.checked) {
+                usr_crt.terms.focus();
                var checkRadio = document.querySelector(
                    'input[name="gender"]:checked');
-
                if(checkRadio != null) {
                    document.getElementById("gender").innerHTML
                        = checkRadio.value
@@ -336,6 +349,7 @@
 
             if(!addform.terms.checked) {
                 addform.terms.focus();
+
                 console.log('cancel');
                 if(document.getElementById("categoy_name").value == "" ) {
                     // EXPAND ADDRESS FORM
@@ -349,40 +363,39 @@
             return null;
         }
 
-
+   
+   
 
 
         function create_users() {
+
             console.log("create_service");
             var servicevalite = users_validate();
             console.log("users_validate ::" + servicevalite);
             if(servicevalite == null) {
                 console.log("CREATE SERVER CALL");
-                // var form = new FormData();
-                // var first_name = $('#first_name')[0].files[0];
-                // form.append('first_name',first_name);
-                // var last_name = $('#last_name')[0].files[0];
-                // form.append('last_name',last_name);
-                // form.append('email', document.getElementById("users_email").value);
-                // if(document.getElementById("password").value != "") {
-                //     form.append('password', document.getElementById("users_password").value);
-                // }
-                // var icon_image = $('#image')[0].files[0];
-                // form.append('image',image);
-                // form.append('contact', document.getElementById("users_contact").value);
-                // form.append('gender', document.getElementById("users_gender").value);
 
-
-
+                var form = new FormData();
+                form.append('first_name', document.getElementById("first_name").value);
+                form.append('last_name', document.getElementById("last_name").value);
+                form.append('email', document.getElementById("email").value);
+                form.append('password', document.getElementById("password").value);
+                var image = $('#image')[0].files[0];
+                form.append('profile_photo',image);
+                form.append('contact', document.getElementById("contact").value);
+                form.append('gender', document.getElementById("gender").value);
+                form.append('languages', document.getElementById("languages").value);
+               
 
                 $.ajax({
-                    url: '/users',
+                    url: '/api/v1/add_customer',
                     type: 'POST',
                     data: form,
                     contentType: false,
                     processData: false,
                     success: function(response){
                         console.log("CREATE CREATE REPOSNE == "+response);
+                        window.top.location = window.top.location;
                         create_users_id = response['id'];
                         if(!addform.terms.checked) {
                             addform.terms.focus();
@@ -393,8 +406,6 @@
                             mappingService(category_id);
 
                         }
-
-                        // window.top.location = window.top.location;
 
                     },
                     fail: function (error) {
