@@ -200,11 +200,73 @@
 
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-{{--    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>--}}
-{{--    <script src="{{ asset('js/ruang-admin.min.js') }}"></script>--}}
-{{--    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>--}}
-{{--    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>--}}
+
+
+{{--    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>--}}
+
+
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+{{--    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>--}}
+
+    <!-- Add Firebase products that you want to use -->
+{{--    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>--}}
+{{--    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>--}}
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-analytics.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-messaging.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyAByZ6mHqPhd1Pl3KHcUiXJSQ-8EGOW-6s",
+            authDomain: "jamqatar-bf1c1.firebaseapp.com",
+            databaseURL: "https://jamqatar-bf1c1.firebaseio.com",
+            projectId: "jamqatar-bf1c1",
+            storageBucket: "jamqatar-bf1c1.appspot.com",
+            messagingSenderId: "429814769026",
+            appId: "1:429814769026:web:5790f80f8fb2a30a675b9b",
+            measurementId: "G-CJ5BZCGH6X"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
 <script type="text/javascript">
+
+
+    window.addEventListener ?
+        window.addEventListener("load",onLoad(),false) :
+        window.attachEvent && window.attachEvent("onload",onLoad());
+
+    const messaging = firebase.messaging();
+
+    function onLoad() {
+        console.log("asdasdas");
+
+
+        var retrievedObject = localStorage.getItem('userObject');
+        console.log(retrievedObject)
+        var obj = JSON.parse(retrievedObject);
+
+        if(obj.address === null) {
+            getServices();
+
+            $('#exampleModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+        }
+
+    }
+
+
+
 
     function previewProfileImage( uploader ) {
             if (uploader.files && uploader.files[0]) {
@@ -225,27 +287,6 @@
             $("#imageUpload").click();
         });
 
-    window.addEventListener ?
-    window.addEventListener("load",onLoad(),false) :
-    window.attachEvent && window.attachEvent("onload",onLoad());
-
-    function onLoad() {
-            console.log("asdasdas");
-
-        var retrievedObject = localStorage.getItem('userObject');
-        console.log(retrievedObject)
-        var obj = JSON.parse(retrievedObject);
-
-        if(obj.address === null) {
-            getServices();
-
-            $('#exampleModal').modal({
-                backdrop: 'static',
-                keyboard: false
-            })
-        }
-
-        }
 
 
 
