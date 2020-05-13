@@ -1,3 +1,5 @@
+
+
 @extends('layouts.admin')
 @section('content')
 <div class="container-fluid" id="container-wrapper">
@@ -108,10 +110,6 @@
                </div>
             </div>
             <!-- Modal -->
-
-
-
-
             @if ($message = Session::get('success'))
             <div class="alert alert-success">
                <p>{{ $message }}</p>
@@ -120,7 +118,6 @@
             <div class="table-responsive">
                <table class="table align-items-center table-flush">
                   <thead class="thead-light">
-
                      <tr>
                         <!-- <th>id</th> -->
                         <th>First Name</th>
@@ -172,249 +169,170 @@
       </div>
    </div>
 </div>
-
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
 <script>
-
-
-
-    function create_user() {
-
-        console.log("create_service");
-        var servicevalite = null; //users_validate();
-        console.log("users_validate ::" + servicevalite);
-        if(servicevalite == null)
-        {
-            console.log("CREATE SERVER CALL");
-
-            var form = new FormData();
-            form.append('first_name', document.getElementById("first_name").value);
-            form.append('last_name', document.getElementById("last_name").value);
-            form.append('email', document.getElementById("email").value);
-            form.append('password', document.getElementById("password").value);
-            var image = $('#image')[0].files[0];
-            form.append('profile_photo',image);
-            form.append('contact', document.getElementById("contact").value);
-            form.append('gender', document.getElementById("gender").value);
-            form.append('language', document.getElementById("languages").value);
-
-
-            $.ajax({
-                url: '/api/v1/add_customer',
-                type: 'POST',
-                data: form,
-                contentType: false,
-                processData: false,
-                success: function(response){
-                    console.log("CREATE CREATE REPOSNE == "+response);
-                    window.top.location = window.top.location;
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-        else
-        {
-            $("#alerterror").text(servicevalite);
-            $("#alerterror").show();
-            setTimeout(function() {
-                $("#alerterror").hide()
-            }, 1000);
-        }
-
-    }
-
-    // function users_validate() {
-    //     console.log("users_validate");
-    //     if (document.getElementById("first_name").value == "") {
-    //         // EXPAND ADDRESS FORM
-    //         $("#first_name").focus();
-    //         $("#first_name").focus();
-    //         $("#first_name").blur(function () {
-    //             var name = $('#first_name').val();
-    //             if (name.length == 0) {
-    //                 $('#first_name').next('div.red').remove();
-    //                 $('#first_name').after('<div class="red" style="color:red">First Name is Required</div>');
-    //             } else {
-    //                 $(this).next('div.red').remove();
-    //                 return true;
-    //             }
-    //         });
-    //
-    //     }
-    //
-    //     if (document.getElementById("last_name").value == "") {
-    //         // EXPAND ADDRESS FORM
-    //         $("#last_name").focus();
-    //         $("#last_name").focus();
-    //         $("#last_name").blur(function () {
-    //             var name = $('#last_name').val();
-    //             if (name.length == 0) {
-    //                 $('#last_name').next('div.red').remove();
-    //                 $('#last_name').after('<div class="red" style="color:red">Last Name is Required</div>');
-    //             } else {
-    //                 $(this).next('div.red').remove();
-    //                 return true;
-    //             }
-    //         });
-    //     }
-    //
-    //     if (document.getElementById("email").value == "") {
-    //         // EXPAND ADDRESS FORM
-    //         $("#email").focus();
-    //         $("#email").focus();
-    //         $("#email").blur(function () {
-    //             var name = $('#email').val();
-    //             if (name.length == 0) {
-    //                 $('#email').next('div.red').remove();
-    //                 $('#email').after('<div class="red" style="color:red">Email is Required</div>');
-    //             } else {
-    //                 $(this).next('div.red').remove();
-    //                 return true;
-    //             }
-    //         });
-    //     }
-    //
-    //     if (document.getElementById("password").value == "") {
-    //         // EXPAND ADDRESS FORM
-    //         $("#password").focus();
-    //         $("#password").focus();
-    //         $("#password").blur(function () {
-    //             var name = $('#password').val();
-    //             if (name.length == 0) {
-    //                 $('#password').next('div.red').remove();
-    //                 $('#password').after('<div class="red" style="color:red">Password is Required</div>');
-    //             } else {
-    //                 $(this).next('div.red').remove();
-    //                 return true;
-    //             }
-    //         });
-    //     }
-    //
-    //     var image = $('#image')[0].files[0];
-    //     if (!image) {
-    //         return "Missing Users Image";
-    //     }
-    //
-    //     if (document.getElementById("contact").value == "") {
-    //         // EXPAND ADDRESS FORM
-    //         $("#contact").focus();
-    //         $("#contact").focus();
-    //         $("#contact").blur(function () {
-    //             var name = $('#contact').val();
-    //             if (name.length == 0) {
-    //                 $('#contact').next('div.red').remove();
-    //                 $('#contact').after('<div class="red" style="color:red">Contact is Required</div>');
-    //             } else {
-    //                 $(this).next('div.red').remove();
-    //                 return true;
-    //             }
-    //         });
-    //     }
-    //
-    //     // Radiobutton
-    //
-    //
-    //     var checkRadio = document.querySelector(
-    //         'input[name="gender"]:checked');
-    //
-    //     if (checkRadio != null) {
-    //         document.getElementById("gender").innerHTML
-    //             = checkRadio.value
-    //             + " radio button checked";
-    //
-    //         $("#gender").focus();
-    //         $("#gender").focus();
-    //         $("#gender").blur(function () {
-    //             var name = $('#gender').val();
-    //             if (name.length == 0) {
-    //                 $('#gender').next('div.red').remove();
-    //                 $('#gender').after('<div class="red" style="color:red">Contact is Required</div>');
-    //             } else {
-    //                 $(this).next('div.red').remove();
-    //                 return true;
-    //             }
-    //         });
-    //
-    //     } else {
-    //         document.getElementById("gender").innerHTML
-    //             = "No one selected";
-    //     }
-    //     // Radiobutton
-    //
-    //     // Checkbox
-    //
-    //     if (#usr_crt.MyCheckbox.checked == false) {
-    //         $("#contact").focus();
-    //         $("#contact").focus();
-    //         $("#contact").blur(function () {
-    //             var name = $('#contact').val();
-    //             if (name.length == 0) {
-    //                 $('#contact').next('div.red').remove();
-    //                 $('#contact').after('<div class="red" style="color:red">Contact is Required</div>');
-    //             } else {
-    //                 $(this).next('div.red').remove();
-    //                 return true;
-    //             }
-    //         });
-    //     } else {
-    //         return true;
-    //     }
-    //     // Checkbox
-    //
-    //     // if (!usr_crt.terms.checked) {
-    //     //     usr_crt.terms.focus();
-    //     // var checkRadio = document.querySelector(
-    //     //     'input[name="gender"]:checked');
-    //     //
-    //     // if (checkRadio != null) {
-    //     //     document.getElementById("gender").innerHTML
-    //     //         = checkRadio.value
-    //     //         + " radio button checked";
-    //     // } else {
-    //     //     document.getElementById("gender").innerHTML
-    //     //         = "No one selected";
-    //     // }
-    //     //
-    //     // // Checkbox
-    //     //
-    //     // if (theForm.MyCheckbox.checked == false) {
-    //     //     alert('No one choose the checkboxes!');
-    //     //     return false;
-    //     // } else {
-    //     //     return true;
-    //     // }
-    //     //
-    //     // if (!addform.terms.checked) {
-    //     //     addform.terms.focus();
-    //     //
-    //     //     console.log('cancel');
-    //     //     if (document.getElementById("categoy_name").value == "") {
-    //     //         // EXPAND ADDRESS FORM
-    //     //         return "Missing Category Name";
-    //     //     }
-    //     //     var category_image = $('#category_image')[0].files[0];
-    //     //     if (!category_image) {
-    //     //         return "Missing Category Icon";
-    //     //     }
-    //     // }
-    //
-    //     return null;
-    //
-    // }
-</script>
-
-<script>
-
-
-
-
-
-
-
+   function create_user() {
+   
+       console.log("create_service");
+       var servicevalite = null; //users_validate();
+       console.log("users_validate ::" + servicevalite);
+       if(servicevalite == null)
+       {
+           console.log("CREATE SERVER CALL");
+   
+           var form = new FormData();
+           form.append('first_name', document.getElementById("first_name").value);
+           form.append('last_name', document.getElementById("last_name").value);
+           form.append('email', document.getElementById("email").value);
+           form.append('password', document.getElementById("password").value);
+           var image = $('#image')[0].files[0];
+           form.append('profile_photo',image);
+           form.append('contact', document.getElementById("contact").value);
+           form.append('gender', document.getElementById("gender").value);
+           form.append('language', document.getElementById("languages").value);
+   
+   
+           $.ajax({
+               url: '/api/v1/add_customer',
+               type: 'POST',
+               data: form,
+               contentType: false,
+               processData: false,
+               success: function(response){
+                   console.log("CREATE CREATE REPOSNE == "+response);
+                   window.top.location = window.top.location;
+               },
+               fail: function (error) {
+                   console.log(error);
+               }
+           });
+       }
+       else
+       {
+           $("#alerterror").text(servicevalite);
+           $("#alerterror").show();
+           setTimeout(function() {
+               $("#alerterror").hide()
+           }, 1000);
+       }
+   
+   }
+   
+   function users_validate() {
+   
+           console.log("users_validate");
+       if (document.getElementById("first_name").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#first_name").focus();
+           $("#first_name").focus();
+           $("#first_name").blur(function () {
+               var name = $('#first_name').val();
+               if (name.length == 0) {
+                   $('#first_name').next('div.red').remove();
+                   $('#first_name').after('<div class="red" style="color:red">First Name is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+   
+       }
+   
+       if (document.getElementById("last_name").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#last_name").focus();
+           $("#last_name").focus();
+           $("#last_name").blur(function () {
+               var name = $('#last_name').val();
+               if (name.length == 0) {
+                   $('#last_name').next('div.red').remove();
+                   $('#last_name').after('<div class="red" style="color:red">Last Name is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+       }
+   
+       if (document.getElementById("email").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#email").focus();
+           $("#email").focus();
+           $("#email").blur(function () {
+               var name = $('#email').val();
+               if (name.length == 0) {
+                   $('#email').next('div.red').remove();
+                   $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+       }
+         
+         //Password
+   
+       if (document.getElementById("password").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#password").focus();
+           $("#password").focus();
+           $("#password").blur(function () {
+               var name = $('#password').val();
+               if (name.length == 0) {
+                   $('#password').next('div.red').remove();
+                   $('#password').after('<div class="red" style="color:red">Password is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+       }
+   
+       
+   
+           //Image
+   
+               var image = $('#image')[0].files[0];
+               if (!image) {
+                   return "Missing Users Image";
+               }
+           
+   
+   
+         //contact
+              if (document.getElementById("contact").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#contact").focus();
+           $("#contact").focus();
+           $("#contact").blur(function () {
+               var name = $('#contact').val();
+               if (name.length == 0) {
+                   $('#contact').next('div.red').remove();
+                   $('#contact').after('<div class="red" style="color:red">Contact is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+           }
+         
+   
+       // Gender Radiobutton
+    
+       var checkRadio = document.querySelector(
+           'input[name="gender"]:checked');
+   
+       if (checkRadio != null) {
+           document.getElementById("gender").innerHTML
+               = checkRadio.value
+               + " radio button checked";
+       } else {
+           document.getElementById("gender").innerHTML
+               = "No one selected";
+       }
+       
+  } 
 </script>
 @endsection
 
