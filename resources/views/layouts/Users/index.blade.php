@@ -16,9 +16,9 @@
     <div class="col-lg-12 margin-tb">
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Users Management</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Organisations</h6>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add User</button>
+                    id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Organisations</button>
                 </div>
 
 
@@ -28,7 +28,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add Users</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Add Organisations</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
