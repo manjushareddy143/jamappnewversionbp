@@ -108,8 +108,10 @@
                </div>
             </div>
             <!-- Modal -->
+
             
                
+
             @if ($message = Session::get('success'))
             <div class="alert alert-success">
                <p>{{ $message }}</p>
@@ -124,7 +126,7 @@
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
-                        {{--   
+                        {{--
                         <th>Roles</th>
                         --}}
                         <!-- <th width=10%> Image</th> -->
@@ -175,7 +177,10 @@
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 <script>
+
    
+
+
    function users_validate() {
             console.log("users_validate");
             if(document.getElementById("first_name").value == "" ) {
@@ -192,9 +197,9 @@
                return true;
            }
          });
-   
+
             }
-   
+
             if(document.getElementById("last_name").value == "" ) {
                 // EXPAND ADDRESS FORM
                  $("#last_name").focus();
@@ -210,7 +215,7 @@
              }
                 });
             }
-   
+
             if(document.getElementById("email").value == "" ) {
                 // EXPAND ADDRESS FORM
              $("#email").focus();
@@ -226,7 +231,7 @@
              }
                 });
             }
-   
+
             if(document.getElementById("password").value == "" ) {
                 // EXPAND ADDRESS FORM
              $("#password").focus();
@@ -242,12 +247,12 @@
              }
                 });
             }
-   
+
             var image = $('#image')[0].files[0];
             if (!image) {
                 return "Missing Users Image";
             }
-   
+
             if(document.getElementById("contact").value == "" ) {
                 // EXPAND ADDRESS FORM
                 $("#contact").focus();
@@ -263,8 +268,9 @@
              }
                 });
             }
-   
+
              // Radiobutton
+
    
                var checkRadio = document.querySelector( 
                    'input[name="gender"]:checked'); 
@@ -318,6 +324,32 @@
                         
             if(!usr_crt.terms.checked) {
                 usr_crt.terms.focus();
+               var checkRadio = document.querySelector(
+                   'input[name="gender"]:checked');
+               if(checkRadio != null) {
+                   document.getElementById("gender").innerHTML
+                       = checkRadio.value
+                       + " radio button checked";
+               }
+               else {
+                   document.getElementById("gender").innerHTML
+                       = "No one selected";
+               }
+
+               // Checkbox
+
+             if (theForm.MyCheckbox.checked == false)
+             {
+               alert ('No one choose the checkboxes!');
+                 return false;
+                 }
+                 else {
+                 return true;
+             }
+
+            if(!addform.terms.checked) {
+                addform.terms.focus();
+
                 console.log('cancel');
                 if(document.getElementById("categoy_name").value == "" ) {
                     // EXPAND ADDRESS FORM
@@ -330,16 +362,19 @@
             }
             return null;
         }
+
    
    
-   
-   
-         function create_users() {
+
+
+        function create_users() {
+
             console.log("create_service");
             var servicevalite = users_validate();
             console.log("users_validate ::" + servicevalite);
             if(servicevalite == null) {
                 console.log("CREATE SERVER CALL");
+
                 var form = new FormData();
                 form.append('first_name', document.getElementById("first_name").value);
                 form.append('last_name', document.getElementById("last_name").value);
@@ -351,9 +386,7 @@
                 form.append('gender', document.getElementById("gender").value);
                 form.append('languages', document.getElementById("languages").value);
                
-   
-                
-   
+
                 $.ajax({
                     url: '/api/v1/add_customer',
                     type: 'POST',
@@ -363,6 +396,17 @@
                     success: function(response){
                         console.log("CREATE CREATE REPOSNE == "+response);
                         window.top.location = window.top.location;
+                        create_users_id = response['id'];
+                        if(!addform.terms.checked) {
+                            addform.terms.focus();
+                            console.log('cancel');
+                            createCategories();
+                        } else {
+                            var category_id = $('#categorieslist').children("option:selected").val();
+                            mappingService(category_id);
+
+                        }
+
                     },
                     fail: function (error) {
                         console.log(error);
