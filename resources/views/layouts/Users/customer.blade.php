@@ -118,15 +118,15 @@
             <!-- Modal -->
             <!--
                <div class="pull-left">
-               
+
                    <h2 align='center'>Users Management</h2>
-               
+
                </div> -->
             <!--
                <div class="pull-right" style="padding-bottom:7px;">
-               
+
                    <a class="btn btn-success" href= "/addUser"> Create New User</a>
-               
+
                </div> -->
             @if ($message = Session::get('success'))
             <div class="alert alert-success">
@@ -141,7 +141,7 @@
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
-                        {{--   
+                        {{--
                         <th>Roles</th>
                         --}}
                         <!-- <th width=10%> Image</th> -->
@@ -220,21 +220,6 @@
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script>
-   // window.addEventListener ?
-   //          window.addEventListener("load",onLoad(),false) :
-   //      window.attachEvent && window.attachEvent("onload",onLoad());
-   
-   //      function onLoad() {
-   
-   //          // service_id = getUrlParameter('id');
-   //          console.log("ONLOAD");
-   //          $("#categorydiv").hide();
-   //          $("#alerterror").hide();
-   
-   //          getCategories();
-   //      };
-   
-   
    function users_validate() {
             console.log("users_validate");
             if(document.getElementById("first_name").value == "" ) {
@@ -251,9 +236,9 @@
                return true;
            }
          });
-   
+
             }
-   
+
             if(document.getElementById("last_name").value == "" ) {
                 // EXPAND ADDRESS FORM
                  $("#last_name").focus();
@@ -269,7 +254,7 @@
              }
                 });
             }
-   
+
             if(document.getElementById("email").value == "" ) {
                 // EXPAND ADDRESS FORM
              $("#email").focus();
@@ -285,7 +270,7 @@
              }
                 });
             }
-   
+
             if(document.getElementById("password").value == "" ) {
                 // EXPAND ADDRESS FORM
              $("#password").focus();
@@ -301,12 +286,12 @@
              }
                 });
             }
-   
+
             var image = $('#image')[0].files[0];
             if (!image) {
                 return "Missing Users Image";
             }
-   
+
             if(document.getElementById("contact").value == "" ) {
                 // EXPAND ADDRESS FORM
                 $("#contact").focus();
@@ -322,33 +307,33 @@
              }
                 });
             }
-   
+
              // Radiobutton
-   
-               var checkRadio = document.querySelector( 
-                   'input[name="gender"]:checked'); 
-                 
-               if(checkRadio != null) { 
-                   document.getElementById("gender").innerHTML 
-                       = checkRadio.value 
-                       + " radio button checked"; 
-               } 
-               else { 
-                   document.getElementById("gender").innerHTML 
-                       = "No one selected"; 
+
+               var checkRadio = document.querySelector(
+                   'input[name="gender"]:checked');
+
+               if(checkRadio != null) {
+                   document.getElementById("gender").innerHTML
+                       = checkRadio.value
+                       + " radio button checked";
                }
-   
+               else {
+                   document.getElementById("gender").innerHTML
+                       = "No one selected";
+               }
+
                // Checkbox
-   
-             if (theForm.MyCheckbox.checked == false) 
+
+             if (theForm.MyCheckbox.checked == false)
              {
                alert ('No one choose the checkboxes!');
                  return false;
-                 } 
-                 else {    
+                 }
+                 else {
                  return true;
-             } 
-           
+             }
+
             if(!addform.terms.checked) {
                 addform.terms.focus();
                 console.log('cancel');
@@ -363,10 +348,10 @@
             }
             return null;
         }
-   
-   
-   
-   
+
+
+
+
         function create_users() {
             console.log("create_service");
             var servicevalite = users_validate();
@@ -386,10 +371,10 @@
                 // form.append('image',image);
                 // form.append('contact', document.getElementById("users_contact").value);
                 // form.append('gender', document.getElementById("users_gender").value);
-               
-   
-                
-   
+
+
+
+
                 $.ajax({
                     url: '/users',
                     type: 'POST',
@@ -406,11 +391,11 @@
                         } else {
                             var category_id = $('#categorieslist').children("option:selected").val();
                             mappingService(category_id);
-   
+
                         }
-   
+
                         // window.top.location = window.top.location;
-   
+
                     },
                     fail: function (error) {
                         console.log(error);

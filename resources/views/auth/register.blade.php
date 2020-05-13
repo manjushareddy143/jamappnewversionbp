@@ -475,16 +475,16 @@
             var x = document.getElementById("select1").selectedIndex;
             $.ajax({
                 type: "POST",
-                url: '',
+                url: '/org_register',
                 data: {
-                    org_company_name: document.getElementById("org_company_name").value,
-                    org_name: document.getElementById("org_name").value,
-                    org_mobile: document.getElementById("org_mobile").value,
-                    org_password: document.getElementById("org_password").value,
-                    org_email: document.getElementById("org_email").value,
+                    company: document.getElementById("org_company_name").value,
+                    first_name: document.getElementById("org_name").value,
+                    contact: document.getElementById("org_mobile").value,
+                    password: document.getElementById("org_password").value,
+                    email: document.getElementById("org_email").value,
                     resident_country: document.getElementsByTagName("option")[x].value,
                     type_id : 2,
-                    term_id : 2
+                    term_id : 3
                 }
             }).done(function( response ) {
                 $("#exampleModal").modal("hide");
