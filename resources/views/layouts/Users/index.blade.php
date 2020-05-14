@@ -29,30 +29,38 @@
                 <div class="modal-body">
 
                   <form>
-                     <div class="col-md-6 float-l">
+                    <div class="col-md-6 float-l">
                      <div class="form-group">
-                     <label>First Name </label>
-                     <input type="text" class="form-control"id="first_name" placeholder="Enter Your First Name" required>
-                      </div>
-                      </div>
-                      <div class="col-md-6 float-l">
-                      <div class="form-group">
-                    <label>Last Name </label>
-                    <input type="text" class="form-control"id="last_name" placeholder="Enter Your Last Name" required>
-                      </div>
-                      </div>
+                       <label>Company Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                       <input type="text" class="form-control" id="org_company_name" placeholder="Enter Your Company Name" required="">
+                    </div>
+                    </div>
+                    <div class="col-md-6 float-l">
+                    <div class="form-group">
+                      <label>Admin Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                      <input type="text" class="form-control" id="org_name" placeholder="Enter Your Name" required="">
+                    </div>
+                    </div>
+
+
+                <div class="col-md-6 float-l">
+                  <div class="form-group">
+                  <label>Mobile Number <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                  <input type="text" class="form-control" id="contact" placeholder="Enter Number" required>
+                  </div>
+                </div>
 
 
                    <div class="col-md-6 float-l">
                 <div class="form-group">
-                  <label>Email Address</label>
+                  <label>Email Address <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="email" class="form-control" id="email"  placeholder="Enter Email Address" required>
                   </div>
                 </div>
 
               <div class="col-md-6 float-l">
                   <div class="form-group">
-                  <label>Password</label>
+                  <label>Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter Your Password" required="">
                 </div>
               </div>
@@ -63,15 +71,6 @@
                                 <input id="image" type="file" name="image" class="form-control" required>
                        </div>
                      </div>
-
-
-                <div class="col-md-6 float-l">
-                  <div class="form-group">
-                  <label>Mobile Number</label>
-                  <input type="text" class="form-control" id="contact" placeholder="Enter Number" required>
-                  </div>
-                </div>
-
                         
                   <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -99,11 +98,11 @@
      <table class="table align-items-center table-flush" id="tbl_id">
          <thead class="thead-light">
          <tr>
-             <th>First Name</th>
-             <th>Last Name</th>
+             <th>Company Name</th>
+             <th>Admin Name</th>
+             <th>Mobile</th>
              <th>Email</th>
              <th>Profile</th>
-             <th>Gender</th>
              <th width="280px">Action
              </th>
          </tr>
@@ -151,11 +150,11 @@
 
                     var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
                     var gender = (response[i].gender == null) ? '-' : response[i].gender;
-                    trHTML += '<tr><td>' + response[i].first_name +
-                        '</td><td>' + response[i].last_name  + '</td>' +
+                    trHTML += '<tr><td>' + response[i].org_company_name +
+                        '</td><td>' + response[i].org_name  + '</td>' +
+                        '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                        '</td><td>' + gender  + '</td>' +
                         '</td><td>' + ' <a class="btn btn-info" ><i class="fas fa-eye"></i></a> <a class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
 
                 });
@@ -168,16 +167,78 @@
     };
 
 
-function users_validate() {
+
+
+
+
+     function create_users() {
+         console.log("create_service");
+         var servicevalite = users_validate();
+         console.log("users_validate ::" + servicevalite);
+         if(servicevalite == null) {
+             console.log("CREATE SERVER CALL");
+
+             var form = new FormData();
+           form.append('org_company_name', document.getElementById("org_company_name").value);
+           form.append('org_name', document.getElementById("org_name").value);
+           form.append('contact', document.getElementById("contact").value);
+           form.append('email', document.getElementById("email").value);
+           form.append('password', document.getElementById("password").value);
+           var image = $('#image')[0].files[0];
+           form.append('profile_photo',image);
+           
+          
+             $.ajax({
+                 url: '/users',
+                 type: 'POST',
+                 data: form,
+                 contentType: false,
+                 processData: false,
+                 success: function(response){
+                     console.log("CREATE CREATE REPOSNE == "+response);
+                     window.top.location = window.top.location;                     
+                 },
+                 fail: function (error) {
+                     console.log(error);
+                 }
+             });
+         } else {
+             $("#alerterror").text(servicevalite);
+             $("#alerterror").show();
+             setTimeout(function() {
+                 $("#alerterror").hide()
+             }, 1000);
+         }
+     }
+
+
+
+    function users_validate() {
          console.log("users_validate");
-         if(document.getElementById("first_name").value == "" ) {
+         if(document.getElementById("org_company_name").value == "" ) {
              // EXPAND ADDRESS FORM
              return "Missing Users First Name";
          }
 
-         if(document.getElementById("last_name").value == "" ) {
+         if(document.getElementById("org_name").value == "" ) {
              // EXPAND ADDRESS FORM
              return "Missing Users Last Name";
+         }
+
+         if(document.getElementById("contact").value == "" ) {
+             // EXPAND ADDRESS FORM
+              $("#contact").focus();
+           $("#contact").focus();
+           $("#contact").blur(function () {
+               var name = $('#contact').val();
+               if (name.length == 0) {
+                   $('#contact').next('div.red').remove();
+                   $('#contact').after('<div class="red" style="color:red">Contact is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
          }
 
          if(document.getElementById("email").value == "" ) {
@@ -194,98 +255,12 @@ function users_validate() {
          if (!image) {
              return "Missing Users Image";
          }
-
-         if(document.getElementById("contact").value == "" ) {
-             // EXPAND ADDRESS FORM
-             return "Missing Users Contact";
-         }
-
-          // Radiobutton
-
-            var checkRadio = document.querySelector(
-                'input[name="gender"]:checked');
-
-            if(checkRadio != null) {
-                document.getElementById("gender").innerHTML
-                    = checkRadio.value
-                    + " radio button checked";
-            }
-            else {
-                document.getElementById("gender").innerHTML
-                    = "No one selected";
-            }
-
-            // Checkbox
-
-          if (theForm.MyCheckbox.checked == false)
-          {
-            alert ('No one choose the checkboxes!');
-              return false;
-              }
-              else {
-              return true;
-          }
-
-         if(!addform.terms.checked) {
-             addform.terms.focus();
-             console.log('cancel');
-             if(document.getElementById("categoy_name").value == "" ) {
-                 // EXPAND ADDRESS FORM
-                 return "Missing Category Name";
-             }
-             var category_image = $('#category_image')[0].files[0];
-             if (!category_image) {
-                 return "Missing Category Icon";
-             }
-         }
-         return null;
-     }
+         
+}
 
 
 
 
-     function create_users() {
-         console.log("create_service");
-         var servicevalite = users_validate();
-         console.log("users_validate ::" + servicevalite);
-         if(servicevalite == null) {
-             console.log("CREATE SERVER CALL");
-             
-
-             $.ajax({
-                 url: '/users',
-                 type: 'POST',
-                 data: form,
-                 contentType: false,
-                 processData: false,
-                 success: function(response){
-                     console.log("CREATE CREATE REPOSNE == "+response);
-                     create_users_id = response['id'];
-                     if(!addform.terms.checked) {
-                         addform.terms.focus();
-                         console.log('cancel');
-                         createCategories();
-                     } else {
-                         var category_id = $('#categorieslist').children("option:selected").val();
-                         mappingService(category_id);
-
-                     }
-
-                     // window.top.location = window.top.location;
-
-                 },
-                 fail: function (error) {
-                     console.log(error);
-                 }
-             });
-         } else {
-             $("#alerterror").text(servicevalite);
-             $("#alerterror").show();
-             setTimeout(function() {
-                 $("#alerterror").hide()
-             }, 1000);
-         }
-     }
 </script>
 
 @endsection
