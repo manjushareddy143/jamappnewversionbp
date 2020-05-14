@@ -72,89 +72,11 @@
                   </div>
                 </div>
 
-                            <!--radiobutton -->
-                        <div class="col-md-6 float-l">
-                            <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                       <label>Gender</label><br>
-                                       <input type="radio" name="gender" value="male"> Male
-                                       <input type="radio" name="gender" value="female"> Female
-                                       <input type="radio" name="gender" value="other"> Other
-                                       @if ($errors->has('gender'))
-                                                    <span class="help-block">
-                                                        <strong>{{ $errors->first('gender') }}</strong>
-                                                    </span>
-                                      @endif
-                          </div>
-                      </div>
-
-
-                       <div class="col-md-6 float-l">
-                              <div class="form-group">
-                                <label for="language">Languages known</label>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="arabic" value="arabic"> Arabic
-                                        </label>
-                                        <label>
-                                            <input type="checkbox" name="english" value="english"> English
-                                        </label>
-                                 @error('language')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                                    </div>
-                                  </div>
-                            </div>
-
-
-                <div class="col-md-6 float-l">
-                    <div class="form-group">
-                            <label>Services</label>
-                                <select name="type" id="service_provider" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
-                                    <option value="Selected">Select</option>
-                                    <option value="Corporate service provider">Corporate service provider</option>
-                                    <option value="Individual service provider">Individual service provider</option>
-                                </select>
-                                @error('type')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-
-                        </div>
+                        
+                  <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" onclick="create_users()" class="btn btn-primary">Save</button>
                   </div>
-
-
-                            <div class="col-md-6 float-l">
-                            <div class="form-group">
-                          <label>Category</label>
-                                <select id="category" class="form-control">
-                                    <option selected value="Please Select">Category</option>
-                                    <option value="car">Cars</option>
-                                    <option value="truck">Trucks</option>
-                                    <option value="motor">Motorcycles</option>
-                                    <option value="boat">Boats</option>
-                                </select>
-                                </div>
-                      </div>
-
-                             <div class="col-md-12 float-l">
-                                <div class="form-group">
-                                <label for="experience">Experience</label><br>
-                                    {!! Form::selectYear('year', 0, 20) !!}
-                                    <label for="experience"> Years </label>
-                                    {!! Form::selectRange('number', 0, 12); !!}
-                                    <label for="experience"> Months</label>
-                                    {{-- <input id="experience" type="text" class="form-control " name="Experience"> --}}
-                                </div>
-                            </div>
-
-
-                            <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" onclick="create_users()" class="btn btn-primary">Save</button>
-                          </div>
 
                     </form>
                     </div>
@@ -233,7 +155,8 @@
                         '</td><td>' + response[i].last_name  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                        '</td><td>' + gender  + '</td></tr>';
+                        '</td><td>' + gender  + '</td>' +
+                        '</td><td>' + ' <a class="btn btn-info" ><i class="fas fa-eye"></i></a> <a class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
 
                 });
                 $('#tbl_id').append(trHTML);
