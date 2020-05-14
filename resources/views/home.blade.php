@@ -171,6 +171,149 @@
                             <button type="button" onclick="saveProfile()" class="btn btn-primary">Save</button>
                         </div>
 
+                <div class="modal fade" id="org_Modal" tabindex="-1" role="dialog" aria-labelledby="org_ModalLabel"
+                aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                           <h5 class="modal-title" id="service_btn">Complete your Profile</h5>
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                           </button>
+                       </div>
+
+                       <div class="modal-body">
+                           <form id="addform">
+
+                               <div class="panel panel-default">
+                                   <div class="panel-body text-center">
+                                       <image id="companyImage" src="{{ asset('img/boy.png') }}"
+                                              style="width: 100px; height: 100px; border-radius: 100%;"/>
+                                       <input id="org_imageUpload" type="file"
+                                              name="profile_photo" placeholder="Photo" required="" capture>
+                                   </div>
+                               </div>
+
+                               {{-- <div class="col-md-6 float-l" id="doctypelistdiv">
+                                   <div class="form-group">
+                                       <label for="exampleFormControlSelect1">Select Document</label>
+                                       <select class="form-control" id="doctypelist">
+                                           <option>Passport</option>
+                                           <option>Resident</option>
+                                           <option>Permit/Govt ID</option>
+                                       </select>
+                                   </div>
+                               </div>
+
+                               <div class="col-md-6 float-r">
+                                   <div class="form-group">
+                                       <label>Document</label>
+                                       <input id="docupload" type="file" name="docupload" class="form-control ">
+                                   </div>
+                               </div> --}}
+
+
+
+                               {{-- <div class="row-cols-md-6" id="servicediv">
+                                   <div class="form-group">
+                                       <label for="exampleFormControlSelect1">Select Service</label>
+                                       <select class="form-control" id="servicelist">
+                                       </select>
+                                   </div>
+                               </div>
+
+
+                               <div class="col" id="categorydiv">
+                                   <div class="form-group">
+                                       <label for="exampleFormControlSelect1">Select Category</label>
+                                       <select class="form-control" id="categorylist" multiple="multiple">
+                                       </select>
+                                   </div>
+                               </div> --}}
+
+
+       {{--                        ADDRESSS                        --}}
+
+                               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
+                                  aria-controls="collapseTable">
+       {{--                            <i class="fas fa-fw fa-table"></i>--}}
+                                   <i class="fas fa-address-card"></i>
+                                   <span>Address</span>
+                               </a>
+
+                               <div class="col-md-12 collapse" id="collapseTable">
+                                   <div class="form-group">
+                                       <div class="col-md-12">
+                                           <div class="form-group">
+                                               <label>Address Name</label>
+                                               <input id="org_address_name" type="text" name="org_address_name" placeholder="Company Address"
+                                                      class="form-control" required>
+                                           </div>
+                                       </div>
+
+
+                                       <div class="col-md-6 float-l">
+                                           <div class="form-group">
+                                               <label>Address line 1</label>
+                                               <input id="org_address_line1" type="text" name="org_address_line1" placeholder="Address line 1"
+                                                      class="form-control" required>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-md-6 float-r">
+                                           <div class="form-group">
+                                               <label>Address line 2</label>
+                                               <input id="org_address_line2" type="text" name="org_address_line2" placeholder="Address line 2"
+                                                      class="form-control" required>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-md-6 float-l">
+                                           <div class="form-group">
+                                               <label>Landmark</label>
+                                               <input id="org_landmark" type="text" name="org_landmark" placeholder="Enter Landmark"
+                                                      class="form-control" required>
+                                           </div>
+                                       </div>
+
+
+                                       <div class="col-md-6 float-r">
+                                           <div class="form-group">
+                                               <label>District</label>
+                                               <input id="org_district" type="text" name="org_district" placeholder="Enter District"
+                                                      class="form-control" required>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-md-6 float-l">
+                                           <div class="form-group">
+                                               <label>City</label>
+                                               <input id="org_city" type="text" name="org_city" placeholder="Enter City"
+                                                      class="form-control" required>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-md-6 float-r">
+                                           <div class="form-group">
+                                               <label>Postal Code</label>
+                                               <input id="org_postal_code" type="text" name="org_postal_code" placeholder="Enter Postal Code"
+                                                      class="form-control" required>
+                                           </div>
+                                       </div>
+                                       <div class="form-group">
+                                            <label>Email Address <strong>*</strong></label>
+                                            <input type="email" class="form-control" id="org_email" aria-describedby="emailHelp"
+                                               placeholder="Enter Your Email Address" required>
+                                        </div>
+
+                                   </div>
+                               </div>
+
+
+                               <div class="modal-footer">
+                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                   <button type="button" onclick="saveProfile()" class="btn btn-primary">Save</button>
+                               </div>
 
 
                     </form>
@@ -311,6 +454,7 @@
         });
     }
 
+
     function validateForm() {
         var profilePhoto = $('#imageUpload')[0].files[0];
         if (!profilePhoto) {
@@ -357,6 +501,53 @@
             return false;
         }
         return true;
+    }
+
+    function validateForm(){
+        var org_profilePhoto = $('#org_imageUpload')[0].files[0];
+        if (!org_profilePhoto) {
+            $("#org_imageUpload").focus();
+            $("#org_imageUpload").focus();
+            $("#org_imageUpload").blur(function ()
+            {
+                var name = $('#org_imageUpload').val();
+                if (name.length == 0)
+                {
+                    $('#org_imageUpload').next('div.red').remove();
+                    $('#org_imageUpload').after('<div class="red" style="color:red">Company Image is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
+        }
+    }
+
+    function onLoad() {
+        console.log("asdasdas");
+        var retrievedObject = localStorage.getItem('userObject');
+        console.log(retrievedObject)
+        var obj = JSON.parse(retrievedObject);
+
+        if(obj.address === null) {
+            getServices();
+            if(obj.roles[0].slug == "organisation-admin") {
+                $('#org_Modal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+            } else {
+                // VENDRO
+                $('#org_Modal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+            }
+        }
+
     }
 
     function saveProfile() {
