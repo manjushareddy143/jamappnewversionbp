@@ -2,135 +2,82 @@
 
 
 @section('content')
-         <div class="container-fluid" id="container-wrapper">
-          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Simple Tables</h1>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/login">Home</a></li>
-              <li class="breadcrumb-item">Tables</li>
-              <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>
-            </ol>
-          </div> -->
+    <div class="container-fluid" id="container-wrapper">
+        <div class="row">
+            <div class="col-lg-12 margin-tb">
+                <div class="card">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Orders Management</h6>
+                        {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                            id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button> --}}
+                    </div>
 
-<div class="row">
-    <div class="col-lg-12 margin-tb">
-      <div class="card">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Orders Management</h6>
-                {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button> --}}
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush" id="tbl_id">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Booking User</th>
+                                <th>Service</th>
+                                <th>Category</th>
+                                <th>Booking Date</th>
+                                <th>Time</th>
+{{--                                <th>End</th>--}}
+                                <th width="280px">Action
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-<div class="table-responsive">
-<table class="table align-items-center table-flush">
-<thead class="thead-light">
-<tr>
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<!-- <th>id</th> -->
-
-<th>Name</th>
-
-<th>Email</th>
-
-{{--   <th>Roles</th>--}}
-
-<!-- <th width=10%> Image</th> -->
-
-<!-- <th>Contact</th> -->
-
-  <th>Profile</th>
-{{-- <th>Type</th> --}}
-
-<th>Gender</th>
-
-<!-- <th>Languages Known</th> -->
-
-{{--   <th>Start_time</th>--}}
-
-<!-- <th>End_time</th> -->
-
-<!-- <th>Experience</th> -->
-
-<th width="280px">Action</th>
-
-</tr>
-</thead>
-
-<tbody>
-@if (isset($data) && !empty($data))
- <?php $i=0; ?>
-@foreach ($data as $key => $user)
-
-<tr>
-
- <!-- <td>{{ ++$i }}</td> -->
-
- <td>{{ $user->name }}</td>
-
- <td>{{ $user->email }}</td>
-
-{{--   <td>--}}
-
-{{--      --}}{{-- @if(!empty($user->getRoleNames()))--}}
-
-{{--        @foreach($user->getRoleNames() as $v)--}}
-
-{{--           <label class="badge badge-success">{{ $v }}</label>--}}
-
-{{--        @endforeach--}}
-
-{{--      @endif --}}
-
-{{--    </td>--}}
-
-{{--     <td><img src="{{ URL::to('/') }}/images/{{ $user->image }}" class="square" width="60" height="50" /></td>--}}
-
-   <td><img src="{{ asset($user->image) }}" class="square" width="60" height="50" /></td>
- <!-- <td>{{ $user->contact }}</td> -->
-
- {{-- <td>{{ $user->type }}</td> --}}
-
- <td>{{ $user->gender }}</td>
-
- <!-- <td>{{ $user->languages_known }}</td> -->
-
-{{--    <td>{{ $user->start_time }}</td>--}}
-
- <!-- <td>{{ $user->end_time }}</td> -->
-
- <!-- <td>{{ $user->experience }}</td> -->
-
- <td>
-
-    <a class="btn btn-info" ><i class="fas fa-eye"></i></a>
-{{--        href="{{ route('user.show',$user->id) }}"--}}
+    <script>
+        window.addEventListener ?
+            window.addEventListener("load",onLoad(),false) :
+            window.attachEvent && window.attachEvent("onload",onLoad());
 
 
-    <a class="btn btn-primary" ><i class="fas fa-edit"></i></a>
-{{--        href="{{ route('user.edit',$user->id) }}"--}}
 
-{{--        {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id],'style'=>'display:inline']) !!}--}}
+        function onLoad() {
+            console.log("ON LOAD  tbl_id")
+            var retrievedObject = localStorage.getItem('userObject');
+            console.log(retrievedObject)
+            var obj = JSON.parse(retrievedObject);
+            getResult(obj.id);
 
-         <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
-         <a href="" class="btn btn-danger">
-                 <i class="fas fa-trash"></i>
-               </a>
+        }
 
-     {!! Form::close() !!}
+        function getResult(id) {
 
- </td>
-</tr>
-@endforeach
-@endif
-</tbody>
-</table>
-</div>
-</div>
-@if (isset($data) && !empty($data))
-{{-- {!! $data->render() !!} --}}
-@endif
-</div>
-</div>
-</div>
+            $.ajax({
+                url: '/api/v1/booking/provider?id='+id,
+                type: 'GET',
+                data: null,
+                success: function(response){
+                    console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
+                    var trHTML = '';
 
+                    $.each(response, function (i, item) {
+                        trHTML += '<tr><td>' + response[i].order_user.first_name +
+                            '</td><td>' + response[i].service  + '</td>' +
+                            '</td><td>' + response[i].category  + '</td>' +
+                            '</td><td>' + response[i].booking_date  + '</td>' +
+                            '</td><td>' + response[i].start_time + " to " +  response[i].end_time + '</td></tr>';
+
+                    });
+                    $('#tbl_id').append(trHTML);
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        };
+    </script>
 @endsection

@@ -313,7 +313,137 @@
         });
     }
 
+    function individual_validate() {
+         console.log("individual_validate");
+         if(document.getElementById("first_name").value == "" ) {
+             // EXPAND ADDRESS FORM
+            $("#first_name").focus();
+            $("#first_name").focus();
+            $("#first_name").blur(function ()
+            {
+                var name = $('#first_name').val();
+                if (name.length == 0)
+                {
+                    $('#first_name').next('div.red').remove();
+                    $('#first_name').after('<div class="red" style="color:red">First Name is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+         }
+         //var admin_name = $('#admin_name')[0].files[0];
+         if (document.getElementById("last_name").value == "") {
+            $("#last_name").focus();
+            $("#last_name").focus();
+            $("#last_name").blur(function ()
+            {
+                var name = $('#last_name').val();
+                if (name.length == 0)
+                {
+                    $('#last_name').next('div.red').remove();
+                    $('#last_name').after('<div class="red" style="color:red">Last Name is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+         }
+         //var mobilenum = $('#mobile')[0].files[0];
+         if (document.getElementById("mobile").value == "") {
+            $("#mobile").focus();
+            $("#mobile").focus();
+            $("#mobile").blur(function ()
+            {
+                var name = $('#mobile').val();
+                if (name.length == 0)
+                {
+                    $('#mobile').next('div.red').remove();
+                    $('#mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+         }
+        //  var email = $('#email')[0].files[0];
+        if (document.getElementById("email").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#email").focus();
+           $("#email").focus();
+           $("#email").blur(function () {
+               var name = $('#email').val();
+               if (name.length == 0) {
+                   $('#email').next('div.red').remove();
+                   $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+       }
+
+         if(document.getElementById("password").value == "") {
+            $("#password").focus();
+            $("#password").focus();
+            $("#password").blur(function ()
+            {
+                var name = $('#password').val();
+                if (name.length == 0)
+                {
+                    $('#password').next('div.red').remove();
+                    $('#password').after('<div class="red" style="color:red">Password is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+         }
+         //var Country = $('#select1')[0].files[0];
+         if(document.getElementById("select1").value == "") {
+            $("#select1").focus();
+            $("#select1").focus();
+            $("#select1").blur(function ()
+            {
+                var name = $('#select1').val();
+                if (name.length == 0)
+                {
+                    $('#select1').next('div.red').remove();
+                    $('#select1').after('<div class="red" style="color:red">Country is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+         }
+
+         if(!org_form.org_checkbox.checked) {
+             org_form.org_checkbox.focus();
+             console.log('cancel');
+             $('#myError').css('color','red');
+             $('#myError').text('Please select terms and conditions')
+             return "Missing terms";
+
+         }
+         return null;
+        }
+
     function registerIndividuals() {
+        console.log("individual_validate");
+        var individualformvalidate = individual_validate();
+        console.log("individual_validate ::"+ individualformvalidate);
+        if(individualformvalidate == null){
+            console.log("CREATE SERVER CALL");
         var x = document.getElementById("select1").selectedIndex;
         $.ajax({
             type: "POST",
@@ -325,7 +455,7 @@
                 password: document.getElementById("password").value,
                 email: document.getElementById("email").value,
                 resident_country: document.getElementsByTagName("option")[x].value,
-                type_id : 2,
+                type_id : 3,
                 term_id : 2
             }
         }).done(function( response ) {
@@ -501,8 +631,8 @@
                 $("#alerterror").hide()
             },1000);
         }
+        }
     }
-
     function closeForm() {
         document.getElementById("popupForm").style.display="none";
     }

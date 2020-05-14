@@ -9,13 +9,9 @@
     <meta name="author" content="">
     <link href="img/logo/logo.png" rel="icon">
     <title>JAM - Dashboard</title>
-{{--    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>--}}
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-{{--    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">--}}
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
-{{--    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">--}}
     <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet" type="text/css">
-{{--    <link href="css/ruang-admin.css" rel="stylesheet">--}}
 </head>
 
 <body id="page-top">
@@ -40,42 +36,6 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
-                   aria-expanded="true" aria-controls="collapseBootstrap">
-                    <i class="far fa-fw fa-window-maximize"></i>
-                    <span>Bootstrap UI</span>
-                </a>
-                <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Bootstrap UI</h6>
-                        <a class="collapse-item" href="alerts.html">Alerts</a>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="dropdowns.html">Dropdowns</a>
-                        <a class="collapse-item" href="modals.html">Modals</a>
-                        <a class="collapse-item" href="popovers.html">Popovers</a>
-                        <a class="collapse-item" href="progress-bar.html">Progress Bars</a>
-                    </div>
-                </div>
-            </li>
-            {{--<li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
-                   aria-expanded="false" aria-controls="collapseBootstrap">
-                    <i class="far fa-fw fa-window-maximize"></i>
-                    <span>Bootstrap UI</span>
-                </a>
-                <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Bootstrap UI</h6>
-                        <a class="collapse-item" href="alerts.html">Alerts</a>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="dropdowns.html">Dropdowns</a>
-                        <a class="collapse-item" href="modals.html">Modals</a>
-                        <a class="collapse-item" href="popovers.html">Popovers</a>
-                        <a class="collapse-item" href="progress-bar.html">Progress Bars</a>
-                    </div>
-                </div>
-            </li>--}}
 
 
             <li class="nav-item">
@@ -367,7 +327,8 @@
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 {{--<script src="js/ruang-admin.min.js"></script>--}}
 {{--<script src="vendor/chart.js/Chart.min.js"></script>--}}
