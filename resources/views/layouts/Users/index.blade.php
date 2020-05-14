@@ -3,14 +3,7 @@
 
 @section('content')
          <div class="container-fluid" id="container-wrapper">
-          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Simple Tables</h1>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/login">Home</a></li>
-              <li class="breadcrumb-item">Tables</li>
-              <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>
-            </ol>
-          </div> -->
+
 
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -67,7 +60,7 @@
                     <div class="col-md-6 float-l">
                       <div class="form-group">
                                 <label>Image</label>
-                                <input id="category_image" type="file" name="category_image" class="form-control" required>
+                                <input id="image" type="file" name="image" class="form-control" required>
                        </div>
                      </div>
 
@@ -75,7 +68,7 @@
                 <div class="col-md-6 float-l">
                   <div class="form-group">
                   <label>Mobile Number</label>
-                  <input type="text" class="form-control" id="mobile" placeholder="Enter Number" required>
+                  <input type="text" class="form-control" id="contact" placeholder="Enter Number" required>
                   </div>
                 </div>
 
@@ -171,18 +164,6 @@
           </div>
           <!-- Modal -->
 
-<!--
-        <div class="pull-left">
-
-            <h2 align='center'>Users Management</h2>
-
-        </div> -->
-<!--
-        <div class="pull-right" style="padding-bottom:7px;">
-
-            <a class="btn btn-success" href= "/addUser"> Create New User</a>
-
-        </div> -->
            @if ($message = Session::get('success'))
 
               <div class="alert alert-success">
@@ -346,22 +327,7 @@ function users_validate() {
          console.log("users_validate ::" + servicevalite);
          if(servicevalite == null) {
              console.log("CREATE SERVER CALL");
-             // var form = new FormData();
-             // var first_name = $('#first_name')[0].files[0];
-             // form.append('first_name',first_name);
-             // var last_name = $('#last_name')[0].files[0];
-             // form.append('last_name',last_name);
-             // form.append('email', document.getElementById("users_email").value);
-             // if(document.getElementById("password").value != "") {
-             //     form.append('password', document.getElementById("users_password").value);
-             // }
-             // var icon_image = $('#image')[0].files[0];
-             // form.append('image',image);
-             // form.append('contact', document.getElementById("users_contact").value);
-             // form.append('gender', document.getElementById("users_gender").value);
-
-
-
+             
 
              $.ajax({
                  url: '/users',

@@ -1,5 +1,3 @@
-
-
 @extends('layouts.admin')
 @section('content')
 <div class="container-fluid" id="container-wrapper">
@@ -33,7 +31,7 @@
                               </div>
                               <div class="col-md-6 float-l">
                                  <div class="form-group">
-                                    <label>Last Name <strong style="font-size: 14px;color: #e60606;">*</strong> </label>
+                                    <label>Last Name </label>
                                     <input type="text" class="form-control"id="last_name" placeholder="Enter Your Last Name" required>
                                  </div>
                               </div>
@@ -162,10 +160,11 @@
                 $.each(response, function (i, item) {
                     var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
                     trHTML += '<tr><td>' + response[i].first_name +
-                        '</td><td>' + response[i].last_name  + '</td>' +
-                        '</td><td>' + response[i].email  + '</td>' +
-                        '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                        '</td><td>' + response[i].gender  + '</td></tr>';
+'</td><td>' + response[i].last_name + '</td>' +
+'</td><td>' + response[i].email + '</td>' +
+'</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
+'</td><td>' + response[i].gender + '</td>' +
+'</td><td>' + ' <a class="btn btn-info" ><i class="fas fa-eye"></i></a> <a class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
 
                 });
                 $('#tbl_id').append(trHTML);
