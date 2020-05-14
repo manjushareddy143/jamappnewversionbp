@@ -180,7 +180,7 @@
     function create_user() {
 
        console.log("create_service");
-       var servicevalite = null; //users_validate();
+       var servicevalite = users_validate();
        console.log("users_validate ::" + servicevalite);
        if(servicevalite == null)
        {
