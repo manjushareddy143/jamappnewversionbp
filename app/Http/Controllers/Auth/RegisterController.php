@@ -109,7 +109,7 @@ class RegisterController extends Controller
         $org = organisation::create($company);
 
         $input += [
-          "org_id" => $org->id
+            "org_id" => $org->id
         ];
 
 

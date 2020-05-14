@@ -6,6 +6,7 @@ use App\Address;
 use App\Document;
 use App\Http\Controllers\Auth\RegisterController;
 use App\IndividualServiceProvider;
+use App\organisation;
 use App\ProviderServiceMapping;
 use App\Role;
 //use App\ServiceMapping;
@@ -70,7 +71,8 @@ class UserController extends Controller
     {
         $users=User::where('type_id', '=', (int)$id)
             ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
-            ->select('users.*', 'user_types.*')
+            ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
+            ->select('users.*', 'user_types.*', 'organisation.*')
             ->get();
         return response()->json($users, 200);
     }
@@ -783,6 +785,70 @@ class UserController extends Controller
         }
     }
 
+    public function add_organisation(Request $request) {
+        $initialValidator = Validator::make($request->all(),
+            [
+                'company' => 'required',
+                'first_name' => 'required',
+                'email' => 'required|unique:users,email',
+                'password' => 'required',
+                'contact' => 'required|unique:users,contact'
+            ]);
+
+        if ($initialValidator->fails())
+        {
+            return response()->json(['error'=>$initialValidator->errors()], 401);
+        }
+
+        $input = $request->all();
+
+        $type = UserTypes::where('type', '=', 'Organisation')->first();
+        $input +=  [
+            'type_id' => $type->id,
+        ];
+
+        $term = TermCondition::where('type', '=', 'Organisation Terms')->where('is_latest', '=', 1)->first();
+        $input +=  [
+            'term_id' => $term->id,
+        ];
+
+        if(array_key_exists('profile_photo', $input)) {
+            $profileImg = $request->file('profile_photo');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
+            $host = url('/');
+            unset($input["profile_photo"]);
+            $input +=  [
+                'image' => $host . "/images/profiles/" . $profile_name,
+            ];
+        }
+
+        $company= [
+            'name' => $input['company'],
+        ];
+        $org = organisation::create($company);
+
+        $input += [
+            "org_id" => $org->id
+        ];
+
+        $input['password'] = Hash::make($input['password']);
+        $user = User::create($input);
+        $org_role = Role::where('slug','=', 'organisation-admin')->first();
+
+        $user->roles()->attach($org_role);
+
+        $now = now()->utc();
+        $term_agreement= [
+            'user_id' => $user->id,
+            'term_id' => $input['term_id'],
+            'agreed_at' => $now
+        ];
+        TermAgreement::create($term_agreement);
+
+        return response()->json($user, 200);
+    }
+
     public function add_customer(Request $request) {
         $initialValidator = Validator::make($request->all(),
             [
@@ -822,6 +888,9 @@ class UserController extends Controller
                 'image' => $host . "/images/profiles/" . $profile_name,
             ];
         }
+
+
+
 
 
         $input['password'] = bcrypt($input['password']);

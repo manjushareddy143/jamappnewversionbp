@@ -71,7 +71,7 @@
                                 <input id="image" type="file" name="image" class="form-control" required>
                        </div>
                      </div>
-                        
+
                   <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" onclick="create_users()" class="btn btn-primary">Save</button>
@@ -150,8 +150,8 @@
 
                     var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
                     var gender = (response[i].gender == null) ? '-' : response[i].gender;
-                    trHTML += '<tr><td>' + response[i].org_company_name +
-                        '</td><td>' + response[i].org_name  + '</td>' +
+                    trHTML += '<tr><td>' + response[i].name +
+                        '</td><td>' + response[i].first_name  + '</td>' +
                         '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
@@ -179,24 +179,27 @@
              console.log("CREATE SERVER CALL");
 
              var form = new FormData();
-           form.append('org_company_name', document.getElementById("org_company_name").value);
-           form.append('org_name', document.getElementById("org_name").value);
+           form.append('company', document.getElementById("org_company_name").value);
+           form.append('first_name', document.getElementById("org_name").value);
            form.append('contact', document.getElementById("contact").value);
            form.append('email', document.getElementById("email").value);
            form.append('password', document.getElementById("password").value);
            var image = $('#image')[0].files[0];
-           form.append('profile_photo',image);
-           
-          
+           if(image) {
+               form.append('profile_photo',image);
+           }
+
+
+
              $.ajax({
-                 url: '/users',
+                 url: '/api/v1/add_organisation',
                  type: 'POST',
                  data: form,
                  contentType: false,
                  processData: false,
                  success: function(response){
                      console.log("CREATE CREATE REPOSNE == "+response);
-                     window.top.location = window.top.location;                     
+                     window.top.location = window.top.location;
                  },
                  fail: function (error) {
                      console.log(error);
@@ -251,11 +254,11 @@
              return "Missing Users Password";
          }
 
-         var image = $('#image')[0].files[0];
-         if (!image) {
-             return "Missing Users Image";
-         }
-         
+         // var image = $('#image')[0].files[0];
+         // if (!image) {
+         //     return "Missing Users Image";
+         // }
+
 }
 
 
