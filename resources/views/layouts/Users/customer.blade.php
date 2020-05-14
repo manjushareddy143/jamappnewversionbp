@@ -1,14 +1,8 @@
+
+
 @extends('layouts.admin')
 @section('content')
 <div class="container-fluid" id="container-wrapper">
-   <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Simple Tables</h1>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/login">Home</a></li>
-        <li class="breadcrumb-item">Tables</li>
-        <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>
-      </ol>
-      </div> -->
    <div class="row">
       <div class="col-lg-12 margin-tb">
          <div class="card">
@@ -29,7 +23,7 @@
                         </button>
                      </div>
                      <div class="modal-body">
-                        <form>
+                        <form id="usr_crt">
                            <div class="row">
                               <div class="col-md-6 float-l">
                                  <div class="form-group">
@@ -62,7 +56,7 @@
                               <div class="col-md-6 float-l">
                                  <div class="form-group">
                                     <label>Image <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input id="category_image" type="file" name="category_image" class="form-control" required>
+                                    <input id="image" type="file" name="image" class="form-control" required>
                                  </div>
                               </div>
                               <div class="col-md-6 float-l">
@@ -77,9 +71,9 @@
                               <div class="col-md-6 float-l">
                                  <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
                                     <label>Gender <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
-                                    <input type="radio" name="gender" value="male"> Male
-                                    <input type="radio" name="gender" value="female"> Female
-                                    <input type="radio" name="gender" value="other"> Other
+                                    <input type="radio" name="gender" id="gender" value="male"> Male
+                                    <input type="radio" name="gender" id="gender" value="female"> Female
+                                    <input type="radio" name="gender" id="gender" value="other"> Other
                                     @if ($errors->has('gender'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('gender') }}</strong>
@@ -92,10 +86,10 @@
                                     <label for="language">Languages known <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <div class="checkbox">
                                        <label>
-                                       <input type="checkbox" name="arabic" value="arabic"> Arabic
+                                       <input type="checkbox" name="arabic" id="languages" value="arabic"> Arabic
                                        </label>
                                        <label>
-                                       <input type="checkbox" name="english" value="english"> English
+                                       <input type="checkbox" name="english" id="languages" value="english"> English
                                        </label>
                                        @error('language')
                                        <span class="invalid-feedback" role="alert">
@@ -108,7 +102,7 @@
                            </div>
                            <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <button type="button" onclick="create_users()" class="btn btn-primary">Save</button>
+                              <button type="button" onclick="create_user()" class="btn btn-primary">Save</button>
                            </div>
                         </form>
                      </div>
@@ -116,36 +110,14 @@
                </div>
             </div>
             <!-- Modal -->
-            <!--
-               <div class="pull-left">
-
-                   <h2 align='center'>Users Management</h2>
-
-               </div> -->
-            <!--
-               <div class="pull-right" style="padding-bottom:7px;">
-
-                   <a class="btn btn-success" href= "/addUser"> Create New User</a>
-
-               </div> -->
-            @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-               <p>{{ $message }}</p>
-            </div>
-            @endif
             <div class="table-responsive">
-               <table class="table align-items-center table-flush">
+               <table class="table align-items-center table-flush" id="tbl_id">
                   <thead class="thead-light">
                      <tr>
                         <!-- <th>id</th> -->
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
-                        {{--
-                        <th>Roles</th>
-                        --}}
-                        <!-- <th width=10%> Image</th> -->
-                        <!-- <th>Contact</th> -->
                         <th>Profile</th>
                         <th>Gender</th>
                         <!-- <th>Languages Known</th> -->
@@ -153,262 +125,220 @@
                      </tr>
                   </thead>
                   <tbody>
-                     @if (isset($data) && !empty($data))
-                     <?php $i=0; ?>
-                     @foreach ($data as $key => $user)
-                     <tr>
-                        <!-- <td>{{ ++$i }}</td> -->
-                        <td>{{ $user->first_name }}</td>
-                        <td>{{ $user->last_name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td><img src="{{ ($user->image == null) ?  asset('img/boy.png') : asset($user->image) }}" class="square" width="60" height="50" /></td>
-                        <!-- <td>{{ $user->contact }}</td> -->
-                        <td>{{ $user->gender }}</td>
-                        <!-- <td>{{ $user->languages_known }}</td> -->
-                        <td>
-                           <a class="btn btn-info" ><i class="fas fa-eye"></i></a>
-                           {{--        href="{{ route('user.show',$user->id) }}"--}}
-                           <a class="btn btn-primary" ><i class="fas fa-edit"></i></a>
-                           {{--        href="{{ route('user.edit',$user->id) }}"--}}
-                           {{--        {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id],'style'=>'display:inline']) !!}--}}
-                           <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
-                           <a href="" class="btn btn-danger">
-                           <i class="fas fa-trash"></i>
-                           </a>
-                           {!! Form::close() !!}
-                        </td>
-                     </tr>
-                     @endforeach
-                     @endif
                   </tbody>
                </table>
             </div>
          </div>
-         @if (isset($data) && !empty($data))
-         {{-- {!! $data->render() !!} --}}
-         @endif
-         <!-- <p class="text-center text-primary"><small>com.jam</small></p> -->
-         {{--
-         <table class="table table-bordered">
-            <tr>
-               <th>id</th>
-               <th>Name</th>
-               <th>email</th>
-               <th width="280px">Action</th>
-            </tr>
-            @foreach ($errors as $user)
-            <tr>
-               <td>{{ ++$i }}</td>
-               <td>{{ $user->name }}</td>
-               <td>{{ $user->email }}</td>
-               <td>
-                  <form action="{{ route('Users.destroy',$user->id) }}" method="POST">
-                     <a class="btn btn-info" href="{{ route('Users.show',$user->id) }}">Show</a>
-                     <a class="btn btn-primary" href="{{ route('Users.edit',$user->id) }}">Edit</a>
-                     @csrf
-                     @method('DELETE')
-                     <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
-               </td>
-            </tr>
-            @endforeach
-         </table>
-         {{-- {!! $errors->links() !!} @endsection --}}
       </div>
    </div>
 </div>
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script>
-   function users_validate() {
-            console.log("users_validate");
-            if(document.getElementById("first_name").value == "" ) {
-                // EXPAND ADDRESS FORM
-                 $("#first_name").focus();
-                $("#first_name").focus();
-                $("#first_name").blur(function () {
-            var name = $('#first_name').val();
-           if (name.length == 0) {
-               $('#first_name').next('div.red').remove();
-               $('#first_name').after('<div class="red" style="color:red">First Name is Required</div>');
-           } else {
-               $(this).next('div.red').remove();
-               return true;
-           }
-         });
 
+
+    window.addEventListener ?
+        window.addEventListener("load",onLoad(),false) :
+        window.attachEvent && window.attachEvent("onload",onLoad());
+
+
+
+    function onLoad() {
+        console.log("ON LOAD  tbl_id")
+        getResult();
+
+    }
+
+    function getResult() {
+
+        $.ajax({
+            url: '/api/v1/getuser/4',
+            type: 'GET',
+            data: null,
+            success: function(response){
+                console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
+                var trHTML = '';
+
+                $.each(response, function (i, item) {
+                    var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
+                    trHTML += '<tr><td>' + response[i].first_name +
+                        '</td><td>' + response[i].last_name  + '</td>' +
+                        '</td><td>' + response[i].email  + '</td>' +
+                        '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
+                        '</td><td>' + response[i].gender  + '</td></tr>';
+
+                });
+                $('#tbl_id').append(trHTML);
+            },
+            fail: function (error) {
+                console.log(error);
             }
+        });
+    };
 
-            if(document.getElementById("last_name").value == "" ) {
-                // EXPAND ADDRESS FORM
-                 $("#last_name").focus();
-                $("#last_name").focus();
-                $("#last_name").blur(function () {
+
+
+    function create_user() {
+
+       console.log("create_service");
+       var servicevalite = null; //users_validate();
+       console.log("users_validate ::" + servicevalite);
+       if(servicevalite == null)
+       {
+           console.log("CREATE SERVER CALL");
+
+           var form = new FormData();
+           form.append('first_name', document.getElementById("first_name").value);
+           form.append('last_name', document.getElementById("last_name").value);
+           form.append('email', document.getElementById("email").value);
+           form.append('password', document.getElementById("password").value);
+           var image = $('#image')[0].files[0];
+           form.append('profile_photo',image);
+           form.append('contact', document.getElementById("contact").value);
+           form.append('gender', document.getElementById("gender").value);
+           form.append('language', document.getElementById("languages").value);
+
+
+           $.ajax({
+               url: '/api/v1/add_customer',
+               type: 'POST',
+               data: form,
+               contentType: false,
+               processData: false,
+               success: function(response){
+                   console.log("CREATE CREATE REPOSNE == "+response);
+                   window.top.location = window.top.location;
+               },
+               fail: function (error) {
+                   console.log(error);
+               }
+           });
+       }
+       else
+       {
+           $("#alerterror").text(servicevalite);
+           $("#alerterror").show();
+           setTimeout(function() {
+               $("#alerterror").hide()
+           }, 1000);
+       }
+
+   }
+
+   function users_validate() {
+
+           console.log("users_validate");
+       if (document.getElementById("first_name").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#first_name").focus();
+           $("#first_name").focus();
+           $("#first_name").blur(function () {
+               var name = $('#first_name').val();
+               if (name.length == 0) {
+                   $('#first_name').next('div.red').remove();
+                   $('#first_name').after('<div class="red" style="color:red">First Name is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+
+       }
+
+       if (document.getElementById("last_name").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#last_name").focus();
+           $("#last_name").focus();
+           $("#last_name").blur(function () {
                var name = $('#last_name').val();
                if (name.length == 0) {
-               $('#last_name').next('div.red').remove();
-               $('#last_name').after('<div class="red" style="color:red">Last Name is Required</div>');
-             } else {
-               $(this).next('div.red').remove();
-               return true;
-             }
-                });
-            }
+                   $('#last_name').next('div.red').remove();
+                   $('#last_name').after('<div class="red" style="color:red">Last Name is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+       }
 
-            if(document.getElementById("email").value == "" ) {
-                // EXPAND ADDRESS FORM
-             $("#email").focus();
-                $("#email").focus();
-                $("#email").blur(function () {
+       if (document.getElementById("email").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#email").focus();
+           $("#email").focus();
+           $("#email").blur(function () {
                var name = $('#email').val();
                if (name.length == 0) {
-               $('#email').next('div.red').remove();
-               $('#email').after('<div class="red" style="color:red">Email is Required</div>');
-             } else {
-               $(this).next('div.red').remove();
-               return true;
-             }
-                });
-            }
+                   $('#email').next('div.red').remove();
+                   $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+       }
 
-            if(document.getElementById("password").value == "" ) {
-                // EXPAND ADDRESS FORM
-             $("#password").focus();
-                $("#password").focus();
-                $("#password").blur(function () {
+         //Password
+
+       if (document.getElementById("password").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#password").focus();
+           $("#password").focus();
+           $("#password").blur(function () {
                var name = $('#password').val();
                if (name.length == 0) {
-               $('#password').next('div.red').remove();
-               $('#password').after('<div class="red" style="color:red">Password is Required</div>');
-             } else {
-               $(this).next('div.red').remove();
-               return true;
-             }
-                });
-            }
+                   $('#password').next('div.red').remove();
+                   $('#password').after('<div class="red" style="color:red">Password is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+       }
 
-            var image = $('#image')[0].files[0];
-            if (!image) {
-                return "Missing Users Image";
-            }
 
-            if(document.getElementById("contact").value == "" ) {
-                // EXPAND ADDRESS FORM
-                $("#contact").focus();
-                $("#contact").focus();
-                $("#contact").blur(function () {
+
+           //Image
+
+               var image = $('#image')[0].files[0];
+               if (!image) {
+                   return "Missing Users Image";
+               }
+
+
+
+         //contact
+              if (document.getElementById("contact").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#contact").focus();
+           $("#contact").focus();
+           $("#contact").blur(function () {
                var name = $('#contact').val();
                if (name.length == 0) {
-               $('#contact').next('div.red').remove();
-               $('#contact').after('<div class="red" style="color:red">Contact is Required</div>');
-             } else {
-               $(this).next('div.red').remove();
-               return true;
-             }
-                });
-            }
-
-             // Radiobutton
-
-               var checkRadio = document.querySelector(
-                   'input[name="gender"]:checked');
-
-               if(checkRadio != null) {
-                   document.getElementById("gender").innerHTML
-                       = checkRadio.value
-                       + " radio button checked";
+                   $('#contact').next('div.red').remove();
+                   $('#contact').after('<div class="red" style="color:red">Contact is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
                }
-               else {
-                   document.getElementById("gender").innerHTML
-                       = "No one selected";
-               }
-
-               // Checkbox
-
-             if (theForm.MyCheckbox.checked == false)
-             {
-               alert ('No one choose the checkboxes!');
-                 return false;
-                 }
-                 else {
-                 return true;
-             }
-
-            if(!addform.terms.checked) {
-                addform.terms.focus();
-                console.log('cancel');
-                if(document.getElementById("categoy_name").value == "" ) {
-                    // EXPAND ADDRESS FORM
-                    return "Missing Category Name";
-                }
-                var category_image = $('#category_image')[0].files[0];
-                if (!category_image) {
-                    return "Missing Category Icon";
-                }
-            }
-            return null;
-        }
+           });
+           }
 
 
+       // Gender Radiobutton
 
+       var checkRadio = document.querySelector(
+           'input[name="gender"]:checked');
 
-        function create_users() {
-            console.log("create_service");
-            var servicevalite = users_validate();
-            console.log("users_validate ::" + servicevalite);
-            if(servicevalite == null) {
-                console.log("CREATE SERVER CALL");
-                // var form = new FormData();
-                // var first_name = $('#first_name')[0].files[0];
-                // form.append('first_name',first_name);
-                // var last_name = $('#last_name')[0].files[0];
-                // form.append('last_name',last_name);
-                // form.append('email', document.getElementById("users_email").value);
-                // if(document.getElementById("password").value != "") {
-                //     form.append('password', document.getElementById("users_password").value);
-                // }
-                // var icon_image = $('#image')[0].files[0];
-                // form.append('image',image);
-                // form.append('contact', document.getElementById("users_contact").value);
-                // form.append('gender', document.getElementById("users_gender").value);
+       if (checkRadio != null) {
+           document.getElementById("gender").innerHTML
+               = checkRadio.value
+               + " radio button checked";
+       } else {
+           document.getElementById("gender").innerHTML
+               = "No one selected";
+       }
 
-
-
-
-                $.ajax({
-                    url: '/users',
-                    type: 'POST',
-                    data: form,
-                    contentType: false,
-                    processData: false,
-                    success: function(response){
-                        console.log("CREATE CREATE REPOSNE == "+response);
-                        create_users_id = response['id'];
-                        if(!addform.terms.checked) {
-                            addform.terms.focus();
-                            console.log('cancel');
-                            createCategories();
-                        } else {
-                            var category_id = $('#categorieslist').children("option:selected").val();
-                            mappingService(category_id);
-
-                        }
-
-                        // window.top.location = window.top.location;
-
-                    },
-                    fail: function (error) {
-                        console.log(error);
-                    }
-                });
-            } else {
-                $("#alerterror").text(servicevalite);
-                $("#alerterror").show();
-                setTimeout(function() {
-                    $("#alerterror").hide()
-                }, 1000);
-            }
-        }
+  }
 </script>
 @endsection
 

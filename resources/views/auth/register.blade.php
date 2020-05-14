@@ -455,7 +455,7 @@
                 password: document.getElementById("password").value,
                 email: document.getElementById("email").value,
                 resident_country: document.getElementsByTagName("option")[x].value,
-                type_id : 2,
+                type_id : 3,
                 term_id : 2
             }
         }).done(function( response ) {

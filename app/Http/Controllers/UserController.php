@@ -66,14 +66,13 @@ class UserController extends Controller
 //        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
     }
 
-    public function getuser(Request $request)
+    public function getuser($id)
     {
-        $id = $request->input('id');
-        //SELECT * FROM `users` LEFT JOIN `user_types` ON `users`.`type_id` = `user_types`.`id` where `user_types`.`id`=4
-        $users=User::where('user_types.id', '=', $id)
-            ->leftjoin('user_types', 'users.type_id','=', 'user_types.id')
-            ->select('users.*')
+        $users=User::where('type_id', '=', (int)$id)
+            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
+            ->select('users.*', 'user_types.*')
             ->get();
+        return response()->json($users, 200);
     }
     ///
 
