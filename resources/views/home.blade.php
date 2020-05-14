@@ -13,11 +13,11 @@
         <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
 
-{{--        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--}}
-{{--        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>--}}
-{{--        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>--}}
+        {{--        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--}}
+        {{--        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>--}}
+        {{--        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>--}}
 
-{{--        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">--}}
+        {{--        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">--}}
 
     </head>
     <body>
@@ -73,7 +73,6 @@
                         </div>
 
 
-
                         <div class="row-cols-md-6" id="servicediv">
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Service</label>
@@ -92,11 +91,12 @@
                         </div>
 
 
-{{--                        ADDRESSS                        --}}
+                        {{--                        ADDRESSS                        --}}
 
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable"
+                           aria-expanded="true"
                            aria-controls="collapseTable">
-{{--                            <i class="fas fa-fw fa-table"></i>--}}
+                            {{--                            <i class="fas fa-fw fa-table"></i>--}}
                             <i class="fas fa-address-card"></i>
                             <span>Address</span>
                         </a>
@@ -106,7 +106,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Address Name</label>
-                                        <input id="address_name" type="text" name="address_name" placeholder="Office Address"
+                                        <input id="address_name" type="text" name="address_name"
+                                               placeholder="Office Address"
                                                class="form-control" required>
                                     </div>
                                 </div>
@@ -115,7 +116,8 @@
                                 <div class="col-md-6 float-l">
                                     <div class="form-group">
                                         <label>Address line 1</label>
-                                        <input id="address_line1" type="text" name="address_line1" placeholder="Address line 1"
+                                        <input id="address_line1" type="text" name="address_line1"
+                                               placeholder="Address line 1"
                                                class="form-control" required>
                                     </div>
                                 </div>
@@ -123,7 +125,8 @@
                                 <div class="col-md-6 float-r">
                                     <div class="form-group">
                                         <label>Address line 2</label>
-                                        <input id="address_line2" type="text" name="address_line2" placeholder="Address line 2"
+                                        <input id="address_line2" type="text" name="address_line2"
+                                               placeholder="Address line 2"
                                                class="form-control" required>
                                     </div>
                                 </div>
@@ -156,7 +159,8 @@
                                 <div class="col-md-6 float-r">
                                     <div class="form-group">
                                         <label>Postal Code</label>
-                                        <input id="postal_code" type="text" name="postal_code" placeholder="Enter Postal Code"
+                                        <input id="postal_code" type="text" name="postal_code"
+                                               placeholder="Enter Postal Code"
                                                class="form-control" required>
                                     </div>
                                 </div>
@@ -171,149 +175,172 @@
                             <button type="button" onclick="saveProfile()" class="btn btn-primary">Save</button>
                         </div>
 
-                <div class="modal fade" id="org_Modal" tabindex="-1" role="dialog" aria-labelledby="org_ModalLabel"
-                aria-hidden="true">
-               <div class="modal-dialog" role="document">
-                   <div class="modal-content">
-                       <div class="modal-header">
-                           <h5 class="modal-title" id="service_btn">Complete your Profile</h5>
-                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                               <span aria-hidden="true">&times;</span>
-                           </button>
-                       </div>
-
-                       <div class="modal-body">
-                           <form id="addform">
-
-                               <div class="panel panel-default">
-                                   <div class="panel-body text-center">
-                                       <image id="companyImage" src="{{ asset('img/boy.png') }}"
-                                              style="width: 100px; height: 100px; border-radius: 100%;"/>
-                                       <input id="org_imageUpload" type="file"
-                                              name="profile_photo" placeholder="Photo" required="" capture>
-                                   </div>
-                               </div>
-
-                               {{-- <div class="col-md-6 float-l" id="doctypelistdiv">
-                                   <div class="form-group">
-                                       <label for="exampleFormControlSelect1">Select Document</label>
-                                       <select class="form-control" id="doctypelist">
-                                           <option>Passport</option>
-                                           <option>Resident</option>
-                                           <option>Permit/Govt ID</option>
-                                       </select>
-                                   </div>
-                               </div>
-
-                               <div class="col-md-6 float-r">
-                                   <div class="form-group">
-                                       <label>Document</label>
-                                       <input id="docupload" type="file" name="docupload" class="form-control ">
-                                   </div>
-                               </div> --}}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
-                               {{-- <div class="row-cols-md-6" id="servicediv">
-                                   <div class="form-group">
-                                       <label for="exampleFormControlSelect1">Select Service</label>
-                                       <select class="form-control" id="servicelist">
-                                       </select>
-                                   </div>
-                               </div>
+    <div class="modal fade" id="org_Modal" tabindex="-1" role="dialog"
+         aria-labelledby="org_ModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="service_btn">Complete your Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="addform">
+
+                        <div class="panel panel-default">
+                            <div class="panel-body text-center">
+                                <image id="companyImage" src="{{ asset('img/boy.png') }}"
+                                       style="width: 100px; height: 100px; border-radius: 100%;"/>
+                                <input id="org_imageUpload" type="file"
+                                       name="profile_photo" placeholder="Photo" required="" capture>
+                            </div>
+                        </div>
+
+                        {{-- <div class="col-md-6 float-l" id="doctypelistdiv">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select Document</label>
+                                <select class="form-control" id="doctypelist">
+                                    <option>Passport</option>
+                                    <option>Resident</option>
+                                    <option>Permit/Govt ID</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 float-r">
+                            <div class="form-group">
+                                <label>Document</label>
+                                <input id="docupload" type="file" name="docupload" class="form-control ">
+                            </div>
+                        </div> --}}
 
 
-                               <div class="col" id="categorydiv">
-                                   <div class="form-group">
-                                       <label for="exampleFormControlSelect1">Select Category</label>
-                                       <select class="form-control" id="categorylist" multiple="multiple">
-                                       </select>
-                                   </div>
-                               </div> --}}
+
+                        {{-- <div class="row-cols-md-6" id="servicediv">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select Service</label>
+                                <select class="form-control" id="servicelist">
+                                </select>
+                            </div>
+                        </div>
 
 
-       {{--                        ADDRESSS                        --}}
-
-                               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
-                                  aria-controls="collapseTable">
-       {{--                            <i class="fas fa-fw fa-table"></i>--}}
-                                   <i class="fas fa-address-card"></i>
-                                   <span>Address</span>
-                               </a>
-
-                               <div class="col-md-12 collapse" id="collapseTable">
-                                   <div class="form-group">
-                                       <div class="col-md-12">
-                                           <div class="form-group">
-                                               <label>Address Name</label>
-                                               <input id="org_address_name" type="text" name="org_address_name" placeholder="Company Address"
-                                                      class="form-control" required>
-                                           </div>
-                                       </div>
+                        <div class="col" id="categorydiv">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select Category</label>
+                                <select class="form-control" id="categorylist" multiple="multiple">
+                                </select>
+                            </div>
+                        </div> --}}
 
 
-                                       <div class="col-md-6 float-l">
-                                           <div class="form-group">
-                                               <label>Address line 1</label>
-                                               <input id="org_address_line1" type="text" name="org_address_line1" placeholder="Address line 1"
-                                                      class="form-control" required>
-                                           </div>
-                                       </div>
+                        {{--                        ADDRESSS                        --}}
 
-                                       <div class="col-md-6 float-r">
-                                           <div class="form-group">
-                                               <label>Address line 2</label>
-                                               <input id="org_address_line2" type="text" name="org_address_line2" placeholder="Address line 2"
-                                                      class="form-control" required>
-                                           </div>
-                                       </div>
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                           data-target="#collapseTable" aria-expanded="true"
+                           aria-controls="collapseTable">
+                            {{--                            <i class="fas fa-fw fa-table"></i>--}}
+                            <i class="fas fa-address-card"></i>
+                            <span>Address</span>
+                        </a>
 
-                                       <div class="col-md-6 float-l">
-                                           <div class="form-group">
-                                               <label>Landmark</label>
-                                               <input id="org_landmark" type="text" name="org_landmark" placeholder="Enter Landmark"
-                                                      class="form-control" required>
-                                           </div>
-                                       </div>
+                        <div class="col-md-12 collapse" id="collapseTable">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Address Name</label>
+                                        <input id="org_address_name" type="text"
+                                               name="org_address_name" placeholder="Company Address"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
 
 
-                                       <div class="col-md-6 float-r">
-                                           <div class="form-group">
-                                               <label>District</label>
-                                               <input id="org_district" type="text" name="org_district" placeholder="Enter District"
-                                                      class="form-control" required>
-                                           </div>
-                                       </div>
+                                <div class="col-md-6 float-l">
+                                    <div class="form-group">
+                                        <label>Address line 1</label>
+                                        <input id="org_address_line1" type="text"
+                                               name="org_address_line1" placeholder="Address line 1"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
 
-                                       <div class="col-md-6 float-l">
-                                           <div class="form-group">
-                                               <label>City</label>
-                                               <input id="org_city" type="text" name="org_city" placeholder="Enter City"
-                                                      class="form-control" required>
-                                           </div>
-                                       </div>
+                                <div class="col-md-6 float-r">
+                                    <div class="form-group">
+                                        <label>Address line 2</label>
+                                        <input id="org_address_line2" type="text"
+                                               name="org_address_line2" placeholder="Address line 2"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
 
-                                       <div class="col-md-6 float-r">
-                                           <div class="form-group">
-                                               <label>Postal Code</label>
-                                               <input id="org_postal_code" type="text" name="org_postal_code" placeholder="Enter Postal Code"
-                                                      class="form-control" required>
-                                           </div>
-                                       </div>
-                                       <div class="form-group">
-                                            <label>Email Address <strong>*</strong></label>
-                                            <input type="email" class="form-control" id="org_email" aria-describedby="emailHelp"
-                                               placeholder="Enter Your Email Address" required>
-                                        </div>
-
-                                   </div>
-                               </div>
+                                <div class="col-md-6 float-l">
+                                    <div class="form-group">
+                                        <label>Landmark</label>
+                                        <input id="org_landmark" type="text" name="org_landmark"
+                                               placeholder="Enter Landmark"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
 
 
-                               <div class="modal-footer">
-                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                   <button type="button" onclick="saveProfile()" class="btn btn-primary">Save</button>
-                               </div>
+                                <div class="col-md-6 float-r">
+                                    <div class="form-group">
+                                        <label>District</label>
+                                        <input id="org_district" type="text" name="org_district"
+                                               placeholder="Enter District"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 float-l">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        <input id="org_city" type="text" name="org_city"
+                                               placeholder="Enter City"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 float-r">
+                                    <div class="form-group">
+                                        <label>Postal Code</label>
+                                        <input id="org_postal_code" type="text"
+                                               name="org_postal_code"
+                                               placeholder="Enter Postal Code"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email Address <strong>*</strong></label>
+                                    <input type="email" class="form-control" id="org_email"
+                                           aria-describedby="emailHelp"
+                                           placeholder="Enter Your Email Address" required>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="button" onclick="saveProfile()" class="btn btn-primary">
+                                Save
+                            </button>
+                        </div>
 
 
                     </form>
@@ -324,13 +351,12 @@
                     hr.solid {
                         border-top: 3px solid #bbb;
                     }
-                    #imageUpload
-                    {
+
+                    #imageUpload {
                         display: none;
                     }
 
-                    #profileImage
-                    {
+                    #profileImage {
                         cursor: pointer;
                     }
                 </style>
@@ -341,305 +367,296 @@
     <!-- Modal -->
 
 
-<script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
-<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
 
-    window.addEventListener ?
-        window.addEventListener("load",onLoad(),false) :
-        window.attachEvent && window.attachEvent("onload",onLoad());
+        window.addEventListener ?
+            window.addEventListener("load", onLoad(), false) :
+            window.attachEvent && window.attachEvent("onload", onLoad());
 
 
-    function onLoad() {
-        console.log("asdasdas");
+        function onLoad() {
+            console.log("asdasdas");
+            var retrievedObject = localStorage.getItem('userObject');
+            console.log(retrievedObject)
+            var obj = JSON.parse(retrievedObject);
 
-
-        var retrievedObject = localStorage.getItem('userObject');
-        console.log(retrievedObject)
-        var obj = JSON.parse(retrievedObject);
-
-        if(obj.address === null) {
-            getServices();
-
-            if(obj.roles[0].slug == "organisation-admin") {
-                // $('#exampleModal').modal({
-                //     backdrop: 'static',
-                //     keyboard: false
-                // })
-            } else {
-                // VENDRO
-                $('#exampleModal').modal({
-                    backdrop: 'static',
-                    keyboard: false
-                })
+            if (obj.address === null) {
+                getServices();
+                console.log("ADMINUSER =====" + obj.roles[0].slug);
+                if (obj.roles[0].slug == "organisation-admin") {
+                    console.log("ADMINUSER");
+                    $('#org_Modal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    })
+                } else {
+                    // VENDRO
+                    $('#exampleModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    })
+                }
             }
-
 
         }
 
-    }
+        // function onLoad() {
+        //     console.log("asdasdas");
+        //
+        //
+        //     var retrievedObject = localStorage.getItem('userObject');
+        //     console.log(retrievedObject)
+        //     var obj = JSON.parse(retrievedObject);
+        //
+        //     if(obj.address === null) {
+        //         getServices();
+        //
+        //         if(obj.roles[0].slug == "organisation-admin") {
+        //             // $('#exampleModal').modal({
+        //             //     backdrop: 'static',
+        //             //     keyboard: false
+        //             // })
+        //         } else {
+        //             // VENDRO
+        //             $('#exampleModal').modal({
+        //                 backdrop: 'static',
+        //                 keyboard: false
+        //             })
+        //         }
+        //
+        //
+        //     }
+        //
+        // }
 
 
-
-
-    function previewProfileImage( uploader ) {
+        function previewProfileImage(uploader) {
             if (uploader.files && uploader.files[0]) {
                 var imageFile = uploader.files[0];
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#profileImage').attr('src', e.target.result);
                 }
-                reader.readAsDataURL( imageFile );
+                reader.readAsDataURL(imageFile);
             }
         }
 
-    $("#imageUpload").change(function(){
-            previewProfileImage( this );
+        $("#imageUpload").change(function () {
+            previewProfileImage(this);
         });
 
-    $("#profileImage").click(function(e) {
+        $("#profileImage").click(function (e) {
             $("#imageUpload").click();
         });
 
 
-
-
-    function getServices() {
-        $.ajax({
-            url: '/api/v1/all_services',
-            type: 'GET',
-            success: function(response){
-                console.log(response);
-                if(response['status'] == 204) {
+        function getServices() {
+            $.ajax({
+                url: '/api/v1/all_services',
+                type: 'GET',
+                success: function (response) {
                     console.log(response);
-                } else {
-                    for(var i = 0; i < response.length; i ++) {
-                        console.log(response[i].name);
-                        $('#servicelist').append(`<option value="${response[i].id}">
+                    if (response['status'] == 204) {
+                        console.log(response);
+                    } else {
+                        for (var i = 0; i < response.length; i++) {
+                            console.log(response[i].name);
+                            $('#servicelist').append(`<option value="${response[i].id}">
                                    ${response[i].name}
                               </option>`);
+                        }
+                        var selected_id = $('#servicelist').children("option:selected").val();
+                        console.log(selected_id);
+                        setCategories(selected_id);
                     }
-                    var selected_id = $('#servicelist').children("option:selected").val();
-                    console.log(selected_id);
-                    setCategories(selected_id);
-                }
-            },
-            fail: function (error) {
-                console.log(error);
-            }
-        });
-    }
-
-    $("#servicelist").change(function(){
-            var selected_id = $('#servicelist').children("option:selected").val();
-            $('#categorylist').empty();
-            setCategories( selected_id );
-        });
-
-
-
-    function setCategories(selected_id) {
-        console.log(selected_id);
-        $.ajax({
-            url: '/api/v1/services/category?id=' + selected_id,
-            type: 'GET',
-            success: function(response){
-                console.log(response);
-                if(response['status'] == 204) {
-                    console.log(response);
-                } else {
-                    for(var i = 0; i < response.length; i ++) {
-                        $('#categorylist').append(`<option value="${response[i].id}">
-                                   ${response[i].name}
-                              </option>`);
-                    }
-                }
-            },
-            fail: function (error) {
-                console.log(error);
-            }
-        });
-    }
-
-
-    function validateForm() {
-        var profilePhoto = $('#imageUpload')[0].files[0];
-        if (!profilePhoto) {
-            return false;
-        }
-
-        var docupload = $('#docupload')[0].files[0];
-        if (!docupload) {
-            return false;
-        }
-
-        var selectedCategories  = $('#categorylist').children("option:selected");
-
-        if (selectedCategories.length <= 0) {
-            return false;
-        }
-
-        if($('#collapseTable').is(':visible')) {
-            console.log("TOTOTO");
-        } else {
-            $('#collapseTable').modal('show');
-        }
-
-        if(document.getElementById("address_name").value == "" ) {
-            // EXPAND ADDRESS FORM
-            return false;
-        }
-
-        if(document.getElementById("address_line1").value == "" ) {
-            return false;
-        }
-
-        if(document.getElementById("district").value == "" ) {
-            return false;
-        }
-
-        if(document.getElementById("city").value == "" ) {
-            // EXPAND ADDRESS FORM
-            return false;
-        }
-
-        if(document.getElementById("postal_code").value == "" ) {
-            // EXPAND ADDRESS FORM
-            return false;
-        }
-        return true;
-    }
-
-    function validateForm(){
-        var org_profilePhoto = $('#org_imageUpload')[0].files[0];
-        if (!org_profilePhoto) {
-            $("#org_imageUpload").focus();
-            $("#org_imageUpload").focus();
-            $("#org_imageUpload").blur(function ()
-            {
-                var name = $('#org_imageUpload').val();
-                if (name.length == 0)
-                {
-                    $('#org_imageUpload').next('div.red').remove();
-                    $('#org_imageUpload').after('<div class="red" style="color:red">Company Image is Required</div>');
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                    return true;
+                },
+                fail: function (error) {
+                    console.log(error);
                 }
             });
-            //return false;
-        }
-    }
-
-    function onLoad() {
-        console.log("asdasdas");
-        var retrievedObject = localStorage.getItem('userObject');
-        console.log(retrievedObject)
-        var obj = JSON.parse(retrievedObject);
-
-        if(obj.address === null) {
-            getServices();
-            if(obj.roles[0].slug == "organisation-admin") {
-                $('#org_Modal').modal({
-                    backdrop: 'static',
-                    keyboard: false
-                })
-            } else {
-                // VENDRO
-                $('#org_Modal').modal({
-                    backdrop: 'static',
-                    keyboard: false
-                })
-            }
         }
 
-    }
-
-    function saveProfile() {
-        if(validateForm()) {
-            console.log("VALIDATE FORM");
-            apiCall();
-        } else {
-            console.log("INVALIDATE FORM");
-        }
-
-    }
-
-    function apiCall() {
-        var form = new FormData();
-        var files = $('#imageUpload')[0].files[0];
-        form.append('profile_photo',files);
-        var doc_files = $('#docupload')[0].files[0];
-        form.append('identity_proof',doc_files);
-        var retrievedObject = localStorage.getItem('userObject');
-        var obj = JSON.parse(retrievedObject);
-        console.log("IDDD==" + obj.id);
-        $addressdata = {
-            name: document.getElementById("address_name").value,
-            address_line1: document.getElementById("address_line1").value,
-            address_line2: document.getElementById("address_line2").value,
-            landmark: document.getElementById("landmark").value,
-            district: document.getElementById("district").value,
-            city: document.getElementsByTagName("city").value,
-            postal_code : document.getElementsByTagName("postal_code").value,
-            user_id : obj.id,
-            location : "",
-        };
-        console.log($addressdata)
-        form.append('address', JSON.stringify($addressdata));
-
-        var services = [];
-        var selected_id = $('#servicelist').children("option:selected").val();
-        var selectedCategories  = $('#categorylist').children("option:selected");
-        selectedCategories.each(function () {
-            console.log($(this).val());
-            var data = {};
-            data.service_id = parseInt(selected_id),
-            data.category_id = parseInt($(this).val());
-            services.push(data);
-        })
-
-        console.log(services)
-        form.append('services', JSON.stringify(services));
-
-        form.append('doc_type', $('#doctypelist').children("option:selected").val());
-        console.log($('#doctypelist').children("option:selected").val());
-
-
-
-        form.append('id', obj.id);
-
-
-
-
-        $.ajax({
-            url: '/api/v1/profile',
-            type: 'POST',
-            data: form,
-            contentType: false,
-            processData: false,
-            success: function(response){
-                console.log(response);
-                $('#exampleModal').modal('hide')
-                localStorage.setItem('userObject', JSON.stringify(response));
-                // $('#mytable').data.reload();
-                window.top.location = window.top.location;
-                // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
-                // $('#table align-items-center table-flush').dataTable().ajax.reload();
-            },
-            fail: function (error) {
-                console.log(error);
-            }
+        $("#servicelist").change(function () {
+            var selected_id = $('#servicelist').children("option:selected").val();
+            $('#categorylist').empty();
+            setCategories(selected_id);
         });
-    }
+
+
+        function setCategories(selected_id) {
+            console.log(selected_id);
+            $.ajax({
+                url: '/api/v1/services/category?id=' + selected_id,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response['status'] == 204) {
+                        console.log(response);
+                    } else {
+                        for (var i = 0; i < response.length; i++) {
+                            $('#categorylist').append(`<option value="${response[i].id}">
+                                   ${response[i].name}
+                              </option>`);
+                        }
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+
+        function validateForm() {
+            var profilePhoto = $('#imageUpload')[0].files[0];
+            if (!profilePhoto) {
+                return false;
+            }
+
+            var docupload = $('#docupload')[0].files[0];
+            if (!docupload) {
+                return false;
+            }
+
+            var selectedCategories = $('#categorylist').children("option:selected");
+
+            if (selectedCategories.length <= 0) {
+                return false;
+            }
+
+            if ($('#collapseTable').is(':visible')) {
+                console.log("TOTOTO");
+            } else {
+                $('#collapseTable').modal('show');
+            }
+
+            if (document.getElementById("address_name").value == "") {
+                // EXPAND ADDRESS FORM
+                return false;
+            }
+
+            if (document.getElementById("address_line1").value == "") {
+                return false;
+            }
+
+            if (document.getElementById("district").value == "") {
+                return false;
+            }
+
+            if (document.getElementById("city").value == "") {
+                // EXPAND ADDRESS FORM
+                return false;
+            }
+
+            if (document.getElementById("postal_code").value == "") {
+                // EXPAND ADDRESS FORM
+                return false;
+            }
+            return true;
+        }
+
+        function validateForm() {
+            var org_profilePhoto = $('#org_imageUpload')[0].files[0];
+            if (!org_profilePhoto) {
+                $("#org_imageUpload").focus();
+                $("#org_imageUpload").focus();
+                $("#org_imageUpload").blur(function () {
+                    var name = $('#org_imageUpload').val();
+                    if (name.length == 0) {
+                        $('#org_imageUpload').next('div.red').remove();
+                        $('#org_imageUpload').after('<div class="red" style="color:red">Company Image is Required</div>');
+                    } else {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+                //return false;
+            }
+        }
+
+
+        function saveProfile() {
+            if (validateForm()) {
+                console.log("VALIDATE FORM");
+                apiCall();
+            } else {
+                console.log("INVALIDATE FORM");
+            }
+
+        }
+
+        function apiCall() {
+            var form = new FormData();
+            var files = $('#imageUpload')[0].files[0];
+            form.append('profile_photo', files);
+            var doc_files = $('#docupload')[0].files[0];
+            form.append('identity_proof', doc_files);
+            var retrievedObject = localStorage.getItem('userObject');
+            var obj = JSON.parse(retrievedObject);
+            console.log("IDDD==" + obj.id);
+            $addressdata = {
+                name: document.getElementById("address_name").value,
+                address_line1: document.getElementById("address_line1").value,
+                address_line2: document.getElementById("address_line2").value,
+                landmark: document.getElementById("landmark").value,
+                district: document.getElementById("district").value,
+                city: document.getElementsByTagName("city").value,
+                postal_code: document.getElementsByTagName("postal_code").value,
+                user_id: obj.id,
+                location: "",
+            };
+            console.log($addressdata)
+            form.append('address', JSON.stringify($addressdata));
+
+            var services = [];
+            var selected_id = $('#servicelist').children("option:selected").val();
+            var selectedCategories = $('#categorylist').children("option:selected");
+            selectedCategories.each(function () {
+                console.log($(this).val());
+                var data = {};
+                data.service_id = parseInt(selected_id),
+                    data.category_id = parseInt($(this).val());
+                services.push(data);
+            })
+
+            console.log(services)
+            form.append('services', JSON.stringify(services));
+
+            form.append('doc_type', $('#doctypelist').children("option:selected").val());
+            console.log($('#doctypelist').children("option:selected").val());
+
+
+            form.append('id', obj.id);
+
+
+            $.ajax({
+                url: '/api/v1/profile',
+                type: 'POST',
+                data: form,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log(response);
+                    $('#exampleModal').modal('hide')
+                    localStorage.setItem('userObject', JSON.stringify(response));
+                    // $('#mytable').data.reload();
+                    window.top.location = window.top.location;
+                    // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                    // $('#table align-items-center table-flush').dataTable().ajax.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
     </script>
-</body>
+    </body>
 
 
 @endsection
