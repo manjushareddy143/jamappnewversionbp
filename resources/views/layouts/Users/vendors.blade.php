@@ -3,14 +3,6 @@
 
 @section('content')
          <div class="container-fluid" id="container-wrapper">
-          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Simple Tables</h1>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/login">Home</a></li>
-              <li class="breadcrumb-item">Tables</li>
-              <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>
-            </ol>
-          </div> -->
 
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -37,7 +29,7 @@
                   <form>
                      <div class="col-md-6 float-l">
                      <div class="form-group">
-                     <label>First Name </label>
+                     <label>First Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                      <input type="text" class="form-control"id="first_name" placeholder="Enter Your First Name">
                       </div>
                       </div>
@@ -51,14 +43,14 @@
 
                    <div class="col-md-6 float-l">
                 <div class="form-group">
-                  <label>Email Address</label>
+                  <label>Email Address <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="email" class="form-control" id="email"  placeholder="Enter Email Address">
                   </div>
                 </div>
 
                 <div class="col-md-6 float-l">
                   <div class="form-group">
-                  <label>Mobile Number</label>
+                  <label>Mobile Number <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="text" class="form-control" id="mobile" placeholder="Enter Number">
                   </div>
                 </div>
@@ -66,7 +58,7 @@
                             <!--radiobutton -->
                         <div class="col-md-6 float-l">
                             <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                       <label>Gender</label><br>
+                                       <label>Gender <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
                                        <input type="radio" name="gender" value="male"> Male
                                        <input type="radio" name="gender" value="female"> Female
                                        <input type="radio" name="gender" value="other"> Other
@@ -81,7 +73,7 @@
 
                     <div class="col-md-6 float-l">
                               <div class="form-group">
-                                <label for="language">Languages known</label>
+                                <label for="language">Languages known <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" name="arabic" value="arabic"> Arabic
@@ -101,7 +93,7 @@
 
                 <div class="col-md-6 float-l">
                   <div class="form-group">
-                            <label>Services</label>
+                            <label>Services <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                 <select name="type" id="service_provider" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
                                     <option value="Selected">Select</option>
                                     <option value="Corporate service provider">Corporate service provider</option>
@@ -119,7 +111,7 @@
 
                             <div class="col-md-6 float-l">
                         <div class="form-group">
-                          <label>Category</label>
+                          <label>Category <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                 <select id="category" class="form-control">
                                     <option selected value="Please Select">Category</option>
                                     <option value="car">Cars</option>
@@ -130,14 +122,14 @@
                                 </div>
                       </div>
 
-                             <div class="col-md-6 float-l">
-                                <label for="experience">Experience</label><br>
+                             <!-- <div class="col-md-6 float-l">
+                                <label for="experience">Experience <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
                                     {!! Form::selectYear('year', 0, 20) !!}
                                     <label for="experience"> Years </label>
                                     {!! Form::selectRange('number', 0, 12); !!}
                                     <label for="experience"> Months</label>
                                     {{-- <input id="experience" type="text" class="form-control " name="Experience"> --}}
-                            </div>
+                            </div> -->
 
                     </form>
                     </div>
@@ -203,7 +195,9 @@
                                  '</td><td>' + response[i].last_name  + '</td>' +
                                  '</td><td>' + response[i].email  + '</td>' +
                                  '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                                 '</td><td>' + response[i].gender  + '</td></tr>';
+                                 '</td><td>' + response[i].gender  + '</td>' +
+                                 '</td><td>' + ' <a class="btn btn-info" ><i class="fas fa-eye"></i></a> <a class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
+
 
                          });
                          $('#tbl_id').append(trHTML);

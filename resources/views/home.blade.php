@@ -364,10 +364,20 @@
         if(obj.address === null) {
             getServices();
 
-            $('#exampleModal').modal({
-                backdrop: 'static',
-                keyboard: false
-            })
+            if(obj.roles[0].slug == "organisation-admin") {
+                // $('#exampleModal').modal({
+                //     backdrop: 'static',
+                //     keyboard: false
+                // })
+            } else {
+                // VENDRO
+                $('#exampleModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+            }
+
+
         }
 
     }

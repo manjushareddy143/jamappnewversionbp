@@ -3,14 +3,7 @@
 
 @section('content')
          <div class="container-fluid" id="container-wrapper">
-          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Simple Tables</h1>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/login">Home</a></li>
-              <li class="breadcrumb-item">Tables</li>
-              <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>
-            </ol>
-          </div> -->
+
 
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -36,30 +29,38 @@
                 <div class="modal-body">
 
                   <form>
-                     <div class="col-md-6 float-l">
+                    <div class="col-md-6 float-l">
                      <div class="form-group">
-                     <label>First Name </label>
-                     <input type="text" class="form-control"id="first_name" placeholder="Enter Your First Name" required>
-                      </div>
-                      </div>
-                      <div class="col-md-6 float-l">
-                      <div class="form-group">
-                    <label>Last Name </label>
-                    <input type="text" class="form-control"id="last_name" placeholder="Enter Your Last Name" required>
-                      </div>
-                      </div>
+                       <label>Company Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                       <input type="text" class="form-control" id="org_company_name" placeholder="Enter Your Company Name" required="">
+                    </div>
+                    </div>
+                    <div class="col-md-6 float-l">
+                    <div class="form-group">
+                      <label>Admin Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                      <input type="text" class="form-control" id="org_name" placeholder="Enter Your Name" required="">
+                    </div>
+                    </div>
+
+
+                <div class="col-md-6 float-l">
+                  <div class="form-group">
+                  <label>Mobile Number <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                  <input type="text" class="form-control" id="contact" placeholder="Enter Number" required>
+                  </div>
+                </div>
 
 
                    <div class="col-md-6 float-l">
                 <div class="form-group">
-                  <label>Email Address</label>
+                  <label>Email Address <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="email" class="form-control" id="email"  placeholder="Enter Email Address" required>
                   </div>
                 </div>
 
               <div class="col-md-6 float-l">
                   <div class="form-group">
-                  <label>Password</label>
+                  <label>Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter Your Password" required="">
                 </div>
               </div>
@@ -67,101 +68,14 @@
                     <div class="col-md-6 float-l">
                       <div class="form-group">
                                 <label>Image</label>
-                                <input id="category_image" type="file" name="category_image" class="form-control" required>
+                                <input id="image" type="file" name="image" class="form-control" required>
                        </div>
                      </div>
 
-
-                <div class="col-md-6 float-l">
-                  <div class="form-group">
-                  <label>Mobile Number</label>
-                  <input type="text" class="form-control" id="mobile" placeholder="Enter Number" required>
+                  <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" onclick="create_users()" class="btn btn-primary">Save</button>
                   </div>
-                </div>
-
-                            <!--radiobutton -->
-                        <div class="col-md-6 float-l">
-                            <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                       <label>Gender</label><br>
-                                       <input type="radio" name="gender" value="male"> Male
-                                       <input type="radio" name="gender" value="female"> Female
-                                       <input type="radio" name="gender" value="other"> Other
-                                       @if ($errors->has('gender'))
-                                                    <span class="help-block">
-                                                        <strong>{{ $errors->first('gender') }}</strong>
-                                                    </span>
-                                      @endif
-                          </div>
-                      </div>
-
-
-                       <div class="col-md-6 float-l">
-                              <div class="form-group">
-                                <label for="language">Languages known</label>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="arabic" value="arabic"> Arabic
-                                        </label>
-                                        <label>
-                                            <input type="checkbox" name="english" value="english"> English
-                                        </label>
-                                 @error('language')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                                    </div>
-                                  </div>
-                            </div>
-
-
-                <div class="col-md-6 float-l">
-                    <div class="form-group">
-                            <label>Services</label>
-                                <select name="type" id="service_provider" class="form-control @error('Selected type') is-invalid @enderror" onchange="showfields()">
-                                    <option value="Selected">Select</option>
-                                    <option value="Corporate service provider">Corporate service provider</option>
-                                    <option value="Individual service provider">Individual service provider</option>
-                                </select>
-                                @error('type')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-
-                        </div>
-                  </div>
-
-
-                            <div class="col-md-6 float-l">
-                            <div class="form-group">
-                          <label>Category</label>
-                                <select id="category" class="form-control">
-                                    <option selected value="Please Select">Category</option>
-                                    <option value="car">Cars</option>
-                                    <option value="truck">Trucks</option>
-                                    <option value="motor">Motorcycles</option>
-                                    <option value="boat">Boats</option>
-                                </select>
-                                </div>
-                      </div>
-
-                             <div class="col-md-12 float-l">
-                                <div class="form-group">
-                                <label for="experience">Experience</label><br>
-                                    {!! Form::selectYear('year', 0, 20) !!}
-                                    <label for="experience"> Years </label>
-                                    {!! Form::selectRange('number', 0, 12); !!}
-                                    <label for="experience"> Months</label>
-                                    {{-- <input id="experience" type="text" class="form-control " name="Experience"> --}}
-                                </div>
-                            </div>
-
-
-                            <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" onclick="create_users()" class="btn btn-primary">Save</button>
-                          </div>
 
                     </form>
                     </div>
@@ -171,18 +85,6 @@
           </div>
           <!-- Modal -->
 
-<!--
-        <div class="pull-left">
-
-            <h2 align='center'>Users Management</h2>
-
-        </div> -->
-<!--
-        <div class="pull-right" style="padding-bottom:7px;">
-
-            <a class="btn btn-success" href= "/addUser"> Create New User</a>
-
-        </div> -->
            @if ($message = Session::get('success'))
 
               <div class="alert alert-success">
@@ -196,11 +98,11 @@
      <table class="table align-items-center table-flush" id="tbl_id">
          <thead class="thead-light">
          <tr>
-             <th>First Name</th>
-             <th>Last Name</th>
+             <th>Company Name</th>
+             <th>Admin Name</th>
+             <th>Mobile</th>
              <th>Email</th>
              <th>Profile</th>
-             <th>Gender</th>
              <th width="280px">Action
              </th>
          </tr>
@@ -248,11 +150,12 @@
 
                     var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
                     var gender = (response[i].gender == null) ? '-' : response[i].gender;
-                    trHTML += '<tr><td>' + response[i].first_name +
-                        '</td><td>' + response[i].last_name  + '</td>' +
+                    trHTML += '<tr><td>' + response[i].name +
+                        '</td><td>' + response[i].first_name  + '</td>' +
+                        '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                        '</td><td>' + gender  + '</td></tr>';
+                        '</td><td>' + ' <a class="btn btn-info" ><i class="fas fa-eye"></i></a> <a class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
 
                 });
                 $('#tbl_id').append(trHTML);
@@ -264,78 +167,6 @@
     };
 
 
-function users_validate() {
-         console.log("users_validate");
-         if(document.getElementById("first_name").value == "" ) {
-             // EXPAND ADDRESS FORM
-             return "Missing Users First Name";
-         }
-
-         if(document.getElementById("last_name").value == "" ) {
-             // EXPAND ADDRESS FORM
-             return "Missing Users Last Name";
-         }
-
-         if(document.getElementById("email").value == "" ) {
-             // EXPAND ADDRESS FORM
-             return "Missing Users EmailId";
-         }
-
-         if(document.getElementById("password").value == "" ) {
-             // EXPAND ADDRESS FORM
-             return "Missing Users Password";
-         }
-
-         var image = $('#image')[0].files[0];
-         if (!image) {
-             return "Missing Users Image";
-         }
-
-         if(document.getElementById("contact").value == "" ) {
-             // EXPAND ADDRESS FORM
-             return "Missing Users Contact";
-         }
-
-          // Radiobutton
-
-            var checkRadio = document.querySelector(
-                'input[name="gender"]:checked');
-
-            if(checkRadio != null) {
-                document.getElementById("gender").innerHTML
-                    = checkRadio.value
-                    + " radio button checked";
-            }
-            else {
-                document.getElementById("gender").innerHTML
-                    = "No one selected";
-            }
-
-            // Checkbox
-
-          if (theForm.MyCheckbox.checked == false)
-          {
-            alert ('No one choose the checkboxes!');
-              return false;
-              }
-              else {
-              return true;
-          }
-
-         if(!addform.terms.checked) {
-             addform.terms.focus();
-             console.log('cancel');
-             if(document.getElementById("categoy_name").value == "" ) {
-                 // EXPAND ADDRESS FORM
-                 return "Missing Category Name";
-             }
-             var category_image = $('#category_image')[0].files[0];
-             if (!category_image) {
-                 return "Missing Category Icon";
-             }
-         }
-         return null;
-     }
 
 
 
@@ -346,44 +177,29 @@ function users_validate() {
          console.log("users_validate ::" + servicevalite);
          if(servicevalite == null) {
              console.log("CREATE SERVER CALL");
-             // var form = new FormData();
-             // var first_name = $('#first_name')[0].files[0];
-             // form.append('first_name',first_name);
-             // var last_name = $('#last_name')[0].files[0];
-             // form.append('last_name',last_name);
-             // form.append('email', document.getElementById("users_email").value);
-             // if(document.getElementById("password").value != "") {
-             //     form.append('password', document.getElementById("users_password").value);
-             // }
-             // var icon_image = $('#image')[0].files[0];
-             // form.append('image',image);
-             // form.append('contact', document.getElementById("users_contact").value);
-             // form.append('gender', document.getElementById("users_gender").value);
 
+             var form = new FormData();
+           form.append('company', document.getElementById("org_company_name").value);
+           form.append('first_name', document.getElementById("org_name").value);
+           form.append('contact', document.getElementById("contact").value);
+           form.append('email', document.getElementById("email").value);
+           form.append('password', document.getElementById("password").value);
+           var image = $('#image')[0].files[0];
+           if(image) {
+               form.append('profile_photo',image);
+           }
 
 
 
              $.ajax({
-                 url: '/users',
+                 url: '/api/v1/add_organisation',
                  type: 'POST',
                  data: form,
                  contentType: false,
                  processData: false,
                  success: function(response){
                      console.log("CREATE CREATE REPOSNE == "+response);
-                     create_users_id = response['id'];
-                     if(!addform.terms.checked) {
-                         addform.terms.focus();
-                         console.log('cancel');
-                         createCategories();
-                     } else {
-                         var category_id = $('#categorieslist').children("option:selected").val();
-                         mappingService(category_id);
-
-                     }
-
-                     // window.top.location = window.top.location;
-
+                     window.top.location = window.top.location;
                  },
                  fail: function (error) {
                      console.log(error);
@@ -397,6 +213,57 @@ function users_validate() {
              }, 1000);
          }
      }
+
+
+
+    function users_validate() {
+         console.log("users_validate");
+         if(document.getElementById("org_company_name").value == "" ) {
+             // EXPAND ADDRESS FORM
+             return "Missing Users First Name";
+         }
+
+         if(document.getElementById("org_name").value == "" ) {
+             // EXPAND ADDRESS FORM
+             return "Missing Users Last Name";
+         }
+
+         if(document.getElementById("contact").value == "" ) {
+             // EXPAND ADDRESS FORM
+              $("#contact").focus();
+           $("#contact").focus();
+           $("#contact").blur(function () {
+               var name = $('#contact').val();
+               if (name.length == 0) {
+                   $('#contact').next('div.red').remove();
+                   $('#contact').after('<div class="red" style="color:red">Contact is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+         }
+
+         if(document.getElementById("email").value == "" ) {
+             // EXPAND ADDRESS FORM
+             return "Missing Users EmailId";
+         }
+
+         if(document.getElementById("password").value == "" ) {
+             // EXPAND ADDRESS FORM
+             return "Missing Users Password";
+         }
+
+         // var image = $('#image')[0].files[0];
+         // if (!image) {
+         //     return "Missing Users Image";
+         // }
+
+}
+
+
+
+
 </script>
 
 @endsection

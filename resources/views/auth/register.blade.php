@@ -53,28 +53,33 @@
                                                     <input type="text" class="form-control"
                                                            id="first_name" placeholder="Enter Your First Name" required>
                                                 </div>
+
                                                 <div class="form-group">
                                                     <label>Last Name <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="last_name" placeholder="Enter Your Last Name" required>
                                                 </div>
+
                                                 <div class="form-group">
                                                     <label>Mobile Number <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="mobile" placeholder="Enter Mobile Number" required>
                                                 </div>
+
                                                 <div class="form-group">
                                                     <label>Email Address <strong>*</strong></label>
                                                     <input type="email" class="form-control"
                                                            id="email" aria-describedby="emailHelp"
                                                            placeholder="Enter Your Email Address" required>
                                                 </div>
+
                                                 <div class="form-group">
                                                     <label>Password<strong>*</strong></label>
                                                     <input type="password" class="form-control"
                                                            id="password" aria-describedby="passwordHelp"
                                                            placeholder="Enter Your Password" required>
                                                 </div>
+
                                                 <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Resident Status <strong>*</strong></label>
                                                     <select class="form-control" id="select1">
@@ -86,6 +91,7 @@
                                                         <option>Afghanistan</option>
                                                     </select>
                                                 </div>
+
                                                 <div class="form-group register-rc-button">
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input"
@@ -97,16 +103,9 @@
                                                         </label>
                                                     </div>
                                                 </div>
+                                                <p id="myError"></p>
                                                 <br>
                                                 <p id="termErr" style="color: red"></p>
-{{--                                                <div class="form-group">--}}
-{{--                                                    <div class="upload-photo">--}}
-{{--                                                        <a href="#">--}}
-{{--                                                            <span><i class="fas fa-camera"></i></span>--}}
-{{--                                                            <p>Upload A Photo</p>--}}
-{{--                                                        </a>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
                                                 <div class="form-group">
                                                     <button type="button"
                                                             class="btn btn-primary btn-block"
@@ -427,8 +426,8 @@
             });
          }
 
-         if(!org_form.org_checkbox.checked) {
-             org_form.org_checkbox.focus();
+         if(!form.terms.checked) {
+             form.terms.focus();
              console.log('cancel');
              $('#myError').css('color','red');
              $('#myError').text('Please select terms and conditions')
@@ -441,30 +440,33 @@
     function registerIndividuals() {
         console.log("individual_validate");
         var individualformvalidate = individual_validate();
-        console.log("individual_validate ::"+ individualformvalidate);
-        if(individualformvalidate == null){
+        console.log("individual_validate ::" + individualformvalidate);
+        if (individualformvalidate == null) {
             console.log("CREATE SERVER CALL");
-        var x = document.getElementById("select1").selectedIndex;
-        $.ajax({
-            type: "POST",
-            url: '/register',
-            data: {
-                first_name: document.getElementById("first_name").value,
-                last_name: document.getElementById("last_name").value,
-                contact: document.getElementById("mobile").value,
-                password: document.getElementById("password").value,
-                email: document.getElementById("email").value,
-                resident_country: document.getElementsByTagName("option")[x].value,
-                type_id : 3,
-                term_id : 2
-            }
-        }).done(function( response ) {
-            $("#exampleModal").modal("hide");
-            console.log(response);
-            // Put the object into storage
-            localStorage.setItem('userObject', JSON.stringify(response));
-            window.location = '/home';
-        });
+            var x = document.getElementById("select1").selectedIndex;
+            $.ajax({
+                type: "POST",
+                url: '/register',
+                data: {
+                    first_name: document.getElementById("first_name").value,
+                    last_name: document.getElementById("last_name").value,
+                    contact: document.getElementById("mobile").value,
+                    password: document.getElementById("password").value,
+                    email: document.getElementById("email").value,
+                    resident_country: document.getElementsByTagName("option")[x].value,
+                    type_id: 3,
+                    term_id: 2
+                }
+            }).done(function (response) {
+                $("#exampleModal").modal("hide");
+                console.log(response);
+                // Put the object into storage
+                localStorage.setItem('userObject', JSON.stringify(response));
+                window.location = '/home';
+            });
+        } else {
+
+        }
     }
 
     function organisation_validate() {
@@ -631,9 +633,6 @@
                 $("#alerterror").hide()
             },1000);
         }
-        }
     }
-    function closeForm() {
-        document.getElementById("popupForm").style.display="none";
-    }
+
 </script>
