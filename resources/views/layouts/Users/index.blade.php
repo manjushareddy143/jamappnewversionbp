@@ -157,7 +157,8 @@
                         '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                        '</td><td>' + ' <a class="btn btn-info" ><i class="fas fa-eye"></i></a> <a class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
+                        '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="/user/destroye/"'+response[i].id+'
+                    class="btn btn-danger" id="{{'.$user->id .'}}"><i class="fa fa-trash"></i></a>' + '</td></tr>';
 
                 });
                 $('#tbl_id').append(trHTML);
