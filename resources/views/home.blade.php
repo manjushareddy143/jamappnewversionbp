@@ -581,12 +581,13 @@
 
 
         function saveProfile() {
-            if (validateForm()) {
-                console.log("VALIDATE FORM");
-                apiCall();
-            } else {
-                console.log("INVALIDATE FORM");
-            }
+            apiCall();
+            // if (validateForm()) {
+            //     console.log("VALIDATE FORM");
+            //     apiCall();
+            // } else {
+            //     console.log("INVALIDATE FORM");
+            // }
 
         }
 
