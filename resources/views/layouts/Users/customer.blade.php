@@ -164,7 +164,7 @@
         '</td><td>' + response[i].email + '</td>' +
         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
         '</td><td>' + response[i].gender + '</td>' +
-        '</td><td>' + ' <a class="btn btn-info" ><i class="fas fa-eye"></i></a> <a class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
+        '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
 
                 });
                 $('#tbl_id').append(trHTML);
@@ -300,7 +300,18 @@
 
                var image = $('#image')[0].files[0];
                if (!image) {
-                   return "Missing Users Image";
+                    $("#image").focus();
+           $("#image").focus();
+           $("#image").blur(function () {
+               var name = $('#image').val();
+               if (name.length == 0) {
+                   $('#image').next('div.red').remove();
+                   $('#image').after('<div class="red" style="color:red">Image is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
                }
 
 

@@ -95,7 +95,7 @@
                                                 <div class="form-group register-rc-button">
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input"
-                                                               id="terms" name="terms">
+                                                               id="terms" name="terms" required>
                                                         <label class="custom-control-label" for="terms">
                                                             Vendor Consent to <a href="http://www.savitriya.com/privacy-policy/"
                                                                                  target="_blank">
@@ -311,6 +311,26 @@
             // ...
         });
     }
+    var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
+    var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+
+    $("#select1").change(function() {
+        if ($("#select1").val() === "Select Country") {
+            $('#select1').next('div.red').remove();
+            $('#select1').after('<div class="red" style="color:red">Country is Required</div>');
+            //return false;
+        } else {
+            $(this).next('div.red').remove();
+        }
+    });
+
+    // $('#checkbox1').change(function() {
+    //     if(this.checked) {
+    //         var returnVal = confirm("Are you sure?");
+    //         $(this).prop("checked", returnVal);
+    //     }
+    //     $('#textbox1').val(this.checked);
+    // });
 
     function individual_validate() {
          console.log("individual_validate");
@@ -325,15 +345,15 @@
                 {
                     $('#first_name').next('div.red').remove();
                     $('#first_name').after('<div class="red" style="color:red">First Name is Required</div>');
+                    //return "false";
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
                 }
             });
          }
-         //var admin_name = $('#admin_name')[0].files[0];
+
          if (document.getElementById("last_name").value == "") {
             $("#last_name").focus();
             $("#last_name").focus();
@@ -344,15 +364,18 @@
                 {
                     $('#last_name').next('div.red').remove();
                     $('#last_name').after('<div class="red" style="color:red">Last Name is Required</div>');
+                    //return "false";
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
+
                 }
             });
          }
          //var mobilenum = $('#mobile')[0].files[0];
+
+
          if (document.getElementById("mobile").value == "") {
             $("#mobile").focus();
             $("#mobile").focus();
@@ -363,15 +386,32 @@
                 {
                     $('#mobile').next('div.red').remove();
                     $('#mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
+                    //return "false";
                 }
                 else
                 {
-                    $(this).next('div.red').remove();
-                    return true;
+                    if(!phone_regex.test( $('#mobile').val()))
+                    {
+                        $('#mobile').next('div.red').remove();
+                        $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                        //return "false";
+                    } else {
+                        $(this).next('div.red').remove();
+                    }
                 }
             });
+         } else {
+             if(!phone_regex.test( $('#mobile').val()))
+             {
+                 console.log("ERROR");
+                 $('#mobile').next('div.red').remove();
+                 $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                 //return "false";
+             } else {
+                 $(this).next('div.red').remove();
+             }
          }
-        //  var email = $('#email')[0].files[0];
+
         if (document.getElementById("email").value == "") {
            // EXPAND ADDRESS FORM
            $("#email").focus();
@@ -382,11 +422,29 @@
                    $('#email').next('div.red').remove();
                    $('#email').after('<div class="red" style="color:red">Email is Required</div>');
                } else {
-                   $(this).next('div.red').remove();
-                   return true;
+
+                   if(!email_regex.test(name))
+                   {
+                       $('#email').next('div.red').remove();
+                       $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                       //return false;
+                   } else {
+                       $(this).next('div.red').remove();
+                   }
+
+
                }
            });
-       }
+       } else {
+            if(!email_regex.test($('#email').val()))
+            {
+                $('#email').next('div.red').remove();
+                $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                //return false;
+            } else {
+                $(this).next('div.red').remove();
+            }
+        }
 
          if(document.getElementById("password").value == "") {
             $("#password").focus();
@@ -398,45 +456,46 @@
                 {
                     $('#password').next('div.red').remove();
                     $('#password').after('<div class="red" style="color:red">Password is Required</div>');
+                    //return false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
                 }
             });
          }
          //var Country = $('#select1')[0].files[0];
-         if(document.getElementById("select1").value == "") {
-            $("#select1").focus();
-            $("#select1").focus();
-            $("#select1").blur(function ()
-            {
-                var name = $('#select1').val();
-                if (name.length == 0)
-                {
-                    $('#select1').next('div.red').remove();
-                    $('#select1').after('<div class="red" style="color:red">Country is Required</div>');
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                    return true;
-                }
-            });
-         }
+        let optionsLength = document.getElementById("select1").length;
+
+
+        if ($("#select1").val() === "Select Country") {
+            $('#select1').next('div.red').remove();
+            $('#select1').after('<div class="red" style="color:red">Country is Required</div>');
+            //return false;
+        } else {
+            $(this).next('div.red').remove();
+        }
 
          if(!form.terms.checked) {
              form.terms.focus();
-             console.log('cancel');
+             console.log('cancel BOX');
              $('#myError').css('color','red');
              $('#myError').text('Please select terms and conditions')
              return "Missing terms";
-
-         }
-         return null;
+            }
+            return null;
         }
 
+        $('#terms').change(function() {
+            if(this.checked) {
+                $('#myError').css('color','red');
+                $('#myError').text('')
+            } else {
+                $('#myError').css('color','red');
+                $('#myError').text('Please select terms and conditions')
+        }
+
+    });
     function registerIndividuals() {
         console.log("individual_validate");
         var individualformvalidate = individual_validate();
@@ -482,11 +541,11 @@
                 {
                     $('#org_company_name').next('div.red').remove();
                     $('#org_company_name').after('<div class="red" style="color:red">Company Name is Required</div>');
+                    //return false;
                 }
                 else
                 {
-                    $(this).next('div.red').remove();
-                    return true;
+                    $(this).next('div.red').remove();s
                 }
             });
          }
@@ -501,11 +560,12 @@
                 {
                     $('#org_name').next('div.red').remove();
                     $('#org_name').after('<div class="red" style="color:red">Admin Name is Required</div>');
+                    //return true;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
+
                 }
             });
          }
@@ -523,10 +583,31 @@
                 }
                 else
                 {
-                    $(this).next('div.red').remove();
-                    return true;
+                    if(!phone_regex.test( $('#org_mobile').val()))
+                    {
+                        console.log("ERRPR");
+                        $('#org_mobile').next('div.red').remove();
+                        $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                        //return "false";
+                    } else {
+                        console.log("NOT WORL");
+                        $(this).next('div.red').remove();
+                        //return true;
+                    }
                 }
             });
+         } else {
+             if(!phone_regex.test( $('#org_mobile').val()))
+             {
+                 console.log("ERRPR");
+                 $('#org_mobile').next('div.red').remove();
+                 $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                 //return "false";
+             } else {
+                 console.log("NOT WORL");
+                 $(this).next('div.red').remove();
+                 //return true;
+             }
          }
         //  var email = $('#email')[0].files[0];
          if(document.getElementById("org_email").value == "") {
@@ -537,15 +618,42 @@
                 var name = $('#org_email').val();
                 if (name.length == 0)
                 {
-                    $('#org_email').next('div.red').remove();
-                    $('#org_email').after('<div class="red" style="color:red">Email is Required</div>');
+                        console.log("ERRPR");
+                        $('#org_email').next('div.red').remove();
+                        $('#org_email').after('<div class="red" style="color:red">Email is Required</div>');
+                        //return "false";
                 }
                 else
                 {
-                    $(this).next('div.red').remove();
-                    return true;
+                    if(!email_regex.test($('#org_email').val()))
+                    {
+                        console.log("ERROR");
+                        $('#org_email').next('div.red').remove();
+                        $('#org_email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                        //return "false";
+                    } else {
+                        console.log("NOT WORL");
+                        $(this).next('div.red').remove();
+                        //return true;
+                    }
                 }
             });
+         }else {
+             if(!email_regex.test($('#org_email').val()))
+             {
+                 console.log("ERROR");
+                 $('#org_email').next('div.red').remove();
+                 $('#org_email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                 //return "false";
+             } else {
+                 console.log("NOT WORL");
+                 $(this).next('div.red').remove();
+                 //return true;
+             }
+
+             // $('#org_email').next('div.red').remove();
+             // $('#org_email').after('<div class="red" style="color:red">Email is Invalid</div>');
+             // return "false";
          }
 
          if(document.getElementById("org_password").value == "") {
@@ -562,41 +670,42 @@
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
-                }
-            });
-         }
-         //var Country = $('#select1')[0].files[0];
-         if(document.getElementById("org_select_country").value == "") {
-            $("#org_select_country").focus();
-            $("#org_select_country").focus();
-            $("#org_select_country").blur(function ()
-            {
-                var name = $('#org_select_country').val();
-                if (name.length == 0)
-                {
-                    $('#org_select_country').next('div.red').remove();
-                    $('#org_select_country').after('<div class="red" style="color:red">Country is Required</div>');
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                    return true;
+                    //return true;
                 }
             });
          }
 
-         if(!org_form.org_checkbox.checked) {
-             org_form.org_checkbox.focus();
-             console.log('cancel');
+        let optionsLength = document.getElementById("org_select_country").length;
+        if($('#org_select_country').val() === "Select Country"){
+            $('#org_select_country').next('div.red').remove();
+            $('#org_select_country').after('<div class="red" style="color:red">Country is Required</div>');
+        }
+        else
+        {
+            $(this).next('div.red').remove();
+        }
+
+        if(!org_form.org_checkbox.checked) {
+            org_form.org_checkbox.focus();
+             console.log('cancel BOX');
              $('#myError').css('color','red');
              $('#myError').text('Please select terms and conditions')
              return "Missing terms";
+            }
+            //return null;
+        }
 
-         }
-         return null;
-    }
+        $('#org_checkbox').change(function() {
+            if(this.checked) {
+                $('#myError').css('color','red');
+                $('#myError').text('')
+            } else {
+                $('#myError').css('color','red');
+                $('#myError').text('Please select terms and conditions')
+        }
 
+    });
+    
     function registerOrganisation() {
         console.log("organisation_validate");
         var formvalidate = organisation_validate();
