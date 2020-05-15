@@ -300,7 +300,18 @@
 
                var image = $('#image')[0].files[0];
                if (!image) {
-                   return "Missing Users Image";
+                    $("#image").focus();
+           $("#image").focus();
+           $("#image").blur(function () {
+               var name = $('#image').val();
+               if (name.length == 0) {
+                   $('#image').next('div.red').remove();
+                   $('#image').after('<div class="red" style="color:red">Image is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
                }
 
 

@@ -1,11 +1,8 @@
 @extends('layouts.admin')
-
-
 @section('content')
-         <div class="container-fluid" id="container-wrapper">
+<div class="container-fluid" id="container-wrapper">
 
-
-<div class="row">
+  <div class="row">
     <div class="col-lg-12 margin-tb">
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -29,6 +26,7 @@
                 <div class="modal-body">
 
                   <form>
+                    <div class="row">
                     <div class="col-md-6 float-l">
                      <div class="form-group">
                        <label>Company Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
@@ -41,8 +39,9 @@
                       <input type="text" class="form-control" id="org_name" placeholder="Enter Your Name" required="">
                     </div>
                     </div>
+                  </div>
 
-
+                  <div class="row">
                 <div class="col-md-6 float-l">
                   <div class="form-group">
                   <label>Mobile Number <strong style="font-size: 14px;color: #e60606;">*</strong></label>
@@ -51,13 +50,15 @@
                 </div>
 
 
-                   <div class="col-md-6 float-l">
-                <div class="form-group">
+               <div class="col-md-6 float-l">
+                 <div class="form-group">
                   <label>Email Address <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="email" class="form-control" id="email"  placeholder="Enter Email Address" required>
                   </div>
                 </div>
+              </div>
 
+              <div class="row">
               <div class="col-md-6 float-l">
                   <div class="form-group">
                   <label>Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
@@ -71,6 +72,7 @@
                                 <input id="image" type="file" name="image" class="form-control" required>
                        </div>
                      </div>
+               </div>      
 
                   <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -220,12 +222,34 @@
          console.log("users_validate");
          if(document.getElementById("org_company_name").value == "" ) {
              // EXPAND ADDRESS FORM
-             return "Missing Users First Name";
+             $("#org_company_name").focus();
+           $("#org_company_name").focus();
+           $("#org_company_name").blur(function () {
+               var name = $('#org_company_name').val();
+               if (name.length == 0) {
+                   $('#org_company_name').next('div.red').remove();
+                   $('#org_company_name').after('<div class="red" style="color:red">Company Name is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
          }
 
          if(document.getElementById("org_name").value == "" ) {
              // EXPAND ADDRESS FORM
-             return "Missing Users Last Name";
+              $("#org_name").focus();
+           $("#org_name").focus();
+           $("#org_name").blur(function () {
+               var name = $('#org_name').val();
+               if (name.length == 0) {
+                   $('#org_name').next('div.red').remove();
+                   $('#org_name').after('<div class="red" style="color:red">Admin Name is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
          }
 
          if(document.getElementById("contact").value == "" ) {
@@ -246,18 +270,51 @@
 
          if(document.getElementById("email").value == "" ) {
              // EXPAND ADDRESS FORM
-             return "Missing Users EmailId";
+              $("#email").focus();
+           $("#email").focus();
+           $("#email").blur(function () {
+               var name = $('#email').val();
+               if (name.length == 0) {
+                   $('#email').next('div.red').remove();
+                   $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
          }
 
          if(document.getElementById("password").value == "" ) {
              // EXPAND ADDRESS FORM
-             return "Missing Users Password";
+          $("#password").focus();
+           $("#password").focus();
+           $("#password").blur(function () {
+               var name = $('#password').val();
+               if (name.length == 0) {
+                   $('#password').next('div.red').remove();
+                   $('#password').after('<div class="red" style="color:red">Password is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
          }
 
-         // var image = $('#image')[0].files[0];
-         // if (!image) {
-         //     return "Missing Users Image";
-         // }
+         var image = $('#image')[0].files[0];
+         if (!image) {
+              $("#image").focus();
+           $("#image").focus();
+           $("#image").blur(function () {
+               var name = $('#image').val();
+               if (name.length == 0) {
+                   $('#image').next('div.red').remove();
+                   $('#image').after('<div class="red" style="color:red">Image is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+         }
 
 }
 
