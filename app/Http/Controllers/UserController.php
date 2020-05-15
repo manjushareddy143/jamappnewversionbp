@@ -590,7 +590,7 @@ class UserController extends Controller
                 'image' => $host . "/images/profiles/" . $profile_name,
             ];
 
-            if($this->update_profile_photo($imagedata, $id)) {
+            if($this->update_user_details($imagedata, $id)) {
 
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {
@@ -626,55 +626,35 @@ class UserController extends Controller
     public function org_profile(Request $request)
     {
         try {
+//
             $response = array();
             $validator = Validator::make($request->all(),
                 [
                     'id'  => 'required|exists:users,id',
+                    'number_of_employee'  => 'required',
                     'profile_photo' => 'required|image',  //|max:2048
                 ]);
             if ($validator->fails())
             {
                 return response()->json(['error'=>$validator->errors()], 401);
             }
-            // $input = $request->all();
-            // $id = $request->input('id');
-            // $user = User::find($id);
-            // $type_id = $user['type_id'];
-            // $host = url('/');
-            // if($type_id != 2) {
-            //     // ID Proof Upload
-            //     $validator_provider = Validator::make($request->all(),
-            //         [
-            //             'id'  => 'required|exists:users,id',
-            //             'profile_photo' => 'required|image',  //|max:2048
-            //             'identity_proof' => 'required|image',
-            //             'services' => 'required'
-            //         ]);
-            //     if ($validator_provider->fails())
-            //     {
-            //         return response()->json(['error'=>$validator_provider->errors()], 401);
-            //     }
-            //    $id_proof =  $this->add_document($request, $input, $id);
-            //    if($id_proof != null) {
-            //        $user['identity_proofs'] = $id_proof;
 
-            //        // Service mapping
+             $input = $request->all();
+             $id = $request->input('id');
+             $user = User::find($id);
+             $type_id = $user['type_id'];
 
-            //        $services = $input['services'];
-            //        $services = json_decode($services, true);
-            //        foreach ($services as $data) {
-            //            $data['user_id'] = $id;
-            //            ProviderServiceMapping::create($data);
-            //        }
+             $host = url('/');
 
-            //        $user['services'] = $this->get_user_services($id);
+             if($type_id == 2) {
 
-            //    } else {
-            //        $response['message'] = "Id proof not inserted";
-            //        return response($response, 406)
-            //            ->header('content-type', 'application/json');
-            //    }
-            // }
+                 // ID Proof Upload
+                 $company= [
+                     'number_of_employee' => $input['number_of_employee'],
+                 ];
+                 $this->update_organisation_details($company, $user->org_id);
+
+             }
 
             // Org_Profile Image insert
             $profileImg = $request->file('profile_photo');
@@ -684,7 +664,7 @@ class UserController extends Controller
                 'image' => $host . "/images/profiles/" . $profile_name,
             ];
 
-            if($this->update_profile_photo($imagedata, $id)) {
+            if($this->update_user_details($imagedata, $id)) {
 
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {
@@ -705,8 +685,6 @@ class UserController extends Controller
                 $adddressdata = Address::create($address);
                 $user['address'] = $adddressdata;
             }
-
-
 
             return response($user, 200)
                 ->header('content-type', 'application/json');
@@ -754,7 +732,13 @@ class UserController extends Controller
         return $id_proof;
     }
 
-    public function update_profile_photo($dataArray, $id) {
+    public function update_organisation_details($dataArray, $id) {
+        return DB::table('organisation')
+            ->where('id', $id)
+            ->update($dataArray);
+    }
+
+    public function update_user_details($dataArray, $id) {
         return DB::table('users')
             ->where('id', $id)
             ->update($dataArray);
@@ -843,7 +827,7 @@ class UserController extends Controller
                 ];
             }
 
-            if($this->update_profile_photo($imagedata, $id)) {
+            if($this->update_user_details($imagedata, $id)) {
                 $user = User::find($id);
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {

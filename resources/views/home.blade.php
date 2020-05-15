@@ -93,7 +93,8 @@
 
                         {{--                        ADDRESSS                        --}}
 
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable"
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                           data-target="#collapseTable"
                            aria-expanded="true"
                            aria-controls="collapseTable">
                             {{--                            <i class="fas fa-fw fa-table"></i>--}}
@@ -196,22 +197,34 @@
                 </div>
 
                 <div class="modal-body">
-                    <form id="addform">
+                    <form id="org_addform">
+
 
                         <div class="panel panel-default">
                             <div class="panel-body text-center">
-                                <image id="companyImage" src="{{ asset('img/boy.png') }}"
+                                <image id="org_profileImage" src="{{ asset('img/boy.png') }}"
                                        style="width: 100px; height: 100px; border-radius: 100%;"/>
                                 <input id="org_imageUpload" type="file"
-                                       name="profile_photo" placeholder="Photo" required="" capture>
+                                       name="org_profile_photo" placeholder="Photo" required="" capture>
                             </div>
                         </div>
+
+
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Select Number of Employee</label>
+                            <select class="form-control" id="numofemp">
+                                <option selected>Select</option>
+                                <option>1-100</option>
+                                <option>101-500</option>
+                                <option>501-1000</option>
+                            </select>
+                        </div>
+
                         {{--                        ADDRESSS                        --}}
 
                         <a class="nav-link collapsed" href="#" data-toggle="collapse"
                            data-target="#collapseTable" aria-expanded="true"
                            aria-controls="collapseTable">
-                            {{--                            <i class="fas fa-fw fa-table"></i>--}}
                             <i class="fas fa-address-card"></i>
                             <span>Address</span>
                         </a>
@@ -283,21 +296,6 @@
                                                class="form-control" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Email Address <strong>*</strong></label>
-                                    <input type="email" class="form-control" id="org_email"
-                                           aria-describedby="emailHelp"
-                                           placeholder="Enter Your Email Address" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Select Number of Employee</label>
-                                    <select class="form-control" id="numofemp">
-                                        <option selected>Select</option>
-                                        <option>1-100</option>
-                                        <option>101-500</option>
-                                        <option>501-1000</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
 
@@ -306,7 +304,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 Close
                             </button>
-                            <button type="button" onclick="Organisationprofile();saveProfile()" class="btn btn-primary">
+                            <button type="button" onclick="Organisationprofile()" class="btn btn-primary">
                                 Save
                             </button>
                         </div>
@@ -317,15 +315,11 @@
                 </div>
 
                 <style>
-                    hr.solid {
-                        border-top: 3px solid #bbb;
-                    }
 
-                    #imageUpload {
+                    #org_imageUpload {
                         display: none;
                     }
-
-                    #profileImage {
+                    #org_profileImage {
                         cursor: pointer;
                     }
                 </style>
@@ -384,12 +378,32 @@
             }
         }
 
+
+        function orgPreviewProfileImage(uploader) {
+            if (uploader.files && uploader.files[0]) {
+                var imageFile = uploader.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#org_profileImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(imageFile);
+            }
+        }
+
         $("#imageUpload").change(function () {
             previewProfileImage(this);
         });
 
         $("#profileImage").click(function (e) {
             $("#imageUpload").click();
+        });
+
+        $("#org_imageUpload").change(function () {
+            orgPreviewProfileImage(this);
+        });
+
+        $("#org_profileImage").click(function (e) {
+            $("#org_imageUpload").click();
         });
 
 
@@ -470,6 +484,7 @@
             if ($('#collapseTable').is(':visible')) {
                 console.log("TOTOTO");
             } else {
+                console.log("YPPPPP");
                 $('#collapseTable').modal('show');
             }
 
@@ -653,21 +668,22 @@
             });
             //return false;
         }
-        if (document.getElementById("email").value == "") {
-            $("#email").focus();
-            $("#email").focus();
-            $("#email").blur(function ()
+        if (document.getElementById("org_email").value == "") {
+            $("#org_email").focus();
+            $("#org_email").focus();
+            $("#org_email").blur(function ()
             {
-                var name = $('#email').val();
+                var name = $('#org_email').val();
                 if (name.length == 0)
                 {
-                    $('#email').next('div.red').remove();
-                    $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                    $('#org_email').next('div.red').remove();
+                    $('#org_email').after('<div class="red" style="color:red">Email is Required</div>');
+                    return true;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
+
                 }
             });
             //return false;
@@ -695,30 +711,21 @@
 
     function Organisationprofile() {
         console.log("org_validateForm");
-        var profilevalidate = org_validateForm();
+        var profilevalidate =  null; ///org_validateForm();
         console.log("org_validateForm ::"+ profilevalidate);
         if(profilevalidate == null){
             console.log("CREATE SERVER CALL");
-            // $.ajax({
-            //     type: "POST",
-            //     url: '/',
-            //     data: {
-            //         company: document.getElementById("org_company_name").value,
-            //         first_name: document.getElementById("org_name").value,
-            //         contact: document.getElementById("org_mobile").value,
-            //         password: document.getElementById("org_password").value,
-            //         email: document.getElementById("org_email").value,
-            //         resident_country: document.getElementsByTagName("option")[x].value,
-            //         type_id : 2,
-            //         term_id : 3
-            //     }
-            // }).done(function( response ) {
-            //     $("#org_Modal").modal("hide");
-            //     console.log(response);
-            //     // Put the object into storage
-            //     localStorage.setItem('userObject', JSON.stringify(response));
-            //     window.location = '/home';
-            // });
+            $.ajax({
+                type: "POST",
+                url: '/api/v1/org_profile',
+                data: formdata
+            }).done(function( response ) {
+                $("#org_Modal").modal("hide");
+                console.log(response);
+                // Put the object into storage
+                localStorage.setItem('userObject', JSON.stringify(response));
+                window.location = '/home';
+            });
         }
         else{
             $("#alerterror").text(profilevalidate);

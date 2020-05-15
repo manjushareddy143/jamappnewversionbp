@@ -486,7 +486,7 @@
             return null;
         }
 
-        $('#terms').change(function() {
+    $('#terms').change(function() {
             if(this.checked) {
                 $('#myError').css('color','red');
                 $('#myError').text('')
@@ -496,6 +496,7 @@
         }
 
     });
+
     function registerIndividuals() {
         console.log("individual_validate");
         var individualformvalidate = individual_validate();
@@ -541,7 +542,7 @@
                 {
                     $('#org_company_name').next('div.red').remove();
                     $('#org_company_name').after('<div class="red" style="color:red">Company Name is Required</div>');
-                    //return false;
+                    return false;
                 }
                 else
                 {
@@ -560,7 +561,7 @@
                 {
                     $('#org_name').next('div.red').remove();
                     $('#org_name').after('<div class="red" style="color:red">Admin Name is Required</div>');
-                    //return true;
+                    return true;
                 }
                 else
                 {
@@ -580,6 +581,7 @@
                 {
                     $('#org_mobile').next('div.red').remove();
                     $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
+                    return false;
                 }
                 else
                 {
@@ -588,7 +590,7 @@
                         console.log("ERRPR");
                         $('#org_mobile').next('div.red').remove();
                         $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                        //return "false";
+                        return "false";
                     } else {
                         console.log("NOT WORL");
                         $(this).next('div.red').remove();
@@ -602,7 +604,7 @@
                  console.log("ERRPR");
                  $('#org_mobile').next('div.red').remove();
                  $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                 //return "false";
+                 return "false";
              } else {
                  console.log("NOT WORL");
                  $(this).next('div.red').remove();
@@ -679,6 +681,7 @@
         if($('#org_select_country').val() === "Select Country"){
             $('#org_select_country').next('div.red').remove();
             $('#org_select_country').after('<div class="red" style="color:red">Country is Required</div>');
+
         }
         else
         {
@@ -705,7 +708,7 @@
         }
 
     });
-    
+
     function registerOrganisation() {
         console.log("organisation_validate");
         var formvalidate = organisation_validate();
