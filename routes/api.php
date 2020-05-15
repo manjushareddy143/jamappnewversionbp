@@ -35,6 +35,7 @@ Route::get('v1/booking/{id}', 'BookingController@getorder');
 Route::get('v1/getuser/{id}', 'UserController@getuser');
 Route::post('v1/add_customer', 'UserController@add_customer');
 Route::post('v1/add_organisation', 'UserController@add_organisation');
+Route::post('v1/add_vendors', 'UserController@add_vendors');
 
 Route::post('v1/experience', 'ExperienceController@add_experience');
 

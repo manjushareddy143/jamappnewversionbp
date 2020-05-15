@@ -61,9 +61,9 @@
                               <div class="col-md-6 float-l">
                                  <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
                                     <label>Gender <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
-                                    <input type="radio" name="gender" value="male"> Male
-                                    <input type="radio" name="gender" value="female"> Female
-                                    <input type="radio" name="gender" value="other"> Other
+                                    <input type="radio" name="gender" id="gender" value="male"> Male
+                                    <input type="radio" name="gender" id="gender" value="female"> Female
+                                    <input type="radio" name="gender" id="gender" value="other"> Other
                                     @if ($errors->has('gender'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('gender') }}</strong>
@@ -78,10 +78,10 @@
                                     <label for="language">Languages known <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <div class="checkbox">
                                        <label>
-                                       <input type="checkbox" name="arabic" value="arabic"> Arabic
+                                       <input type="checkbox" name="arabic" id="languages" value="arabic"> Arabic
                                        </label>
                                        <label>
-                                       <input type="checkbox" name="english" value="english"> English
+                                       <input type="checkbox" name="english" id="languages" value="english"> English
                                        </label>
                                        @error('language')
                                        <span class="invalid-feedback" role="alert">
@@ -167,6 +167,7 @@
 </div>
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
 <script>
    window.addEventListener ?
        window.addEventListener("load",onLoad(),false) :
@@ -225,18 +226,17 @@
    form.append('last_name', document.getElementById("last_name").value);
    form.append('email', document.getElementById("email").value);
    form.append('password', document.getElementById("password").value);
-   form.append('mobile', document.getElementById("mobile").value);
+   form.append('contact', document.getElementById("mobile").value);
    form.append('gender', document.getElementById("gender").value);
    form.append('language', document.getElementById("languages").value);
-   var image = $('#image')[0].files[0];
-   form.append('profile_photo',image);
    form.append('service_provider', document.getElementById("service_provider").value);
    form.append('category', document.getElementById("category").value);
-   
+   var image = $('#image')[0].files[0];
+   form.append('profile_photo',image);
    
    
    $.ajax({
-     url: '/api/v1/add_customer',
+     url: '/api/v1/add_vendors',
      type: 'POST',
      data: form,
      contentType: false,
@@ -338,7 +338,18 @@
    
      var image = $('#image')[0].files[0];
      if (!image) {
-         return "Missing Users Image";
+         $("#image").focus();
+           $("#image").focus();
+           $("#image").blur(function () {
+               var name = $('#image').val();
+               if (name.length == 0) {
+                   $('#image').next('div.red').remove();
+                   $('#image').after('<div class="red" style="color:red">Image is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
      }
    
    
@@ -360,20 +371,21 @@
    });
    }
    
+
    
    // Gender Radiobutton
    
-   var checkRadio = document.querySelector(
-   'input[name="gender"]:checked');
+   // var checkRadio = document.querySelector(
+   // 'input[name="gender"]:checked');
    
-   if (checkRadio != null) {
-   document.getElementById("gender").innerHTML
-     = checkRadio.value
-     + " radio button checked";
-   } else {
-   document.getElementById("gender").innerHTML
-     = "No one selected";
-   }
+   // if (checkRadio != null) {
+   // document.getElementById("gender").innerHTML
+   //   = checkRadio.value
+   //   + " radio button checked";
+   // } else {
+   // document.getElementById("gender").innerHTML
+   //   = "No one selected";
+   // }
    
    }
    
