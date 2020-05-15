@@ -206,45 +206,6 @@
                                        name="profile_photo" placeholder="Photo" required="" capture>
                             </div>
                         </div>
-
-                        {{-- <div class="col-md-6 float-l" id="doctypelistdiv">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Select Document</label>
-                                <select class="form-control" id="doctypelist">
-                                    <option>Passport</option>
-                                    <option>Resident</option>
-                                    <option>Permit/Govt ID</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 float-r">
-                            <div class="form-group">
-                                <label>Document</label>
-                                <input id="docupload" type="file" name="docupload" class="form-control ">
-                            </div>
-                        </div> --}}
-
-
-
-                        {{-- <div class="row-cols-md-6" id="servicediv">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Select Service</label>
-                                <select class="form-control" id="servicelist">
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <div class="col" id="categorydiv">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Select Category</label>
-                                <select class="form-control" id="categorylist" multiple="multiple">
-                                </select>
-                            </div>
-                        </div> --}}
-
-
                         {{--                        ADDRESSS                        --}}
 
                         <a class="nav-link collapsed" href="#" data-toggle="collapse"
@@ -328,7 +289,15 @@
                                            aria-describedby="emailHelp"
                                            placeholder="Enter Your Email Address" required>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Select Number of Employee</label>
+                                    <select class="form-control" id="numofemp">
+                                        <option selected>Select</option>
+                                        <option>1-100</option>
+                                        <option>101-500</option>
+                                        <option>501-1000</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
@@ -337,7 +306,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 Close
                             </button>
-                            <button type="button" onclick="saveProfile()" class="btn btn-primary">
+                            <button type="button" onclick="Organisationprofile();saveProfile()" class="btn btn-primary">
                                 Save
                             </button>
                         </div>
@@ -404,37 +373,6 @@
             }
 
         }
-
-        // function onLoad() {
-        //     console.log("asdasdas");
-        //
-        //
-        //     var retrievedObject = localStorage.getItem('userObject');
-        //     console.log(retrievedObject)
-        //     var obj = JSON.parse(retrievedObject);
-        //
-        //     if(obj.address === null) {
-        //         getServices();
-        //
-        //         if(obj.roles[0].slug == "organisation-admin") {
-        //             // $('#exampleModal').modal({
-        //             //     backdrop: 'static',
-        //             //     keyboard: false
-        //             // })
-        //         } else {
-        //             // VENDRO
-        //             $('#exampleModal').modal({
-        //                 backdrop: 'static',
-        //                 keyboard: false
-        //             })
-        //         }
-        //
-        //
-        //     }
-        //
-        // }
-
-
         function previewProfileImage(uploader) {
             if (uploader.files && uploader.files[0]) {
                 var imageFile = uploader.files[0];
@@ -560,25 +498,235 @@
             return true;
         }
 
-        function validateForm() {
-            var org_profilePhoto = $('#org_imageUpload')[0].files[0];
-            if (!org_profilePhoto) {
-                $("#org_imageUpload").focus();
-                $("#org_imageUpload").focus();
-                $("#org_imageUpload").blur(function () {
-                    var name = $('#org_imageUpload').val();
-                    if (name.length == 0) {
-                        $('#org_imageUpload').next('div.red').remove();
-                        $('#org_imageUpload').after('<div class="red" style="color:red">Company Image is Required</div>');
-                    } else {
-                        $(this).next('div.red').remove();
-                        return true;
-                    }
-                });
-                //return false;
-            }
+        function org_validateForm(){
+            console.log("organisation_validate");
+        //var org_profilePhoto = $('#org_imageUpload')[0].files[0];
+        if (document.getElementById("org_imageUpload").value == "") {
+            $("#org_imageUpload").focus();
+            $("#org_imageUpload").focus();
+            $("#org_imageUpload").blur(function ()
+            {
+                var name = $('#org_imageUpload').val();
+                if (name.length == 0)
+                {
+                    $('#org_imageUpload').next('div.red').remove();
+                    $('#org_imageUpload').after('<div class="red" style="color:red">Company Image is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
         }
+        if (document.getElementById("org_address_name").value == "") {
+            $("#org_address_name").focus();
+            $("#org_address_name").focus();
+            $("#org_address_name").blur(function ()
+            {
+                var name = $('#org_address_name').val();
+                if (name.length == 0)
+                {
+                    $('#org_address_name').next('div.red').remove();
+                    $('#org_address_name').after('<div class="red" style="color:red">Address Name is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
+        }
+        if (document.getElementById("org_address_line1").value == "") {
+            $("#org_address_line1").focus();
+            $("#org_address_line1").focus();
+            $("#org_address_line1").blur(function ()
+            {
+                var name = $('#org_address_line1').val();
+                if (name.length == 0)
+                {
+                    $('#org_address_line1').next('div.red').remove();
+                    $('#org_address_line1').after('<div class="red" style="color:red">Address line1 is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
+        }
+        if (document.getElementById("org_address_line2").value == "") {
+            $("#org_address_line2").focus();
+            $("#org_address_line2").focus();
+            $("#org_address_line2").blur(function ()
+            {
+                var name = $('#org_address_line2').val();
+                if (name.length == 0)
+                {
+                    $('#org_address_line2').next('div.red').remove();
+                    $('#org_address_line2').after('<div class="red" style="color:red">Address line2 is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
+        }
+        if (document.getElementById("org_landmark").value == "") {
+            $("#org_landmark").focus();
+            $("#org_landmark").focus();
+            $("#org_landmark").blur(function ()
+            {
+                var name = $('#org_landmark').val();
+                if (name.length == 0)
+                {
+                    $('#org_landmark').next('div.red').remove();
+                    $('#org_landmark').after('<div class="red" style="color:red">Address line2 is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
+        }
+        if (document.getElementById("org_district").value == "") {
+            $("#org_district").focus();
+            $("#org_district").focus();
+            $("#org_district").blur(function ()
+            {
+                var name = $('#org_district').val();
+                if (name.length == 0)
+                {
+                    $('#org_district').next('div.red').remove();
+                    $('#org_district').after('<div class="red" style="color:red">District is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
+        }
+        if (document.getElementById("org_city").value == "") {
+            $("#org_city").focus();
+            $("#org_city").focus();
+            $("#org_city").blur(function ()
+            {
+                var name = $('#org_city').val();
+                if (name.length == 0)
+                {
+                    $('#org_city').next('div.red').remove();
+                    $('#org_city').after('<div class="red" style="color:red">City is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
+        }
+        if (document.getElementById("org_postal_code").value == "") {
+            $("#org_postal_code").focus();
+            $("#org_postal_code").focus();
+            $("#org_postal_code").blur(function ()
+            {
+                var name = $('#org_postal_code').val();
+                if (name.length == 0)
+                {
+                    $('#org_postal_code').next('div.red').remove();
+                    $('#org_postal_code').after('<div class="red" style="color:red">Postal Code is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
+        }
+        if (document.getElementById("email").value == "") {
+            $("#email").focus();
+            $("#email").focus();
+            $("#email").blur(function ()
+            {
+                var name = $('#email').val();
+                if (name.length == 0)
+                {
+                    $('#email').next('div.red').remove();
+                    $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
+        }
+        if (document.getElementById("numofemp").value == "") {
+            $("#numofemp").focus();
+            $("#numofemp").focus();
+            $("#numofemp").blur(function ()
+            {
+                var name = $('#numofemp').val();
+                if (name.length == 0)
+                {
+                    $('#numofemp').next('div.red').remove();
+                    $('#numofemp').after('<div class="red" style="color:red">Choosing number of epmloyee is Required</div>');
+                }
+                else
+                {
+                    $(this).next('div.red').remove();
+                    return true;
+                }
+            });
+            //return false;
+        }
+    }
 
+    function Organisationprofile() {
+        console.log("org_validateForm");
+        var profilevalidate = org_validateForm();
+        console.log("org_validateForm ::"+ profilevalidate);
+        if(profilevalidate == null){
+            console.log("CREATE SERVER CALL");
+            // $.ajax({
+            //     type: "POST",
+            //     url: '/',
+            //     data: {
+            //         company: document.getElementById("org_company_name").value,
+            //         first_name: document.getElementById("org_name").value,
+            //         contact: document.getElementById("org_mobile").value,
+            //         password: document.getElementById("org_password").value,
+            //         email: document.getElementById("org_email").value,
+            //         resident_country: document.getElementsByTagName("option")[x].value,
+            //         type_id : 2,
+            //         term_id : 3
+            //     }
+            // }).done(function( response ) {
+            //     $("#org_Modal").modal("hide");
+            //     console.log(response);
+            //     // Put the object into storage
+            //     localStorage.setItem('userObject', JSON.stringify(response));
+            //     window.location = '/home';
+            // });
+        }
+        else{
+            $("#alerterror").text(profilevalidate);
+            $("#alerterror").show();
+            setTimeout(function(){
+                $("#alerterror").hide()
+            },1000);
+        }
 
         function saveProfile() {
             apiCall();
@@ -655,7 +803,7 @@
                 }
             });
         }
-
+    }
     </script>
     </body>
 

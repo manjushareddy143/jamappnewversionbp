@@ -622,6 +622,100 @@ class UserController extends Controller
             $response['message'] = "There is some error";
         }
     }
+    //Organization profile function
+    public function org_profile(Request $request)
+    {
+        try {
+            $response = array();
+            $validator = Validator::make($request->all(),
+                [
+                    'id'  => 'required|exists:users,id',
+                    'profile_photo' => 'required|image',  //|max:2048
+                ]);
+            if ($validator->fails())
+            {
+                return response()->json(['error'=>$validator->errors()], 401);
+            }
+            // $input = $request->all();
+            // $id = $request->input('id');
+            // $user = User::find($id);
+            // $type_id = $user['type_id'];
+            // $host = url('/');
+            // if($type_id != 2) {
+            //     // ID Proof Upload
+            //     $validator_provider = Validator::make($request->all(),
+            //         [
+            //             'id'  => 'required|exists:users,id',
+            //             'profile_photo' => 'required|image',  //|max:2048
+            //             'identity_proof' => 'required|image',
+            //             'services' => 'required'
+            //         ]);
+            //     if ($validator_provider->fails())
+            //     {
+            //         return response()->json(['error'=>$validator_provider->errors()], 401);
+            //     }
+            //    $id_proof =  $this->add_document($request, $input, $id);
+            //    if($id_proof != null) {
+            //        $user['identity_proofs'] = $id_proof;
+
+            //        // Service mapping
+
+            //        $services = $input['services'];
+            //        $services = json_decode($services, true);
+            //        foreach ($services as $data) {
+            //            $data['user_id'] = $id;
+            //            ProviderServiceMapping::create($data);
+            //        }
+
+            //        $user['services'] = $this->get_user_services($id);
+
+            //    } else {
+            //        $response['message'] = "Id proof not inserted";
+            //        return response($response, 406)
+            //            ->header('content-type', 'application/json');
+            //    }
+            // }
+
+            // Org_Profile Image insert
+            $profileImg = $request->file('profile_photo');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
+            $imagedata = [
+                'image' => $host . "/images/profiles/" . $profile_name,
+            ];
+
+            if($this->update_profile_photo($imagedata, $id)) {
+
+                $user["image"] = $host . "/images/profiles/" . $profile_name;
+            } else {
+                $response['message'] = "Profile image not update";
+                return response($response, 406)
+                    ->header('content-type', 'application/json');
+            }
+
+
+            // ADDRESS
+            if(array_key_exists('address', $input)) {
+                $address = $input['address'];
+//                $address += [
+//                    "user_id" => $id
+//                ];
+                $address = json_decode($address, true);
+
+                $adddressdata = Address::create($address);
+                $user['address'] = $adddressdata;
+            }
+
+
+
+            return response($user, 200)
+                ->header('content-type', 'application/json');
+        }
+        catch (\Exception $e) {
+            $response['code'] = 400;
+            $response['message'] = "There is some error";
+        }
+    }
 
     public function get_user_services($id) {
         return  ProviderServiceMapping::where('user_id', '=', $id)
