@@ -515,7 +515,15 @@
 
         function org_validateForm(){
             console.log("organisation_validate");
-        //var org_profilePhoto = $('#org_imageUpload')[0].files[0];
+        let optionsLength = document.getElementById("numofemp").length;
+
+        if ($("#numofemp").val() === "Select Number of Employee") {
+            $('#numofemp').next('div.red').remove();
+            $('#numofemp').after('<div class="red" style="color:red">Choose number of employee is Required</div>');
+            //return false;
+        } else {
+            $(this).next('div.red').remove();
+        }
         if (document.getElementById("org_imageUpload").value == "") {
             $("#org_imageUpload").focus();
             $("#org_imageUpload").focus();
@@ -688,25 +696,7 @@
             });
             //return false;
         }
-        if (document.getElementById("numofemp").value == "") {
-            $("#numofemp").focus();
-            $("#numofemp").focus();
-            $("#numofemp").blur(function ()
-            {
-                var name = $('#numofemp').val();
-                if (name.length == 0)
-                {
-                    $('#numofemp').next('div.red').remove();
-                    $('#numofemp').after('<div class="red" style="color:red">Choosing number of epmloyee is Required</div>');
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                    return true;
-                }
-            });
-            //return false;
-        }
+        
     }
 
     function Organisationprofile() {
@@ -799,6 +789,60 @@
                 success: function (response) {
                     console.log(response);
                     $('#exampleModal').modal('hide')
+                    localStorage.setItem('userObject', JSON.stringify(response));
+                    // $('#mytable').data.reload();
+                    window.top.location = window.top.location;
+                    // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                    // $('#table align-items-center table-flush').dataTable().ajax.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        // function Organisationprofile() {
+        //     org_apiCall();
+        //     if (org_validateForm()) {
+        //         console.log("VALIDATE FORM");
+        //         org_apiCall();
+        //     } else {
+        //         console.log("INVALIDATE FORM");
+        //     }
+
+        // }
+
+        function org_apiCall() {
+            var form = new FormData();
+            var files = $('#imageUpload')[0].files[0];
+            form.append('profile_photo', files);
+            //var doc_files = $('#docupload')[0].files[0];
+            //form.append('identity_proof', doc_files);
+            var retrievedObject = localStorage.getItem('userObject');
+            var obj = JSON.parse(retrievedObject);
+            console.log("IDDD==" + obj.id);
+            $addressdata = {
+                name: document.getElementById("org_address_name").value,
+                address_line1: document.getElementById("org_address_line1").value,
+                address_line2: document.getElementById("org_address_line2").value,
+                landmark: document.getElementById("org_landmark").value,
+                district: document.getElementById("org_district").value,
+                city: document.getElementsByTagName("org_city").value,
+                postal_code: document.getElementsByTagName("org_postal_code").value,
+                user_id: obj.id,
+                location: "",
+            };
+            console.log($addressdata)
+            form.append('address', JSON.stringify($addressdata));
+
+            $.ajax({
+                url: '/api/v1/org_profile',
+                type: 'POST',
+                data: form,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log(response);
+                    $('#org_Modal').modal('hide')
                     localStorage.setItem('userObject', JSON.stringify(response));
                     // $('#mytable').data.reload();
                     window.top.location = window.top.location;

@@ -648,7 +648,7 @@
                  $('#org_email').after('<div class="red" style="color:red">Email is Invalid</div>');
                  //return "false";
              } else {
-                 console.log("NOT WORL");
+                 console.log("NOT WORLD");
                  $(this).next('div.red').remove();
                  //return true;
              }
