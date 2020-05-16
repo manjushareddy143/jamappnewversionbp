@@ -513,170 +513,173 @@
             return true;
         }
 
-        function org_validateForm(){
+        function org_validateForm()
+        {
             console.log("organisation_validate");
-        let optionsLength = document.getElementById("numofemp").length;
+            let optionsLength = document.getElementById("numofemp").length;
 
-        if ($("#numofemp").val() === "Select Number of Employee") {
-            $('#numofemp').next('div.red').remove();
-            $('#numofemp').after('<div class="red" style="color:red">Choose number of employee is Required</div>');
-            return false;
-        } else {
-            $(this).next('div.red').remove();
+            if ($("#numofemp").val() === "Select Number of Employee") {
+                $('#numofemp').next('div.red').remove();
+                $('#numofemp').after('<div class="red" style="color:red">Choose number of employee is Required</div>');
+                return false;
+            } else {
+                $(this).next('div.red').remove();
+            }
+            if (document.getElementById("org_imageUpload").value == "") {
+                $("#org_imageUpload").focus();
+                $("#org_imageUpload").focus();
+                $("#org_imageUpload").blur(function ()
+                {
+                    var name = $('#org_imageUpload').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_imageUpload').next('div.red').remove();
+                        $('#org_imageUpload').after('<div class="red" style="color:red">Company Image is Required</div>');
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+                
+            }
+            if (document.getElementById("org_address_name").value == "") {
+                $("#org_address_name").focus();
+                $("#org_address_name").focus();
+                $("#org_address_name").blur(function ()
+                {
+                    var name = $('#org_address_name').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_address_name').next('div.red').remove();
+                        $('#org_address_name').after('<div class="red" style="color:red">Address Name is Required</div>');
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+            }
+            if (document.getElementById("org_address_line1").value == "") {
+                $("#org_address_line1").focus();
+                $("#org_address_line1").focus();
+                $("#org_address_line1").blur(function ()
+                {
+                    var name = $('#org_address_line1').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_address_line1').next('div.red').remove();
+                        $('#org_address_line1').after('<div class="red" style="color:red">Address line1 is Required</div>');
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+            }
+            if (document.getElementById("org_address_line2").value == "") {
+                $("#org_address_line2").focus();
+                $("#org_address_line2").focus();
+                $("#org_address_line2").blur(function ()
+                {
+                    var name = $('#org_address_line2').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_address_line2').next('div.red').remove();
+                        $('#org_address_line2').after('<div class="red" style="color:red">Address line2 is Required</div>');
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+            }
+            if (document.getElementById("org_landmark").value == "") {
+                $("#org_landmark").focus();
+                $("#org_landmark").focus();
+                $("#org_landmark").blur(function ()
+                {
+                    var name = $('#org_landmark').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_landmark').next('div.red').remove();
+                        $('#org_landmark').after('<div class="red" style="color:red">Address line2 is Required</div>');
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+                
+            }
+            if (document.getElementById("org_district").value == "") {
+                $("#org_district").focus();
+                $("#org_district").focus();
+                $("#org_district").blur(function ()
+                {
+                    var name = $('#org_district').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_district').next('div.red').remove();
+                        $('#org_district').after('<div class="red" style="color:red">District is Required</div>');
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+                
+            }
+            if (document.getElementById("org_city").value == "") {
+                $("#org_city").focus();
+                $("#org_city").focus();
+                $("#org_city").blur(function ()
+                {
+                    var name = $('#org_city').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_city').next('div.red').remove();
+                        $('#org_city').after('<div class="red" style="color:red">City is Required</div>');
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+                
+            }
+            if (document.getElementById("org_postal_code").value == "") {
+                $("#org_postal_code").focus();
+                $("#org_postal_code").focus();
+                $("#org_postal_code").blur(function ()
+                {
+                    var name = $('#org_postal_code').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_postal_code').next('div.red').remove();
+                        $('#org_postal_code').after('<div class="red" style="color:red">Postal Code is Required</div>');
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+            }
+            return null;
         }
-        if (document.getElementById("org_imageUpload").value == "") {
-            $("#org_imageUpload").focus();
-            $("#org_imageUpload").focus();
-            $("#org_imageUpload").blur(function ()
-            {
-                var name = $('#org_imageUpload').val();
-                if (name.length == 0)
-                {
-                    $('#org_imageUpload').next('div.red').remove();
-                    $('#org_imageUpload').after('<div class="red" style="color:red">Company Image is Required</div>');
-                    return false;
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                }
-            });
-            //return false;
-        }
-        if (document.getElementById("org_address_name").value == "") {
-            $("#org_address_name").focus();
-            $("#org_address_name").focus();
-            $("#org_address_name").blur(function ()
-            {
-                var name = $('#org_address_name').val();
-                if (name.length == 0)
-                {
-                    $('#org_address_name').next('div.red').remove();
-                    $('#org_address_name').after('<div class="red" style="color:red">Address Name is Required</div>');
-                    return false;
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                }
-            });
-        }
-        if (document.getElementById("org_address_line1").value == "") {
-            $("#org_address_line1").focus();
-            $("#org_address_line1").focus();
-            $("#org_address_line1").blur(function ()
-            {
-                var name = $('#org_address_line1').val();
-                if (name.length == 0)
-                {
-                    $('#org_address_line1').next('div.red').remove();
-                    $('#org_address_line1').after('<div class="red" style="color:red">Address line1 is Required</div>');
-                    return false;
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                }
-            });
-            //return false;
-        }
-        if (document.getElementById("org_address_line2").value == "") {
-            $("#org_address_line2").focus();
-            $("#org_address_line2").focus();
-            $("#org_address_line2").blur(function ()
-            {
-                var name = $('#org_address_line2').val();
-                if (name.length == 0)
-                {
-                    $('#org_address_line2').next('div.red').remove();
-                    $('#org_address_line2').after('<div class="red" style="color:red">Address line2 is Required</div>');
-                    return false;
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                }
-            });
-            //return false;
-        }
-        if (document.getElementById("org_landmark").value == "") {
-            $("#org_landmark").focus();
-            $("#org_landmark").focus();
-            $("#org_landmark").blur(function ()
-            {
-                var name = $('#org_landmark').val();
-                if (name.length == 0)
-                {
-                    $('#org_landmark').next('div.red').remove();
-                    $('#org_landmark').after('<div class="red" style="color:red">Address line2 is Required</div>');
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                    return true;
-                }
-            });
-            //return false;
-        }
-        if (document.getElementById("org_district").value == "") {
-            $("#org_district").focus();
-            $("#org_district").focus();
-            $("#org_district").blur(function ()
-            {
-                var name = $('#org_district').val();
-                if (name.length == 0)
-                {
-                    $('#org_district').next('div.red').remove();
-                    $('#org_district').after('<div class="red" style="color:red">District is Required</div>');
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                    return true;
-                }
-            });
-            //return false;
-        }
-        if (document.getElementById("org_city").value == "") {
-            $("#org_city").focus();
-            $("#org_city").focus();
-            $("#org_city").blur(function ()
-            {
-                var name = $('#org_city').val();
-                if (name.length == 0)
-                {
-                    $('#org_city').next('div.red').remove();
-                    $('#org_city').after('<div class="red" style="color:red">City is Required</div>');
-                    return false;
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                }
-            });
-            //return false;
-        }
-        if (document.getElementById("org_postal_code").value == "") {
-            $("#org_postal_code").focus();
-            $("#org_postal_code").focus();
-            $("#org_postal_code").blur(function ()
-            {
-                var name = $('#org_postal_code').val();
-                if (name.length == 0)
-                {
-                    $('#org_postal_code').next('div.red').remove();
-                    $('#org_postal_code').after('<div class="red" style="color:red">Postal Code is Required</div>');
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
-                    return true;
-                }
-            });
-            //return false;
-        }
-
-    }
 
     function Organisationprofile() {
         console.log("org_validateForm");

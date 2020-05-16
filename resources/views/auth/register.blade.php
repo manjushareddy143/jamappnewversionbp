@@ -321,6 +321,7 @@
             //return false;
         } else {
             $(this).next('div.red').remove();
+            return true;
         }
     });
 

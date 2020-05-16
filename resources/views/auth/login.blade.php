@@ -129,66 +129,80 @@
                     localStorage.removeItem('userObject')
                 }
 
-                var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-
-                function login_validate() {
-                    if (document.getElementById("email").value == "") {
+                function login_validate()
+                {
+                    if (document.getElementById("email").value == "") 
+                    {
                         // EXPAND ADDRESS FORM
                         $("#email").focus();
                         $("#email").focus();
-                        $("#email").blur(function () {
+                        $("#email").blur(function () 
+                        {
                             var name = $('#email').val();
-                            if (name.length == 0) {
+                            if (name.length == 0) 
+                            {
                                 $('#email').next('div.red').remove();
                                 $('#email').after('<div class="red" style="color:red">Email is Required</div>');
-                            } else {
-                                if (!email_regex.test(name)) {
+                            } 
+                            else 
+                            {
+                                if(!email_regex.test(name))
+                                {
                                     $('#email').next('div.red').remove();
-                                    $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                                    return false;
-                                } else {
+                                    $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');                        
+                                } 
+                                else 
+                                {
                                     $(this).next('div.red').remove();
+                                    return true;
                                 }
                             }
                         });
-                    }
-                    else {
-                        if (!email_regex.test($('#email').val())) {
+                    } 
+                    else 
+                    {
+                        if(!email_regex.test($('#email').val()))
+                        {
                             $('#email').next('div.red').remove();
                             $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                            return false;
-                        } else {
+                        } 
+                        else 
+                        {
                             $(this).next('div.red').remove();
-                            // return true;
+                            return true;
                         }
                     }
-                    if (document.getElementById("password").value == "") {
+                    if(document.getElementById("password").value == "") 
+                    {
                         $("#password").focus();
                         $("#password").focus();
-                        $("#password").blur(function () {
+                        $("#password").blur(function ()
+                        {
                             var name = $('#password').val();
-                            if (name.length == 0) {
+                            if (name.length == 0)
+                            {
                                 $('#password').next('div.red').remove();
                                 $('#password').after('<div class="red" style="color:red">Password is Required</div>');
-                                return false;
-                            } else {
-                                $(this).next('div.red').remove();
                             }
-                        });
-                    }
-
+                        else
+                        {       
+                            $(this).next('div.red').remove();
+                            return true;
+                        }
+                    });
                     return null;
                 }
-                function doLogin()
+            
+                function doLogin() 
                 {
                     console.log("login_validate");
                     var loginvalidate = login_validate();
                     console.log("login_validate ::" + loginvalidate);
-                    if (loginvalidate == null)
+                    if (loginvalidate == null) 
                     {
                         console.log("CREATE SERVER CALL");
                         $('body').addClass('busy');
-                        var data =
+                        var data = 
                         {
                             email: $("#email").val(),
                             password: $("#password").val(),
@@ -198,18 +212,18 @@
                             type: 'POST',
                             url: '/login',
                             data:data,
-                            success: function(response)
+                            success: function(response) 
                             {
                                 var data = response['status'];
                                 // var test = response->status;
                                 // console.log(test);
-                                if(data === true)
+                                if(data === true) 
                                 {
                                     console.log("test" + JSON.stringify(response));
                                     localStorage.setItem('userObject', JSON.stringify(response));
                                     window.location = '/home';
-                                }
-                                else
+                                } 
+                                else 
                                 {
                                     alert("Invalid email or password");
                                 }
@@ -217,6 +231,7 @@
                         });
                     }
                 }
+                
             </script>
         </body>
     </html>
