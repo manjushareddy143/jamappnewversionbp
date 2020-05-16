@@ -520,7 +520,7 @@
         if ($("#numofemp").val() === "Select Number of Employee") {
             $('#numofemp').next('div.red').remove();
             $('#numofemp').after('<div class="red" style="color:red">Choose number of employee is Required</div>');
-            //return false;
+            return false;
         } else {
             $(this).next('div.red').remove();
         }
@@ -534,11 +534,11 @@
                 {
                     $('#org_imageUpload').next('div.red').remove();
                     $('#org_imageUpload').after('<div class="red" style="color:red">Company Image is Required</div>');
+                    return false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
                 }
             });
             //return false;
@@ -553,14 +553,13 @@
                 {
                     $('#org_address_name').next('div.red').remove();
                     $('#org_address_name').after('<div class="red" style="color:red">Address Name is Required</div>');
+                    return false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
                 }
             });
-            //return false;
         }
         if (document.getElementById("org_address_line1").value == "") {
             $("#org_address_line1").focus();
@@ -572,11 +571,11 @@
                 {
                     $('#org_address_line1').next('div.red').remove();
                     $('#org_address_line1').after('<div class="red" style="color:red">Address line1 is Required</div>');
+                    return false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
                 }
             });
             //return false;
@@ -591,11 +590,11 @@
                 {
                     $('#org_address_line2').next('div.red').remove();
                     $('#org_address_line2').after('<div class="red" style="color:red">Address line2 is Required</div>');
+                    return false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
                 }
             });
             //return false;
@@ -648,11 +647,11 @@
                 {
                     $('#org_city').next('div.red').remove();
                     $('#org_city').after('<div class="red" style="color:red">City is Required</div>');
+                    return false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    return true;
                 }
             });
             //return false;
@@ -676,32 +675,12 @@
             });
             //return false;
         }
-        if (document.getElementById("org_email").value == "") {
-            $("#org_email").focus();
-            $("#org_email").focus();
-            $("#org_email").blur(function ()
-            {
-                var name = $('#org_email').val();
-                if (name.length == 0)
-                {
-                    $('#org_email').next('div.red').remove();
-                    $('#org_email').after('<div class="red" style="color:red">Email is Required</div>');
-                    return true;
-                }
-                else
-                {
-                    $(this).next('div.red').remove();
 
-                }
-            });
-            //return false;
-        }
-        
     }
 
     function Organisationprofile() {
         console.log("org_validateForm");
-        var profilevalidate =  null; ///org_validateForm();
+        var profilevalidate = org_validateForm();
         console.log("org_validateForm ::"+ profilevalidate);
         if(profilevalidate == null){
             console.log("CREATE SERVER CALL");
