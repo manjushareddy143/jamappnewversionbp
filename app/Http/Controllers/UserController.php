@@ -593,7 +593,7 @@ class UserController extends Controller
                 'image' => $host . "/images/profiles/" . $profile_name,
             ];
 
-            if($this->update_profile_photo($imagedata, $id)) {
+            if($this->update_user_details($imagedata, $id)) {
 
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {
@@ -623,6 +623,78 @@ class UserController extends Controller
                         }
 
 
+
+            return response($user, 200)
+                ->header('content-type', 'application/json');
+        }
+        catch (\Exception $e) {
+            $response['code'] = 400;
+            $response['message'] = "There is some error";
+        }
+    }
+    //Organization profile function
+    public function org_profile(Request $request)
+    {
+        try {
+//
+            $response = array();
+            $validator = Validator::make($request->all(),
+                [
+                    'id'  => 'required|exists:users,id',
+                    'number_of_employee'  => 'required',
+                    'profile_photo' => 'required|image',  //|max:2048
+                ]);
+            if ($validator->fails())
+            {
+                return response()->json(['error'=>$validator->errors()], 401);
+            }
+
+             $input = $request->all();
+             $id = $request->input('id');
+             $user = User::find($id);
+             $type_id = $user['type_id'];
+
+             $host = url('/');
+
+             if($type_id == 2) {
+
+                 // ID Proof Upload
+                 $company= [
+                     'number_of_employee' => $input['number_of_employee'],
+                 ];
+                 $this->update_organisation_details($company, $user->org_id);
+
+             }
+
+            // Org_Profile Image insert
+            $profileImg = $request->file('profile_photo');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
+            $imagedata = [
+                'image' => $host . "/images/profiles/" . $profile_name,
+            ];
+
+            if($this->update_user_details($imagedata, $id)) {
+
+                $user["image"] = $host . "/images/profiles/" . $profile_name;
+            } else {
+                $response['message'] = "Profile image not update";
+                return response($response, 406)
+                    ->header('content-type', 'application/json');
+            }
+
+
+            // ADDRESS
+            if(array_key_exists('address', $input)) {
+                $address = $input['address'];
+//                $address += [
+//                    "user_id" => $id
+//                ];
+                $address = json_decode($address, true);
+
+                $adddressdata = Address::create($address);
+                $user['address'] = $adddressdata;
+            }
 
             return response($user, 200)
                 ->header('content-type', 'application/json');
@@ -670,7 +742,13 @@ class UserController extends Controller
         return $id_proof;
     }
 
-    public function update_profile_photo($dataArray, $id) {
+    public function update_organisation_details($dataArray, $id) {
+        return DB::table('organisation')
+            ->where('id', $id)
+            ->update($dataArray);
+    }
+
+    public function update_user_details($dataArray, $id) {
         return DB::table('users')
             ->where('id', $id)
             ->update($dataArray);
@@ -759,7 +837,7 @@ class UserController extends Controller
                 ];
             }
 
-            if($this->update_profile_photo($imagedata, $id)) {
+            if($this->update_user_details($imagedata, $id)) {
                 $user = User::find($id);
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {

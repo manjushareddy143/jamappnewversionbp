@@ -129,38 +129,93 @@
                     localStorage.removeItem('userObject')
                 }
 
-                function doLogin() {
-                    $('body').addClass('busy');
-                    var data = {
-                        email: $("#email").val(),
-                        password: $("#password").val(),
-                        _token: $("input[name=_token]").val()
-                    };
-                    $.ajax({
-                        type: 'POST',
-                        url: '/login',
-                        data:data,
-                        success: function(response) {
-                            var data = response['status'];
-
-
-                            // var test = response->status;
-                            // console.log(test);
-                            if(data === true) {
-                                console.log("test" + JSON.stringify(response));
-                                localStorage.setItem('userObject', JSON.stringify(response));
-                                window.location = '/home';
+                function login_validate() {
+                    if (document.getElementById("email").value == "") {
+                        // EXPAND ADDRESS FORM
+                        $("#email").focus();
+                        $("#email").focus();
+                        $("#email").blur(function () {
+                            var name = $('#email').val();
+                            if (name.length == 0) {
+                                $('#email').next('div.red').remove();
+                                $('#email').after('<div class="red" style="color:red">Email is Required</div>');
                             } else {
-                                alert("Invalid email or password");
+                                if (!email_regex.test(name)) {
+                                    $('#email').next('div.red').remove();
+                                    $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                                } else {
+                                    $(this).next('div.red').remove();
+                                    return true;
+                                }
                             }
-                          //
+                        });
+                    } else {
+                        if (!email_regex.test($('#email').val())) {
+                            $('#email').next('div.red').remove();
+                            $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                        } else {
+                            $(this).next('div.red').remove();
+                            return true;
                         }
-                    });
+                    }
+                    if (document.getElementById("password").value == "") {
+                        $("#password").focus();
+                        $("#password").focus();
+                        $("#password").blur(function () {
+                            var name = $('#password').val();
+                            if (name.length == 0) {
+                                $('#password').next('div.red').remove();
+                                $('#password').after('<div class="red" style="color:red">Password is Required</div>');
+                            } else {
+                                $(this).next('div.red').remove();
+                                return true;
+                            }
+                        });
+                        return null;
+                    }
                 }
+                function doLogin()
+                {
+                    console.log("login_validate");
+                    var loginvalidate = login_validate();
+                    console.log("login_validate ::" + loginvalidate);
+                    if (loginvalidate == null)
+                    {
+                        console.log("CREATE SERVER CALL");
+                        $('body').addClass('busy');
+                        var data =
+                        {
+                            email: $("#email").val(),
+                            password: $("#password").val(),
+                            _token: $("input[name=_token]").val()
+                        };
+                        $.ajax({
+                            type: 'POST',
+                            url: '/login',
+                            data:data,
+                            success: function(response)
+                            {
+                                var data = response['status'];
+                                // var test = response->status;
+                                // console.log(test);
+                                if(data === true)
+                                {
+                                    console.log("test" + JSON.stringify(response));
+                                    localStorage.setItem('userObject', JSON.stringify(response));
+                                    window.location = '/home';
+                                }
+                                else
+                                {
+                                    alert("Invalid email or password");
+                                }
+                            }
+                        });
+                    }
+                }
+
             </script>
         </body>
     </html>
-</html>
 
 
 

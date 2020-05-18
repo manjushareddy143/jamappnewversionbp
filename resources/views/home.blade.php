@@ -93,7 +93,8 @@
 
                         {{--                        ADDRESSS                        --}}
 
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable"
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                           data-target="#collapseTable"
                            aria-expanded="true"
                            aria-controls="collapseTable">
                             {{--                            <i class="fas fa-fw fa-table"></i>--}}
@@ -221,61 +222,34 @@
                 </div>
 
                 <div class="modal-body">
-                    <form id="addform">
+                    <form id="org_addform">
+
 
                         <div class="panel panel-default">
                             <div class="panel-body text-center">
-                                <image id="companyImage" src="{{ asset('img/boy.png') }}"
+                                <image id="org_profileImage" src="{{ asset('img/boy.png') }}"
                                        style="width: 100px; height: 100px; border-radius: 100%;"/>
                                 <input id="org_imageUpload" type="file"
-                                       name="profile_photo" placeholder="Photo" required="" capture>
-                            </div>
-                        </div>
-
-                        {{-- <div class="col-md-6 float-l" id="doctypelistdiv">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Select Document</label>
-                                <select class="form-control" id="doctypelist">
-                                    <option>Passport</option>
-                                    <option>Resident</option>
-                                    <option>Permit/Govt ID</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 float-r">
-                            <div class="form-group">
-                                <label>Document</label>
-                                <input id="docupload" type="file" name="docupload" class="form-control ">
-                            </div>
-                        </div> --}}
-
-
-
-                        {{-- <div class="row-cols-md-6" id="servicediv">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Select Service</label>
-                                <select class="form-control" id="servicelist">
-                                </select>
+                                       name="org_profile_photo" placeholder="Photo" required="" capture>
                             </div>
                         </div>
 
 
-                        <div class="col" id="categorydiv">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Select Category</label>
-                                <select class="form-control" id="categorylist" multiple="multiple">
-                                </select>
-                            </div>
-                        </div> --}}
-
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Select Number of Employee</label>
+                            <select class="form-control" id="numofemp">
+                                <option selected>Select</option>
+                                <option>1-100</option>
+                                <option>101-500</option>
+                                <option>501-1000</option>
+                            </select>
+                        </div>
 
                         {{--                        ADDRESSS                        --}}
 
                         <a class="nav-link collapsed" href="#" data-toggle="collapse"
                            data-target="#collapseTable" aria-expanded="true"
                            aria-controls="collapseTable">
-                            {{--                            <i class="fas fa-fw fa-table"></i>--}}
                             <i class="fas fa-address-card"></i>
                             <span>Address</span>
                         </a>
@@ -347,13 +321,6 @@
                                                class="form-control" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Email Address <strong>*</strong></label>
-                                    <input type="email" class="form-control" id="org_email"
-                                           aria-describedby="emailHelp"
-                                           placeholder="Enter Your Email Address" required>
-                                </div>
-
                             </div>
                         </div>
 
@@ -362,7 +329,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 Close
                             </button>
-                            <button type="button" onclick="saveProfile()" class="btn btn-primary">
+                            <button type="button" onclick="Organisationprofile()" class="btn btn-primary">
                                 Save
                             </button>
                         </div>
@@ -373,15 +340,11 @@
                 </div>
 
                 <style>
-                    hr.solid {
-                        border-top: 3px solid #bbb;
-                    }
 
-                    #imageUpload {
+                    #org_imageUpload {
                         display: none;
                     }
-
-                    #profileImage {
+                    #org_profileImage {
                         cursor: pointer;
                     }
                 </style>
@@ -429,37 +392,6 @@
             }
 
         }
-
-        // function onLoad() {
-        //     console.log("asdasdas");
-        //
-        //
-        //     var retrievedObject = localStorage.getItem('userObject');
-        //     console.log(retrievedObject)
-        //     var obj = JSON.parse(retrievedObject);
-        //
-        //     if(obj.address === null) {
-        //         getServices();
-        //
-        //         if(obj.roles[0].slug == "organisation-admin") {
-        //             // $('#exampleModal').modal({
-        //             //     backdrop: 'static',
-        //             //     keyboard: false
-        //             // })
-        //         } else {
-        //             // VENDRO
-        //             $('#exampleModal').modal({
-        //                 backdrop: 'static',
-        //                 keyboard: false
-        //             })
-        //         }
-        //
-        //
-        //     }
-        //
-        // }
-
-
         function previewProfileImage(uploader) {
             if (uploader.files && uploader.files[0]) {
                 var imageFile = uploader.files[0];
@@ -471,12 +403,32 @@
             }
         }
 
+
+        function orgPreviewProfileImage(uploader) {
+            if (uploader.files && uploader.files[0]) {
+                var imageFile = uploader.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#org_profileImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(imageFile);
+            }
+        }
+
         $("#imageUpload").change(function () {
             previewProfileImage(this);
         });
 
         $("#profileImage").click(function (e) {
             $("#imageUpload").click();
+        });
+
+        $("#org_imageUpload").change(function () {
+            orgPreviewProfileImage(this);
+        });
+
+        $("#org_profileImage").click(function (e) {
+            $("#org_imageUpload").click();
         });
 
 
@@ -557,6 +509,7 @@
             if ($('#collapseTable').is(':visible')) {
                 console.log("TOTOTO");
             } else {
+                console.log("YPPPPP");
                 $('#collapseTable').modal('show');
             }
 
@@ -585,25 +538,199 @@
             return true;
         }
 
-        function validateForm() {
-            var org_profilePhoto = $('#org_imageUpload')[0].files[0];
-            if (!org_profilePhoto) {
+        function org_validateForm()
+        {
+            console.log("organisation_validate");
+            let optionsLength = document.getElementById("numofemp").length;
+
+            if ($("#numofemp").val() === "Select Number of Employee") {
+                $('#numofemp').next('div.red').remove();
+                $('#numofemp').after('<div class="red" style="color:red">Choose number of employee is Required</div>');
+                return false;
+            } else {
+                $(this).next('div.red').remove();
+            }
+            if (document.getElementById("org_imageUpload").value == "") {
                 $("#org_imageUpload").focus();
                 $("#org_imageUpload").focus();
-                $("#org_imageUpload").blur(function () {
+                $("#org_imageUpload").blur(function ()
+                {
                     var name = $('#org_imageUpload').val();
-                    if (name.length == 0) {
+                    if (name.length == 0)
+                    {
                         $('#org_imageUpload').next('div.red').remove();
                         $('#org_imageUpload').after('<div class="red" style="color:red">Company Image is Required</div>');
-                    } else {
+                        return false;
+                    }
+                    else
+                    {
                         $(this).next('div.red').remove();
                         return true;
                     }
                 });
-                //return false;
+                
             }
+            if (document.getElementById("org_address_name").value == "") {
+                $("#org_address_name").focus();
+                $("#org_address_name").focus();
+                $("#org_address_name").blur(function ()
+                {
+                    var name = $('#org_address_name').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_address_name').next('div.red').remove();
+                        $('#org_address_name').after('<div class="red" style="color:red">Address Name is Required</div>');
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+            }
+            if (document.getElementById("org_address_line1").value == "") {
+                $("#org_address_line1").focus();
+                $("#org_address_line1").focus();
+                $("#org_address_line1").blur(function ()
+                {
+                    var name = $('#org_address_line1').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_address_line1').next('div.red').remove();
+                        $('#org_address_line1').after('<div class="red" style="color:red">Address line1 is Required</div>');
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+            }
+            if (document.getElementById("org_address_line2").value == "") {
+                $("#org_address_line2").focus();
+                $("#org_address_line2").focus();
+                $("#org_address_line2").blur(function ()
+                {
+                    var name = $('#org_address_line2').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_address_line2').next('div.red').remove();
+                        $('#org_address_line2').after('<div class="red" style="color:red">Address line2 is Required</div>');
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+            }
+            if (document.getElementById("org_landmark").value == "") {
+                $("#org_landmark").focus();
+                $("#org_landmark").focus();
+                $("#org_landmark").blur(function ()
+                {
+                    var name = $('#org_landmark').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_landmark').next('div.red').remove();
+                        $('#org_landmark').after('<div class="red" style="color:red">Address line2 is Required</div>');
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+                
+            }
+            if (document.getElementById("org_district").value == "") {
+                $("#org_district").focus();
+                $("#org_district").focus();
+                $("#org_district").blur(function ()
+                {
+                    var name = $('#org_district').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_district').next('div.red').remove();
+                        $('#org_district').after('<div class="red" style="color:red">District is Required</div>');
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+                
+            }
+            if (document.getElementById("org_city").value == "") {
+                $("#org_city").focus();
+                $("#org_city").focus();
+                $("#org_city").blur(function ()
+                {
+                    var name = $('#org_city').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_city').next('div.red').remove();
+                        $('#org_city').after('<div class="red" style="color:red">City is Required</div>');
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+                
+            }
+            if (document.getElementById("org_postal_code").value == "") {
+                $("#org_postal_code").focus();
+                $("#org_postal_code").focus();
+                $("#org_postal_code").blur(function ()
+                {
+                    var name = $('#org_postal_code').val();
+                    if (name.length == 0)
+                    {
+                        $('#org_postal_code').next('div.red').remove();
+                        $('#org_postal_code').after('<div class="red" style="color:red">Postal Code is Required</div>');
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        return true;
+                    }
+                });
+            }
+            return null;
         }
 
+    function Organisationprofile() {
+        console.log("org_validateForm");
+        var profilevalidate = org_validateForm();
+        console.log("org_validateForm ::"+ profilevalidate);
+        if(profilevalidate == null){
+            console.log("CREATE SERVER CALL");
+            $.ajax({
+                type: "POST",
+                url: '/api/v1/org_profile',
+                data: formdata
+            }).done(function( response ) {
+                $("#org_Modal").modal("hide");
+                console.log(response);
+                // Put the object into storage
+                localStorage.setItem('userObject', JSON.stringify(response));
+                window.location = '/home';
+            });
+        }
+        else{
+            $("#alerterror").text(profilevalidate);
+            $("#alerterror").show();
+            setTimeout(function(){
+                $("#alerterror").hide()
+            },1000);
+        }
 
         function saveProfile() {
             apiCall();
@@ -687,7 +814,61 @@
                 }
             });
         }
+        // function Organisationprofile() {
+        //     org_apiCall();
+        //     if (org_validateForm()) {
+        //         console.log("VALIDATE FORM");
+        //         org_apiCall();
+        //     } else {
+        //         console.log("INVALIDATE FORM");
+        //     }
 
+        // }
+
+        function org_apiCall() {
+            var form = new FormData();
+            var files = $('#imageUpload')[0].files[0];
+            form.append('profile_photo', files);
+            //var doc_files = $('#docupload')[0].files[0];
+            //form.append('identity_proof', doc_files);
+            var retrievedObject = localStorage.getItem('userObject');
+            var obj = JSON.parse(retrievedObject);
+            console.log("IDDD==" + obj.id);
+            $addressdata = {
+                name: document.getElementById("org_address_name").value,
+                address_line1: document.getElementById("org_address_line1").value,
+                address_line2: document.getElementById("org_address_line2").value,
+                landmark: document.getElementById("org_landmark").value,
+                district: document.getElementById("org_district").value,
+                city: document.getElementsByTagName("org_city").value,
+                postal_code: document.getElementsByTagName("org_postal_code").value,
+                user_id: obj.id,
+                location: "",
+            };
+            console.log($addressdata)
+            form.append('address', JSON.stringify($addressdata));
+
+            $.ajax({
+                url: '/api/v1/org_profile',
+                type: 'POST',
+                data: form,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log(response);
+                    $('#org_Modal').modal('hide')
+                    localStorage.setItem('userObject', JSON.stringify(response));
+                    // $('#mytable').data.reload();
+                    window.top.location = window.top.location;
+                    // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
+                    // $('#table align-items-center table-flush').dataTable().ajax.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    }
     </script>
     </body>
 
