@@ -146,11 +146,12 @@ class UserController extends Controller
             $dataArray= [
                 'user_id' => $user_id,
                 'gender' => $input['gender'],
-                'languages_known' => $input['language'],
+                'languages_known' => $input['languages'],
                 'start_time' => $input['start_time'],
                 'end_time' => $input['end_time'],
                 'experience' => $input['experience'],
             ];
+
             $details = IndividualServiceProvider::create($dataArray);
             $user["details"] = $details;
         }
@@ -235,9 +236,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        return response()->json($id);
         $users = User::find($id);
+        
         $users->delete();
-        return redirect()->route('user.index')->with('Success','User deleted successfully');
+        return redirect()->route('/user')->with('Success','User deleted successfully');
     }
 
     // User Login API
@@ -611,6 +614,13 @@ class UserController extends Controller
                 $adddressdata = Address::create($address);
                 $user['address'] = $adddressdata;
             }
+
+    $languages =($request->has('languages'))?(is_array($request->get('languages')))?implode(",",$request->get('languages')):"":"";
+                    foreach ($request->input("languages") as $languages){
+                                $languages = new languages;
+                                $languages->name= $languages;
+                                $languages->save();
+                        }
 
 
 

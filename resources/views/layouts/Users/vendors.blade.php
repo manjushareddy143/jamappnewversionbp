@@ -262,6 +262,10 @@
    }
    
    
+
+    var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
+    var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+    
    function users_validate() {
    
    console.log("users_validate");
@@ -298,21 +302,51 @@
    });
    }
    
-   if (document.getElementById("email").value == "") {
-   // EXPAND ADDRESS FORM
-   $("#email").focus();
-   $("#email").focus();
-   $("#email").blur(function () {
-     var name = $('#email').val();
-     if (name.length == 0) {
-         $('#email').next('div.red').remove();
-         $('#email').after('<div class="red" style="color:red">Email is Required</div>');
-     } else {
-         $(this).next('div.red').remove();
-         return true;
-     }
-   });
-   }
+   if(document.getElementById("email").value == "") {
+            $("#email").focus();
+            $("#email").focus();
+            $("#email").blur(function ()
+            {
+                var name = $('#email').val();
+                if (name.length == 0)
+                {
+                        console.log("ERRPR");
+                        $('#email').next('div.red').remove();
+                        $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                        //return "false";
+                }
+                else
+                {
+                    if(!email_regex.test($('#email').val()))
+                    {
+                        console.log("ERROR");
+                        $('#email').next('div.red').remove();
+                        $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                        //return "false";
+                    } else {
+                        console.log("NOT WORL");
+                        $(this).next('div.red').remove();
+                        //return true;
+                    }
+                }
+            });
+         }else {
+             if(!email_regex.test($('#email').val()))
+             {
+                 console.log("ERROR");
+                 $('#email').next('div.red').remove();
+                 $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                 //return "false";
+             } else {
+                 console.log("NOT WORL");
+                 $(this).next('div.red').remove();
+                 //return true;
+             }
+
+             // $('#email').next('div.red').remove();
+             // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+             // return "false";
+         }
    
    //Password
    
@@ -356,20 +390,46 @@
    
    //contact
     if (document.getElementById("mobile").value == "") {
-   // EXPAND ADDRESS FORM
-   $("#mobile").focus();
-   $("#mobile").focus();
-   $("#mobile").blur(function () {
-     var name = $('#mobile').val();
-     if (name.length == 0) {
-         $('#mobile').next('div.red').remove();
-         $('#mobile').after('<div class="red" style="color:red">Contact is Required</div>');
-     } else {
-         $(this).next('div.red').remove();
-         return true;
-     }
-   });
-   }
+            $("#mobile").focus();
+            $("#mobile").focus();
+            $("#mobile").blur(function ()
+            {
+                var name = $('#mobile').val();
+                if (name.length == 0)
+                {
+                    $('#mobile').next('div.red').remove();
+                    $('#mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
+                    return false;
+                }
+                else
+                {
+                    if(!phone_regex.test( $('#mobile').val()))
+                    {
+                        console.log("ERRPR");
+                        $('#mobile').next('div.red').remove();
+                        $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                        return "false";
+                    } else {
+                        console.log("NOT WORL");
+                        $(this).next('div.red').remove();
+                        //return true;
+                    }
+                }
+            });
+         } else {
+             if(!phone_regex.test( $('#mobile').val()))
+             {
+                 console.log("ERRPR");
+                 $('#mobile').next('div.red').remove();
+                 $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                 return "false";
+             } else {
+                 console.log("NOT WORL");
+                 $(this).next('div.red').remove();
+                 //return true;
+             }
+         }
+            
    
 
    

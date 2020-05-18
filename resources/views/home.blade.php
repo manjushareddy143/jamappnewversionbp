@@ -170,6 +170,31 @@
                         </div>
 
 
+                            <!-- <div class="col-md-12 float-l">
+                               <div class="form-group">
+                                <label>Language</label>
+                                  <input type="checkbox" id="languages" name="english" checked>
+                                  <label for="english">English</label>
+                              </div>
+                              <div class="form-group">
+                                  <input type="checkbox" id="languages" name="arabic">
+                                  <label for="arabic">Arabic</label>
+                                </div>
+                            </div> -->
+
+                             <div class="form-group">
+                                    <label>Language :</label>
+                                    <label for="english">English</label>
+                                    <input type="checkbox" name="languages" value="English" />
+
+                                    <label for="arabic">Arabic</label>    
+                                    <input type="checkbox" name="languages" value="arabic" />
+                            </div>
+
+
+
+
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" onclick="saveProfile()" class="btn btn-primary">Save</button>
@@ -599,7 +624,13 @@
             form.append('identity_proof', doc_files);
             var retrievedObject = localStorage.getItem('userObject');
             var obj = JSON.parse(retrievedObject);
+            var languagesarray=[];
             console.log("IDDD==" + obj.id);
+            $("input:checkbox[name=languages]:checked").each(function(){
+                languagesarray.push($(this).val());
+                });
+            
+
             $addressdata = {
                 name: document.getElementById("address_name").value,
                 address_line1: document.getElementById("address_line1").value,
@@ -608,6 +639,7 @@
                 district: document.getElementById("district").value,
                 city: document.getElementsByTagName("city").value,
                 postal_code: document.getElementsByTagName("postal_code").value,
+                languages: languagesarray,
                 user_id: obj.id,
                 location: "",
             };

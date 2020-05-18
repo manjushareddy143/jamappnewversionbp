@@ -52,7 +52,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/show/{$id}', 'UserController@show');
     Route::get('/addUser', 'UserController@addUser');
     Route::get('/edit','UserController@edit');
-    Route::get('/user/destroy/{id}','UserController@destroy');
+    Route::post('/user/destroy/{$id}','UserController@destroy');
+
+
+    Route::get('locale/{locale}',function ($locale){
+        Session::put('locale',$locale);
+        return redirect()->back();
+    });
 
 
     //routes for customer

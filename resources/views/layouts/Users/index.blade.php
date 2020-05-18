@@ -157,8 +157,8 @@
                         '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                        '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="/user/destroye/"'+response[i].id+'
-                    class="btn btn-danger" id="{{'.$user->id .'}}"><i class="fa fa-trash"></i></a>' + '</td></tr>';
+                        '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <button href="/user/destroye/"'+response[i].id+
+                    ' class="btn btn-danger todo-delete-btn" id="{{'.$user->id .'}}"><i class="fa fa-trash"></i></button>' + '</td> </tr>';
 
                 });
                 $('#tbl_id').append(trHTML);
@@ -218,7 +218,8 @@
      }
 
 
-
+    var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
+    var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
     function users_validate() {
          console.log("users_validate");
          if(document.getElementById("org_company_name").value == "" ) {
@@ -253,37 +254,97 @@
            });
          }
 
-         if(document.getElementById("contact").value == "" ) {
-             // EXPAND ADDRESS FORM
-              $("#contact").focus();
-           $("#contact").focus();
-           $("#contact").blur(function () {
-               var name = $('#contact').val();
-               if (name.length == 0) {
-                   $('#contact').next('div.red').remove();
-                   $('#contact').after('<div class="red" style="color:red">Contact is Required</div>');
-               } else {
-                   $(this).next('div.red').remove();
-                   return true;
-               }
-           });
+
+    if (document.getElementById("contact").value == "") {
+            $("#contact").focus();
+            $("#contact").focus();
+            $("#contact").blur(function ()
+            {
+                var name = $('#contact').val();
+                if (name.length == 0)
+                {
+                    $('#contact').next('div.red').remove();
+                    $('#contact').after('<div class="red" style="color:red">Mobile number is Required</div>');
+                    return false;
+                }
+                else
+                {
+                    if(!phone_regex.test( $('#contact').val()))
+                    {
+                        console.log("ERRPR");
+                        $('#contact').next('div.red').remove();
+                        $('#contact').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                        return "false";
+                    } else {
+                        console.log("NOT WORL");
+                        $(this).next('div.red').remove();
+                        //return true;
+                    }
+                }
+            });
+         } else {
+             if(!phone_regex.test( $('#contact').val()))
+             {
+                 console.log("ERRPR");
+                 $('#contact').next('div.red').remove();
+                 $('#contact').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                 return "false";
+             } else {
+                 console.log("NOT WORL");
+                 $(this).next('div.red').remove();
+                 //return true;
+             }
+         }
+             
+         
+
+         if(document.getElementById("email").value == "") {
+            $("#email").focus();
+            $("#email").focus();
+            $("#email").blur(function ()
+            {
+                var name = $('#email').val();
+                if (name.length == 0)
+                {
+                        console.log("ERRPR");
+                        $('#email').next('div.red').remove();
+                        $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                        //return "false";
+                }
+                else
+                {
+                    if(!email_regex.test($('#email').val()))
+                    {
+                        console.log("ERROR");
+                        $('#email').next('div.red').remove();
+                        $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                        //return "false";
+                    } else {
+                        console.log("NOT WORL");
+                        $(this).next('div.red').remove();
+                        //return true;
+                    }
+                }
+            });
+         }else {
+             if(!email_regex.test($('#email').val()))
+             {
+                 console.log("ERROR");
+                 $('#email').next('div.red').remove();
+                 $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                 //return "false";
+             } else {
+                 console.log("NOT WORL");
+                 $(this).next('div.red').remove();
+                 //return true;
+             }
+
+             // $('#email').next('div.red').remove();
+             // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+             // return "false";
          }
 
-         if(document.getElementById("email").value == "" ) {
-             // EXPAND ADDRESS FORM
-              $("#email").focus();
-           $("#email").focus();
-           $("#email").blur(function () {
-               var name = $('#email').val();
-               if (name.length == 0) {
-                   $('#email').next('div.red').remove();
-                   $('#email').after('<div class="red" style="color:red">Email is Required</div>');
-               } else {
-                   $(this).next('div.red').remove();
-                   return true;
-               }
-           });
-         }
+
 
          if(document.getElementById("password").value == "" ) {
              // EXPAND ADDRESS FORM
@@ -320,6 +381,33 @@
 }
 
 
+  $(function(){
+
+  // handle delete button click
+  $('body').on('click', '.todo-delete-btn', function(e) {
+    e.preventDefault();
+
+    // get the id of the todo task
+    var id = $(this).attr('id');
+
+    // get csrf token value
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    // now make the ajax request
+    $.ajax({
+      'url': '/user/destroy/' + id,
+      'type': 'POST',
+      headers: { 'X-CSRF-TOKEN': csrf_token }
+    }).done(function() {
+      console.log('User  deleted: ' + id);
+      window.location = window.location.href;
+    }).fail(function() {
+      alert('something went wrong!');
+    });
+
+  });
+
+});
 
 
 </script>
