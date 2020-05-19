@@ -128,7 +128,7 @@
                 window.onload = function() {
                     localStorage.removeItem('userObject')
                 }
-
+                var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
                 function login_validate() {
                     if (document.getElementById("email").value == "") {
                         // EXPAND ADDRESS FORM
@@ -155,7 +155,7 @@
                             $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
                         } else {
                             $(this).next('div.red').remove();
-                            return true;
+
                         }
                     }
                     if (document.getElementById("password").value == "") {
@@ -171,8 +171,9 @@
                                 return true;
                             }
                         });
-                        return null;
+
                     }
+                    return null;
                 }
                 function doLogin()
                 {
