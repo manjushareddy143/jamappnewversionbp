@@ -158,6 +158,7 @@
                             return true;
                         }
                     }
+                    
                     if (document.getElementById("password").value == "") {
                         $("#password").focus();
                         $("#password").focus();

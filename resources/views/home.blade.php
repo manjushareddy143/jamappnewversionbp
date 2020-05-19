@@ -183,7 +183,7 @@
                                 </div>
                             </div> -->
 
-                             <div class="form-group">
+                             <div class="form-group" id="languages">
                                     <label>Language :</label>
                                     <label for="english">English</label>
                                     <input type="checkbox" name="languages" value="English" />
@@ -869,6 +869,14 @@
             });
         }
     }
+
+
+
+                function saveProfile() {
+                  var languages = ["English", "Arabic"];
+                  var x = languages.toString();
+                  document.getElementById("languages").innerHTML = x;
+                }
     </script>
     </body>
 
