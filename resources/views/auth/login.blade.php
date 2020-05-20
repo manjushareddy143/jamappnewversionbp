@@ -28,7 +28,7 @@
 
                 <div class="row justify-content-center">
 
-                    <div id="errorAlert" class="alert alert-danger alert-dismissible " role="alert">
+                    <div id="errorAlert" class="alert alert-danger alert-dismissible " style="margin-left: 221%;" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
