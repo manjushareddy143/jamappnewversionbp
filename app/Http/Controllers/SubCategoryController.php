@@ -18,6 +18,7 @@ class SubCategoryController extends Controller
                     'image' => 'required|image',  //|max:2048
 //            'banner_image' => 'required|image',  //|max:2048
 //            'description' => 'required',
+                    'price' => 'required',
                 ]);
 
             if ($validator->fails())
@@ -34,7 +35,8 @@ class SubCategoryController extends Controller
             $form_data = array(
                 'name'  => $input['name'],
                 'image' =>  $host . "/images/subcategories/" . $iconName,
-                'description' => array_key_exists('description', $input) ? $input['description'] : ""
+                'description' => array_key_exists('description', $input) ? $input['description'] : "",
+                'price'  => $input['price'],
             );
 
             $myResult = SubCategories::create($form_data);

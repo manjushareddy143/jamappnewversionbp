@@ -8,5 +8,5 @@ class SubCategories extends Model
 {
     protected $table = "sub_categories";
 
-    protected $fillable = ['name', 'image', 'description'];
+    protected $fillable = ['name', 'image', 'description', 'price'];
 }

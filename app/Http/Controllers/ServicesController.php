@@ -18,6 +18,7 @@ class ServicesController extends Controller
                 'name'  => 'required',
                 'icon_image' => 'required|image',  //|max:2048
                 'banner_image' => 'required|image', //|max:2048
+                
             ]);
 
 
@@ -43,7 +44,8 @@ class ServicesController extends Controller
             'name'  => $input['name'],
             'icon_image' => $host . "/images/category/" . $iconName,
             'banner_image' => $host . "/images/category/" . $bannerName,
-            'description' => array_key_exists('description', $input) ? $input['description'] : ""
+            'description' => array_key_exists('description', $input) ? $input['description'] : "",
+
         );
 //        return response()->json($form_data);
         $myResult = services::create($form_data);

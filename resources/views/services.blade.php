@@ -129,7 +129,7 @@
                           <div class="col-md-6 float-l" id="cate_disdiv">
                             <div class="form-group">
                                 <label>Pricing</label>
-                                <input id="category_pricing" type="text" name="category_pricing" placeholder="Enter Pricing"
+                                <input id="category_pricing" type="text" name="category_price" placeholder="Enter Pricing"
                                        class="form-control" required>
                             </div>
                           </div>
@@ -351,6 +351,7 @@
          if(document.getElementById("category_description").value != "" ) {
              form.append('description', document.getElementById("category_description").value);
          }
+         form.append('price', document.getElementById("category_price").value);
 
          $.ajax({
              url: '/subcategories',

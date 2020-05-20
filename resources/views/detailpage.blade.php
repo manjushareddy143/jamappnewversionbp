@@ -79,6 +79,13 @@
                       </div>
                     </div>
 
+                    <div class="col-md-12" id="pricediv">
+                      <div class="form-group">
+                      <label>Price</label>
+                     <input id="price" type="text" name="price" placeholder="Enter Price"  class="form-control" required>
+                      </div>
+                    </div>
+
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="button" onclick="store()" class="btn btn-primary">Save</button>
@@ -119,7 +126,6 @@
 <table class="table align-items-center table-flush">
 <thead class="thead-light">
  <tr>
-
    <!-- <th>id</th> -->
    <th>Name</th>
    <th>Image</th>
@@ -139,6 +145,7 @@
               <td> {{ $results->name }} </td>
               <td><img src="{{ asset($results->image) }}" class="square" width="60" height="50" /></td>
               <td>{{ $results->description }}</td>
+              <td>{{ $results->price }}</td>
             </tr>
            @endforeach
            @endif
@@ -243,6 +250,7 @@
                 form.append('image',files);
                 form.append('name', document.getElementById("name").value);
                 form.append('description', document.getElementById("description").value);
+                form.append('price', document.getElementById("price").value);
                 $.ajax({
                     url: '/subcategories',
                     type: 'POST',
