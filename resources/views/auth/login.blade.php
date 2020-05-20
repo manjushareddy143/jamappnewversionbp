@@ -141,36 +141,67 @@
                 window.onload = function() {
                     localStorage.removeItem('userObject')
                 }
-
+                var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
                 function login_validate() {
-                    // if (document.getElementById("email").value == "") {
-                    //     // EXPAND ADDRESS FORM
-                    //     $("#email").focus();
-                    //     $("#email").focus();
-                    //     $("#email").blur(function () {
-                    //         var name = $('#email').val();
-                    //         if (name.length == 0) {
-                    //             $('#email').next('div.red').remove();
-                    //             $('#email').after('<div class="red" style="color:red">Email is Required</div>');
-                    //         } else {
-                    //             if (!email_regex.test(name)) {
-                    //                 $('#email').next('div.red').remove();
-                    //                 $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                    //             } else {
-                    //                 $(this).next('div.red').remove();
-                    //                 return true;
-                    //             }
-                    //         }
-                    //     });
-                    // } else {
-                    //     if (!email_regex.test($('#email').val())) {
-                    //         $('#email').next('div.red').remove();
-                    //         $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                    //     } else {
-                    //         $(this).next('div.red').remove();
-                    //         return true;
-                    //     }
-                    // }
+
+                    if (document.getElementById("email").value == "") {
+                        // EXPAND ADDRESS FORM
+                        $("#email").focus();
+                        $("#email").focus();
+                        $("#email").blur(function () {
+                            var name = $('#email').val();
+                            if (name.length == 0) {
+                                $('#email').next('div.red').remove();
+                                $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                            } else {
+                                if (!email_regex.test(name)) {
+                                    $('#email').next('div.red').remove();
+                                    $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                                } else {
+                                    $(this).next('div.red').remove();
+                                    return true;
+                                }
+                            }
+                        });
+                    } else {
+                        if (!email_regex.test($('#email').val())) {
+                            $('#email').next('div.red').remove();
+                            $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                        } else {
+                            $(this).next('div.red').remove();
+                            return true;
+                        }
+                    }
+
+                    if (document.getElementById("email").value == "") {
+                        // EXPAND ADDRESS FORM
+                        $("#email").focus();
+                        $("#email").focus();
+                        $("#email").blur(function () {
+                            var name = $('#email').val();
+                            if (name.length == 0) {
+                                $('#email').next('div.red').remove();
+                                $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                            } else {
+                                if (!email_regex.test(name)) {
+                                    $('#email').next('div.red').remove();
+                                    $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                                } else {
+                                    $(this).next('div.red').remove();
+                                    return true;
+                                }
+                            }
+                        });
+                    } else {
+                        if (!email_regex.test($('#email').val())) {
+                            $('#email').next('div.red').remove();
+                            $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                        } else {
+                            $(this).next('div.red').remove();
+
+                        }
+                    }
+
                     
                     if (document.getElementById("password").value == "") {
                         $("#password").focus();
@@ -185,8 +216,9 @@
                                 return true;
                             }
                         });
-                        return null;
+
                     }
+                    return null;
                 }
                 function doLogin()
                 {

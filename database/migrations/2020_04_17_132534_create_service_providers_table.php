@@ -18,6 +18,7 @@ class CreateServiceProvidersTable extends Migration
             $table->integer('user_id');
             $table->string('resident_country');
             $table->integer('proof_id');
+            $table->boolean('verified')->default(false);
             $table->timestamps();
         });
     }

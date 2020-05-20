@@ -172,17 +172,17 @@
    window.addEventListener ?
        window.addEventListener("load",onLoad(),false) :
        window.attachEvent && window.attachEvent("onload",onLoad());
-   
-   
-   
+
+
+
    function onLoad() {
        console.log("ON LOAD  tbl_id")
        getResult();
-   
+
    }
-   
+
    function getResult() {
-   
+
        $.ajax({
            url: '/api/v1/getuser/3',
            type: 'GET',
@@ -190,7 +190,7 @@
            success: function(response){
                console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
                var trHTML = '';
-   
+
                $.each(response, function (i, item) {
                    var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
                    trHTML += '<tr><td>' + response[i].first_name +
@@ -198,9 +198,11 @@
                        '</td><td>' + response[i].email  + '</td>' +
                        '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                        '</td><td>' + response[i].gender  + '</td>' +
-                       '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
-   
-   
+                       '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> <a href="#" class="btn btn-success"> Verified </a>' + '</td></tr>';
+                    //    <input type="hidden" name="verifyvendor" value="$service_provider->id">
+                    //    <button class="btn-success" type="submit"> Verified </button>
+
+
                });
                $('#tbl_id').append(trHTML);
            },
@@ -209,18 +211,18 @@
            }
        });
    };
-   
-   
-   
+
+
+
    function create_user() {
-   
+
    console.log("create_service");
    var servicevalite = users_validate();
    console.log("users_validate ::" + servicevalite);
    if(servicevalite == null)
    {
    console.log("CREATE SERVER CALL");
-   
+
    var form = new FormData();
    form.append('first_name', document.getElementById("first_name").value);
    form.append('last_name', document.getElementById("last_name").value);
@@ -233,8 +235,8 @@
    form.append('category', document.getElementById("category").value);
    var image = $('#image')[0].files[0];
    form.append('profile_photo',image);
-   
-   
+
+
    $.ajax({
      url: '/api/v1/add_vendors',
      type: 'POST',
@@ -258,16 +260,16 @@
      $("#alerterror").hide()
    }, 1000);
    }
-   
+
    }
-   
-   
+
+
 
     var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
     var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-    
+
    function users_validate() {
-   
+
    console.log("users_validate");
    if (document.getElementById("first_name").value == "") {
    // EXPAND ADDRESS FORM
@@ -283,9 +285,9 @@
          return true;
      }
    });
-   
+
    }
-   
+
    if (document.getElementById("last_name").value == "") {
    // EXPAND ADDRESS FORM
    $("#last_name").focus();
@@ -301,7 +303,7 @@
      }
    });
    }
-   
+
    if(document.getElementById("email").value == "") {
             $("#email").focus();
             $("#email").focus();
@@ -347,9 +349,9 @@
              // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
              // return "false";
          }
-   
+
    //Password
-   
+
    if (document.getElementById("password").value == "") {
    // EXPAND ADDRESS FORM
    $("#password").focus();
@@ -365,11 +367,11 @@
      }
    });
    }
-   
-   
-   
+
+
+
    //Image
-   
+
      var image = $('#image')[0].files[0];
      if (!image) {
          $("#image").focus();
@@ -385,9 +387,9 @@
                }
            });
      }
-   
-   
-   
+
+
+
    //contact
     if (document.getElementById("mobile").value == "") {
             $("#mobile").focus();
@@ -429,15 +431,18 @@
                  //return true;
              }
          }
-            
-   
+         //for vendor verification
+        // function verification(Request $request){
+        //     $verify =
+        // }
 
-   
+
+
    // Gender Radiobutton
-   
+
    // var checkRadio = document.querySelector(
    // 'input[name="gender"]:checked');
-   
+
    // if (checkRadio != null) {
    // document.getElementById("gender").innerHTML
    //   = checkRadio.value
@@ -446,10 +451,10 @@
    // document.getElementById("gender").innerHTML
    //   = "No one selected";
    // }
-   
+
    }
-   
-   
+
+
 </script>
 @endsection
 
