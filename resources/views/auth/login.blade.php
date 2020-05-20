@@ -22,10 +22,26 @@
         </head>
 
         <body class="bg-gradient-login">
+
             <!-- Login Content -->
             <div class="container-login">
+
                 <div class="row justify-content-center">
+
+                    <div id="errorAlert" class="alert alert-danger alert-dismissible " role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h6><i class="fas fa-ban"></i><b> Stop!</b></h6>
+                        <p id="errormsg">Unknow Error from Server side!</p>
+                    </div>
+
+
                     <div class="col-xl-11 col-lg-12 col-md-9">
+
+
+
+
                         <div class="card shadow-sm my-5">
                             <div class="card-body p-0">
                                 <div class="row">
@@ -47,7 +63,7 @@
                                                     <img src="{{ asset('img/logo/jam-logo.png') }}">
                                                 </div>
 
-      
+
                                                 <h1 class="h4 text-gray-900 mb-4">@lang('login.message')</h1>
                                             </div>
 
@@ -138,94 +154,74 @@
             <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
             <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
             <script>
-                window.onload = function() {
+                window.addEventListener ?
+                    window.addEventListener("load",onLoad(),false) :
+                    window.attachEvent && window.attachEvent("onload",onLoad());
+
+                function onLoad() {
                     localStorage.removeItem('userObject')
-                }
+                    $("#errorAlert").hide();
+                };
                 var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
                 function login_validate() {
 
-                    if (document.getElementById("email").value == "") {
-                        // EXPAND ADDRESS FORM
-                        $("#email").focus();
-                        $("#email").focus();
-                        $("#email").blur(function () {
-                            var name = $('#email').val();
-                            if (name.length == 0) {
-                                $('#email').next('div.red').remove();
-                                $('#email').after('<div class="red" style="color:red">Email is Required</div>');
-                            } else {
-                                if (!email_regex.test(name)) {
-                                    $('#email').next('div.red').remove();
-                                    $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                                } else {
-                                    $(this).next('div.red').remove();
-                                    return true;
-                                }
-                            }
-                        });
-                    } else {
-                        if (!email_regex.test($('#email').val())) {
-                            $('#email').next('div.red').remove();
-                            $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                        } else {
-                            $(this).next('div.red').remove();
-                            return true;
-                        }
-                    }
+                    var isValidate = true;
 
                     if (document.getElementById("email").value == "") {
                         // EXPAND ADDRESS FORM
                         $("#email").focus();
-                        $("#email").focus();
                         $("#email").blur(function () {
-                            var name = $('#email').val();
-                            if (name.length == 0) {
+                            if ($('#email').val().length == 0) {
                                 $('#email').next('div.red').remove();
                                 $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                                isValidate  = false;
                             } else {
-                                if (!email_regex.test(name)) {
+                                if (!email_regex.test($('#email').val())) {
                                     $('#email').next('div.red').remove();
                                     $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                                    isValidate  = false;
                                 } else {
                                     $(this).next('div.red').remove();
-                                    return true;
+                                    isValidate  = true;
                                 }
                             }
                         });
-                    } else {
+                    }
+                    else {
                         if (!email_regex.test($('#email').val())) {
                             $('#email').next('div.red').remove();
                             $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                            isValidate  = false;
                         } else {
                             $(this).next('div.red').remove();
-
+                            isValidate  = true;
                         }
                     }
 
-                    
+
                     if (document.getElementById("password").value == "") {
                         $("#password").focus();
-                        $("#password").focus();
                         $("#password").blur(function () {
-                            var name = $('#password').val();
-                            if (name.length == 0) {
+                            if ($('#password').val().length == 0) {
                                 $('#password').next('div.red').remove();
                                 $('#password').after('<div class="red" style="color:red">Password is Required</div>');
+                                isValidate  = false;
                             } else {
                                 $(this).next('div.red').remove();
-                                return true;
+                                isValidate  = true;
                             }
                         });
-
                     }
-                    return null;
+                    return isValidate;
                 }
+
+
                 function doLogin()
                 {
                     console.log("login_validate");
                     var loginvalidate = login_validate();
                     console.log("login_validate ::" + loginvalidate);
-                    if (loginvalidate == null)
+                    if (loginvalidate == true)
                     {
                         console.log("CREATE SERVER CALL");
                         $('body').addClass('busy');
@@ -241,9 +237,9 @@
                             data:data,
                             success: function(response)
                             {
+                                console.log("SUCCESS");
                                 var data = response['status'];
-                                // var test = response->status;
-                                // console.log(test);
+                                console.log(response);
                                 if(data === true)
                                 {
                                     console.log("test" + JSON.stringify(response));
@@ -254,7 +250,14 @@
                                 {
                                     alert("Invalid email or password");
                                 }
-                            }
+                            },
+                            error: function(xhr, status, err) {
+                                $("#errorAlert").text(xhr.statusText);
+                                $("#errorAlert").show();
+                                setTimeout(function() {
+                                    $("#errorAlert").hide()
+                                }, 1000);
+                            },
                         });
                     }
                 }

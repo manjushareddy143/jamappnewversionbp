@@ -596,8 +596,14 @@ class UserController extends Controller
                 'image' => $host . "/images/profiles/" . $profile_name,
             ];
 
-            if($this->update_user_details($imagedata, $id)) {
+            if(array_key_exists('languages', $input)) {
+                $imagedata += [
+                    'languages' => $input['languages'],
+                ];
+            }
 
+
+            if($this->update_user_details($imagedata, $id)) {
                 $user["image"] = $host . "/images/profiles/" . $profile_name;
             } else {
                 $response['message'] = "Profile image not update";
@@ -618,8 +624,8 @@ class UserController extends Controller
                 $user['address'] = $adddressdata;
             }
 
-           $user['languages']= $request->input("languages");
-           
+//           $user['languages']= $request->input("languages");
+
 
     // $languages =($request->has('languages'))?(is_array($request->get('languages')))?implode(",",$request->get('languages')):"":"";
     //                 foreach ($request->input("languages") as $languages){

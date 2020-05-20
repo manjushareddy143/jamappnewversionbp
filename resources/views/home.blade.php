@@ -188,7 +188,7 @@
                                     <label for="english">English</label>
                                     <input type="checkbox" name="languages" value="English" />
 
-                                    <label for="arabic">Arabic</label>    
+                                    <label for="arabic">Arabic</label>
                                     <input type="checkbox" name="languages" value="arabic" />
                             </div>
 
@@ -392,6 +392,7 @@
             }
 
         }
+
         function previewProfileImage(uploader) {
             if (uploader.files && uploader.files[0]) {
                 var imageFile = uploader.files[0];
@@ -538,6 +539,9 @@
             return true;
         }
 
+
+
+        // it return true if form is validdated @please test it before proceed
         function org_validateForm()
         {
             console.log("organisation_validate");
@@ -568,9 +572,9 @@
                         return true;
                     }
                 });
-                
+
             }
-        }
+
             if (document.getElementById("org_address_name").value == "") {
                 $("#org_address_name").focus();
                 $("#org_address_name").focus();
@@ -648,7 +652,7 @@
                         return true;
                     }
                 });
-                
+
             }
             if (document.getElementById("org_district").value == "") {
                 $("#org_district").focus();
@@ -667,7 +671,7 @@
                         return true;
                     }
                 });
-                
+
             }
             if (document.getElementById("org_city").value == "") {
                 $("#org_city").focus();
@@ -687,7 +691,7 @@
                         return true;
                     }
                 });
-                
+
             }
             if (document.getElementById("org_postal_code").value == "") {
                 $("#org_postal_code").focus();
@@ -707,8 +711,11 @@
                     }
                 });
             }
-            // return null;
-        
+        }
+
+
+
+
 
     function Organisationprofile() {
         console.log("org_validateForm");
@@ -735,18 +742,16 @@
                 $("#alerterror").hide()
             },1000);
         }
-     }   
+     }
 
-        function saveProfile() {
+    function saveProfile() {
+        if (validateForm()) {
+            console.log("VALIDATE FORM");
             apiCall();
-            // if (validateForm()) {
-            //     console.log("VALIDATE FORM");
-            //     apiCall();
-            // } else {
-            //     console.log("INVALIDATE FORM");
-            // }
-
+        } else {
+            console.log("INVALIDATE FORM");
         }
+    }
 
         function apiCall() {
             var form = new FormData();
@@ -761,9 +766,8 @@
             $("input:checkbox[name=languages]:checked").each(function(){
                 languagesarray.push($(this).val());
                 });
-            
-            
-            form.append('languages', languagesarray);
+
+            form.append('languages', languagesarray.toString());
 
             $addressdata = {
                 name: document.getElementById("address_name").value,
