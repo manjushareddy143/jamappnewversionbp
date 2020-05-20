@@ -30,12 +30,25 @@
                             <div class="card-body p-0">
                                 <div class="row">
                                     <div class="col-lg-12">
+                                        <!-- checkbox -->
+                                     <div class="dropdown">
+                                      <button class="dropbtn">Language<i class="fal fa-angle-down"></i> </button>
+                                      <div class="dropdown-content">
+                                       <option value="english"><a href="locale/en"><img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;"> English</a></option>
+                                      <a href="locale/ar"><img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;"> Arabic</a>
+                                      </div>
+                                    </div>
+
+
+                                    <!-- checkbox -->
                                         <div class="login-form">
                                             <div class="text-center">
                                                 <div class="loginlogo">
                                                     <img src="{{ asset('img/logo/jam-logo.png') }}">
                                                 </div>
-                                                <h1 class="h4 text-gray-900 mb-4">LOGIN</h1>
+
+      
+                                                <h1 class="h4 text-gray-900 mb-4">@lang('login.message')</h1>
                                             </div>
 
                                             <form id="loginForm" method="POST" action="{{ route('login') }}">
@@ -43,7 +56,7 @@
                                                 @csrf
 
                                                 <div class="form-group">
-                                                    <label>Email or Username</label>
+                                                    <label>@lang('login.label_name')</label>
 {{--                                                        <input type="email"--}}
 {{--                                                               class="form-control @error('email') is-invalid @enderror"--}}
 {{--                                                               id="email" aria-describedby="emailHelp"--}}
@@ -61,7 +74,7 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Password</label>
+                                                    <label>@lang('login.label_pass')</label>
 {{--                                                        <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">--}}
                                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"
                                                            required autocomplete="current-password" placeholder="Password">
@@ -89,7 +102,7 @@
 {{--                                                <div class="form-group row mb-0">--}}
 {{--                                                    <div class="col-md-8 offset-md-4">--}}
                                                         <button id="submit" type="button" onclick="doLogin()" class="btn btn-primary btn-block btn-box-shadow">
-                                                            {{ __('Login') }}
+                                                            <label>@lang('login.label_btn')</label>
                                                         </button>
 
 {{--                                                        @if (Route::has('password.request'))--}}
@@ -130,34 +143,34 @@
                 }
 
                 function login_validate() {
-                    if (document.getElementById("email").value == "") {
-                        // EXPAND ADDRESS FORM
-                        $("#email").focus();
-                        $("#email").focus();
-                        $("#email").blur(function () {
-                            var name = $('#email').val();
-                            if (name.length == 0) {
-                                $('#email').next('div.red').remove();
-                                $('#email').after('<div class="red" style="color:red">Email is Required</div>');
-                            } else {
-                                if (!email_regex.test(name)) {
-                                    $('#email').next('div.red').remove();
-                                    $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                                } else {
-                                    $(this).next('div.red').remove();
-                                    return true;
-                                }
-                            }
-                        });
-                    } else {
-                        if (!email_regex.test($('#email').val())) {
-                            $('#email').next('div.red').remove();
-                            $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                        } else {
-                            $(this).next('div.red').remove();
-                            return true;
-                        }
-                    }
+                    // if (document.getElementById("email").value == "") {
+                    //     // EXPAND ADDRESS FORM
+                    //     $("#email").focus();
+                    //     $("#email").focus();
+                    //     $("#email").blur(function () {
+                    //         var name = $('#email').val();
+                    //         if (name.length == 0) {
+                    //             $('#email').next('div.red').remove();
+                    //             $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                    //         } else {
+                    //             if (!email_regex.test(name)) {
+                    //                 $('#email').next('div.red').remove();
+                    //                 $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                    //             } else {
+                    //                 $(this).next('div.red').remove();
+                    //                 return true;
+                    //             }
+                    //         }
+                    //     });
+                    // } else {
+                    //     if (!email_regex.test($('#email').val())) {
+                    //         $('#email').next('div.red').remove();
+                    //         $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                    //     } else {
+                    //         $(this).next('div.red').remove();
+                    //         return true;
+                    //     }
+                    // }
                     
                     if (document.getElementById("password").value == "") {
                         $("#password").focus();
@@ -217,6 +230,52 @@
             </script>
         </body>
     </html>
+
+
+
+    <style>
+.dropbtn {
+  background-color: #0aa698;;
+  color: white;
+  padding: 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 100px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+</style>
+
 
 
 

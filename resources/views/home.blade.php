@@ -570,6 +570,7 @@
                 });
                 
             }
+        }
             if (document.getElementById("org_address_name").value == "") {
                 $("#org_address_name").focus();
                 $("#org_address_name").focus();
@@ -589,6 +590,7 @@
                     }
                 });
             }
+
             if (document.getElementById("org_address_line1").value == "") {
                 $("#org_address_line1").focus();
                 $("#org_address_line1").focus();
@@ -608,6 +610,7 @@
                     }
                 });
             }
+
             if (document.getElementById("org_address_line2").value == "") {
                 $("#org_address_line2").focus();
                 $("#org_address_line2").focus();
@@ -627,6 +630,7 @@
                     }
                 });
             }
+
             if (document.getElementById("org_landmark").value == "") {
                 $("#org_landmark").focus();
                 $("#org_landmark").focus();
@@ -703,8 +707,8 @@
                     }
                 });
             }
-            return null;
-        }
+            // return null;
+        
 
     function Organisationprofile() {
         console.log("org_validateForm");
@@ -731,6 +735,7 @@
                 $("#alerterror").hide()
             },1000);
         }
+     }   
 
         function saveProfile() {
             apiCall();
@@ -757,6 +762,8 @@
                 languagesarray.push($(this).val());
                 });
             
+            
+            form.append('languages', languagesarray);
 
             $addressdata = {
                 name: document.getElementById("address_name").value,
@@ -766,11 +773,10 @@
                 district: document.getElementById("district").value,
                 city: document.getElementsByTagName("city").value,
                 postal_code: document.getElementsByTagName("postal_code").value,
-                languages: languagesarray,
                 user_id: obj.id,
                 location: "",
             };
-            console.log($addressdata)
+            // console.log($addressdata)
             form.append('address', JSON.stringify($addressdata));
 
             var services = [];
@@ -792,6 +798,8 @@
 
 
             form.append('id', obj.id);
+            console.log('testprofile');
+            console.log(form)
 
 
             $.ajax({
@@ -868,15 +876,8 @@
                 }
             });
         }
-    }
 
 
-
-                function saveProfile() {
-                  var languages = ["English", "Arabic"];
-                  var x = languages.toString();
-                  document.getElementById("languages").innerHTML = x;
-                }
     </script>
     </body>
 

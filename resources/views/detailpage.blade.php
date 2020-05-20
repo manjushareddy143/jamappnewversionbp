@@ -124,6 +124,7 @@
    <th>Name</th>
    <th>Image</th>
    <th>Description</th>
+   <th>Price</th>
  </tr>
 </thead>
 

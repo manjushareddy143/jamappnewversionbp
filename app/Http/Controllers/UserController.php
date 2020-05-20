@@ -238,7 +238,7 @@ class UserController extends Controller
     {
         return response()->json($id);
         $users = User::find($id);
-        
+
         $users->delete();
         return redirect()->route('/user')->with('Success','User deleted successfully');
     }
@@ -534,7 +534,10 @@ class UserController extends Controller
     //User profile
     public function profile(Request $request)
     {
+
         try {
+            // print_r($request->toArray());
+            // exit();
             $response = array();
             $validator = Validator::make($request->all(),
                 [
@@ -615,12 +618,15 @@ class UserController extends Controller
                 $user['address'] = $adddressdata;
             }
 
-    $languages =($request->has('languages'))?(is_array($request->get('languages')))?implode(",",$request->get('languages')):"":"";
-                    foreach ($request->input("languages") as $languages){
-                                $languages = new languages;
-                                $languages->name= $languages;
-                                $languages->save();
-                        }
+           $user['languages']= $request->input("languages");
+           
+
+    // $languages =($request->has('languages'))?(is_array($request->get('languages')))?implode(",",$request->get('languages')):"":"";
+    //                 foreach ($request->input("languages") as $languages){
+    //                             $languages = new languages;
+    //                             $languages->name= $languages;
+    //                             $languages->save();
+    //                     }
 
 
 
