@@ -198,7 +198,7 @@
                        '</td><td>' + response[i].email  + '</td>' +
                        '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                        '</td><td>' + response[i].gender  + '</td>' +
-                       '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> <a href="#" class="btn btn-success"> Verified </a>' + '</td></tr>';
+                       '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> <a href="#" class="btn btn-success" name="verifyvendor" value="$service_provider->id"> Verified </a>' + '</td></tr>';
                     //    <input type="hidden" name="verifyvendor" value="$service_provider->id">
                     //    <button class="btn-success" type="submit"> Verified </button>
 
@@ -431,11 +431,6 @@
                  //return true;
              }
          }
-         //for vendor verification
-        // function verification(Request $request){
-        //     $verify =
-        // }
-
 
 
    // Gender Radiobutton
