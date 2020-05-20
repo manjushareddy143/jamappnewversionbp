@@ -82,7 +82,9 @@
                     <div class="col-md-12" id="pricediv">
                       <div class="form-group">
                       <label>Price</label>
+                      <div class="input-symbol-euro">
                      <input id="price" type="text" name="price" placeholder="Enter Price"  class="form-control" required>
+                      </div>
                       </div>
                     </div>
 
@@ -304,6 +306,24 @@
             });
         }
 
+
     </script>
 @endsection
+
+
+<style>
+  .input-symbol-euro {
+     position: relative;
+ }
+ .input-symbol-euro input {
+     padding-left:25px;
+ }
+ .input-symbol-euro:before {
+     position: absolute;
+     top: 10;
+     content:"﷼";
+     left: 5px;
+ }
+
+</style>
 
