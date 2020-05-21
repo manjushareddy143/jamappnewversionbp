@@ -333,9 +333,12 @@
     //     $('#textbox1').val(this.checked);
     // });
 
-    function individual_validate() {
+    function individual_validate()
+    {
+        var isValidate = true;
          console.log("individual_validate");
-         if(document.getElementById("first_name").value == "" ) {
+         if(document.getElementById("first_name").value == "" )
+         {
              // EXPAND ADDRESS FORM
             $("#first_name").focus();
             $("#first_name").focus();
@@ -346,16 +349,18 @@
                 {
                     $('#first_name').next('div.red').remove();
                     $('#first_name').after('<div class="red" style="color:red">First Name is Required</div>');
-                    //return "false";
+                    isValidate  = false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
+                    isValidate  = true;
                 }
             });
          }
 
-         if (document.getElementById("last_name").value == "") {
+        if (document.getElementById("last_name").value == "")
+        {
             $("#last_name").focus();
             $("#last_name").focus();
             $("#last_name").blur(function ()
@@ -365,19 +370,18 @@
                 {
                     $('#last_name').next('div.red').remove();
                     $('#last_name').after('<div class="red" style="color:red">Last Name is Required</div>');
-                    //return "false";
+                    isValidate  = false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-
+                    isValidate  = true;
                 }
             });
-         }
-         //var mobilenum = $('#mobile')[0].files[0];
+        }
 
-
-         if (document.getElementById("mobile").value == "") {
+        if (document.getElementById("mobile").value == "")
+        {
             $("#mobile").focus();
             $("#mobile").focus();
             $("#mobile").blur(function ()
@@ -387,7 +391,7 @@
                 {
                     $('#mobile').next('div.red').remove();
                     $('#mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
-                    //return "false";
+                    isValidate  = false;
                 }
                 else
                 {
@@ -395,59 +399,65 @@
                     {
                         $('#mobile').next('div.red').remove();
                         $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                        //return "false";
-                    } else {
+                        isValidate  = false;
+                    } else
+                    {
                         $(this).next('div.red').remove();
+                        isValidate  = true;
                     }
                 }
             });
-         } else {
-             if(!phone_regex.test( $('#mobile').val()))
-             {
-                 console.log("ERROR");
-                 $('#mobile').next('div.red').remove();
-                 $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                 //return "false";
-             } else {
-                 $(this).next('div.red').remove();
-             }
-         }
-
-        if (document.getElementById("email").value == "") {
-           // EXPAND ADDRESS FORM
-           $("#email").focus();
-           $("#email").focus();
-           $("#email").blur(function () {
-               var name = $('#email').val();
-               if (name.length == 0) {
-                   $('#email').next('div.red').remove();
-                   $('#email').after('<div class="red" style="color:red">Email is Required</div>');
-               } else {
-
-                   if(!email_regex.test(name))
-                   {
-                       $('#email').next('div.red').remove();
-                       $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                       //return false;
-                   } else {
-                       $(this).next('div.red').remove();
-                   }
-
-
-               }
-           });
-       } else {
-            if(!email_regex.test($('#email').val()))
+        }
+        else
+        {
+            if(!phone_regex.test( $('#mobile').val()))
             {
-                $('#email').next('div.red').remove();
-                $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                //return false;
-            } else {
+                console.log("ERROR");
+                $('#mobile').next('div.red').remove();
+                $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                isValidate  = false;
+            }
+            else
+            {
                 $(this).next('div.red').remove();
+                isValidate  = true;
             }
         }
 
-         if(document.getElementById("password").value == "") {
+        if (document.getElementById("email").value == "") {
+                        // EXPAND ADDRESS FORM
+                        $("#email").focus();
+                        $("#email").blur(function () {
+                            if ($('#email').val().length == 0) {
+                                $('#email').next('div.red').remove();
+                                $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                                isValidate  = false;
+                            } else {
+                                if (!email_regex.test($('#email').val())) {
+                                    $('#email').next('div.red').remove();
+                                    $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                                    isValidate  = false;
+                                } else {
+                                    $(this).next('div.red').remove();
+                                    isValidate  = true;
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        if (!email_regex.test($('#email').val())) {
+                            $('#email').next('div.red').remove();
+                            $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
+                            isValidate  = false;
+                        } else {
+                            $(this).next('div.red').remove();
+                            isValidate  = true;
+                        }
+                    }
+        }
+
+        if(document.getElementById("password").value == "")
+        {
             $("#password").focus();
             $("#password").focus();
             $("#password").blur(function ()
@@ -457,46 +467,56 @@
                 {
                     $('#password').next('div.red').remove();
                     $('#password').after('<div class="red" style="color:red">Password is Required</div>');
-                    //return false;
+                    isValidate  = false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
+                    isValidate  = true;
                 }
             });
-         }
-         //var Country = $('#select1')[0].files[0];
+        }
         let optionsLength = document.getElementById("select1").length;
 
-
-        if ($("#select1").val() === "Select Country") {
+        if ($("#select1").val() === "Select Country")
+        {
             $('#select1').next('div.red').remove();
             $('#select1').after('<div class="red" style="color:red">Country is Required</div>');
-            //return false;
-        } else {
+            isValidate  = false;
+        }
+        else
+        {
             $(this).next('div.red').remove();
+            isValidate = true;
         }
 
-         if(!form.terms.checked) {
-             form.terms.focus();
-             console.log('cancel BOX');
-             $('#myError').css('color','red');
-             $('#myError').text('Please select terms and conditions')
-             return "Missing terms";
-            }
-            return null;
+        if(!form.terms.checked)
+        {
+            console.log("terms check");
+            form.terms.focus();
+            console.log('cancel BOX');
+            $('#myError').css('color','red');
+            $('#myError').text('Please select terms and conditions')
+            //return "Missing terms";
+            isValidate = false;
         }
-
-    $('#terms').change(function() {
-            if(this.checked) {
+        $('#terms').change(function()
+        {
+            if(this.checked)
+            {
                 $('#myError').css('color','red');
                 $('#myError').text('')
-            } else {
+            }
+            else
+            {
                 $('#myError').css('color','red');
                 $('#myError').text('Please select terms and conditions')
-        }
+                isValidate = true;
+            }
 
-    });
+        });
+        return isValidate;
+    }
 
     function registerIndividuals() {
         console.log("individual_validate");
@@ -525,12 +545,20 @@
                 localStorage.setItem('userObject', JSON.stringify(response));
                 window.location = '/home';
             });
-        } else {
-
-        }
+        } else {}
+    }
+    error: function individual_errorhandle(xhr, status, err)
+    {
+        console.log("errorhandling");
+        $("#errorAlert").text(xhr.statusText);
+        $("#errorAlert").show();
+        setTimeout(function() {
+        $("#errorAlert").hide()
+        }, 1000);
     }
 
     function organisation_validate() {
+        var isValidate = true;
          console.log("organisation_validate");
          if(document.getElementById("org_company_name").value == "" ) {
              // EXPAND ADDRESS FORM
@@ -543,11 +571,12 @@
                 {
                     $('#org_company_name').next('div.red').remove();
                     $('#org_company_name').after('<div class="red" style="color:red">Company Name is Required</div>');
-                    return false;
+                    isValidate = false;
                 }
                 else
                 {
-                    $(this).next('div.red').remove();s
+                    $(this).next('div.red').remove();
+                    isValidate = true;
                 }
             });
          }
@@ -562,16 +591,16 @@
                 {
                     $('#org_name').next('div.red').remove();
                     $('#org_name').after('<div class="red" style="color:red">Admin Name is Required</div>');
-                    return true;
+                    isValidate = false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-
+                    isValidate = true;
                 }
             });
          }
-         //var mobilenum = $('#mobile')[0].files[0];
+
          if (document.getElementById("org_mobile").value == "") {
             $("#org_mobile").focus();
             $("#org_mobile").focus();
@@ -582,37 +611,38 @@
                 {
                     $('#org_mobile').next('div.red').remove();
                     $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
-                    return false;
+                    isValidate = false;
                 }
                 else
                 {
-                    if(!phone_regex.test( $('#org_mobile').val()))
-                    {
-                        console.log("ERRPR");
-                        $('#org_mobile').next('div.red').remove();
-                        $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                        return "false";
-                    } else {
-                        console.log("NOT WORL");
+                    // if(!phone_regex.test( $('#org_mobile').val()))
+                    // {
+                    //     console.log("ERRPR");
+                    //     $('#org_mobile').next('div.red').remove();
+                    //     $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                    //     isValidate = false;
+                    // } else {
+                    //     console.log("NOT WORL");
                         $(this).next('div.red').remove();
-                        //return true;
-                    }
+                        isValidate = true;
+                   // }
                 }
             });
-         } else {
+         }
+         else {
              if(!phone_regex.test( $('#org_mobile').val()))
              {
                  console.log("ERRPR");
                  $('#org_mobile').next('div.red').remove();
                  $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                 return "false";
+                 isValidate = false;
              } else {
                  console.log("NOT WORL");
                  $(this).next('div.red').remove();
-                 //return true;
+                 isValidate = true;
              }
          }
-        //  var email = $('#email')[0].files[0];
+
          if(document.getElementById("org_email").value == "") {
             $("#org_email").focus();
             $("#org_email").focus();
@@ -624,21 +654,21 @@
                         console.log("ERRPR");
                         $('#org_email').next('div.red').remove();
                         $('#org_email').after('<div class="red" style="color:red">Email is Required</div>');
-                        //return "false";
+                        isValidate = false;
                 }
                 else
                 {
-                    if(!email_regex.test($('#org_email').val()))
-                    {
-                        console.log("ERROR");
-                        $('#org_email').next('div.red').remove();
-                        $('#org_email').after('<div class="red" style="color:red">Email is Invalid</div>');
-                        //return "false";
-                    } else {
-                        console.log("NOT WORL");
+                    // if(!email_regex.test($('#org_email').val()))
+                    // {
+                    //     console.log("ERROR");
+                    //     $('#org_email').next('div.red').remove();
+                    //     $('#org_email').after('<div class="red" style="color:red">Email is Invalid</div>');
+
+                    // } else {
+                    //     console.log("NOT WORL");
                         $(this).next('div.red').remove();
-                        //return true;
-                    }
+                        isValidate = true;
+                    //}
                 }
             });
          }else {
@@ -647,16 +677,13 @@
                  console.log("ERROR");
                  $('#org_email').next('div.red').remove();
                  $('#org_email').after('<div class="red" style="color:red">Email is Invalid</div>');
-                 //return "false";
+                 isValidate = false;
              } else {
                  console.log("NOT WORLD");
                  $(this).next('div.red').remove();
-                 //return true;
+                 isValidate = true;
              }
 
-             // $('#org_email').next('div.red').remove();
-             // $('#org_email').after('<div class="red" style="color:red">Email is Invalid</div>');
-             // return "false";
          }
 
          if(document.getElementById("org_password").value == "") {
@@ -669,11 +696,12 @@
                 {
                     $('#org_password').next('div.red').remove();
                     $('#org_password').after('<div class="red" style="color:red">Password is Required</div>');
+                    isValidate = false;
                 }
                 else
                 {
                     $(this).next('div.red').remove();
-                    //return true;
+                    isValidate = true;
                 }
             });
          }
@@ -682,11 +710,12 @@
         if($('#org_select_country').val() === "Select Country"){
             $('#org_select_country').next('div.red').remove();
             $('#org_select_country').after('<div class="red" style="color:red">Country is Required</div>');
-
+            isValidate = false;
         }
         else
         {
             $(this).next('div.red').remove();
+            isValidate = true;
         }
 
         if(!org_form.org_checkbox.checked) {
@@ -695,8 +724,9 @@
              $('#myError').css('color','red');
              $('#myError').text('Please select terms and conditions')
              return "Missing terms";
+             isValidate = false;
             }
-            //return null;
+
         }
 
         $('#org_checkbox').change(function() {
@@ -706,9 +736,9 @@
             } else {
                 $('#myError').css('color','red');
                 $('#myError').text('Please select terms and conditions')
-        }
-
-    });
+        });
+        return isValidate;
+    }
 
     function registerOrganisation() {
         console.log("organisation_validate");
@@ -746,6 +776,16 @@
                 $("#alerterror").hide()
             },1000);
         }
+
     }
+    error: function org_errorhandle(xhr, status, err)
+        {
+            console.log("org Error handling");
+            $("#errorAlert").text(xhr.statusText);
+            $("#errorAlert").show();
+            setTimeout(function() {
+            $("#errorAlert").hide()
+            }, 1000);
+        }
 
 </script>
