@@ -130,33 +130,40 @@
                                                     @enderror
                                                 </div>
                                             </div>
+                                             <div class="col-md-6 float-l">
+                                                <div class="form-group">
+                                                    <label>Image <strong
+                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <input id="image" type="file" name="image" class="form-control"
+                                                           required>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6 float-l">
-
+                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Multi Dropdown Checkbox</label>
+                                            <label>Services <strong style="font-size: 14px;color: #e60606;">*</strong></label>
 
-
-                                                    <ul class="tree">
+                                                    <ul class="tree" id="ser_checkbox">
                                                         <li class="has">
-                                                            <input type="checkbox" name="domain[]"
+                                                            <input type="checkbox" name="domain"
                                                                    value="Agricultural Sciences">
                                                             <label>Agricultural Sciences <span class="total">(3)</span></label>
                                                             <ul>
                                                                 <li class="">
-                                                                    <input type="checkbox" name="subdomain[]"
+                                                                    <input type="checkbox" id="services" name="services"
                                                                            value="Agriculture, Dairy &amp; Animal Science">
                                                                     <label>Agriculture, Dairy &amp; Animal
                                                                         Science </label>
                                                                 </li>
                                                                 <li class="">
-                                                                    <input type="checkbox" name="subdomain[]"
+                                                                    <input type="checkbox" id="services" name="services"
                                                                            value="Agricultural Engineering">
                                                                     <label>Agricultural Engineering </label>
                                                                 </li>
                                                                 <li class="">
-                                                                    <input type="checkbox" name="subdomain[]"
+                                                                    <input type="checkbox" id="services" name="services"
                                                                            value="Agricultural Economics &amp; Policy">
                                                                     <label>Agricultural Economics &amp; Policy </label>
                                                                 </li>
@@ -172,17 +179,17 @@
                                                                     class="total">(3)</span></label>
                                                             <ul>
                                                                 <li class="">
-                                                                    <input type="checkbox" name="subdomain[]"
+                                                                    <input type="checkbox" name="services"
                                                                            value="Chemistry, Applied">
                                                                     <label>Chemistry, Applied </label>
                                                                 </li>
                                                                 <li class="">
-                                                                    <input type="checkbox" name="subdomain[]"
+                                                                    <input type="checkbox" name="services"
                                                                            value="Chemistry, Multidisciplinary">
                                                                     <label>Chemistry, Multidisciplinary </label>
                                                                 </li>
                                                                 <li class="">
-                                                                    <input type="checkbox" name="subdomain[]"
+                                                                    <input type="checkbox" name="services"
                                                                            value="Chemistry, Analytical">
                                                                     <label>Chemistry, Analytical </label>
                                                                 </li>
@@ -195,14 +202,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-md-6 float-l">
-                                                <div class="form-group">
-                                                    <label>Image <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
-                                                    <input id="image" type="file" name="image" class="form-control"
-                                                           required>
-                                                </div>
-                                            </div>
+                                           
                                         </div>
                                     </form>
                                 </div>
@@ -284,10 +284,6 @@
                             '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
                             '<a href="#" class="btn btn-success" name="verifyvendor" value="$service_provider->id"> Verified ' +
                             '</a>' + '</td></tr>';
-                        //    <input type="hidden" name="verifyvendor" value="$service_provider->id">
-                        //    <button class="btn-success" type="submit"> Verified </button>
-
-
                     });
                     $('#tbl_id').append(trHTML);
                 },
@@ -306,7 +302,7 @@
             console.log("users_validate ::" + servicevalite);
             if (servicevalite == null) {
                 console.log("CREATE SERVER CALL");
-
+            
                 var form = new FormData();
                 form.append('first_name', document.getElementById("first_name").value);
                 form.append('last_name', document.getElementById("last_name").value);
@@ -319,7 +315,7 @@
                 form.append('category', document.getElementById("category").value);
                 var image = $('#image')[0].files[0];
                 form.append('profile_photo', image);
-
+                form.append('services', document.getElementById("services").value);
 
                 $.ajax({
                     url: '/api/v1/add_vendors',
@@ -385,45 +381,51 @@
                 });
             }
 
-            if (document.getElementById("email").value == "") {
-                $("#email").focus();
-                $("#email").focus();
-                $("#email").blur(function () {
-                    var name = $('#email').val();
-                    if (name.length == 0) {
+            if(document.getElementById("email").value == "") {
+            $("#email").focus();
+            $("#email").focus();
+            $("#email").blur(function ()
+            {
+                var name = $('#email').val();
+                if (name.length == 0)
+                {
                         console.log("ERRPR");
                         $('#email').next('div.red').remove();
                         $('#email').after('<div class="red" style="color:red">Email is Required</div>');
                         //return "false";
-                    } else {
-                        if (!email_regex.test($('#email').val())) {
-                            console.log("ERROR");
-                            $('#email').next('div.red').remove();
-                            $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
-                            //return "false";
-                        } else {
-                            console.log("NOT WORL");
-                            $(this).next('div.red').remove();
-                            //return true;
-                        }
-                    }
-                });
-            } else {
-                if (!email_regex.test($('#email').val())) {
-                    console.log("ERROR");
-                    $('#email').next('div.red').remove();
-                    $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
-                    //return "false";
-                } else {
-                    console.log("NOT WORL");
-                    $(this).next('div.red').remove();
-                    //return true;
                 }
+                else
+                {
+                    if(!email_regex.test($('#email').val()))
+                    {
+                        console.log("ERROR");
+                        $('#email').next('div.red').remove();
+                        $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                        //return "false";
+                    } else {
+                        console.log("NOT WORL");
+                        $(this).next('div.red').remove();
+                        //return true;
+                    }
+                }
+            });
+         }else {
+             if(!email_regex.test($('#email').val()))
+             {
+                 console.log("ERROR");
+                 $('#email').next('div.red').remove();
+                 $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                 //return "false";
+             } else {
+                 console.log("NOT WORL");
+                 $(this).next('div.red').remove();
+                 //return true;
+             }
 
-                // $('#email').next('div.red').remove();
-                // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
-                // return "false";
-            }
+             // $('#email').next('div.red').remove();
+             // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+             // return "false";
+         }
 
             //Password
 
@@ -500,23 +502,61 @@
             }
 
 
-            // Gender Radiobutton
+            Gender Radiobutton
 
-            // var checkRadio = document.querySelector(
-            // 'input[name="gender"]:checked');
+            var checkRadio = document.querySelector(
+            'input[name="gender"]:checked');
 
-            // if (checkRadio != null) {
-            // document.getElementById("gender").innerHTML
-            //   = checkRadio.value
-            //   + " radio button checked";
-            // } else {
-            // document.getElementById("gender").innerHTML
-            //   = "No one selected";
-            // }
+            if (checkRadio != null) {
+            document.getElementById("gender").innerHTML
+              = checkRadio.value
+              + " radio button checked";
+            } else {
+            document.getElementById("gender").innerHTML
+              = "No one selected";
+            }
 
         }
 
 
+        function addItem(parentUL, branch) {
+            for (var key in branch.children) {
+        var item = branch.children[key];
+        $item = $('<li>', {
+            id: "item" + item.id
+        });
+        $item.append($('<input>', {
+            type: "checkbox",
+            id: "item" + item.id,
+            name: "item" + item.id
+        }));
+        $item.append($('<label>', {
+            for: "item" + item.id,
+            text: item.title
+        }));
+        parentUL.append($item);
+        if (item.children) {
+            var $ul = $('<ul>', {
+                style: 'display: none'
+            }).appendTo($item);
+            addItem($ul, item);
+        }
+    }
+    }
+
+            $(function () {
+                addItem($('#ser_checkbox'), data);
+                $(':checkbox').change(function () {
+                    $(this).closest('li').children('ul').slideToggle();
+                });
+                $('label').click(function(){
+                    $(this).closest('li').find(':checkbox').trigger('click');
+                });
+            });
+
+
     </script>
+
+
 @endsection
 

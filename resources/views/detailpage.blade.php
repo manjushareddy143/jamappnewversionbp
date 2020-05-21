@@ -182,6 +182,8 @@
                 $("#namediv").show(1000);
                 $("#imagediv").show(1000);
                 $("#descriptiondiv").show(1000);
+                $("#pricediv").show(1000);
+
 
             } else {
                 console.log('click');
@@ -189,6 +191,7 @@
                 $("#namediv").hide(1000);
                 $("#imagediv").hide(1000);
                 $("#descriptiondiv").hide(1000);
+                $("#pricediv").hide(1000);
             }
         }
 
