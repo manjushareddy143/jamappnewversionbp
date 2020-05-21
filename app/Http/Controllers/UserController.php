@@ -454,9 +454,6 @@ class UserController extends Controller
         $initialValidator = Validator::make($request->all(),
             [
                 'first_name' => 'required',
-                'last_name' => 'required',
-                'password' => 'required',
-                'contact' => 'required|unique:users,contact',
                 'type_id' => 'required|exists:user_types,id',
                 'term_id' => 'required|exists:term_conditions,id',
             ]
@@ -468,11 +465,47 @@ class UserController extends Controller
         }
 
 
+
+
+
         $input = $request->all();
+
+        if(array_key_exists('contact', $input)) {
+            $contactValidator = Validator::make($request->all(),
+                [
+                    'contact' => 'required|unique:users,contact',
+                ]
+            );
+
+            if ($contactValidator->fails())
+            {
+                return response()->json(['error'=>$contactValidator->errors()], 401);
+            }
+        }
+
+
+        if(array_key_exists('email', $input)) {
+            $emailValidator = Validator::make($request->all(),
+                [
+                    'email' => 'required|unique:users,email',
+                ]
+            );
+
+            if ($emailValidator->fails())
+            {
+                return response()->json(['error'=>$emailValidator->errors()], 401);
+            }
+        }
+
         $input['type_id'] = (int) $request->get('type_id');
         $input['term_id'] = (int) $request->get('term_id');
 
-        $input['password'] = Hash::make($input['password']);
+        if(array_key_exists('social_signin', $input)) {
+
+        } else {
+            $input['password'] = Hash::make($input['password']);
+        }
+
         $user = User::create($input);
 
         $user_id=$user->id;
