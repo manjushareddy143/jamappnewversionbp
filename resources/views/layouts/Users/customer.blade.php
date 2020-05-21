@@ -308,6 +308,7 @@
              // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
              // return "false";
          }
+         
          //Password
 
        if (document.getElementById("password").value == "") {

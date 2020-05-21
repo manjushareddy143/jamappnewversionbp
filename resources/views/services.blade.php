@@ -126,11 +126,13 @@
                             </div>
                           </div>
 
-                          <div class="col-md-6 float-l" id="cate_disdiv">
+                          <div class="col-md-6 float-l" id="cate_pridiv">
                             <div class="form-group">
+                               <div class="input-symbol-euro">
                                 <label>Pricing</label>
-                                <input id="category_pricing" type="text" name="category_price" placeholder="Enter Pricing"
+                                <input id="category_price" type="text" name="category_price" placeholder="Enter Pricing"
                                        class="form-control" required>
+                            </div>
                             </div>
                           </div>
 
@@ -417,6 +419,8 @@
              $("#cate_disdiv").show(1000);
              $("#cate_imgdiv").show(1000);
              $("#cate_namediv").show(1000);
+             $("#cate_pridiv").show(1000);
+
 
          } else {
              console.log('click');
@@ -424,6 +428,7 @@
              $("#cate_disdiv").hide(1000);
              $("#cate_imgdiv").hide(1000);
              $("#cate_namediv").hide(1000);
+             $("#cate_pridiv").hide(1000);
          }
      }
 
@@ -451,3 +456,19 @@
  </script>
 @endsection
 
+
+<style>
+  .input-symbol-euro {
+     position: relative;
+ }
+ .input-symbol-euro input {
+     padding-left:25px;
+ }
+ .input-symbol-euro:before {
+     position: absolute;
+     top: 38;
+     content:"﷼";
+     left: 5px;
+ }
+
+</style>

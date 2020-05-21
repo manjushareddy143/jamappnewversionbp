@@ -624,16 +624,6 @@ class UserController extends Controller
                 $user['address'] = $adddressdata;
             }
 
-//           $user['languages']= $request->input("languages");
-
-
-    // $languages =($request->has('languages'))?(is_array($request->get('languages')))?implode(",",$request->get('languages')):"":"";
-    //                 foreach ($request->input("languages") as $languages){
-    //                             $languages = new languages;
-    //                             $languages->name= $languages;
-    //                             $languages->save();
-    //                     }
-
 
 
             return response($user, 200)
