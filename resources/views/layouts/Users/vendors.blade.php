@@ -284,10 +284,6 @@
                             '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
                             '<a href="#" class="btn btn-success" name="verifyvendor" value="$service_provider->id"> Verified ' +
                             '</a>' + '</td></tr>';
-                        //    <input type="hidden" name="verifyvendor" value="$service_provider->id">
-                        //    <button class="btn-success" type="submit"> Verified </button>
-
-
                     });
                     $('#tbl_id').append(trHTML);
                 },

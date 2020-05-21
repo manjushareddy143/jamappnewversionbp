@@ -72,12 +72,14 @@ class UserController extends Controller
         $users=User::where('type_id', '=', (int)$id)
             ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
             ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
-            ->select('users.*', 'user_types.*', 'organisation.*')
+            ->select('users.*',
+                'user_types.type as type',
+                'organisation.name as company',
+                'organisation.resident_country as country',
+                'organisation.number_of_employee as number_of_employee')
             ->get();
         return response()->json($users, 200);
     }
-    ///
-
     /** Form for creating a new resource
      *
      *@return \Illuminate\Http\Response
@@ -381,33 +383,9 @@ class UserController extends Controller
 
     public function register_provider(Request $request) {
         $response = array();
-//        $initialValidator = Validator::make($request->all(),
-//            [
-//                'first_name' => 'required',
-//                'contact' => 'required|unique:users,contact',
-//                'type_id' => 'required|exists:user_types,id',
-//                'term_id' => 'required|exists:term_conditions,id',
-//                'resident_country' => 'required',
-//            ]);
-//        if ($initialValidator->fails())
-//        {
-//            return response()->json(['error'=>$initialValidator->errors()], 401);
-//        }
 
         $input = $request->all();
 
-
-//        if(array_key_exists('email', $input)) {
-//
-//            $emailValidator = Validator::make($request->all(),
-//                [
-//                    'email' => '|unique:users,email',
-//                ]);
-//            if ($emailValidator->fails())
-//            {
-//                return response()->json(['error'=>$emailValidator->errors()], 401);
-//            }
-//        }
         $input['password'] = Hash::make('password');
         $user = User::create($input);
 
@@ -465,11 +443,31 @@ class UserController extends Controller
         }
 
 
-
-
-
         $input = $request->all();
 
+
+
+        if(array_key_exists('social_signin', $input)) {
+
+            $user = User::where('email', '=', $input['email'])->first();
+
+            if($user != null) {
+                if($user['type_id'] != 4)
+                {
+//                        dd(\Session::getId());
+                    $service_provider = ServiceProvider::where('user_id', '=', $user['id'])->first();
+                    $user['resident_country'] = $service_provider['resident_country'];
+                }
+                $response = $user;
+
+                $address = Address::where('user_id', '=', $user['id'])->first();
+                $response['address'] = $address;
+                $response['existing_user'] = 1;
+                return response($response, 200);
+            } else {
+
+            }
+        }
         if(array_key_exists('contact', $input)) {
             $contactValidator = Validator::make($request->all(),
                 [
@@ -483,7 +481,6 @@ class UserController extends Controller
             }
         }
 
-
         if(array_key_exists('email', $input)) {
             $emailValidator = Validator::make($request->all(),
                 [
@@ -496,6 +493,10 @@ class UserController extends Controller
                 return response()->json(['error'=>$emailValidator->errors()], 401);
             }
         }
+
+
+
+
 
         $input['type_id'] = (int) $request->get('type_id');
         $input['term_id'] = (int) $request->get('term_id');
@@ -520,7 +521,6 @@ class UserController extends Controller
 
         if (isset($user)) {
             return response()->json($user);
-            $response  = $user;
         } else {
             $response['message']  = "Please add valid details";
         }
@@ -648,26 +648,11 @@ class UserController extends Controller
             // ADDRESS
             if(array_key_exists('address', $input)) {
                 $address = $input['address'];
-//                $address += [
-//                    "user_id" => $id
-//                ];
                 $address = json_decode($address, true);
 
                 $adddressdata = Address::create($address);
                 $user['address'] = $adddressdata;
             }
-
-//           $user['languages']= $request->input("languages");
-
-
-    // $languages =($request->has('languages'))?(is_array($request->get('languages')))?implode(",",$request->get('languages')):"":"";
-    //                 foreach ($request->input("languages") as $languages){
-    //                             $languages = new languages;
-    //                             $languages->name= $languages;
-    //                             $languages->save();
-    //                     }
-
-
 
             return response($user, 200)
                 ->header('content-type', 'application/json');
@@ -820,7 +805,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(),
                 [
                     'id'  => 'required|exists:users,id',
-                    'profile_photo' => 'required|image',  //|max:2048
+//                    'profile_photo' => 'required|image',  //|max:2048
                     'gender' => 'required'
                 ]);
             if ($validator->fails())
@@ -830,16 +815,16 @@ class UserController extends Controller
 
             $input = $request->all();
 
-            if(array_key_exists('email', $input)) {
-                $validatorEmail = Validator::make($request->all(),
-                    [
-                        'email'  => '|unique:users,email',
-                    ]);
-                if ($validatorEmail->fails())
-                {
-                    return response()->json(['error'=>$validatorEmail->errors()], 401);
-                }
-            }
+//            if(array_key_exists('email', $input)) {
+//                $validatorEmail = Validator::make($request->all(),
+//                    [
+//                        'email'  => '|unique:users,email',
+//                    ]);
+//                if ($validatorEmail->fails())
+//                {
+//                    return response()->json(['error'=>$validatorEmail->errors()], 401);
+//                }
+//            }
 
 
 
@@ -850,14 +835,19 @@ class UserController extends Controller
             $host = url('/');
 
             // Profile Image insert
-            $profileImg = $request->file('profile_photo');
-            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
-            $profileImg->move(public_path('images/profiles'), $profile_name);
-            $requestdata = array();
+            $imagedata =  [];
+            $profile_name  = "";
+            if(array_key_exists('profile_photo', $input)) {
+                $profileImg = $request->file('profile_photo');
+                $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+                $profileImg->move(public_path('images/profiles'), $profile_name);
+                $requestdata = array();
 
-            $imagedata =  [
-                'image' => $host . "/images/profiles/" . $profile_name,
-            ];
+                $imagedata =  [
+                    'image' => $host . "/images/profiles/" . $profile_name,
+                ];
+            }
+
             if(array_key_exists('first_name', $input)) {
                 $imagedata +=  [
                     'first_name' => $input['first_name'],
@@ -884,7 +874,10 @@ class UserController extends Controller
 
             if($this->update_user_details($imagedata, $id)) {
                 $user = User::find($id);
-                $user["image"] = $host . "/images/profiles/" . $profile_name;
+                if(array_key_exists('profile_photo', $input)) {
+                    $user["image"] = $host . "/images/profiles/" . $profile_name;
+                }
+
             } else {
                 $response['message'] = "Profile image not update";
                 return response($response, 406)
