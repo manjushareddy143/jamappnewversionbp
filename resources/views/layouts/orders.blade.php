@@ -10,6 +10,17 @@
                         <h6 class="m-0 font-weight-bold text-primary">Orders Management</h6>
                         {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                             id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button> --}}
+
+                               {{-- filter dropdown --}}
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Filter
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <input class="form-control" id="myInput" type="text" placeholder="Search..">
+                                <li><a href="#">Rating</a></li>
+                                <li><a href="#">Price</a></li>
+                                <li><a href="#">Availability</a></li>
+                                <li><a href="#">Distance</a></li>
+                            </ul>
                     </div>
 
                     <div class="table-responsive">
