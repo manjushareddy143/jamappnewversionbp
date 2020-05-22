@@ -18,8 +18,37 @@ class CreateSubCategoriesTable extends Migration
             $table->string('name');
             $table->string('image')->nullable();
             $table->string('description')->nullable();
+            $table->string('price');
             $table->timestamps();
         });
+
+        DB::table('sub_categories')->insert(
+            array(
+                'name' => 'Installation',
+                'image' => "/images/subcategories/" . 'Installation.jpg',
+                'description' => '',
+                'price' => '50',
+            )
+        );
+
+        DB::table('sub_categories')->insert(
+            array(
+                'name' => 'Cleaning',
+                'image' => "/images/subcategories/" . 'Cleaning.jpg',
+                'description' => '',
+                'price' => '60',
+            )
+        );
+
+        DB::table('sub_categories')->insert(
+            array(
+                'name' => 'Repair',
+                'image' => "/images/subcategories/" . 'Repair.jpg',
+                'description' => '',
+                'price' => '30',
+            )
+        );
+
     }
 
     /**
