@@ -204,7 +204,7 @@
                                     'onclick="clickMe(' + response[i].id + ')"' + 'id="' + response[i].id +
                                     '" name="' + response[i].id +
                                     '" value="' + response[i].id + '">' +
-                                    '<img src="' + img + '" class="square" width="60" height="50" />' +
+                                    '<img src="' + img + '" class="square" width="50" height="40" />' +
                                     '<label style="margin: 10px;"> ' + response[i].name + ' </label> </li>';
                             }
                             $('#tree_box').append(trHTML);
@@ -233,57 +233,6 @@
             }
             console.log(selectedService);
         }
-
-        $('label').click(function () {
-                console.log("LAABL")
-            $(this).closest('li').children('ul').slideToggle();
-        });
-
-        // $(':checkbox').click(function () {
-        //     console.log("CLIKC");
-        //     var matchingId = $(this).attr('id');
-        //     console.log(matchingId);
-        //     if ($(this).attr('checked')) {
-        //         $('input[id*=' + matchingId + ']').each(function () {
-        //             $(this).removeAttr('checked');
-        //             $(this).prop('checked', false);
-        //             $(this).prop('checked', $(this).attr('checked'));
-        //             return;
-        //         });
-        //     } else {
-        //         $('input[id*=' + matchingId + ']').each(function () {
-        //             $(this).attr('checked', 'checked');
-        //             $(this).prop('checked', $(this).attr('checked'));
-        //         });
-        //     }
-        //
-        // });
-        //
-        // $(function () {
-        //     // addItem($('#tree_box'), data);
-        //     $(':checkbox').click(function () {
-        //         var matchingId = $(this).attr('id');
-        //         console.log(matchingId);
-        //         if ($(this).attr('checked')) {
-        //             $('input[id*=' + matchingId + ']').each(function () {
-        //                 $(this).removeAttr('checked');
-        //                 $(this).prop('checked', false);
-        //                 $(this).prop('checked', $(this).attr('checked'));
-        //                 return;
-        //             });
-        //         } else {
-        //             $('input[id*=' + matchingId + ']').each(function () {
-        //                 $(this).attr('checked', 'checked');
-        //                 $(this).prop('checked', $(this).attr('checked'));
-        //             });
-        //         }
-        //
-        //     });
-        //     $('label').click(function () {
-        //         console.log("LAABL")
-        //         $(this).closest('li').children('ul').slideToggle();
-        //     });
-        // });
 
         function getResult() {
 
@@ -341,8 +290,6 @@
                 $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
                 e.stopPropagation();
             });
-
-
 
 
         function getColumnValue(e){
