@@ -522,8 +522,6 @@
                 localStorage.setItem('userObject', JSON.stringify(response));
                 window.location = '/home';
             });
-        } else {
-
         }
     }
 
@@ -675,7 +673,6 @@
         if ($("#org_select_country").val() === "Select Country") {
             $('#org_select_country').next('div.red').remove();
             $('#org_select_country').after('<div class="red" style="color:red">Country is Required</div>');
-            //return false;
         } else {
             $(this).next('div.red').remove();
         }

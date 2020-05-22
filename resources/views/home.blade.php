@@ -329,7 +329,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 Close
                             </button>
-                            <button type="button" onclick="Organisationprofile()" class="btn btn-primary">
+                            <button type="button" onclick="org_apiCall()" class="btn btn-primary">
                                 Save
                             </button>
                         </div>
@@ -345,6 +345,13 @@
                         display: none;
                     }
                     #org_profileImage {
+                        cursor: pointer;
+                    }
+
+                    #imageUpload {
+                        display: none;
+                    }
+                    #profileImage {
                         cursor: pointer;
                     }
                 </style>
@@ -437,20 +444,24 @@
             $.ajax({
                 url: '/api/v1/all_services',
                 type: 'GET',
-                success: function (response) {
-                    console.log(response);
-                    if (response['status'] == 204) {
+                success: function (response, xhr) {
+                    console.log(JSON.stringify(xhr));
+                    console.log("DATA::: "+response);
+                    if (xhr['status'] == 204) {
                         console.log(response);
                     } else {
-                        for (var i = 0; i < response.length; i++) {
-                            console.log(response[i].name);
-                            $('#servicelist').append(`<option value="${response[i].id}">
+                        if(response != null) {
+                            for (var i = 0; i < response.length; i++) {
+                                console.log(response[i].name);
+                                $('#servicelist').append(`<option value="${response[i].id}">
                                    ${response[i].name}
                               </option>`);
+                            }
+                            var selected_id = $('#servicelist').children("option:selected").val();
+                            console.log(selected_id);
+                            setCategories(selected_id);
                         }
-                        var selected_id = $('#servicelist').children("option:selected").val();
-                        console.log(selected_id);
-                        setCategories(selected_id);
+
                     }
                 },
                 fail: function (error) {
@@ -471,8 +482,9 @@
             $.ajax({
                 url: '/api/v1/services/category?id=' + selected_id,
                 type: 'GET',
-                success: function (response) {
-                    console.log(response);
+                success: function (response, xhr) {
+                    console.log(response)   ;
+                    console.log(JSON.stringify(xhr));
                     if (response['status'] == 204) {
                         console.log(response);
                     } else {
@@ -544,15 +556,17 @@
         // it return true if form is validdated @please test it before proceed
         function org_validateForm()
         {
+            var isValidate = false;
             console.log("organisation_validate");
             let optionsLength = document.getElementById("numofemp").length;
 
             if ($("#numofemp").val() === "Select Number of Employee") {
                 $('#numofemp').next('div.red').remove();
                 $('#numofemp').after('<div class="red" style="color:red">Choose number of employee is Required</div>');
-                return false;
+                isValidate = false;
             } else {
                 $(this).next('div.red').remove();
+                isValidate = true;
             }
             if (document.getElementById("org_imageUpload").value == "") {
                 $("#org_imageUpload").focus();
@@ -564,12 +578,12 @@
                     {
                         $('#org_imageUpload').next('div.red').remove();
                         $('#org_imageUpload').after('<div class="red" style="color:red">Company Image is Required</div>');
-                        return false;
+                        isValidate = false;
                     }
                     else
                     {
                         $(this).next('div.red').remove();
-                        return true;
+                        isValidate = true;
                     }
                 });
 
@@ -585,12 +599,12 @@
                     {
                         $('#org_address_name').next('div.red').remove();
                         $('#org_address_name').after('<div class="red" style="color:red">Address Name is Required</div>');
-                        return false;
+                        isValidate = false;
                     }
                     else
                     {
                         $(this).next('div.red').remove();
-                        return true;
+                        isValidate = true;
                     }
                 });
             }
@@ -605,12 +619,12 @@
                     {
                         $('#org_address_line1').next('div.red').remove();
                         $('#org_address_line1').after('<div class="red" style="color:red">Address line1 is Required</div>');
-                        return false;
+                        isValidate = false;
                     }
                     else
                     {
                         $(this).next('div.red').remove();
-                        return true;
+                        isValidate = true;
                     }
                 });
             }
@@ -625,12 +639,12 @@
                     {
                         $('#org_address_line2').next('div.red').remove();
                         $('#org_address_line2').after('<div class="red" style="color:red">Address line2 is Required</div>');
-                        return false;
+                        isValidate = false;
                     }
                     else
                     {
                         $(this).next('div.red').remove();
-                        return true;
+                        isValidate = true;
                     }
                 });
             }
@@ -645,11 +659,12 @@
                     {
                         $('#org_landmark').next('div.red').remove();
                         $('#org_landmark').after('<div class="red" style="color:red">Address line2 is Required</div>');
+                        isValidate = false;
                     }
                     else
                     {
                         $(this).next('div.red').remove();
-                        return true;
+                        isValidate = true;
                     }
                 });
 
@@ -664,11 +679,12 @@
                     {
                         $('#org_district').next('div.red').remove();
                         $('#org_district').after('<div class="red" style="color:red">District is Required</div>');
+                        isValidate = false;
                     }
                     else
                     {
                         $(this).next('div.red').remove();
-                        return true;
+                        isValidate = true;
                     }
                 });
 
@@ -683,12 +699,12 @@
                     {
                         $('#org_city').next('div.red').remove();
                         $('#org_city').after('<div class="red" style="color:red">City is Required</div>');
-                        return false;
+                        isValidate = false;
                     }
                     else
                     {
                         $(this).next('div.red').remove();
-                        return true;
+                        isValidate = true;
                     }
                 });
 
@@ -703,46 +719,49 @@
                     {
                         $('#org_postal_code').next('div.red').remove();
                         $('#org_postal_code').after('<div class="red" style="color:red">Postal Code is Required</div>');
+                        isValidate = false;
                     }
                     else
                     {
                         $(this).next('div.red').remove();
-                        return true;
+                        isValidate = true;
                     }
                 });
             }
+
+            return isValidate;
         }
 
 
 
 
 
-    function Organisationprofile() {
-        console.log("org_validateForm");
-        var profilevalidate = org_validateForm();
-        console.log("org_validateForm ::"+ profilevalidate);
-        if(profilevalidate == null){
-            console.log("CREATE SERVER CALL");
-            $.ajax({
-                type: "POST",
-                url: '/api/v1/org_profile',
-                data: formdata
-            }).done(function( response ) {
-                $("#org_Modal").modal("hide");
-                console.log(response);
-                // Put the object into storage
-                localStorage.setItem('userObject', JSON.stringify(response));
-                window.location = '/home';
-            });
-        }
-        else{
-            $("#alerterror").text(profilevalidate);
-            $("#alerterror").show();
-            setTimeout(function(){
-                $("#alerterror").hide()
-            },1000);
-        }
-     }
+    // function Organisationprofile() {
+    //     console.log("org_validateForm");
+    //     var profilevalidate = org_validateForm();
+    //     console.log("org_validateForm ::"+ profilevalidate);
+    //     if(profilevalidate == null){
+    //         console.log("CREATE SERVER CALL");
+    //         $.ajax({
+    //             type: "POST",
+    //             url: '/api/v1/org_profile',
+    //             data: formdata
+    //         }).done(function( response ) {
+    //             $("#org_Modal").modal("hide");
+    //             console.log(response);
+    //             // Put the object into storage
+    //             localStorage.setItem('userObject', JSON.stringify(response));
+    //             window.location = '/home';
+    //         });
+    //     }
+    //     else{
+    //         $("#alerterror").text(profilevalidate);
+    //         $("#alerterror").show();
+    //         setTimeout(function(){
+    //             $("#alerterror").hide()
+    //         },1000);
+    //     }
+    //  }
 
     function saveProfile() {
         if (validateForm()) {
@@ -825,21 +844,16 @@
                     console.log(error);
                 }
             });
-        }
-        // function Organisationprofile() {
-        //     org_apiCall();
-        //     if (org_validateForm()) {
-        //         console.log("VALIDATE FORM");
-        //         org_apiCall();
-        //     } else {
-        //         console.log("INVALIDATE FORM");
-        //     }
-
-        // }
+}
 
         function org_apiCall() {
+            var profilevalidate = org_validateForm();
+            console.log("org_validateForm AUR::"+ profilevalidate);
+            if(profilevalidate == true)
+            {
+                var numOfEmp = document.getElementById("numofemp").selectedIndex;
             var form = new FormData();
-            var files = $('#imageUpload')[0].files[0];
+            var files = $('#org_imageUpload')[0].files[0];
             form.append('profile_photo', files);
             //var doc_files = $('#docupload')[0].files[0];
             //form.append('identity_proof', doc_files);
@@ -859,6 +873,8 @@
             };
             console.log($addressdata)
             form.append('address', JSON.stringify($addressdata));
+            form.append('number_of_employee', document.getElementsByTagName("option")[numOfEmp].value);
+            form.append('id', obj.id);
 
             $.ajax({
                 url: '/api/v1/org_profile',
@@ -879,6 +895,13 @@
                     console.log(error);
                 }
             });
+            } else {
+                $("#alerterror").text(profilevalidate);
+                $("#alerterror").show();
+                setTimeout(function(){
+                    $("#alerterror").hide()
+                },1000);
+            }
         }
 
 
