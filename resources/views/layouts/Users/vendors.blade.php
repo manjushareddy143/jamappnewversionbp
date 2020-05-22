@@ -140,58 +140,12 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6 float-l">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Services <strong
                                                             style="font-size: 14px;color: #e60606;">*</strong></label>
-                                                    <ul class="tree" id="tree_box">
-                                                        <li class="has">
-                                                            <input type="checkbox" name="domain"
-                                                                   value="Agricultural Sciences">
-                                                            <label>Agricultural Sciences <span class="total">(3)</span></label>
-                                                            <ul>
-                                                                <li class="">
-                                                                    <input type="checkbox" id="services" name="services"
-                                                                           value="Agriculture, Dairy &amp; Animal Science">
-                                                                    <label>Agriculture, Dairy &amp; Animal
-                                                                        Science </label>
-                                                                </li>
-                                                                <li class="">
-                                                                    <input type="checkbox" id="services" name="services"
-                                                                           value="Agricultural Engineering">
-                                                                    <label>Agricultural Engineering </label>
-                                                                </li>
-                                                                <li class="">
-                                                                    <input type="checkbox" id="services" name="services"
-                                                                           value="Agricultural Economics &amp; Policy">
-                                                                    <label>Agricultural Economics &amp; Policy </label>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li class="has">
-                                                            <input type="checkbox" name="domain[]"
-                                                                   value="Chemical Sciences">
-                                                            <label>Chemical Sciences <span
-                                                                    class="total">(3)</span></label>
-                                                            <ul>
-                                                                <li class="">
-                                                                    <input type="checkbox" name="services"
-                                                                           value="Chemistry, Applied">
-                                                                    <label>Chemistry, Applied </label>
-                                                                </li>
-                                                                <li class="">
-                                                                    <input type="checkbox" name="services"
-                                                                           value="Chemistry, Multidisciplinary">
-                                                                    <label>Chemistry, Multidisciplinary </label>
-                                                                </li>
-                                                                <li class="">
-                                                                    <input type="checkbox" name="services"
-                                                                           value="Chemistry, Analytical">
-                                                                    <label>Chemistry, Analytical </label>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
+                                                    <ul class="tree" id="tree_box"
+                                                        style="overflow: auto;height: 200px;"></ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -228,29 +182,108 @@
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
-        window.addEventListener ?
-            window.addEventListener("load", onLoad(), false) :
-            window.attachEvent && window.attachEvent("onload", onLoad());
 
-
-        function onLoad() {
-            console.log("ON LOAD  tbl_id")
-            getResult();
-
+        function addServices() {
+            $.ajax({
+                url: '/api/v1/all_services',
+                type: 'GET',
+                success: function (response, xhr) {
+                    console.log(JSON.stringify(xhr));
+                    console.log("DATA::: "+response);
+                    if (xhr['status'] == 204) {
+                        console.log(response);
+                    } else {
+                        if(response != null) {
+                            var trHTML = '';
+                            var i;
+                            for(i = 0; i < response.length; i++)
+                            {
+                                console.log(response[i].name);
+                                var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
+                                trHTML += '<li class=""> <input type="checkbox" ' +
+                                    'onclick="clickMe(' + response[i].id + ')"' + 'id="' + response[i].id +
+                                    '" name="' + response[i].id +
+                                    '" value="' + response[i].id + '">' +
+                                    '<img src="' + img + '" class="square" width="60" height="50" />' +
+                                    '<label style="margin: 10px;"> ' + response[i].name + ' </label> </li>';
+                            }
+                            $('#tree_box').append(trHTML);
+                        }
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
         }
 
-        $(document).on('click', '.tree label', function (e) {
-            $(this).next('ul').fadeToggle();
-            e.stopPropagation();
+        var selectedService = [];
+
+        function clickMe(id) {
+            console.log("CLIKC ::" + id);
+            if(jQuery.inArray(id, selectedService) != -1) {
+                console.log("is in array");
+                selectedService = $.grep(selectedService, function(value) {
+                    return value != id;
+                });
+
+            } else {
+                console.log("is NOT in array");
+                selectedService.push(id);
+            }
+            console.log(selectedService);
+        }
+
+        $('label').click(function () {
+                console.log("LAABL")
+            $(this).closest('li').children('ul').slideToggle();
         });
 
-        $(document).on('change', '.tree input[type=checkbox]',
-            function (e) {
-                $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
-                $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
-                e.stopPropagation();
-            });
-
+        // $(':checkbox').click(function () {
+        //     console.log("CLIKC");
+        //     var matchingId = $(this).attr('id');
+        //     console.log(matchingId);
+        //     if ($(this).attr('checked')) {
+        //         $('input[id*=' + matchingId + ']').each(function () {
+        //             $(this).removeAttr('checked');
+        //             $(this).prop('checked', false);
+        //             $(this).prop('checked', $(this).attr('checked'));
+        //             return;
+        //         });
+        //     } else {
+        //         $('input[id*=' + matchingId + ']').each(function () {
+        //             $(this).attr('checked', 'checked');
+        //             $(this).prop('checked', $(this).attr('checked'));
+        //         });
+        //     }
+        //
+        // });
+        //
+        // $(function () {
+        //     // addItem($('#tree_box'), data);
+        //     $(':checkbox').click(function () {
+        //         var matchingId = $(this).attr('id');
+        //         console.log(matchingId);
+        //         if ($(this).attr('checked')) {
+        //             $('input[id*=' + matchingId + ']').each(function () {
+        //                 $(this).removeAttr('checked');
+        //                 $(this).prop('checked', false);
+        //                 $(this).prop('checked', $(this).attr('checked'));
+        //                 return;
+        //             });
+        //         } else {
+        //             $('input[id*=' + matchingId + ']').each(function () {
+        //                 $(this).attr('checked', 'checked');
+        //                 $(this).prop('checked', $(this).attr('checked'));
+        //             });
+        //         }
+        //
+        //     });
+        //     $('label').click(function () {
+        //         console.log("LAABL")
+        //         $(this).closest('li').children('ul').slideToggle();
+        //     });
+        // });
 
         function getResult() {
 
@@ -284,6 +317,33 @@
                 }
             });
         };
+
+        window.addEventListener ?
+            window.addEventListener("load", onLoad(), false) :
+            window.attachEvent && window.attachEvent("onload", onLoad());
+
+
+        function onLoad() {
+            console.log("ON LOAD  tbl_id")
+            getResult();
+            addServices();
+
+        }
+
+        $(document).on('click', '.tree label', function (e) {
+            $(this).next('ul').fadeToggle();
+            e.stopPropagation();
+        });
+
+        $(document).on('change', '.tree input[type=checkbox]',
+            function (e) {
+                $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
+                $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
+                e.stopPropagation();
+            });
+
+
+
 
         function getColumnValue(e){
             console.log(e);
@@ -457,32 +517,6 @@
 
 
         }
-
-
-        $(function () {
-            addItem($('#tree_box'), data);
-            $(':checkbox').click(function () {
-                var matchingId = $(this).attr('id');
-                if ($(this).attr('checked')) {
-                    $('input[id*=' + matchingId + ']').each(function () {
-                        $(this).removeAttr('checked');
-                        $(this).prop('checked', false);
-                        $(this).prop('checked', $(this).attr('checked'));
-                        return;
-                    });
-                } else {
-                    $('input[id*=' + matchingId + ']').each(function () {
-                        $(this).attr('checked', 'checked');
-                        $(this).prop('checked', $(this).attr('checked'));
-                    });
-                }
-
-            });
-            $('label').click(function () {
-                $(this).closest('li').children('ul').slideToggle();
-
-            });
-        });
 
     </script>
 
