@@ -145,7 +145,7 @@
                                                 <div class="form-group">
                                             <label>Services <strong style="font-size: 14px;color: #e60606;">*</strong></label>
 
-                                                    <ul class="tree" id="ser_checkbox">
+                                                    <ul class="tree" id="">
                                                         <li class="has">
                                                             <input type="checkbox" name="domain"
                                                                    value="Agricultural Sciences">
