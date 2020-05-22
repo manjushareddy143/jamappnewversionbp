@@ -109,28 +109,28 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 float-l">
-                                                <div class="form-group">
-                                                    <label>Services <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
-                                                    <select name="type" id="service_provider"
-                                                            class="form-control @error('Selected type') is-invalid @enderror">
-                                                        <option value="Selected">Select</option>
-                                                        <option value="Corporate service provider">Corporate service
-                                                            provider
-                                                        </option>
-                                                        <option value="Individual service provider">Individual service
-                                                            provider
-                                                        </option>
-                                                    </select>
-                                                    @error('type')
-                                                    <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                        <!-- <div class="col-md-6 float-l">
+                                 <div class="form-group">
+                                    <label>Services <strong
+                                       style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <select name="type" id="service_provider"
+                                       class="form-control @error('Selected type') is-invalid @enderror">
+                                       <option value="Selected">Select</option>
+                                       <option value="Corporate service provider">Corporate service
+                                          provider
+                                       </option>
+                                       <option value="Individual service provider">Individual service
+                                          provider
+                                       </option>
+                                    </select>
+                                    @error('type')
+                                            <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
                                     </span>
-                                                    @enderror
-                                                </div>
+                                    @enderror
                                             </div>
-                                             <div class="col-md-6 float-l">
+                                         </div> -->
+                                            <div class="col-md-6 float-l">
                                                 <div class="form-group">
                                                     <label>Image <strong
                                                             style="font-size: 14px;color: #e60606;">*</strong></label>
@@ -138,71 +138,16 @@
                                                            required>
                                                 </div>
                                             </div>
-                                            
                                         </div>
                                         <div class="row">
-                                             <div class="col-md-6 float-l">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
-                                            <label>Services <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-
-                                                    <ul class="tree" id="ser_checkbox">
-                                                        <li class="has">
-                                                            <input type="checkbox" name="domain"
-                                                                   value="Agricultural Sciences">
-                                                            <label>Agricultural Sciences <span class="total">(3)</span></label>
-                                                            <ul>
-                                                                <li class="">
-                                                                    <input type="checkbox" id="services" name="services"
-                                                                           value="Agriculture, Dairy &amp; Animal Science">
-                                                                    <label>Agriculture, Dairy &amp; Animal
-                                                                        Science </label>
-                                                                </li>
-                                                                <li class="">
-                                                                    <input type="checkbox" id="services" name="services"
-                                                                           value="Agricultural Engineering">
-                                                                    <label>Agricultural Engineering </label>
-                                                                </li>
-                                                                <li class="">
-                                                                    <input type="checkbox" id="services" name="services"
-                                                                           value="Agricultural Economics &amp; Policy">
-                                                                    <label>Agricultural Economics &amp; Policy </label>
-                                                                </li>
-
-                                                            </ul>
-                                                        </li>
-
-
-                                                        <li class="has">
-                                                            <input type="checkbox" name="domain[]"
-                                                                   value="Chemical Sciences">
-                                                            <label>Chemical Sciences <span
-                                                                    class="total">(3)</span></label>
-                                                            <ul>
-                                                                <li class="">
-                                                                    <input type="checkbox" name="services"
-                                                                           value="Chemistry, Applied">
-                                                                    <label>Chemistry, Applied </label>
-                                                                </li>
-                                                                <li class="">
-                                                                    <input type="checkbox" name="services"
-                                                                           value="Chemistry, Multidisciplinary">
-                                                                    <label>Chemistry, Multidisciplinary </label>
-                                                                </li>
-                                                                <li class="">
-                                                                    <input type="checkbox" name="services"
-                                                                           value="Chemistry, Analytical">
-                                                                    <label>Chemistry, Analytical </label>
-                                                                </li>
-
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-
-
+                                                    <label>Services <strong
+                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <ul class="tree" id="tree_box"
+                                                        style="overflow: auto;height: 200px;"></ul>
                                                 </div>
-
                                             </div>
-                                           
                                         </div>
                                     </form>
                                 </div>
@@ -236,31 +181,58 @@
     </div>
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
     <script>
-        window.addEventListener ?
-            window.addEventListener("load", onLoad(), false) :
-            window.attachEvent && window.attachEvent("onload", onLoad());
 
-
-        function onLoad() {
-            console.log("ON LOAD  tbl_id")
-            getResult();
-
+        function addServices() {
+            $.ajax({
+                url: '/api/v1/all_services',
+                type: 'GET',
+                success: function (response, xhr) {
+                    console.log(JSON.stringify(xhr));
+                    console.log("DATA::: "+response);
+                    if (xhr['status'] == 204) {
+                        console.log(response);
+                    } else {
+                        if(response != null) {
+                            var trHTML = '';
+                            var i;
+                            for(i = 0; i < response.length; i++)
+                            {
+                                console.log(response[i].name);
+                                var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
+                                trHTML += '<li class=""> <input type="checkbox" ' +
+                                    'onclick="clickMe(' + response[i].id + ')"' + 'id="' + response[i].id +
+                                    '" name="' + response[i].id +
+                                    '" value="' + response[i].id + '">' +
+                                    '<img src="' + img + '" class="square" width="50" height="40" />' +
+                                    '<label style="margin: 10px;"> ' + response[i].name + ' </label> </li>';
+                            }
+                            $('#tree_box').append(trHTML);
+                        }
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
         }
 
-        $(document).on('click', '.tree label', function (e) {
-            $(this).next('ul').fadeToggle();
-            e.stopPropagation();
-        });
+        var selectedService = [];
 
-        $(document).on('change', '.tree input[type=checkbox]',
-            function (e) {
-                $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
-                $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
-                e.stopPropagation();
-            });
+        function clickMe(id) {
+            console.log("CLIKC ::" + id);
+            if(jQuery.inArray(id, selectedService) != -1) {
+                console.log("is in array");
+                selectedService = $.grep(selectedService, function(value) {
+                    return value != id;
+                });
 
+            } else {
+                console.log("is NOT in array");
+                selectedService.push(id);
+            }
+            console.log(selectedService);
+        }
 
         function getResult() {
 
@@ -282,10 +254,12 @@
                             '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> ' +
                             '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
-                            '<a href="#" class="btn btn-success" name="verifyvendor" value="$service_provider->id"> Verified ' +
+                            '<a href="/vendorsdetail" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
+                            'value="$service_provider->id"> Verified ' +
                             '</a>' + '</td></tr>';
                     });
                     $('#tbl_id').append(trHTML);
+
                 },
                 fail: function (error) {
                     console.log(error);
@@ -293,16 +267,44 @@
             });
         };
 
+        window.addEventListener ?
+            window.addEventListener("load", onLoad(), false) :
+            window.attachEvent && window.attachEvent("onload", onLoad());
 
-        function create_user()
-        {
+
+        function onLoad() {
+            console.log("ON LOAD  tbl_id")
+            getResult();
+            addServices();
+
+        }
+
+        $(document).on('click', '.tree label', function (e) {
+            $(this).next('ul').fadeToggle();
+            e.stopPropagation();
+        });
+
+        $(document).on('change', '.tree input[type=checkbox]',
+            function (e) {
+                $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
+                $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
+                e.stopPropagation();
+            });
+
+
+        function getColumnValue(e){
+            console.log(e);
+            alert(e);
+        }
+
+        function create_user() {
 
             console.log("create_service");
             var servicevalite = users_validate();
             console.log("users_validate ::" + servicevalite);
             if (servicevalite == null) {
                 console.log("CREATE SERVER CALL");
-            
+
                 var form = new FormData();
                 form.append('first_name', document.getElementById("first_name").value);
                 form.append('last_name', document.getElementById("last_name").value);
@@ -311,10 +313,12 @@
                 form.append('contact', document.getElementById("mobile").value);
                 form.append('gender', document.getElementById("gender").value);
                 form.append('language', document.getElementById("languages").value);
-                form.append('service_provider', document.getElementById("service_provider").value);
-                form.append('category', document.getElementById("category").value);
+                // form.append('service_provider', document.getElementById("service_provider").value);
+                // form.append('category', document.getElementById("category").value);
                 var image = $('#image')[0].files[0];
                 form.append('profile_photo', image);
+
+                var checkedCheckboxes = $('#tree_box input[type="checkbox"]:checked');
                 form.append('services', document.getElementById("services").value);
 
                 $.ajax({
@@ -365,6 +369,7 @@
 
             }
 
+
             if (document.getElementById("last_name").value == "") {
                 // EXPAND ADDRESS FORM
                 $("#last_name").focus();
@@ -381,51 +386,46 @@
                 });
             }
 
-            if(document.getElementById("email").value == "") {
-            $("#email").focus();
-            $("#email").focus();
-            $("#email").blur(function ()
-            {
-                var name = $('#email').val();
-                if (name.length == 0)
-                {
+            if (document.getElementById("email").value == "") {
+                $("#email").focus();
+                $("#email").focus();
+                $("#email").blur(function () {
+                    var name = $('#email').val();
+                    if (name.length == 0) {
                         console.log("ERRPR");
                         $('#email').next('div.red').remove();
                         $('#email').after('<div class="red" style="color:red">Email is Required</div>');
                         //return "false";
-                }
-                else
-                {
-                    if(!email_regex.test($('#email').val()))
-                    {
-                        console.log("ERROR");
-                        $('#email').next('div.red').remove();
-                        $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
-                        //return "false";
                     } else {
-                        console.log("NOT WORL");
-                        $(this).next('div.red').remove();
-                        //return true;
+                        if (!email_regex.test($('#email').val())) {
+                            console.log("ERROR");
+                            $('#email').next('div.red').remove();
+                            $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                            //return "false";
+                        } else {
+                            console.log("NOT WORL");
+                            $(this).next('div.red').remove();
+                            //return true;
+                        }
                     }
+                });
+            } else {
+                if (!email_regex.test($('#email').val())) {
+                    console.log("ERROR");
+                    $('#email').next('div.red').remove();
+                    $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                    //return "false";
+                } else {
+                    console.log("NOT WORL");
+                    $(this).next('div.red').remove();
+                    //return true;
                 }
-            });
-         }else {
-             if(!email_regex.test($('#email').val()))
-             {
-                 console.log("ERROR");
-                 $('#email').next('div.red').remove();
-                 $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
-                 //return "false";
-             } else {
-                 console.log("NOT WORL");
-                 $(this).next('div.red').remove();
-                 //return true;
-             }
 
-             // $('#email').next('div.red').remove();
-             // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
-             // return "false";
-         }
+                // $('#email').next('div.red').remove();
+                // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                // return "false";
+            }
+
 
             //Password
 
@@ -446,117 +446,26 @@
             }
 
 
-            //Image
+            //
+            // // Gender Radiobutton
+            //  {
+            // var checkRadio = document.querySelector(
+            // 'input[name="gender"]:checked');
+            //
+            // if (checkRadio != null) {
+            // document.getElementById("gender").innerHTML
+            //   = checkRadio.value
+            //   + " radio button checked";
+            // } else {
+            // document.getElementById("gender").innerHTML
+            //   = "No one selected";
+            // }
+            //  }
 
-            var image = $('#image')[0].files[0];
-            if (!image) {
-                $("#image").focus();
-                $("#image").focus();
-                $("#image").blur(function () {
-                    var name = $('#image').val();
-                    if (name.length == 0) {
-                        $('#image').next('div.red').remove();
-                        $('#image').after('<div class="red" style="color:red">Image is Required</div>');
-                    } else {
-                        $(this).next('div.red').remove();
-                        return true;
-                    }
-                });
-            }
-
-
-            //contact
-            if (document.getElementById("mobile").value == "") {
-                $("#mobile").focus();
-                $("#mobile").focus();
-                $("#mobile").blur(function () {
-                    var name = $('#mobile').val();
-                    if (name.length == 0) {
-                        $('#mobile').next('div.red').remove();
-                        $('#mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
-                        return false;
-                    } else {
-                        if (!phone_regex.test($('#mobile').val())) {
-                            console.log("ERRPR");
-                            $('#mobile').next('div.red').remove();
-                            $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                            return "false";
-                        } else {
-                            console.log("NOT WORL");
-                            $(this).next('div.red').remove();
-                            //return true;
-                        }
-                    }
-                });
-            } else {
-                if (!phone_regex.test($('#mobile').val())) {
-                    console.log("ERRPR");
-                    $('#mobile').next('div.red').remove();
-                    $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                    return "false";
-                } else {
-                    console.log("NOT WORL");
-                    $(this).next('div.red').remove();
-                    //return true;
-                }
-            }
-
-
-            Gender Radiobutton
-
-            var checkRadio = document.querySelector(
-            'input[name="gender"]:checked');
-
-            if (checkRadio != null) {
-            document.getElementById("gender").innerHTML
-              = checkRadio.value
-              + " radio button checked";
-            } else {
-            document.getElementById("gender").innerHTML
-              = "No one selected";
-            }
 
         }
-
-
-        function addItem(parentUL, branch) {
-            for (var key in branch.children) {
-        var item = branch.children[key];
-        $item = $('<li>', {
-            id: "item" + item.id
-        });
-        $item.append($('<input>', {
-            type: "checkbox",
-            id: "item" + item.id,
-            name: "item" + item.id
-        }));
-        $item.append($('<label>', {
-            for: "item" + item.id,
-            text: item.title
-        }));
-        parentUL.append($item);
-        if (item.children) {
-            var $ul = $('<ul>', {
-                style: 'display: none'
-            }).appendTo($item);
-            addItem($ul, item);
-        }
-    }
-    }
-
-            $(function () {
-                addItem($('#ser_checkbox'), data);
-                $(':checkbox').change(function () {
-                    $(this).closest('li').children('ul').slideToggle();
-                });
-                $('label').click(function(){
-                    $(this).closest('li').find(':checkbox').trigger('click');
-                });
-            });
-
 
     </script>
-
 
 @endsection
 

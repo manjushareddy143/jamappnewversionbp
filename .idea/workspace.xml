@@ -2,9 +2,56 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8a3fd0e7-3aac-4aee-a6a8-f237993968d0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/images/category/Agriculture.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Agriculture_banner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Carpentry.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Carpentry_banner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Carstransfer.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Carstransfer_banner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Furniture.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Furniture_banner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Laundry.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Laundry_banner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/PestControl.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/PestControl_banner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Plumbing.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Plumbing_banner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Satellite.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Satellite_banner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/Thumbs.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/ac-repair.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/cleaning.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/cleaning_bannr.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/electric_banner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/electrict.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/painting.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/category/painting_banner.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/documents/Thumbs.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/profiles/Thumbs.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/subcategories/Thumbs.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BookingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BookingController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ServiceMappingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ServiceMappingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_10_173947_create_services_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_10_173947_create_services_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_13_040107_create_sub_categories_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_13_040107_create_sub_categories_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_05_20_054556_add_price_to_sub_categories_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/1031908006.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/1070188722.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/1309580363.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/1382463634.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/1717920937.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/1859423971.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/1881937433.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/1899295343.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/2001322996.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/230355766.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/360455144.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/510917348.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/746930431.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/category/92262152.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/subcategories/950264366.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/register.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,6 +227,17 @@
       <workItem from="1589169605382" duration="13799000" />
       <workItem from="1589199663099" duration="2486000" />
       <workItem from="1589257742584" duration="3770000" />
+      <workItem from="1589453812694" duration="638000" />
+      <workItem from="1589454552978" duration="1520000" />
+      <workItem from="1589515938068" duration="8149000" />
+      <workItem from="1589550221321" duration="4335000" />
+      <workItem from="1589609517107" duration="2158000" />
+      <workItem from="1589638850408" duration="1065000" />
+      <workItem from="1589966223784" duration="7617000" />
+      <workItem from="1589974799593" duration="1780000" />
+      <workItem from="1590033456206" duration="18154000" />
+      <workItem from="1590122222313" duration="1225000" />
+      <workItem from="1590124780724" duration="7842000" />
     </task>
     <servers />
   </component>
@@ -191,10 +249,14 @@
       <screen x="0" y="0" width="1280" height="683" />
     </state>
     <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.683@0.0.1280.683" timestamp="1589177676851" />
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1589257742808">
+    <state x="100" y="100" width="1080" height="483" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1589550942153">
       <screen x="0" y="0" width="1280" height="683" />
     </state>
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.683@0.0.1280.683" timestamp="1589257742808" />
+    <state x="100" y="100" width="1080" height="483" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1280.683@0.0.1280.683" timestamp="1589550942153" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1590124794463">
+      <screen x="0" y="0" width="1280" height="683" />
+    </state>
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.683@0.0.1280.683" timestamp="1590124794463" />
     <state x="298" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1589186609626">
       <screen x="0" y="0" width="1280" height="683" />
     </state>
@@ -203,13 +265,67 @@
       <screen x="0" y="0" width="1280" height="683" />
     </state>
     <state x="350" y="76" width="612" height="536" key="find.popup/0.0.1280.683@0.0.1280.683" timestamp="1589170736378" />
-    <state x="297" y="145" key="run.anything.popup" timestamp="1588928898399">
+    <state x="297" y="145" key="run.anything.popup" timestamp="1590063825462">
       <screen x="0" y="0" width="1280" height="683" />
     </state>
-    <state x="297" y="145" key="run.anything.popup/0.0.1280.683@0.0.1280.683" timestamp="1588928898399" />
+    <state x="297" y="145" key="run.anything.popup/0.0.1280.683@0.0.1280.683" timestamp="1590063825462" />
     <state x="303" y="3" width="672" height="678" key="search.everywhere.popup" timestamp="1588859324537">
       <screen x="0" y="0" width="1280" height="683" />
     </state>
     <state x="303" y="3" width="672" height="678" key="search.everywhere.popup/0.0.1280.683@0.0.1280.683" timestamp="1588859324537" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/auth/register.blade.php</url>
+          <line>476</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/home.blade.php</url>
+          <line>201</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/home.blade.php</url>
+          <line>556</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/auth/login.blade.php</url>
+          <line>174</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/home.blade.php</url>
+          <line>376</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/auth/login.blade.php</url>
+          <line>314</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php-line-method">
+          <url>file://$PROJECT_DIR$/app/Http/Controllers/UserController.php</url>
+          <line>737</line>
+          <properties>
+            <option name="className" value="\App\Http\Controllers\UserController" />
+            <option name="methodName" value="get_user_services" />
+          </properties>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php-line-method">
+          <url>file://$PROJECT_DIR$/app/Http/Controllers/UserController.php</url>
+          <line>780</line>
+          <properties>
+            <option name="className" value="\App\Http\Controllers\UserController" />
+            <option name="methodName" value="update_user_details" />
+          </properties>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
