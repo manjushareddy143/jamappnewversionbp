@@ -12,17 +12,22 @@
                         id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customers</button>
                     </div>
 
-                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Small button
-                        <a class="dropdown-item" href="#">Rating</a>
-                        <a class="dropdown-item" href="#">Price</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                      </button>
-
+                       {{-- filter dropdown --}}
+                    <div class="col-md-1">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #46a396 !important;border: none;"  required> Filter
+                            {{-- <span class="caret"></span> --}}
+                            <ul class="dropdown-menu">
+                                <input class="form-control" id="filter_option" type="text" placeholder="Search.."  >
+                                <li><a href="#rating" style="padding-left: 20%;">Rating</a></li>
+                                <li><a href="#price" style="padding-left: 20%;">Price</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Availability</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Distance</a></li>
+                            </ul>
+                        </button>
+                    </div>
                     {{-- filter dropdown --}}
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <button class="btn btn-primary" type="button"> Filter
-                        {{-- <span class="caret"></span>--}}
                         <select class="form-control" id="filter_option" style="background-color: #46a396 !important;border: none;" onclick="Filters()" required>
                         <option>Rating</option>
                         <option>Price</option>
@@ -30,7 +35,7 @@
                         <option>Availability</option>
                         </select>
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -331,7 +336,7 @@
              // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
              // return "false";
          }
-         
+
          //Password
 
        if (document.getElementById("password").value == "") {
@@ -478,17 +483,35 @@
            document.getElementById("gender").innerHTML
                = "No one selected";
        }
-
-       //filteration
-
     }
-    function Filters()
-       {
-           console.log("hello");
-           var a = document.getElementById("filter_option");
-           var b = a.options[a.selectedIndex].text;
-           console.log(b);
-       }
+       //filteration
+    //    $(document).ready(function(){
+    //            var divListChildren = "";
+    //             $("div.col-md-1").find("li").each(function(index,ele){
+    //               divListChildren += ele.innerHTML + " ";
+    //            })
+    //             console.log(divListChildren);
+    //        })
+    function showText(elem) {
+        console.log(elem.innerText);
+    }
+    document.querySelectorAll("li").forEach(li => li.addEventListener("click", () => showText(li)));
+    // function Filters()
+    //    {
+    //        console.log("hello");
+        //    var links = document.querySelectorAll("myInput a");
+        //    console.log(links[i].href);
+        //    var links = document.querySelectorAll("#filter_option a");
+        //    for(var i = 0; i < links.text; i++)
+        //    {
+        //        console.log(links[i].href);
+        //    };
+            // filter normal dropdown
+        //    console.log("hello");
+        //    var a = document.getElementById("filter_option");
+        //    var b = a.options[a.selectedIndex].text;
+        //    console.log(b);
+      // }
 
 </script>
 @endsection
