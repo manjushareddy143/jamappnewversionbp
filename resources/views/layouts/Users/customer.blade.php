@@ -3,12 +3,35 @@
 <div class="container-fluid" id="container-wrapper">
    <div class="row">
       <div class="col-lg-12 margin-tb">
-         <div class="card">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-               <h6 class="m-0 font-weight-bold text-primary">Customers</h6>
-               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                  id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customers</button>
-            </div>
+            <div class="card">
+                <div class="card-header py-3 d-flex">
+                    <h6 class="m-0 font-weight-bold text-primary">Customers</h6>
+
+                    <div style="padding-left: 74%;">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                        id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customers</button>
+                    </div>
+
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Small button
+                        <a class="dropdown-item" href="#">Rating</a>
+                        <a class="dropdown-item" href="#">Price</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                      </button>
+
+                    {{-- filter dropdown --}}
+                    <div class="col-md-6">
+                        <button class="btn btn-primary" type="button"> Filter
+                        {{-- <span class="caret"></span>--}}
+                        <select class="form-control" id="filter_option" style="background-color: #46a396 !important;border: none;" onclick="Filters()" required>
+                        <option>Rating</option>
+                        <option>Price</option>
+                        <option>Distance</option>
+                        <option>Availability</option>
+                        </select>
+                        </button>
+                    </div>
+                </div>
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                aria-hidden="true">
@@ -132,6 +155,7 @@
 </div>
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('vendor/js/src/dropdown.js') }}"></script>
 <script>
 
 
@@ -220,15 +244,14 @@
            setTimeout(function() {
                $("#alerterror").hide()
            }, 1000);
-       }
-
-   }
+        }
+    }
 
 
     var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
     var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-   function users_validate() {
-
+    function users_validate()
+    {
            console.log("users_validate");
        if (document.getElementById("first_name").value == "") {
            // EXPAND ADDRESS FORM
@@ -245,7 +268,7 @@
                }
            });
 
-       }
+        }
 
        if (document.getElementById("last_name").value == "") {
            // EXPAND ADDRESS FORM
@@ -263,7 +286,7 @@
            });
        }
 
-  if(document.getElementById("email").value == "") {
+        if(document.getElementById("email").value == "") {
             $("#email").focus();
             $("#email").focus();
             $("#email").blur(function ()
@@ -291,7 +314,7 @@
                     }
                 }
             });
-         }else {
+        }else {
              if(!email_regex.test($('#email').val()))
              {
                  console.log("ERROR");
@@ -350,7 +373,7 @@
 
 
          //contact
-            
+
             if (document.getElementById("contact").value == "") {
             $("#contact").focus();
             $("#contact").focus();
@@ -391,8 +414,8 @@
                  //return true;
              }
          }
-             
-         
+
+
 
          if(document.getElementById("email").value == "") {
             $("#email").focus();
@@ -456,7 +479,17 @@
                = "No one selected";
        }
 
-  }
+       //filteration
+
+    }
+    function Filters()
+       {
+           console.log("hello");
+           var a = document.getElementById("filter_option");
+           var b = a.options[a.selectedIndex].text;
+           console.log(b);
+       }
+
 </script>
 @endsection
 
