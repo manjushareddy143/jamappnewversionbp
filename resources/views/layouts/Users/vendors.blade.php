@@ -138,7 +138,7 @@
                                                            required>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="row">
                                              <div class="col-md-6 float-l">
@@ -202,7 +202,7 @@
                                                 </div>
 
                                             </div>
-                                           
+
                                         </div>
                                     </form>
                                 </div>
@@ -282,7 +282,9 @@
                             '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> ' +
                             '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
-                            '<a href="#" class="btn btn-success" name="verifyvendor" value="$service_provider->id"> Verified ' +
+                            '<a href="#" class="btn btn-success" onclick="getColumnValue(' + response[i].id + ')"' +
+                            ' name="verifyvendor" ' +
+                            'value="$service_provider->id"> Verified ' +
                             '</a>' + '</td></tr>';
                     });
                     $('#tbl_id').append(trHTML);
@@ -293,6 +295,10 @@
             });
         };
 
+        function getColumnValue(e){
+            console.log(e);
+            alert(e);
+        }
 
         function create_user()
         {
@@ -302,7 +308,7 @@
             console.log("users_validate ::" + servicevalite);
             if (servicevalite == null) {
                 console.log("CREATE SERVER CALL");
-            
+
                 var form = new FormData();
                 form.append('first_name', document.getElementById("first_name").value);
                 form.append('last_name', document.getElementById("last_name").value);
