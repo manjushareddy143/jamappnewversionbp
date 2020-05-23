@@ -251,11 +251,11 @@
                             '</td><td>' + response[i].email + '</td>' +
                             '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                             '</td><td>' + response[i].gender + '</td>' +
-                            '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> ' +
+                            '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> ' +
                             '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
-                            '<a href="/vendorsdetail" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
-                            'value="$service_provider->id"> Verified ' +
+                            '<a href="#" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
+                            '> Verified ' +
                             '</a>' + '</td></tr>';
                     });
                     $('#tbl_id').append(trHTML);
@@ -297,8 +297,13 @@
             alert(e);
         }
 
-        function create_user() {
+        function viewDetail(e){
+            console.log(e);
+            // alert(e);
+            window.location = '/vendorsdetail?id=' + e;
+        }
 
+        function create_user() {
             console.log("create_service");
             var servicevalite = users_validate();
             console.log("users_validate ::" + servicevalite);

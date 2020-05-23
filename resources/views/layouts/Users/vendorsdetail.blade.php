@@ -1,202 +1,221 @@
 @extends('layouts.admin')
 @section('content')
-<!-- Container Fluid-->
-<div class="container-fluid" id="container-wrapper">
-   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Create User</h1>
-      <div class="custom-buttons">
-         <button type="button" class="btn btn-primary mb-1">Create</button>
-         <button type="button" class="btn btn-secondary mb-1">Back</button>
-      </div>
-   </div>
-   <div class="row sectionrow">
-      <div class="col-lg-12">
-         <!-- Horizontal Form -->
-         <div class="card mb-4">
-            <div class="card-body">
-               <div class="login-form create-user">
-                  <form>
-                     <div class="row">
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                           <label>First Name</label>
-                           <input type="text" class="form-control" id="first_name" placeholder="Enter First Name">
-                        </div>
-                     </div>
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                           <label>Last Name</label>
-                           <input type="text" class="form-control" id="last_name" placeholder="Enter Last Name">
-                        </div>
-                     </div>
-                     </div>
-                     <div class="row">
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                           <label>Email Address</label>
-                           <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter Email Address">
-                        </div>
-                     </div>
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                           <label>Password</label>
-                           <input type="password" class="form-control" id="password" placeholder="Password">
-                        </div>
-                     </div>
-                     </div>
-                     <div class="row">
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                           <label>Confirm Password</label>
-                           <input type="password" class="form-control" id="exampleInputPasswordRepeat" placeholder="Repeat Password">
-                        </div>
-                     </div>
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                           <label>Contact</label>
-                           <input type="text" class="form-control" id="mobile" placeholder="Enter Mobile Number">
-                        </div>
-                     </div>
-                     </div>
-                     <div class="row">
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                           <label for="exampleFormControlSelect1">Type</label>
-                           <select class="form-control" id="exampleFormControlSelect1">
-                              <option>Individual Service Provider1</option>
-                              <option>Individual Service Provider2</option>
-                              <option>Individual Service Provider3</option>
-                              <option>Individual Service Provider4</option>
-                              <option>Individual Service Provider5</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="col-md-6 float-l">
-                        <div class="form-group register-rc-button">
-                           <label>Gender</label>
-                           <div class="custom-control custom-radio">
-                              <input type="radio" id="gender" name="female" class="custom-control-input" value="female">
-                              <label class="custom-control-label" for="customRadio3">Female</label>
-                           </div>
-                           <div class="custom-control custom-radio">
-                              <input type="radio" id="gender" name="male" class="custom-control-input" value="male">
-                              <label class="custom-control-label" for="customRadio4">Male</label>
-                           </div>
-                           <div class="custom-control custom-radio">
-                              <input type="radio" id="gender" name="other" class="custom-control-input" value="other">
-                              <label class="custom-control-label" for="customRadio4">Other</label>
-                           </div>
-                        </div>
-                     </div>
-                     </div>
-                     <div class="row">
-                     <div class="col-md-6 float-l">
-                        <div class="form-group register-rc-button">
-                           <label>Languages Known</label>
-                           <div class="custom-control custom-checkbox">
-                              <input type="checkbox"  class="custom-control-input" id="languages" name="arabic" value="arabic">
-                              <label class="custom-control-label" for="customCheck2">Arabic</label>
-                           </div>
-                           <div class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input" id="languages" name="english" value="english">
-                              <label class="custom-control-label" for="customCheck3">English</label>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                           <label>Timing</label>
-                           <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter First Name">
-                        </div>
-                     </div>
-                     </div>
-                     <div class="row">
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                           <label>Experience</label>
-                           <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter First Name">
-                        </div>
-                     </div>
-                     <div class="col-md-6 float-l">
-                        <div class="form-group">
-                           <label>Multi Dropdown Checkbox</label>
-                           <ul class="tree">
-                              <li class="has">
-                                 <input type="checkbox" name="domain[]" value="Agricultural Sciences">
-                                 <label>Agricultural Sciences <span class="total">(3)</span></label>
-                                 <ul>
-                                    <li class="">
-                                       <input type="checkbox" name="subdomain[]" value="Agriculture, Dairy &amp; Animal Science">
-                                       <label>Agriculture, Dairy &amp; Animal Science </label>
-                                    </li>
-                                    <li class="">
-                                       <input type="checkbox" name="subdomain[]" value="Agricultural Engineering">
-                                       <label>Agricultural Engineering </label>
-                                    </li>
-                                    <li class="">
-                                       <input type="checkbox" name="subdomain[]" value="Agricultural Economics &amp; Policy">
-                                       <label>Agricultural Economics &amp; Policy </label>
-                                    </li>
-                                 </ul>
-                              </li>
-                              <li class="has">
-                                 <input type="checkbox" name="domain[]" value="Chemical Sciences">
-                                 <label>Chemical Sciences <span class="total">(3)</span></label>
-                                 <ul>
-                                    <li class="">
-                                       <input type="checkbox" name="subdomain[]" value="Chemistry, Applied">
-                                       <label>Chemistry, Applied </label>
-                                    </li>
-                                    <li class="">
-                                       <input type="checkbox" name="subdomain[]" value="Chemistry, Multidisciplinary">
-                                       <label>Chemistry, Multidisciplinary </label>
-                                    </li>
-                                    <li class="">
-                                       <input type="checkbox" name="subdomain[]" value="Chemistry, Analytical">
-                                       <label>Chemistry, Analytical </label>
-                                    </li>
-                                 </ul>
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                     </div>
 
-                     <div class="col-md-12 float-l">
-                        <div class="form-group">
-                           <button type="submit" class="btn btn-primary btn-block">Save</button>
+    <body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+
+        <!-- Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- TopBar -->
+                <!-- Container Fluid-->
+                <div class="container-fluid" id="container-wrapper">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">User Details</h1>
+{{--                        <div class="custom-buttons">--}}
+{{--                            <button type="button" class="btn btn-primary mb-1">Create</button>--}}
+{{--                            <button type="button" class="btn btn-secondary mb-1">Back</button>--}}
+{{--                        </div>--}}
+                    </div>
+                    <div class="row sectionrow">
+                        <div class="col-lg-12">
+                            <!-- Horizontal Form -->
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="login-form create-user user-details-container">
+                                        <div class="col-md-3 float-l">
+                                            <div class="profile-container" style="width: 200px !important;">
+                                                <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
+                                                <div class="sidebar-user-info">
+                                                    <div class="name">Andrew Flintoff</div>
+                                                    <div class="email"><i class="fas fa-fw fa-envelope"></i> andrew@gmal.com</div>
+                                                    <div class="phone"><i class="fas fa-fw fa-phone"></i> +91 1234567890</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 float-l">
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Id</label>
+                                                    <span>#123456</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Role</label>
+                                                    <span>Admin</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Organization Name</label>
+                                                    <span>Savitriya Technologies</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Gender</label>
+                                                    <span>Male</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Languages</label>
+                                                    <span>Arabic, English</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Organization Email</label>
+                                                    <span>organization@gmail.com</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Type</label>
+                                                    <span>Lorem Ipsum</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Providing Services</label>
+                                                    <span>Lorem Ipsum</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Organization Contact</label>
+                                                    <span>+91 1234567890</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Providing Services subcategories</label>
+                                                    <span>Lorem Ipsum</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                                <div class="form-group">
+                                                    <label>Residence country</label>
+                                                    <span>India</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 float-l spe-padding">
+                                                <div class="form-group">
+                                                    <label>Identity Proof Detail</label>
+                                                    <span>Lorem Ipsum</span>
+                                                    <div class="user-documents-container">
+                                                        <div class="document-block">
+                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
+                                                            <span>Parn Card</span>
+                                                        </div>
+                                                        <div class="document-block">
+                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
+                                                            <span>Passport</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 float-l">
+                                                <div class="form-group">
+                                                    <label>Address</label>
+{{--                                                    <div class="custom-buttons">--}}
+
+{{--                                                        <button type="button" class="btn btn-primary mb-1">Create</button>--}}
+{{--                                                        <button type="button" class="btn btn-secondary mb-1">Back</button>--}}
+{{--                                                    </div>--}}
+                                                    <div class="addresscontainer">
+
+                                                            <div class="addressdiv">
+                                                                <div class="col-md-4 float-l paddingleft0 addressblock">
+                                                                    <label>Home</label>
+                                                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
+                                                                </div>
+                                                                <div class="col-md-4 float-l paddingleft0 addressblock">
+                                                                    <label>Office</label>
+                                                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
+                                                                </div>
+                                                                <div class="col-md-4 float-l paddingleft0 addressblock">
+                                                                    <label>Farmhouse</label>
+                                                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
+                                                                </div>
+                                                                <div class="col-md-4 float-l paddingleft0 addressblock">
+                                                                    <label>Factory</label>
+                                                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                     </div>
-                  </form>
-               </div>
+                    </div>
+                    <!---Container Fluid-->
+
+
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
-   
-   
-</div>
-<!---Container Fluid-->
+        </div>
+        <!-- Scroll to top -->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+{{--        <script src="vendor/jquery/jquery.min.js"></script>--}}
+{{--        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>--}}
+{{--        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>--}}
+{{--        <script src="js/ruang-admin.min.js"></script>--}}
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).on('click', '.tree label', function(e) {
+            $(this).next('ul').fadeToggle();
+            e.stopPropagation();
+        });
 
-<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- Scroll to top -->
-<a class="scroll-to-top rounded" href="#page-top">
-<i class="fas fa-angle-up"></i>
-</a>
-<script type="text/javascript">
-   $(document).on('click', '.tree label', function(e) {
-   $(this).next('ul').fadeToggle();
-   e.stopPropagation();
-   });
-   
-   $(document).on('change', '.tree input[type=checkbox]', function(e) {
-   $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
-   $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
-   e.stopPropagation();
-   });
-   
-   
-</script>
-@endsection
+        $(document).on('change', '.tree input[type=checkbox]', function(e) {
+            $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
+            $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
+            e.stopPropagation();
+        });
+
+        window.addEventListener ?
+            window.addEventListener("load",onLoad(),false) :
+            window.attachEvent && window.attachEvent("onload",onLoad());
+        var user_id;
+        function onLoad() {
+            user_id = getUrlParameter('id');
+            console.log(user_id);
+        }
+
+
+        function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+
+    </script>
+        </body>
+
+
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+    </a>
+
+    @endsection
 
