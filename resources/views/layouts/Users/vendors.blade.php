@@ -76,15 +76,16 @@
                                                      class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
                                                     <label>Gender <strong
                                                             style="font-size: 14px;color: #e60606;">*</strong></label><br>
-                                                    <input type="radio" name="gender" id="gender" value="male"> Male
-                                                    <input type="radio" name="gender" id="gender" value="female"> Female
-                                                    <input type="radio" name="gender" id="gender" value="other"> Other
+                                                    <input type="radio" name="gender" onclick="genderClick()" id="gender-male" value="male"> Male
+                                                    <input type="radio" name="gender" onclick="genderClick()" id="gender-female" value="female"> Female
+                                                    <input type="radio" name="gender" onclick="genderClick()" id="gender-other" value="other"> Other
                                                     @if ($errors->has('gender'))
                                                         <span class="help-block">
                                     <strong>{{ $errors->first('gender') }}</strong>
                                     </span>
                                                     @endif
                                                 </div>
+                                                <p id="genderError"></p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -94,11 +95,11 @@
                                                             style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="arabic" id="languages"
+                                                            <input type="checkbox" name="arabic" id="lang-arabic"
                                                                    value="arabic"> Arabic
                                                         </label>
                                                         <label>
-                                                            <input type="checkbox" name="english" id="languages"
+                                                            <input type="checkbox" name="english" id="lang-english"
                                                                    value="english"> English
                                                         </label>
                                                         @error('language')
@@ -107,29 +108,10 @@
                                        </span>
                                                         @enderror
                                                     </div>
+
+                                                    <p id="langError"></p>
                                                 </div>
                                             </div>
-                                        <!-- <div class="col-md-6 float-l">
-                                 <div class="form-group">
-                                    <label>Services <strong
-                                       style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <select name="type" id="service_provider"
-                                       class="form-control @error('Selected type') is-invalid @enderror">
-                                       <option value="Selected">Select</option>
-                                       <option value="Corporate service provider">Corporate service
-                                          provider
-                                       </option>
-                                       <option value="Individual service provider">Individual service
-                                          provider
-                                       </option>
-                                    </select>
-                                    @error('type')
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                            </div>
-                                         </div> -->
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
                                                     <label>Image <strong
@@ -137,6 +119,7 @@
                                                     <input id="image" type="file" name="image" class="form-control"
                                                            required>
                                                 </div>
+                                                <p id="imageError"></p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -144,6 +127,7 @@
                                                 <div class="form-group">
                                                     <label>Services <strong
                                                             style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <p id="serviceError"></p>
                                                     <ul class="tree" id="tree_box"
                                                         style="overflow: auto;height: 200px;"></ul>
                                                 </div>
@@ -221,6 +205,8 @@
 
         function clickMe(id) {
             console.log("CLIKC ::" + id);
+
+            $('#serviceError').text('')
             if(jQuery.inArray(id, selectedService) != -1) {
                 console.log("is in array");
                 selectedService = $.grep(selectedService, function(value) {
@@ -229,6 +215,7 @@
 
             } else {
                 console.log("is NOT in array");
+
                 selectedService.push(id);
             }
             console.log(selectedService);
@@ -279,10 +266,10 @@
 
         }
 
-        $(document).on('click', '.tree label', function (e) {
-            $(this).next('ul').fadeToggle();
-            e.stopPropagation();
-        });
+        // $(document).on('click', '.tree label', function (e) {
+        //     $(this).next('ul').fadeToggle();
+        //     e.stopPropagation();
+        // });
 
         $(document).on('change', '.tree input[type=checkbox]',
             function (e) {
@@ -303,11 +290,39 @@
             window.location = '/vendorsdetail?id=' + e;
         }
 
-        function create_user() {
-            console.log("create_service");
+        var selectedLang = [];
+        $('#lang-english').change(function () {
+            $('#langError').text('')
+            if (this.checked) {
+                console.log('ENLISH YES')
+                selectedLang.push("English");
+
+            } else {
+                console.log('ENGLISH NOT')
+                selectedLang = $.grep(selectedLang, function (value) {
+                    return value != "English";
+                });
+            }
+        });
+
+        $('#lang-arabic').change(function () {
+            $('#langError').text('')
+            if (this.checked) {
+                selectedLang.push("Arabic");
+
+            } else {
+                console.log('ARABIC NOT')
+                selectedLang = $.grep(selectedLang, function (value) {
+                    return value != "Arabic";
+                });
+            }
+        });
+
+        function create_user()  {
+            console.log("create_serviceusers_validate ");
             var servicevalite = users_validate();
             console.log("users_validate ::" + servicevalite);
-            if (servicevalite == null) {
+            if (servicevalite == true) {
                 console.log("CREATE SERVER CALL");
 
                 var form = new FormData();
@@ -316,15 +331,16 @@
                 form.append('email', document.getElementById("email").value);
                 form.append('password', document.getElementById("password").value);
                 form.append('contact', document.getElementById("mobile").value);
-                form.append('gender', document.getElementById("gender").value);
-                form.append('language', document.getElementById("languages").value);
+                form.append('gender', selectGender);
+                form.append('language', selectedLang.toString());
                 // form.append('service_provider', document.getElementById("service_provider").value);
                 // form.append('category', document.getElementById("category").value);
                 var image = $('#image')[0].files[0];
                 form.append('profile_photo', image);
 
                 var checkedCheckboxes = $('#tree_box input[type="checkbox"]:checked');
-                form.append('services', document.getElementById("services").value);
+                console.log(selectedService.toString());
+                form.append('services', selectedService.toString());
 
                 $.ajax({
                     url: '/api/v1/add_vendors',
@@ -350,13 +366,38 @@
 
         }
 
+        function genderClick() {
+            $('#genderError').text('')
+        }
+
 
         var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
         var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-
+        var selectGender = "";
         function users_validate() {
-
             console.log("users_validate");
+            var isValidate = true;
+
+            var image = $('#image')[0].files[0];
+            if (!image) {
+                $('#imageError').css('color', 'red');
+                $('#imageError').text('Please select Image')
+                isValidate = false;
+            }
+
+            // var gender = document.getElementById('gender-group').value;
+
+            if (document.getElementById('gender-male').checked) {
+                selectGender = document.getElementById('gender-male').value;
+            } else if(document.getElementById('gender-female').checked) {
+                selectGender = document.getElementById('gender-male').value;
+            }else if(document.getElementById('gender-other').checked) {
+                selectGender = document.getElementById('gender-male').value;
+            } else {
+                $('#genderError').css('color', 'red');
+                $('#genderError').text('Please select Gender')
+                isValidate = false;
+            }
             if (document.getElementById("first_name").value == "") {
                 // EXPAND ADDRESS FORM
                 $("#first_name").focus();
@@ -366,14 +407,13 @@
                     if (name.length == 0) {
                         $('#first_name').next('div.red').remove();
                         $('#first_name').after('<div class="red" style="color:red">First Name is Required</div>');
+                        isValidate = false;
                     } else {
                         $(this).next('div.red').remove();
-                        return true;
                     }
                 });
 
             }
-
 
             if (document.getElementById("last_name").value == "") {
                 // EXPAND ADDRESS FORM
@@ -384,9 +424,9 @@
                     if (name.length == 0) {
                         $('#last_name').next('div.red').remove();
                         $('#last_name').after('<div class="red" style="color:red">Last Name is Required</div>');
+                        isValidate = false;
                     } else {
                         $(this).next('div.red').remove();
-                        return true;
                     }
                 });
             }
@@ -400,17 +440,15 @@
                         console.log("ERRPR");
                         $('#email').next('div.red').remove();
                         $('#email').after('<div class="red" style="color:red">Email is Required</div>');
-                        //return "false";
+                        isValidate = false;
                     } else {
                         if (!email_regex.test($('#email').val())) {
                             console.log("ERROR");
                             $('#email').next('div.red').remove();
                             $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
-                            //return "false";
+                            isValidate = false;
                         } else {
-                            console.log("NOT WORL");
                             $(this).next('div.red').remove();
-                            //return true;
                         }
                     }
                 });
@@ -419,21 +457,14 @@
                     console.log("ERROR");
                     $('#email').next('div.red').remove();
                     $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
-                    //return "false";
+                    isValidate = false;
                 } else {
                     console.log("NOT WORL");
                     $(this).next('div.red').remove();
-                    //return true;
                 }
-
-                // $('#email').next('div.red').remove();
-                // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
-                // return "false";
             }
 
-
             //Password
-
             if (document.getElementById("password").value == "") {
                 // EXPAND ADDRESS FORM
                 $("#password").focus();
@@ -443,33 +474,66 @@
                     if (name.length == 0) {
                         $('#password').next('div.red').remove();
                         $('#password').after('<div class="red" style="color:red">Password is Required</div>');
+                        isValidate = false;
                     } else {
                         $(this).next('div.red').remove();
-                        return true;
                     }
                 });
             }
 
+            if (document.getElementById("mobile").value == "") {
+                $("#mobile").focus();
+                $("#mobile").focus();
+                $("#mobile").blur(function () {
+                    var name = $('#mobile').val();
+                    if (name.length == 0) {
+                        $('#mobile').next('div.red').remove();
+                        $('#mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
+                        isValidate = false;
+                    } else {
+                        if (!phone_regex.test($('#mobile').val())) {
+                            console.log("ERRPR");
+                            $('#mobile').next('div.red').remove();
+                            $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                            isValidate = false;
+                        } else {
+                            console.log("NOT WORL");
+                            $(this).next('div.red').remove();
+                        }
+                    }
+                });
+            } else {
+                if (!phone_regex.test($('#mobile').val())) {
+                    console.log("ERRPR");
+                    $('#mobile').next('div.red').remove();
+                    $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                    isValidate = false;
+                } else {
+                    console.log("NOT WORL");
+                    $(this).next('div.red').remove();
+                }
+            }
 
-            //
-            // // Gender Radiobutton
-            //  {
-            // var checkRadio = document.querySelector(
-            // 'input[name="gender"]:checked');
-            //
-            // if (checkRadio != null) {
-            // document.getElementById("gender").innerHTML
-            //   = checkRadio.value
-            //   + " radio button checked";
-            // } else {
-            // document.getElementById("gender").innerHTML
-            //   = "No one selected";
-            // }
-            //  }
+            if(selectedLang.length <= 0) {
+                $('#langError').css('color', 'red');
+                $('#langError').text('Please select Language')
+                isValidate = false;
+            }
 
+            if(selectedService.length <= 0) {
+                $('#serviceError').css('color', 'red');
+                $('#serviceError').text('Please select Services')
+                isValidate = false;
+            }
 
+            console.log("LANG:: "+selectedLang.toString());
+            return isValidate;
         }
 
+        $("#image").change(function(){
+            $('#imageError').text('')
+            console.log("A file has been selected.");
+        });
     </script>
 
 @endsection

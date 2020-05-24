@@ -39,9 +39,10 @@ class BookingController extends Controller
 
 
         $dateTime = Carbon::parse($dd);//->format('d-m-Y');
-//        echo $dateTime; exit();
         $input['booking_date'] = $dateTime;
         $input['status'] = 1;
+        $input['otp'] = rand(1000,9999);
+
 
         $booking = Booking::create($input);
 

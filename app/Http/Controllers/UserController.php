@@ -530,6 +530,81 @@ class UserController extends Controller
 
 
 
+    public function add_vendors(Request $request) {
+        $initialValidator = Validator::make($request->all(),
+            [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|unique:users,email',
+                'password' => 'required',
+                'contact' => 'required|unique:users,contact',
+                'gender' => 'required',
+                'language' => 'required',
+
+            ]);
+
+        if ($initialValidator->fails())
+        {
+            return response()->json(['error'=>$initialValidator->errors()], 401);
+        }
+
+        $input = $request->all();
+
+        $type = UserTypes::where('type', '=', 'Individual Service Provider')->first();
+        $input +=  [
+            'type_id' => $type->id,
+        ];
+
+        $term = TermCondition::where('type', '=', 'Provider Terms')->where('is_latest', '=', 1)->first();
+        $input +=  [
+            'term_id' => $term->id,
+        ];
+
+        if(array_key_exists('profile_photo', $input)) {
+            $profileImg = $request->file('profile_photo');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
+            $host = url('/');
+            unset($input["profile_photo"]);
+            $input +=  [
+                'image' => $host . "/images/profiles/" . $profile_name,
+            ];
+        }
+
+
+        $input['password'] = Hash::make($input['password']);
+
+        $user = User::create($input);
+        $vendors_role = Role::where('slug','=', 'provider')->first();
+
+        $user->roles()->attach($vendors_role);
+
+        $now = now()->utc();
+        $term_agreement= [
+            'user_id' => $user->id,
+            'term_id' => $input['term_id'],
+            'agreed_at' => $now
+        ];
+        TermAgreement::create($term_agreement);
+
+        $services = $input['services'];
+
+//        $services =array_map('intval', explode(',', $services));
+        $services =explode(',', $services); // json_decode($services, true );
+
+        foreach ($services as $data) {
+            $obj = array();
+            $obj['user_id'] = $user['id'];
+            $obj['service_id'] = $data;
+            ProviderServiceMapping::create($obj);
+        }
+        exit();
+
+
+        $user['services'] = $this->get_user_services($user['id']);
+
+        return response()->json($user, 200);
+    }
 
     //User profile API
     /**
@@ -1034,72 +1109,7 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
-    public function add_vendors(Request $request) {
-        $initialValidator = Validator::make($request->all(),
-            [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'email' => 'required|unique:users,email',
-                'password' => 'required',
-                'contact' => 'required|unique:users,contact',
-                'gender' => 'required',
-                'language' => 'required',
 
-            ]);
-
-        if ($initialValidator->fails())
-        {
-            return response()->json(['error'=>$initialValidator->errors()], 401);
-        }
-
-        $input = $request->all();
-
-        $type = UserTypes::where('type', '=', 'Individual Service Provider')->first();
-        $input +=  [
-            'type_id' => $type->id,
-        ];
-
-        $term = TermCondition::where('type', '=', 'Provider Terms')->where('is_latest', '=', 1)->first();
-        $input +=  [
-            'term_id' => $term->id,
-        ];
-
-        if(array_key_exists('profile_photo', $input)) {
-            $profileImg = $request->file('profile_photo');
-            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
-            $profileImg->move(public_path('images/profiles'), $profile_name);
-            $host = url('/');
-            unset($input["profile_photo"]);
-            $input +=  [
-                'image' => $host . "/images/profiles/" . $profile_name,
-            ];
-        }
-
-        // $company= [
-        //     'name' => $input['company'],
-        // ];
-        // $org = organisation::create($company);
-
-        // $input += [
-        //     "org_id" => $org->id
-        // ];
-
-        $input['password'] = Hash::make($input['password']);
-        $user = User::create($input);
-        $vendors_role = Role::where('slug','=', 'provider')->first();
-
-        $user->roles()->attach($vendors_role);
-
-        $now = now()->utc();
-        $term_agreement= [
-            'user_id' => $user->id,
-            'term_id' => $input['term_id'],
-            'agreed_at' => $now
-        ];
-        TermAgreement::create($term_agreement);
-
-        return response()->json($user, 200);
-    }
 
     public function customer_register(Request $request) {
         $response = array();

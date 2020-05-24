@@ -27,6 +27,7 @@ class CreateBookingsTable extends Migration
             $table->string('remark')->nullable(true);
             $table->integer('provider_id');
             $table->integer('status');
+            $table->integer('otp');
             $table->timestamps();
         });
     }
