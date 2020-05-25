@@ -241,7 +241,7 @@
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> ' +
                             '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
-                            '<a href="#" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
+                            '<a href="/vendorsdetail" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
                             '> Verified ' +
                             '</a>' + '</td></tr>';
                     });
