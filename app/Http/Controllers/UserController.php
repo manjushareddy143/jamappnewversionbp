@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use App\Document;
+use App\FCMDevices;
 use App\Http\Controllers\Auth\RegisterController;
 use App\IndividualServiceProvider;
 use App\organisation;
@@ -289,22 +290,37 @@ class UserController extends Controller
 
             $username = $request->input('email');
             $password = $request->input('password');
-//            $access_type = $request->input('access_type');
+            $token = $request->input('token');
+            $device = $request->input('device');
 
+            $fcm_response = array();
             $checkuser  = User::where('email', '=', $username)->first();
+
             if (isset($checkuser)) {
                 if (Hash::check($password,$checkuser->password))
                 {
-                    if($checkuser['type_id'] != 4)
+                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
+                    if($fcm_user->count() <= 0) {
+
+                        $fcm_data = [
+                            "user_id" => $checkuser['id'],
+                            "fcm_device_token" => $token,
+                            "device_type" => $device
+                        ];
+                        $fcm_response = FCMDevices::create($fcm_data);
+                    } else {
+                        $fcm_response = $fcm_user;
+                    }
+
+                    if($checkuser['type_id'] == 3)
                     {
-//                        dd(\Session::getId());
                         $service_provider = ServiceProvider::where('user_id', '=', $checkuser['id'])->first();
                         $checkuser['resident_country'] = $service_provider['resident_country'];
                     }
                     $response = $checkuser;
-
                     $address = Address::where('user_id', '=', $checkuser['id'])->first();
                     $response['address'] = $address;
+                    $response['fcm'] = $fcm_response;
                     return response($response, 200)
                         ->header('content-type', 'application/json');
                 } else {
@@ -509,6 +525,20 @@ class UserController extends Controller
 
         $user = User::create($input);
 
+        $fcm_response = array();
+        $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
+        if($fcm_user->count() <= 0) {
+
+            $fcm_data = [
+                "user_id" => $user['id'],
+                "fcm_device_token" => $input['token'],
+                "device_type" => $input['device']
+            ];
+            $fcm_response = FCMDevices::create($fcm_data);
+        } else {
+            $fcm_response = $fcm_user;
+        }
+
         $user_id=$user->id;
         $now = now()->utc();
         $term_agreement= [
@@ -518,6 +548,7 @@ class UserController extends Controller
             ];
         TermAgreement::create($term_agreement);
 
+        $user['fcm'] = $fcm_response;
 
         if (isset($user)) {
             return response()->json($user);

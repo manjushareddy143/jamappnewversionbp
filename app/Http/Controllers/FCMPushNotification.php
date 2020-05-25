@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class FCMPushNotification extends Controller
 {
-    public function sendPush (Request $request)
+    public function sendPush(Request $request)
     {
 //        $user = User::find($request->id);
         $data = [
