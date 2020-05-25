@@ -529,7 +529,6 @@ class UserController extends Controller
     }
 
 
-
     public function add_vendors(Request $request) {
         $initialValidator = Validator::make($request->all(),
             [
@@ -578,6 +577,13 @@ class UserController extends Controller
         $vendors_role = Role::where('slug','=', 'provider')->first();
 
         $user->roles()->attach($vendors_role);
+
+        $service_provider= [
+            'user_id' => $user['id'],
+            'resident_country' => $input['resident_country']
+        ];
+        $service_provider_detail = ServiceProvider::create($service_provider);
+        $user['resident_country'] = $service_provider_detail['resident_country'];
 
         $now = now()->utc();
         $term_agreement= [
