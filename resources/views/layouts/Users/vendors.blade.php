@@ -27,16 +27,14 @@
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>First Name <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>First Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="text" class="form-control" id="first_name"
                                                            placeholder="Enter Your First Name">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Last Name <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong> </label>
+                                                    <label>Last Name <strong style="font-size: 14px;color: #e60606;">*</strong> </label>
                                                     <input type="text" class="form-control" id="last_name"
                                                            placeholder="Enter Your Last Name">
                                                 </div>
@@ -45,16 +43,14 @@
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Email Address <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>Email Address <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="email" class="form-control" id="email"
                                                            placeholder="Enter Email Address">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Password <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="password" class="form-control" id="password"
                                                            aria-describedby="passwordHelp"
                                                            placeholder="Enter Your Password" required="">
@@ -64,8 +60,7 @@
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Mobile Number <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>Mobile Number <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="text" class="form-control" id="mobile"
                                                            placeholder="Enter Number">
                                                 </div>
@@ -74,8 +69,7 @@
                                             <div class="col-md-6 float-l">
                                                 <div id="gender-group"
                                                      class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                                    <label>Gender <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label><br>
+                                                    <label>Gender <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-male" value="male"> Male
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-female" value="female"> Female
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-other" value="other"> Other
@@ -91,8 +85,7 @@
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label for="language">Languages known <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label for="language">Languages known <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <div class="checkbox">
                                                         <label>
                                                             <input type="checkbox" name="arabic" id="lang-arabic"
@@ -114,8 +107,7 @@
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Image <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>Image <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input id="image" type="file" name="image" class="form-control"
                                                            required>
                                                 </div>
@@ -125,8 +117,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label>Services <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>Services <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <p id="serviceError"></p>
                                                     <ul class="tree" id="tree_box"
                                                         style="overflow: auto;height: 200px;"></ul>
@@ -281,7 +272,7 @@
 
         function getColumnValue(e){
             console.log(e);
-            alert(e);
+            // alert(e);
         }
 
         function viewDetail(e){
@@ -534,6 +525,32 @@
             $('#imageError').text('')
             console.log("A file has been selected.");
         });
+
+
+
+
+
+        // // Show Detail
+
+
+        // $(document).on('click', '.show-modal', function() {
+        //     $('.modal-title').text('Show');
+        //     $('#id').val($(this).data('id'));
+        //     $('#first_name').val($(this).data('first_name'));
+        //     $('#last_name').val($(this).data('last_name'));
+        //     $('#email').val($(this).data('email'));
+        //     $('#contact').val($(this).data('contact'));
+        //     $('#gender').val($(this).data('gender'));
+        //     $('#languages').val($(this).data('languages'));
+        //     $('#type').val($(this).data('type'));
+        //     $('#role').val($(this).data('role'));
+        //     $('#address_line1').val($(this).data('address_line1'));
+        //     $('#doc_name').val($(this).data('doc_name'));
+            
+
+        //     $('#showModal').modal('show');
+        // });
+
     </script>
 
 @endsection

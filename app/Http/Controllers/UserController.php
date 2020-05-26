@@ -80,6 +80,25 @@ class UserController extends Controller
             ->get();
         return response()->json($users, 200);
     }
+
+    public function getuserbyid($id)
+    {
+        $users=User::where('users.id', '=', (int)$id)
+            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
+            ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
+            ->leftJoin('addresses', 'addresses.user_id','=', 'users.id')
+
+            ->select('users.*',
+                'user_types.type as type',
+                'organisation.name as company',
+                'organisation.resident_country as country',
+                'organisation.number_of_employee as number_of_employee',
+                'addresses.name as addressname',
+                'addresses.address_line1 as address_line1',
+                'addresses.address_line2 as address_line2')
+            ->get();
+        return response()->json($users, 200);
+    }
     /** Form for creating a new resource
      *
      *@return \Illuminate\Http\Response

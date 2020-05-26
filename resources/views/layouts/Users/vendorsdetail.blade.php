@@ -23,13 +23,14 @@
                             <!-- Horizontal Form -->
                             <div class="card mb-4">
                                 <div class="card-body">
+                                    <form method="post">
                                     <div class="login-form create-user user-details-container">
                                         <div class="col-md-3 float-l">
                                             <div class="profile-container" style="width: 200px !important;">
                                                 <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
                                                 <div class="sidebar-user-info">
-                                                    <div class="name">Andrew Flintoff</div>
-                                                    <div class="email"><i class="fas fa-fw fa-envelope"></i> andrew@gmal.com</div>
+             <div class="first_name"><?php $first_name = (isset($_POST["first_name"])) ? $_POST["first_name"] : null; ?></div>
+  <div class="email"><i class="fas fa-fw fa-envelope"></i> <?php $email = (isset($_POST["email"])) ? $_POST["email"] : null; ?></div>
                                                     <div class="phone"><i class="fas fa-fw fa-phone"></i> +91 1234567890</div>
                                                 </div>
                                             </div>
@@ -150,6 +151,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -165,13 +167,20 @@
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-{{--        <script src="vendor/jquery/jquery.min.js"></script>--}}
-{{--        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>--}}
-{{--        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>--}}
-{{--        <script src="js/ruang-admin.min.js"></script>--}}
+
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+
+   
     <script type="text/javascript">
+
+
+    $( document ).ready(function() {
+    // console.log( "ready!" );
+    // alert('hello');
+    });
+
         $(document).on('click', '.tree label', function(e) {
             $(this).next('ul').fadeToggle();
             e.stopPropagation();
@@ -190,6 +199,8 @@
         function onLoad() {
             user_id = getUrlParameter('id');
             console.log(user_id);
+            // alert(user_id);
+            viewDetail(user_id);
         }
 
 
@@ -208,8 +219,42 @@
             }
         };
 
+        function viewDetail(userId) { 
+            // alert('hello');
+                $.ajax({
+                type: "GET",
+                url: '/api/v1/getuserbyid/' + userId,
+                data: null,
+                success: function(data){
+                    alert('success');
+                    console.log(data);  
+
+                     'id='+user_id,
+                     'first_name='+first_name,
+                     'last_name='+last_name,
+                     'email='+email,
+
+
+
+                    // $.each(response, function (i, item) {
+                    //     trHTML += '<tr><td>' + response[i].first_name +
+                    //         '</td><td>' + response[i].last_name + '</td>' +
+                    //         '</td><td>' + response[i].email + '</td>' +
+                    //         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
+                    //         '</td><td>' + response[i].gender + '</td>' +
+                    //         '</a>' + '</td></tr>';
+                    // });
+
+                    // $('#tbl_id').append(trHTML);
+
+            
+        }
+            });
+        };
+
     </script>
-        </body>
+
+</body>
 
 
     <!-- Scroll to top -->
