@@ -23,13 +23,14 @@
                             <!-- Horizontal Form -->
                             <div class="card mb-4">
                                 <div class="card-body">
+                                    <form method="post">
                                     <div class="login-form create-user user-details-container">
                                         <div class="col-md-3 float-l">
                                             <div class="profile-container" style="width: 200px !important;">
                                                 <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
                                                 <div class="sidebar-user-info">
-                                                    <div class="name">Andrew Flintoff</div>
-                                                    <div class="email"><i class="fas fa-fw fa-envelope"></i> andrew@gmal.com</div>
+             <div class="first_name"><?php $first_name = (isset($_POST["first_name"])) ? $_POST["first_name"] : null; ?></div>
+  <div class="email"><i class="fas fa-fw fa-envelope"></i> <?php $email = (isset($_POST["email"])) ? $_POST["email"] : null; ?></div>
                                                     <div class="phone"><i class="fas fa-fw fa-phone"></i> +91 1234567890</div>
                                                 </div>
                                             </div>
@@ -38,15 +39,16 @@
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>Id</label>
-                                                    <span>#123456</span>
+                                                    <span id="vendorId">#123456</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>Role</label>
-                                                    <span>Admin</span>
+                                                    <span id="role">Admin</span>
                                                 </div>
                                             </div>
+
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>Organization Name</label>
@@ -150,6 +152,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -165,13 +168,20 @@
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-{{--        <script src="vendor/jquery/jquery.min.js"></script>--}}
-{{--        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>--}}
-{{--        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>--}}
-{{--        <script src="js/ruang-admin.min.js"></script>--}}
+
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+
+
     <script type="text/javascript">
+
+
+    $( document ).ready(function() {
+    // console.log( "ready!" );
+    // alert('hello');
+    });
+
         $(document).on('click', '.tree label', function(e) {
             $(this).next('ul').fadeToggle();
             e.stopPropagation();
@@ -190,6 +200,8 @@
         function onLoad() {
             user_id = getUrlParameter('id');
             console.log(user_id);
+            // alert(user_id);
+            viewDetail();
         }
 
 
@@ -208,8 +220,33 @@
             }
         };
 
+        function viewDetail() {
+            $.ajax({
+                url: '/api/v1/getuserbyid/' + user_id,
+                type: 'GET',
+                data: null,
+                success: function (response) {
+                    console.log(response);
+                    $('#vendorId').text(response['id']);
+                    $('#role').text(response['type']);
+                    if(response['org_id'] == null) {
+                        // hide Organisation details
+                    }
+
+                    var services = response['services'];
+                    for(var i = 0; i < services.length; i++) {
+                        console.log(services[i].service);
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
     </script>
-        </body>
+
+</body>
 
 
     <!-- Scroll to top -->

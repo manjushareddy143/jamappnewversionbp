@@ -56,6 +56,8 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'firebase_server_key' => env('FIREBASE_SERVER_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

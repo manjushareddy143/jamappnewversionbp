@@ -22,6 +22,8 @@ use Illuminate\Http\Request;
 
 Route::get('v1/details', 'UserController@getSingupDetail');
 Route::post('v1/login', 'UserController@login');
+Route::post('v1/sendPush', 'FCMPushNotification@sendPush');
+Route::post('v1/order_accept', 'FCMPushNotification@orderAccept');
 Route::post('v1/register', 'UserController@register');
 Route::post('v1/register_provider', 'UserController@register_provider');
 Route::post('v1/adduser', 'UserController@store');
@@ -34,6 +36,9 @@ Route::get('v1/booking', 'BookingController@getorderbyuser');
 Route::get('v1/booking/provider', 'BookingController@getOrderByProvider');
 Route::get('v1/booking/{id}', 'BookingController@getorder');
 Route::get('v1/getuser/{id}', 'UserController@getuser');
+
+Route::get('v1/getuserbyid/{id}', 'UserController@getuserbyid');
+
 Route::post('v1/add_customer', 'UserController@add_customer');
 Route::post('v1/add_organisation', 'UserController@add_organisation');
 Route::post('v1/add_vendors', 'UserController@add_vendors');

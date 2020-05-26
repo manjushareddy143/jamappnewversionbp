@@ -27,16 +27,14 @@
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>First Name <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>First Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="text" class="form-control" id="first_name"
                                                            placeholder="Enter Your First Name">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Last Name <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong> </label>
+                                                    <label>Last Name <strong style="font-size: 14px;color: #e60606;">*</strong> </label>
                                                     <input type="text" class="form-control" id="last_name"
                                                            placeholder="Enter Your Last Name">
                                                 </div>
@@ -45,16 +43,14 @@
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Email Address <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>Email Address <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="email" class="form-control" id="email"
                                                            placeholder="Enter Email Address">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Password <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="password" class="form-control" id="password"
                                                            aria-describedby="passwordHelp"
                                                            placeholder="Enter Your Password" required="">
@@ -64,8 +60,7 @@
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Mobile Number <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>Mobile Number <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="text" class="form-control" id="mobile"
                                                            placeholder="Enter Number">
                                                 </div>
@@ -74,8 +69,7 @@
                                             <div class="col-md-6 float-l">
                                                 <div id="gender-group"
                                                      class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                                    <label>Gender <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label><br>
+                                                    <label>Gender <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-male" value="male"> Male
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-female" value="female"> Female
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-other" value="other"> Other
@@ -91,8 +85,7 @@
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label for="language">Languages known <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label for="language">Languages known <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <div class="checkbox">
                                                         <label>
                                                             <input type="checkbox" name="arabic" id="lang-arabic"
@@ -114,19 +107,30 @@
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>Image <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>Image <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input id="image" type="file" name="image" class="form-control"
                                                            required>
                                                 </div>
                                                 <p id="imageError"></p>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Country
+                                                <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                            <select class="form-control" id="select_country" required>
+                                                <option>Select Country</option>
+                                                <option>India</option>
+                                                <option>Bangladesh</option>
+                                                <option>Australia</option>
+                                                <option>USA</option>
+                                                <option>Afghanistan</option>
+                                            </select>
+                                            <p id="countryError"></p>
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label>Services <strong
-                                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>Services <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <p id="serviceError"></p>
                                                     <ul class="tree" id="tree_box"
                                                         style="overflow: auto;height: 200px;"></ul>
@@ -281,7 +285,7 @@
 
         function getColumnValue(e){
             console.log(e);
-            alert(e);
+            // alert(e);
         }
 
         function viewDetail(e){
@@ -324,7 +328,7 @@
             console.log("users_validate ::" + servicevalite);
             if (servicevalite == true) {
                 console.log("CREATE SERVER CALL");
-
+                var country = document.getElementById("select_country").selectedIndex;
                 var form = new FormData();
                 form.append('first_name', document.getElementById("first_name").value);
                 form.append('last_name', document.getElementById("last_name").value);
@@ -333,12 +337,12 @@
                 form.append('contact', document.getElementById("mobile").value);
                 form.append('gender', selectGender);
                 form.append('language', selectedLang.toString());
-                // form.append('service_provider', document.getElementById("service_provider").value);
+                form.append('resident_country', document.getElementsByTagName("option")[country].value);
                 // form.append('category', document.getElementById("category").value);
                 var image = $('#image')[0].files[0];
                 form.append('profile_photo', image);
 
-                var checkedCheckboxes = $('#tree_box input[type="checkbox"]:checked');
+                // var checkedCheckboxes = $('#tree_box input[type="checkbox"]:checked');
                 console.log(selectedService.toString());
                 form.append('services', selectedService.toString());
 
@@ -370,7 +374,14 @@
             $('#genderError').text('')
         }
 
-
+        $("#select_country").change(function () {
+            if ($("#select_country").val() === "Select Country") {
+                $('#select_country').next('div.red').remove();
+                $('#select_country').after('<div class="red" style="color:red">Country is Required</div>');
+            } else {
+                $(this).next('div.red').remove();
+            }
+        });
         var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
         var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
         var selectGender = "";
@@ -382,6 +393,12 @@
             if (!image) {
                 $('#imageError').css('color', 'red');
                 $('#imageError').text('Please select Image')
+                isValidate = false;
+            }
+
+            if ($('#select_country').val() === "Select Country") {
+                $('#select_country').next('div.red').remove();
+                $('#select_country').after('<div class="red" style="color:red">Country is Required</div>');
                 isValidate = false;
             }
 
@@ -534,6 +551,32 @@
             $('#imageError').text('')
             console.log("A file has been selected.");
         });
+
+
+
+
+
+        // // Show Detail
+
+
+        // $(document).on('click', '.show-modal', function() {
+        //     $('.modal-title').text('Show');
+        //     $('#id').val($(this).data('id'));
+        //     $('#first_name').val($(this).data('first_name'));
+        //     $('#last_name').val($(this).data('last_name'));
+        //     $('#email').val($(this).data('email'));
+        //     $('#contact').val($(this).data('contact'));
+        //     $('#gender').val($(this).data('gender'));
+        //     $('#languages').val($(this).data('languages'));
+        //     $('#type').val($(this).data('type'));
+        //     $('#role').val($(this).data('role'));
+        //     $('#address_line1').val($(this).data('address_line1'));
+        //     $('#doc_name').val($(this).data('doc_name'));
+            
+
+        //     $('#showModal').modal('show');
+        // });
+
     </script>
 
 @endsection
