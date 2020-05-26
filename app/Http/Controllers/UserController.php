@@ -635,8 +635,6 @@ class UserController extends Controller
             $obj['service_id'] = $data;
             ProviderServiceMapping::create($obj);
         }
-        exit();
-
 
         $user['services'] = $this->get_user_services($user['id']);
 
@@ -718,11 +716,23 @@ class UserController extends Controller
                    // Service mapping
 
                    $services = $input['services'];
-                   $services = json_decode($services, true);
+
+
+                   $services =explode(',', $services);
+
                    foreach ($services as $data) {
-                       $data['user_id'] = $id;
-                       ProviderServiceMapping::create($data);
+                       $obj = array();
+                       $obj['user_id'] = $user['id'];
+                       $obj['service_id'] = $data;
+                       ProviderServiceMapping::create($obj);
                    }
+
+//                   $services = $input['services'];
+//                   $services = json_decode($services, true);
+//                   foreach ($services as $data) {
+//                       $data['user_id'] = $id;
+//                       ProviderServiceMapping::create($data);
+//                   }
 
                    $user['services'] = $this->get_user_services($id);
 

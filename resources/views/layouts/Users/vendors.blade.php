@@ -351,7 +351,7 @@
                 var image = $('#image')[0].files[0];
                 form.append('profile_photo', image);
 
-                var checkedCheckboxes = $('#tree_box input[type="checkbox"]:checked');
+                // var checkedCheckboxes = $('#tree_box input[type="checkbox"]:checked');
                 console.log(selectedService.toString());
                 form.append('services', selectedService.toString());
 

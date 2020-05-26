@@ -73,22 +73,45 @@
                         </div>
 
 
-                        <div class="row-cols-md-6" id="servicediv">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Select Service</label>
-                                <select class="form-control" id="servicelist">
-                                </select>
+{{--                        <div class="row-cols-md-6" id="servicediv">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label for="exampleFormControlSelect1">Select Service</label>--}}
+{{--                                <select class="form-control" id="servicelist">--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
+                        <div class="form-group" id="languages">
+                            <label>Language  <strong
+                                    style="font-size: 14px;color: #e60606;">*</strong></label>
+                            <label for="english">English</label>
+                            <input type="checkbox" name="languages" id="lang-english" value="English" />
+
+                            <label for="arabic">Arabic</label>
+                            <input type="checkbox" name="languages" id="lang-arabic" value="arabic" />
+                        </div>
+                        <p id="langError"></p>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Services <strong
+                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <p id="serviceError"></p>
+                                    <ul class="tree" id="tree_box"
+                                        style="overflow: auto;height: 200px;"></ul>
+                                </div>
                             </div>
                         </div>
 
 
-                        <div class="col" id="categorydiv">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Select Category</label>
-                                <select class="form-control" id="categorylist" multiple="multiple">
-                                </select>
-                            </div>
-                        </div>
+{{--                        <div class="col" id="categorydiv">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label for="exampleFormControlSelect1">Select Category</label>--}}
+{{--                                <select class="form-control" id="categorylist" multiple="multiple">--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
 
                         {{--                        ADDRESSS                        --}}
@@ -183,14 +206,7 @@
                                 </div>
                             </div> -->
 
-                             <div class="form-group" id="languages">
-                                    <label>Language :</label>
-                                    <label for="english">English</label>
-                                    <input type="checkbox" name="languages" value="English" />
 
-                                    <label for="arabic">Arabic</label>
-                                    <input type="checkbox" name="languages" value="arabic" />
-                            </div>
 
 
 
@@ -369,10 +385,78 @@
     <script type="text/javascript">
 
 
+        $(document).on('change', '.tree input[type=checkbox]',
+            function (e) {
+                $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
+                $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
+                e.stopPropagation();
+            });
+
+        var selectedLang = [];
+        $('#lang-english').change(function () {
+            $('#langError').text('')
+            if (this.checked) {
+                console.log('ENLISH YES')
+                selectedLang.push("English");
+
+            } else {
+                console.log('ENGLISH NOT')
+                selectedLang = $.grep(selectedLang, function (value) {
+                    return value != "English";
+                });
+            }
+        });
+
+        $('#lang-arabic').change(function () {
+            $('#langError').text('')
+            if (this.checked) {
+                selectedLang.push("Arabic");
+
+            } else {
+                console.log('ARABIC NOT')
+                selectedLang = $.grep(selectedLang, function (value) {
+                    return value != "Arabic";
+                });
+            }
+        });
+
         window.addEventListener ?
             window.addEventListener("load", onLoad(), false) :
             window.attachEvent && window.attachEvent("onload", onLoad());
 
+        function addServices() {
+            $.ajax({
+                url: '/api/v1/all_services',
+                type: 'GET',
+                success: function (response, xhr) {
+                    console.log(JSON.stringify(xhr));
+                    console.log("DATA::: "+response);
+                    if (xhr['status'] == 204) {
+                        console.log(response);
+                    } else {
+                        if(response != null) {
+                            var trHTML = '';
+                            var i;
+                            for(i = 0; i < response.length; i++)
+                            {
+                                console.log(response[i].name);
+                                var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
+                                trHTML += '<li class=""> <input type="checkbox" ' +
+                                    'onclick="serviceClick(' + response[i].id + ')"' + 'id="' + response[i].id +
+                                    '" name="' + response[i].id +
+                                    '" value="' + response[i].id + '">' +
+                                    '<img src="' + img + '" class="square" width="50" height="40" />' +
+                                    '<label style="margin: 10px;"> ' + response[i].name + ' </label> </li>';
+                            }
+                            $('#tree_box').append(trHTML);
+                        }
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
         function onLoad() {
             console.log("asdasdas");
@@ -381,7 +465,8 @@
             var obj = JSON.parse(retrievedObject);
 
             if (obj.address === null) {
-                getServices();
+                addServices();
+                // getServices();
                 console.log("ADMINUSER =====" + obj.roles[0].slug);
                 if (obj.roles[0].slug == "organisation-admin") {
                     console.log("ADMINUSER");
@@ -440,84 +525,110 @@
         });
 
 
-        function getServices() {
-            $.ajax({
-                url: '/api/v1/all_services',
-                type: 'GET',
-                success: function (response, xhr) {
-                    console.log(JSON.stringify(xhr));
-                    console.log("DATA::: "+response);
-                    if (xhr['status'] == 204) {
-                        console.log(response);
-                    } else {
-                        if(response != null) {
-                            for (var i = 0; i < response.length; i++) {
-                                console.log(response[i].name);
-                                $('#servicelist').append(`<option value="${response[i].id}">
-                                   ${response[i].name}
-                              </option>`);
-                            }
-                            var selected_id = $('#servicelist').children("option:selected").val();
-                            console.log(selected_id);
-                            setCategories(selected_id);
-                        }
+        // function getServices() {
+        //     $.ajax({
+        //         url: '/api/v1/all_services',
+        //         type: 'GET',
+        //         success: function (response, xhr) {
+        //             console.log(JSON.stringify(xhr));
+        //             console.log("DATA::: "+response);
+        //             if (xhr['status'] == 204) {
+        //                 console.log(response);
+        //             } else {
+        //                 if(response != null) {
+        //                     for (var i = 0; i < response.length; i++) {
+        //                         console.log(response[i].name);
+        //                         $('#servicelist').append(`<option value="${response[i].id}">
+        //                            ${response[i].name}
+        //                       </option>`);
+        //                     }
+        //                     var selected_id = $('#servicelist').children("option:selected").val();
+        //                     console.log(selected_id);
+        //                     setCategories(selected_id);
+        //                 }
+        //
+        //             }
+        //         },
+        //         fail: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // }
 
-                    }
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
-            });
+        // $("#servicelist").change(function () {
+        //     var selected_id = $('#servicelist').children("option:selected").val();
+        //     // $('#categorylist').empty();
+        //     setCategories(selected_id);
+        // });
+        var selectedService = [];
+        function serviceClick(id) {
+            console.log("CLIKC ::" + id);
+
+            $('#serviceError').text('')
+            if(jQuery.inArray(id, selectedService) != -1) {
+                console.log("is in array");
+                selectedService = $.grep(selectedService, function(value) {
+                    return value != id;
+                });
+
+            } else {
+                console.log("is NOT in array");
+
+                selectedService.push(id);
+            }
+            console.log(selectedService);
         }
 
-        $("#servicelist").change(function () {
-            var selected_id = $('#servicelist').children("option:selected").val();
-            $('#categorylist').empty();
-            setCategories(selected_id);
-        });
 
-
-        function setCategories(selected_id) {
-            console.log(selected_id);
-            $.ajax({
-                url: '/api/v1/services/category?id=' + selected_id,
-                type: 'GET',
-                success: function (response, xhr) {
-                    console.log(response)   ;
-                    console.log(JSON.stringify(xhr));
-                    if (response['status'] == 204) {
-                        console.log(response);
-                    } else {
-                        for (var i = 0; i < response.length; i++) {
-                            $('#categorylist').append(`<option value="${response[i].id}">
-                                   ${response[i].name}
-                              </option>`);
-                        }
-                    }
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
-            });
-        }
+        // function setCategories(selected_id) {
+        //     console.log(selected_id);
+        //     $.ajax({
+        //         url: '/api/v1/services/category?id=' + selected_id,
+        //         type: 'GET',
+        //         success: function (response, xhr) {
+        //             console.log(response)   ;
+        //             console.log(JSON.stringify(xhr));
+        //             if (response['status'] == 204) {
+        //                 console.log(response);
+        //             } else {
+        //                 for (var i = 0; i < response.length; i++) {
+        //                     $('#categorylist').append(`<option value="${response[i].id}">
+        //                            ${response[i].name}
+        //                       </option>`);
+        //                 }
+        //             }
+        //         },
+        //         fail: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // }
 
 
         function validateForm() {
+            var isValidate = true;
             var profilePhoto = $('#imageUpload')[0].files[0];
             if (!profilePhoto) {
-                return false;
+                isValidate = false;
             }
 
             var docupload = $('#docupload')[0].files[0];
             if (!docupload) {
-                return false;
+                isValidate = false;
             }
 
-            var selectedCategories = $('#categorylist').children("option:selected");
-
-            if (selectedCategories.length <= 0) {
-                return false;
+            if(selectedLang.length <= 0) {
+                $('#langError').css('color', 'red');
+                $('#langError').text('Please select Language')
+                isValidate = false;
             }
+
+            if(selectedService.length <= 0) {
+                $('#serviceError').css('color', 'red');
+                $('#serviceError').text('Please select Services')
+                isValidate = false;
+            }
+
 
             if ($('#collapseTable').is(':visible')) {
                 console.log("TOTOTO");
@@ -528,27 +639,27 @@
 
             if (document.getElementById("address_name").value == "") {
                 // EXPAND ADDRESS FORM
-                return false;
+                isValidate = false;
             }
 
             if (document.getElementById("address_line1").value == "") {
-                return false;
+                isValidate = false;
             }
 
             if (document.getElementById("district").value == "") {
-                return false;
+                isValidate = false;
             }
 
             if (document.getElementById("city").value == "") {
                 // EXPAND ADDRESS FORM
-                return false;
+                isValidate = false;
             }
 
             if (document.getElementById("postal_code").value == "") {
                 // EXPAND ADDRESS FORM
-                return false;
+                isValidate = false;
             }
-            return true;
+            return isValidate;
         }
 
 
@@ -734,37 +845,8 @@
 
 
 
-
-
-    // function Organisationprofile() {
-    //     console.log("org_validateForm");
-    //     var profilevalidate = org_validateForm();
-    //     console.log("org_validateForm ::"+ profilevalidate);
-    //     if(profilevalidate == null){
-    //         console.log("CREATE SERVER CALL");
-    //         $.ajax({
-    //             type: "POST",
-    //             url: '/api/v1/org_profile',
-    //             data: formdata
-    //         }).done(function( response ) {
-    //             $("#org_Modal").modal("hide");
-    //             console.log(response);
-    //             // Put the object into storage
-    //             localStorage.setItem('userObject', JSON.stringify(response));
-    //             window.location = '/home';
-    //         });
-    //     }
-    //     else{
-    //         $("#alerterror").text(profilevalidate);
-    //         $("#alerterror").show();
-    //         setTimeout(function(){
-    //             $("#alerterror").hide()
-    //         },1000);
-    //     }
-    //  }
-
     function saveProfile() {
-        if (validateForm()) {
+        if (validateForm() == true) {
             console.log("VALIDATE FORM");
             apiCall();
         } else {
@@ -780,14 +862,14 @@
             form.append('identity_proof', doc_files);
             var retrievedObject = localStorage.getItem('userObject');
             var obj = JSON.parse(retrievedObject);
-            var languagesarray=[];
-            console.log("IDDD==" + obj.id);
-            $("input:checkbox[name=languages]:checked").each(function(){
-                languagesarray.push($(this).val());
-                });
-
-            form.append('languages', languagesarray.toString());
-
+            // var languagesarray=[];
+            // console.log("IDDD==" + obj.id);
+            // $("input:checkbox[name=languages]:checked").each(function(){
+            //     languagesarray.push($(this).val());
+            //     });
+            //
+            // form.append('languages', languagesarray.toString());
+            form.append('languages', selectedLang.toString());
             $addressdata = {
                 name: document.getElementById("address_name").value,
                 address_line1: document.getElementById("address_line1").value,
@@ -802,19 +884,19 @@
             // console.log($addressdata)
             form.append('address', JSON.stringify($addressdata));
 
-            var services = [];
-            var selected_id = $('#servicelist').children("option:selected").val();
-            var selectedCategories = $('#categorylist').children("option:selected");
-            selectedCategories.each(function () {
-                console.log($(this).val());
-                var data = {};
-                data.service_id = parseInt(selected_id),
-                    data.category_id = parseInt($(this).val());
-                services.push(data);
-            })
+            // var services = [];
+            // var selected_id = $('#servicelist').children("option:selected").val();
+            // var selectedCategories = $('#categorylist').children("option:selected");
+            // selectedCategories.each(function () {
+            //     console.log($(this).val());
+            //     var data = {};
+            //     data.service_id = parseInt(selected_id),
+            //         data.category_id = parseInt($(this).val());
+            //     services.push(data);
+            // })
 
-            console.log(services)
-            form.append('services', JSON.stringify(services));
+            // console.log(services)
+            form.append('services', selectedService.toString());
 
             form.append('doc_type', $('#doctypelist').children("option:selected").val());
             console.log($('#doctypelist').children("option:selected").val());
