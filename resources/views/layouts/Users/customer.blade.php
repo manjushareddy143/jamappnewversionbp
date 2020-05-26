@@ -492,8 +492,9 @@
     //            })
     //             console.log(divListChildren);
     //        })
-    function showText(elem) {
-        console.log(elem.innerText);
+    function showText(element)
+    {
+        console.log(element.innerText);
     }
     document.querySelectorAll("li").forEach(li => li.addEventListener("click", () => showText(li)));
     // function Filters()

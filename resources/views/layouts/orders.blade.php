@@ -16,10 +16,10 @@
                             <span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <input class="form-control" id="myInput" type="text" placeholder="Search..">
-                                <li><a href="#">Rating</a></li>
-                                <li><a href="#">Price</a></li>
-                                <li><a href="#">Availability</a></li>
-                                <li><a href="#">Distance</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Rating</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Price</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Availability</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Distance</a></li>
                             </ul>
                     </div>
 
@@ -80,7 +80,11 @@
                             '</td><td>' + response[i].service  + '</td>' +
                             '</td><td>' + response[i].category  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
-                            '</td><td>' + response[i].start_time + " to " +  response[i].end_time + '</td></tr>';
+                            '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
+                            '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
+                            '<a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> ' +
+                            '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
+                            '</td></tr>';
 
                     });
                     $('#tbl_id').append(trHTML);
@@ -90,5 +94,17 @@
                 }
             });
         };
+
+        function viewDetail(e){
+            console.log(e);
+            alert(e);
+            window.location = '/orderdetails?id=' + e;
+        }
+
+        function showText(element)
+        {
+            console.log(element.innerText);
+        }
+        document.querySelectorAll("li").forEach(li => li.addEventListener("click", () => showText(li)));
     </script>
 @endsection

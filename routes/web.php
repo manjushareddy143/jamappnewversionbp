@@ -12,7 +12,6 @@
 */
 
 
-
 Route::get('/', function () {
     return view('profile');
 });
@@ -88,6 +87,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders', function()
     {
         return view('layouts.orders');
+    });
+
+    Route::get('/orderdetails', function()
+    {
+        return view('layouts.orderdetails');
     });
 
     Route::get('/profile','UserController@profile');
