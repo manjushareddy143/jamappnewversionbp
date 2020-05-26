@@ -114,6 +114,19 @@
                                                 <p id="imageError"></p>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Country
+                                                <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                            <select class="form-control" id="select_country" required>
+                                                <option>Select Country</option>
+                                                <option>India</option>
+                                                <option>Bangladesh</option>
+                                                <option>Australia</option>
+                                                <option>USA</option>
+                                                <option>Afghanistan</option>
+                                            </select>
+                                            <p id="countryError"></p>
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -315,7 +328,7 @@
             console.log("users_validate ::" + servicevalite);
             if (servicevalite == true) {
                 console.log("CREATE SERVER CALL");
-
+                var country = document.getElementById("select_country").selectedIndex;
                 var form = new FormData();
                 form.append('first_name', document.getElementById("first_name").value);
                 form.append('last_name', document.getElementById("last_name").value);
@@ -324,12 +337,12 @@
                 form.append('contact', document.getElementById("mobile").value);
                 form.append('gender', selectGender);
                 form.append('language', selectedLang.toString());
-                // form.append('service_provider', document.getElementById("service_provider").value);
+                form.append('resident_country', document.getElementsByTagName("option")[country].value);
                 // form.append('category', document.getElementById("category").value);
                 var image = $('#image')[0].files[0];
                 form.append('profile_photo', image);
 
-                var checkedCheckboxes = $('#tree_box input[type="checkbox"]:checked');
+                // var checkedCheckboxes = $('#tree_box input[type="checkbox"]:checked');
                 console.log(selectedService.toString());
                 form.append('services', selectedService.toString());
 
@@ -361,7 +374,14 @@
             $('#genderError').text('')
         }
 
-
+        $("#select_country").change(function () {
+            if ($("#select_country").val() === "Select Country") {
+                $('#select_country').next('div.red').remove();
+                $('#select_country').after('<div class="red" style="color:red">Country is Required</div>');
+            } else {
+                $(this).next('div.red').remove();
+            }
+        });
         var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
         var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
         var selectGender = "";
@@ -373,6 +393,12 @@
             if (!image) {
                 $('#imageError').css('color', 'red');
                 $('#imageError').text('Please select Image')
+                isValidate = false;
+            }
+
+            if ($('#select_country').val() === "Select Country") {
+                $('#select_country').next('div.red').remove();
+                $('#select_country').after('<div class="red" style="color:red">Country is Required</div>');
                 isValidate = false;
             }
 

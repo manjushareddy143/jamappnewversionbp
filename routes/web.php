@@ -26,6 +26,7 @@ Route::resource('roles', 'RoleController');
 Auth::routes();
 
 Route::post('/login', '\App\Http\Controllers\Auth\LoginController@customLogin');
+Route::post('/socialSignin', '\App\Http\Controllers\Auth\LoginController@socialSignin');
 Route::post('/register', '\App\Http\Controllers\Auth\RegisterController@customRegister');
 
 Route::post('/org_register', '\App\Http\Controllers\Auth\RegisterController@organisationRegister');

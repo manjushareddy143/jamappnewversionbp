@@ -18,7 +18,7 @@ class BookingController extends Controller
             [
                 'user_id' => 'required|exists:users,id',
                 'service_id'  => 'required|exists:services,id',
-                'category_id' => 'required|exists:sub_categories,id',
+//                'category_id' => 'required|exists:sub_categories,id',
                 "booking_date" => "required|date",
                 'contact' => 'required',
                 "start_time" => "required|before:end_time",
