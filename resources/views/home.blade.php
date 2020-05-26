@@ -72,25 +72,34 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-6 float-r">
+                                <div class="form-group" id="languages">
+                                    <label>Language  <strong
+                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <label for="english">English</label>
+                                    <input type="checkbox" name="languages" id="lang-english" value="English" />
 
-{{--                        <div class="row-cols-md-6" id="servicediv">--}}
-{{--                            <div class="form-group">--}}
-{{--                                <label for="exampleFormControlSelect1">Select Service</label>--}}
-{{--                                <select class="form-control" id="servicelist">--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                                    <label for="arabic">Arabic</label>
+                                    <input type="checkbox" name="languages" id="lang-arabic" value="arabic" />
+                                </div>
+                                <p id="langError"></p>
+                            </div>
 
-                        <div class="form-group" id="languages">
-                            <label>Language  <strong
-                                    style="font-size: 14px;color: #e60606;">*</strong></label>
-                            <label for="english">English</label>
-                            <input type="checkbox" name="languages" id="lang-english" value="English" />
+                            <div class="col-md-6 float-l" id="serviceRadiudiv">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Select Service Radius</label>
+                                    <input id="address_line1" type="text" name=""
+                                           placeholder="Service Radius in KM"
+                                           class="form-control" required>
+                                </div>
 
-                            <label for="arabic">Arabic</label>
-                            <input type="checkbox" name="languages" id="lang-arabic" value="arabic" />
+                            </div>
                         </div>
-                        <p id="langError"></p>
+
+
+
+
 
                         <div class="row">
                             <div class="col-md-12">
@@ -103,15 +112,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-{{--                        <div class="col" id="categorydiv">--}}
-{{--                            <div class="form-group">--}}
-{{--                                <label for="exampleFormControlSelect1">Select Category</label>--}}
-{{--                                <select class="form-control" id="categorylist" multiple="multiple">--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
 
 
                         {{--                        ADDRESSS                        --}}

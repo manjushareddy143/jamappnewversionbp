@@ -39,15 +39,16 @@
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>Id</label>
-                                                    <span>#123456</span>
+                                                    <span id="vendorId">#123456</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>Role</label>
-                                                    <span>Admin</span>
+                                                    <span id="role">Admin</span>
                                                 </div>
                                             </div>
+
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>Organization Name</label>
@@ -172,7 +173,7 @@
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 
-   
+
     <script type="text/javascript">
 
 
@@ -200,7 +201,7 @@
             user_id = getUrlParameter('id');
             console.log(user_id);
             // alert(user_id);
-            viewDetail(user_id);
+            viewDetail();
         }
 
 
@@ -219,38 +220,29 @@
             }
         };
 
-        function viewDetail(userId) { 
-            // alert('hello');
-                $.ajax({
-                type: "GET",
-                url: '/api/v1/getuserbyid/' + userId,
+        function viewDetail() {
+            $.ajax({
+                url: '/api/v1/getuserbyid/' + user_id,
+                type: 'GET',
                 data: null,
-                success: function(data){
-                    alert('success');
-                    console.log(data);  
+                success: function (response) {
+                    console.log(response);
+                    $('#vendorId').text(response['id']);
+                    $('#role').text(response['type']);
+                    if(response['org_id'] == null) {
+                        // hide Organisation details
+                    }
 
-                     'id='+user_id,
-                     'first_name='+first_name,
-                     'last_name='+last_name,
-                     'email='+email,
-
-
-
-                    // $.each(response, function (i, item) {
-                    //     trHTML += '<tr><td>' + response[i].first_name +
-                    //         '</td><td>' + response[i].last_name + '</td>' +
-                    //         '</td><td>' + response[i].email + '</td>' +
-                    //         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                    //         '</td><td>' + response[i].gender + '</td>' +
-                    //         '</a>' + '</td></tr>';
-                    // });
-
-                    // $('#tbl_id').append(trHTML);
-
-            
-        }
+                    var services = response['services'];
+                    for(var i = 0; i < services.length; i++) {
+                        console.log(services[i].service);
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
             });
-        };
+        }
 
     </script>
 

@@ -88,7 +88,8 @@ class UserController extends Controller
             ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
             ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
             ->leftJoin('addresses', 'addresses.user_id','=', 'users.id')
-
+//            ->leftJoin('provider_service_mappings', 'provider_service_mappings.user_id','=', 'users.id')
+//            ->leftJoin('services', 'provider_service_mappings.service_id', '=', 'services.id')
             ->select('users.*',
                 'user_types.type as type',
                 'organisation.name as company',
@@ -97,7 +98,20 @@ class UserController extends Controller
                 'addresses.name as addressname',
                 'addresses.address_line1 as address_line1',
                 'addresses.address_line2 as address_line2')
+            ->first();
+
+        $results = ProviderServiceMapping::where('user_id', '=', $users['id'])
+            ->leftJoin('services', 'services.id', '=','provider_service_mappings.service_id')
+            ->leftJoin('sub_categories', 'sub_categories.id', '=','provider_service_mappings.category_id')
+            ->select('services.id as service_id',
+                'services.name as service','services.icon_image as service_icon',
+                'services.banner_image as service_banner', 'services.description as service_description' ,
+                'sub_categories.name as category', 'sub_categories.id as category_id',
+                'sub_categories.image as category_image', 'sub_categories.description as category_description')
             ->get();
+
+        $users["services"] = $results;
+
         return response()->json($users, 200);
     }
     /** Form for creating a new resource
