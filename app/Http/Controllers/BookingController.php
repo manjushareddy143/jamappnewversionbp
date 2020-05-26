@@ -7,6 +7,7 @@ use App\Booking;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use SebastianBergmann\Environment\Console;
 use Validator;
 
 class BookingController extends Controller
@@ -114,5 +115,4 @@ class BookingController extends Controller
         $result = Booking::where('id', '=', $id)->first();
         return response()->json($result);
     }
-
 }
