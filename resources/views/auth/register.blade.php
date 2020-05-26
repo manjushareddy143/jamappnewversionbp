@@ -11,7 +11,7 @@
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="css/ruang-admin.css" rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="bg-gradient-login">
 <!-- Service Provider Sign-Up Content -->
@@ -119,13 +119,32 @@
                                                     {{--                                                    mobileSignup--}}
 
                                                 </div>
+
+
                                             </form>
+
+
                                             <div class="text-center login-signin">
                                                 Already have an account? <a class="font-weight-bold small"
                                                                             href="/login"
                                                                             style="color: #f79548;">Login</a>
                                             </div>
+
+{{--                                            <div class="text-center social-btn">--}}
+{{--                                                <a href="#" class="btn btn-danger btn-block" onclick="gmailLogin()">--}}
+{{--                                                    <i class="fa fa-google"></i>--}}
+{{--                                                    Sign in with <b>Google</b>--}}
+{{--                                                </a>--}}
+
+{{--                                                <a href="#" class="btn btn-primary btn-block" onclick="facebookLogin()"--}}
+{{--                                                   style="background-color: #337ab7;border: none;">--}}
+{{--                                                    <i class="fa fa-facebook"></i>--}}
+{{--                                                    Sign in with <b>Facebook</b>--}}
+{{--                                                </a>--}}
+{{--                                            </div>--}}
                                         </div>
+
+
 
                                         @if(Session::has('laravel_session'))
                                             <div class="inspire">

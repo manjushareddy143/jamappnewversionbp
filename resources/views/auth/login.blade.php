@@ -230,15 +230,28 @@
     function gmailLogin(){
         console.log("GMAIL LOGIN");
         var provider = new firebase.auth.GoogleAuthProvider();
-        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        provider.addScope('profile');
+        provider.addScope('email');
+
+        // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        // provider.addScope('currentUser');
 
         firebase.auth().signInWithPopup(provider).then(function(result) {
             // This gives you a Google Access Token. You can use it to access the Google API.
             var token = result.credential.accessToken;
             // The signed-in user info.
-            var user = result.user;
+            var user = result.additionalUserInfo.profile;
             console.log("user" + JSON.stringify(user));
-            // ...
+            var data =
+                {
+                    email: user.email,
+                    password: user.id,
+                    image: user.picture,
+                    first_name: user.given_name,
+                    last_name: user.family_name,
+                };
+            socialSigin(data);
+
         }).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
@@ -303,6 +316,39 @@
         return isValidate;
     }
 
+    function socialSigin(data) {
+
+        $.ajax({
+            type: 'POST',
+            url: '/socialSignin',
+            data: data,
+            success: function (response) {
+                console.log("SUCCESS");
+                var data = response['status'];
+                console.log(response);
+                if (data === true) {
+                    console.log("test" + JSON.stringify(response));
+                    localStorage.setItem('userObject', JSON.stringify(response));
+                    window.location = '/home';
+                } else {
+                    alert("Invalid email or password");
+                }
+            },
+            error: function (xhr, status, err) {
+                console.log(xhr.statusText + "xhr.statusText");
+                if(xhr.status == 401) {
+                    $("#errormsg").text("Invalid Email or Password");
+                } else {
+                    $("#errormsg").text(xhr.statusText);
+                }
+
+                $("#errorAlert").show();
+                setTimeout(function () {
+                    $("#errorAlert").hide()
+                }, 1000);
+            },
+        });
+    }
 
     function doLogin() {
         console.log("login_validate");
