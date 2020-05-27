@@ -38,6 +38,8 @@ Route::get('v1/booking/{id}', 'BookingController@getorder');
 Route::get('v1/getuser/{id}', 'UserController@getuser');
 
 Route::get('v1/getuserbyid/{id}', 'UserController@getuserbyid');
+Route::get('v1/getcusbyid/{id}', 'UserController@getcusbyid');
+
 
 Route::post('v1/add_customer', 'UserController@add_customer');
 Route::post('v1/add_organisation', 'UserController@add_organisation');

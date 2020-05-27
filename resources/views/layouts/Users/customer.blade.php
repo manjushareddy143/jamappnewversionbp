@@ -7,7 +7,7 @@
                 <div class="card-header py-3 d-flex">
                     <h6 class="m-0 font-weight-bold text-primary">Customers</h6>
 
-                    <div style="padding-left: 74%;">
+                    <div style="padding-left: 68%;">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                         id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customers</button>
                     </div>
@@ -193,7 +193,7 @@
         '</td><td>' + response[i].email + '</td>' +
         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
         '</td><td>' + response[i].gender + '</td>' +
-        '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
+        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>' + '</td></tr>';
 
                 });
                 $('#tbl_id').append(trHTML);
@@ -205,6 +205,12 @@
     };
 
 
+
+      function viewDetail(e){
+            console.log(e);
+            alert(e);
+            window.location = '/customerdetail?id=' + e;
+        }
 
     function create_user() {
 

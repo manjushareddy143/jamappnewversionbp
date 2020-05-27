@@ -12,7 +12,7 @@
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">User Details</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Customer Details</h1>
 {{--                        <div class="custom-buttons">--}}
 {{--                            <button type="button" class="btn btn-primary mb-1">Create</button>--}}
 {{--                            <button type="button" class="btn btn-secondary mb-1">Back</button>--}}
@@ -76,7 +76,7 @@
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>Type</label>
-                                                    <span>Lorem Ipsum</span>
+                                                    <span id="types">Lorem Ipsum</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
@@ -109,11 +109,11 @@
                                                     <span>Lorem Ipsum</span>
                                                     <div class="user-documents-container">
                                                         <div class="document-block">
-                                      <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name">
+                                             <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name">
                                                             <span>Parn Card</span>
                                                         </div>
                                                         <div class="document-block">
-                                        <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name">
+                                                          <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
                                                             <span>Passport</span>
                                                         </div>
                                                     </div>
@@ -223,12 +223,11 @@
 
         function viewDetail() {
             $.ajax({
-                url: '/api/v1/getuserbyid/' + user_id,
+                url: '/api/v1/getcusbyid/' + user_id,
                 type: 'GET',
                 data: null,
                 success: function (response) {
                     console.log(response);
-                    $('#image').text(response['image']);
                     $('#vendorId').text(response['id']);
                     $('#first_name').text(response['first_name']);
                     $('#last_name').text(response['last_name']);
@@ -241,6 +240,7 @@
                     $('#address_line2').text(response['address_line2']);
                     $('#doc_name').text(response['doc_name']);
                     $('#resident_country').text(response['resident_country']);
+                    $('#types').text(response['types']);
 
                     
                     
