@@ -553,30 +553,6 @@
         });
 
 
-
-
-
-        // // Show Detail
-
-
-        // $(document).on('click', '.show-modal', function() {
-        //     $('.modal-title').text('Show');
-        //     $('#id').val($(this).data('id'));
-        //     $('#first_name').val($(this).data('first_name'));
-        //     $('#last_name').val($(this).data('last_name'));
-        //     $('#email').val($(this).data('email'));
-        //     $('#contact').val($(this).data('contact'));
-        //     $('#gender').val($(this).data('gender'));
-        //     $('#languages').val($(this).data('languages'));
-        //     $('#type').val($(this).data('type'));
-        //     $('#role').val($(this).data('role'));
-        //     $('#address_line1').val($(this).data('address_line1'));
-        //     $('#doc_name').val($(this).data('doc_name'));
-            
-
-        //     $('#showModal').modal('show');
-        // });
-
     </script>
 
 @endsection

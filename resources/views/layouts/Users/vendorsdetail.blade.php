@@ -29,9 +29,10 @@
                                             <div class="profile-container" style="width: 200px !important;">
                                                 <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
                                                 <div class="sidebar-user-info">
-             <div class="first_name"><?php $first_name = (isset($_POST["first_name"])) ? $_POST["first_name"] : null; ?></div>
-  <div class="email"><i class="fas fa-fw fa-envelope"></i> <?php $email = (isset($_POST["email"])) ? $_POST["email"] : null; ?></div>
-                                                    <div class="phone"><i class="fas fa-fw fa-phone"></i> +91 1234567890</div>
+                                                    <div class="first_name" id="first_name">jaydip</div>
+                                                    <div class="last_name" id="last_name">jaydip</div>
+                         <div class="email" id="email"><i class="fas fa-fw fa-envelope"></i>jd112@savitriya.com</div>
+                                                    <div class="phone" id="contact"><i class="fas fa-fw fa-phone"></i> +91 1234567890</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -58,13 +59,13 @@
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>Gender</label>
-                                                    <span>Male</span>
+                                                    <span id="gender">Male</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>Languages</label>
-                                                    <span>Arabic, English</span>
+                                                    <span id="languages">Arabic, English</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
@@ -100,7 +101,7 @@
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>Residence country</label>
-                                                    <span>India</span>
+                                                    <span id="resident_country">India</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 float-l spe-padding">
@@ -109,11 +110,11 @@
                                                     <span>Lorem Ipsum</span>
                                                     <div class="user-documents-container">
                                                         <div class="document-block">
-                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
+                                             <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name">
                                                             <span>Parn Card</span>
                                                         </div>
                                                         <div class="document-block">
-                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
+                                                          <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
                                                             <span>Passport</span>
                                                         </div>
                                                     </div>
@@ -132,7 +133,8 @@
                                                             <div class="addressdiv">
                                                                 <div class="col-md-4 float-l paddingleft0 addressblock">
                                                                     <label>Home</label>
-                                                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
+                                                                    <span id="address_line1">Lorem ipsum</span>
+                                                                    <span id="address_line2">Lorem ipsum</span>
                                                                 </div>
                                                                 <div class="col-md-4 float-l paddingleft0 addressblock">
                                                                     <label>Office</label>
@@ -228,7 +230,21 @@
                 success: function (response) {
                     console.log(response);
                     $('#vendorId').text(response['id']);
+                    $('#first_name').text(response['first_name']);
+                    $('#last_name').text(response['last_name']);
+                    $('#gender').text(response['gender']);
+                    $('#languages').text(response['languages']);
                     $('#role').text(response['type']);
+                    $('#contact').text(response['contact']);
+                    $('#email').text(response['email']);
+                    $('#address_line1').text(response['address_line1']);
+                    $('#address_line2').text(response['address_line2']);
+                    $('#doc_name').text(response['doc_name']);
+                    $('#resident_country').text(response['resident_country']);
+
+                    
+                    
+
                     if(response['org_id'] == null) {
                         // hide Organisation details
                     }
