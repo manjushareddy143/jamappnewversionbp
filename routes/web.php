@@ -80,6 +80,12 @@ Route::middleware(['auth'])->group(function () {
         return view('layouts.Users.vendorsdetail');
     });
 
+        Route::get('/customerdetail', function()
+    {
+        return view('layouts.Users.customerdetail');
+    });
+
+
 
     //verified vendor
     //Route::patch('service_provider/verification/{id}', 'ServiceProviderController@verification');
