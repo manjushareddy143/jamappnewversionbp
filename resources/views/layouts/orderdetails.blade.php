@@ -27,8 +27,9 @@
                             <div class="card-body">
                               <div class="row align-items-center">
                                 <div class="col mr-2">
-                                  <label>Order Number</label>
-                                  <span id="Booking_id">#A5990245</span>
+                                  <label class="text-xs font-weight-bold text-uppercase mb-1">Order Number</label>
+                                  <br>
+                                  <span class="h5 mb-0 font-weight-bold text-gray-800" id="Booking_id">#A5990245</span>
                                 </div>
                                 <div class="col-auto">
                                   <i class="fas fa-shopping-cart fa-2x text-primary"></i>
@@ -43,8 +44,9 @@
                             <div class="card-body">
                               <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                  <label>Date</label>
-                                  <span id="booking_date">10-Mar-2020</span>
+                                  <label class="text-xs font-weight-bold text-uppercase mb-1">Date</label>
+                                  <br>
+                                  <span class="h5 mb-0 font-weight-bold text-gray-800" id="booking_date">10-Mar-2020</span>
                                 </div>
                                 <div class="col-auto">
                                   <i class="fas fa-calendar-alt fa-2x text-success"></i>
@@ -59,8 +61,9 @@
                             <div class="card-body">
                               <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                  <label>Time</label>
-                                  <span id="start_time">1:00 PM</span>
+                                  <label class="text-xs font-weight-bold text-uppercase mb-1">Time</label>
+                                  <br>
+                                  <span class="h5 mb-0 font-weight-bold text-gray-800" id="start_time">1:00 PM</span>
                                 </div>
                                 <div class="col-auto">
                                   <i class="fas fa-clock fa-2x text-info"></i>
@@ -75,8 +78,9 @@
                             <div class="card-body">
                               <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                  <label>Status</label>
-                                  <span id="status">Complete</span>
+                                  <label class="text-xs font-weight-bold text-uppercase mb-1">Status</label>
+                                  <br>
+                                  <span class="h5 mb-0 font-weight-bold text-gray-800" id="status">Complete</span>
                                 </div>
                                 <div class="col-auto">
                                   <i class="fas fa-smile fa-2x text-warning"></i>
@@ -117,7 +121,9 @@
                                 <i class="fas fa-address-book"></i>
                                 <div class="order-info-block">
                                   <span>Address</span>
-                                  <p>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
+                                  <p id=addressname>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
+                                  <p id=address_line1>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
+                                  <p id=address_line2>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
                                 </div>
                               </div>
                               <div class="order-info">
@@ -208,15 +214,17 @@
                 data: null,
                 success: function (response) {
                     console.log(response);
-                    $('#booking_id').text(response['id']);
+                    $('#Booking_id').text(response['id']);
                     $('#booking_date').text(response['booking_date']);
-                    $('#start_time').text(response['time']);
+                    $('#start_time').text(response['start_time']);
                     $('#status').text(response['status']);
                     $('#orderer_name').text(response['orderer_name']);
                     $('#service').text(response['service_id']);
                     $('#contact').text(response['contact']);
                     $('#email').text(response['email']);
                     $('#address').text(response['address']);
+                    $('#address_line1').text(response['address_line1']);
+                    $('#address_line2').text(response['address_line2']);
 
                 },
                 fail: function (error) {
