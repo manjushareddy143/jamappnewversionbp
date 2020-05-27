@@ -171,11 +171,39 @@
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script type="text/javascript">
 
-            function onLoad() {
-                Booking_id = getUrlParameter('id');
-                console.log(Booking_id);
-            }
+        window.addEventListener ?
+            window.addEventListener("load",onLoad(),false) :
+            window.attachEvent && window.attachEvent("onload",onLoad());
+        var Booking_id;
+        function onLoad() {
+            Booking_id = getUrlParameter('id');
+            console.log(Booking_id);
+            // alert(user_id);
+            viewDetail();
+        }
 
+        function onLoad() {
+            Booking_id = getUrlParameter('id');
+            console.log(Booking_id);
+        }
+
+        function getUrlParameter(sParam)
+        {
+            var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++)
+            {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam)
+                {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        }
 
 
         </script>
