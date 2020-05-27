@@ -29,10 +29,9 @@
                                             <div class="profile-container" style="width: 200px !important;">
                                                 <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg">
                                                 <div class="sidebar-user-info">
-                                                    <div class="first_name" id="first_name">jaydip</div>
-                                                    <div class="last_name" id="last_name">jaydip</div>
-                         <div class="email" id="email"><i class="fas fa-fw fa-envelope"></i>jd112@savitriya.com</div>
-                                                    <div class="phone" id="contact"><i class="fas fa-fw fa-phone"></i> +91 1234567890</div>
+                 <span class="first_name" id="first_name">jaydip</span> <span class="last_name" id="last_name">jaydip</span>
+                <div class="email" id="email"><i class="fas fa-fw fa-envelope"></i>jd112@savitriya.com</div>
+                  <div class="phone" id="contact"><i class="fas fa-fw fa-phone"></i> +91 1234567890</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -50,7 +49,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 float-l">
+                                            <div class="col-md-4 float-l organization_field">
                                                 <div class="form-group">
                                                     <label>Organization Name</label>
                                                     <span>Savitriya Technologies</span>
@@ -68,7 +67,7 @@
                                                     <span id="languages">Arabic, English</span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 float-l">
+                                            <div class="col-md-4 float-l organization_field">
                                                 <div class="form-group">
                                                     <label>Organization Email</label>
                                                     <span>organization@gmail.com</span>
@@ -86,7 +85,7 @@
                                                     <span>Lorem Ipsum</span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 float-l">
+                                            <div class="col-md-4 float-l organization_field">
                                                 <div class="form-group">
                                                     <label>Organization Contact</label>
                                                     <span>+91 1234567890</span>
@@ -246,7 +245,10 @@
                     
 
                     if(response['org_id'] == null) {
-                        // hide Organisation details
+                        $('#organization_name').hide();
+                        $("#organization_contact").hide();
+                        $("#organization_email").hide();
+
                     }
 
                     var services = response['services'];
@@ -262,6 +264,12 @@
 
     </script>
 
+<style>
+.organization_field {
+display: none;
+}
+
+</style>
 </body>
 
 
