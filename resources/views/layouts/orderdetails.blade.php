@@ -182,11 +182,6 @@
             viewDetail();
         }
 
-        function onLoad() {
-            Booking_id = getUrlParameter('id');
-            console.log(Booking_id);
-        }
-
         function getUrlParameter(sParam)
         {
             var sPageURL = window.location.search.substring(1),
@@ -208,7 +203,7 @@
         function viewDetail() {
             console.log("helo");
             $.ajax({
-                url: '/api/v1/orderbyid/' + Booking_id,
+                url: '/api/v1/booking/' + Booking_id,
                 type: 'GET',
                 data: null,
                 success: function (response) {
@@ -222,18 +217,7 @@
                     $('#contact').text(response['contact']);
                     $('#email').text(response['email']);
                     $('#address').text(response['address']);
-                    // $('#address_line2').text(response['address_line2']);
-                    // $('#doc_name').text(response['doc_name']);
-                    // $('#resident_country').text(response['resident_country']);
 
-                    // if(response['org_id'] == null) {
-                    //     // hide Organisation details
-                    // }
-
-                    var services = response['services'];
-                    for(var i = 0; i < services.length; i++) {
-                        console.log(services[i].service);
-                    }
                 },
                 fail: function (error) {
                     console.log(error);

@@ -85,7 +85,7 @@ class UserController extends Controller
     public function getuserbyid($id)
     {
 
-        //$user = User::with('userservices')->find(4);
+        $user = User::with('userservices')->find(4);
 //        $user = services::with('serviceusers')->get();
         //dd( $user->userservices);
 //        dd( $user); //->serviceusers, DB::getQueryLog()
