@@ -27,8 +27,8 @@
                             <div class="card-body">
                               <div class="row align-items-center">
                                 <div class="col mr-2">
-                                  <div class="text-xs font-weight-bold text-uppercase mb-1">Order Number</div>
-                                  <div class="h5 mb-0 font-weight-bold text-gray-800">#A5990245</div>
+                                  <label>Order Number</label>
+                                  <span id="Booking_id">#A5990245</span>
                                 </div>
                                 <div class="col-auto">
                                   <i class="fas fa-shopping-cart fa-2x text-primary"></i>
@@ -43,8 +43,8 @@
                             <div class="card-body">
                               <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                  <div class="text-xs font-weight-bold text-uppercase mb-1">Date</div>
-                                  <div class="h5 mb-0 font-weight-bold text-gray-800">10-Mar-2020</div>
+                                  <label>Date</label>
+                                  <span id="booking_date">10-Mar-2020</span>
                                 </div>
                                 <div class="col-auto">
                                   <i class="fas fa-calendar-alt fa-2x text-success"></i>
@@ -59,8 +59,8 @@
                             <div class="card-body">
                               <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                  <div class="text-xs font-weight-bold text-uppercase mb-1">Time</div>
-                                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">1:00 PM</div>
+                                  <label>Time</label>
+                                  <span id="start_time">1:00 PM</span>
                                 </div>
                                 <div class="col-auto">
                                   <i class="fas fa-clock fa-2x text-info"></i>
@@ -75,8 +75,8 @@
                             <div class="card-body">
                               <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                  <div class="text-xs font-weight-bold text-uppercase mb-1">Status</div>
-                                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Complete</div>
+                                  <label>Status</label>
+                                  <span id="status">Complete</span>
                                 </div>
                                 <div class="col-auto">
                                   <i class="fas fa-smile fa-2x text-warning"></i>
@@ -91,8 +91,8 @@
                               <div class="order-info">
                                 <i class="fas fa-user"></i>
                                 <div class="order-info-block">
-                                  <span>Vendor Name</span>
-                                  <p class="vendorname">Afrar Sheikh</p>
+                                  <span>Orderer Name</span>
+                                  <p class="orderername" id="orderer_name">Afrar Sheikh</p>
                                 </div>
                               </div>
                               <div class="order-info">
@@ -124,14 +124,14 @@
                                 <i class="fas fa-envelope"></i>
                                 <div class="order-info-block">
                                   <span>Email</span>
-                                  <p>info@partservice.com</p>
+                                  <p id="email">info@partservice.com</p>
                                 </div>
                               </div>
                               <div class="order-info">
                                 <i class="fas fa-phone"></i>
                                 <div class="order-info-block">
                                   <span>Number</span>
-                                  <p>+91 1234567890</p>
+                                  <p id="contact">+91 1234567890</p>
                                 </div>
                               </div>
                             </div>
@@ -203,6 +203,42 @@
                     return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
                 }
             }
+        }
+
+        function viewDetail() {
+            console.log("helo");
+            $.ajax({
+                url: '/api/v1/orderbyid/' + Booking_id,
+                type: 'GET',
+                data: null,
+                success: function (response) {
+                    console.log(response);
+                    $('#booking_id').text(response['id']);
+                    $('#booking_date').text(response['booking_date']);
+                    $('#start_time').text(response['time']);
+                    $('#status').text(response['status']);
+                    $('#orderer_name').text(response['orderer_name']);
+                    $('#service').text(response['service_id']);
+                    $('#contact').text(response['contact']);
+                    $('#email').text(response['email']);
+                    $('#address').text(response['address']);
+                    // $('#address_line2').text(response['address_line2']);
+                    // $('#doc_name').text(response['doc_name']);
+                    // $('#resident_country').text(response['resident_country']);
+
+                    // if(response['org_id'] == null) {
+                    //     // hide Organisation details
+                    // }
+
+                    var services = response['services'];
+                    for(var i = 0; i < services.length; i++) {
+                        console.log(services[i].service);
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
         }
 
 

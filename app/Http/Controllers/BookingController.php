@@ -115,4 +115,20 @@ class BookingController extends Controller
         $result = Booking::where('id', '=', $id)->first();
         return response()->json($result);
     }
+
+    public function orderbyid($id)
+    {
+        $booking=Booking::where('bookings.id', '=', $id)
+        ->leftjoin('services', 'bookings.service_id', '=', 'services.id')
+        ->leftjoin('addresses', 'addresses.user_id', '=', 'users.id')
+        ->select('bookings.*',
+            'services.name as servicename',
+            'addresses.name as addressname',
+            'addresses.address_line1 as address_line1',
+            'addresses.address_line2 as address_line2')
+        ->get();
+
+
+        return response()->json($booking, 200);
+    }
 }
