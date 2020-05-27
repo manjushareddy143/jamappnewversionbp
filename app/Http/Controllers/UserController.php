@@ -84,13 +84,12 @@ class UserController extends Controller
 
     public function getuserbyid($id)
     {
-        DB::enableQueryLog();
+
         //$user = User::with('userservices')->find(4);
-        $user = services::with('serviceusers')->get();
+//        $user = services::with('serviceusers')->get();
         //dd( $user->userservices);
-        dd( $user); //->serviceusers, DB::getQueryLog()
+//        dd( $user); //->serviceusers, DB::getQueryLog()
 //        return response()->json($service, 200);
-//
         $users=User::where('users.id', '=', (int)$id)
             ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
             ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
@@ -159,7 +158,7 @@ class UserController extends Controller
         return response()->json($users, 200);
     }
 
-    
+
     public function addUser(Request $request)
     {
         $roles = Role::pluck('name','name')->all();
