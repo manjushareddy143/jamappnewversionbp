@@ -313,13 +313,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-
-        return response()->json($id);
-        $users = User::find($id)->delete($id);
-
+        $users = User::find($id);
         $users->delete();
-
-        return redirect()->route('/user')->with('Success','User deleted successfully');
+        return response()->json($users, 200);
     }
 
     // User Login API
@@ -372,9 +368,11 @@ class UserController extends Controller
             $fcm_response = array();
             $checkuser  = User::where('email', '=', $username)->first();
 
+//            echo 123;exit();
             if (isset($checkuser)) {
                 if (Hash::check($password,$checkuser->password))
                 {
+
                     $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
                     if($fcm_user->count() <= 0) {
 
