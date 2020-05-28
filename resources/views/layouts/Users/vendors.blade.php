@@ -271,7 +271,7 @@
                         var token = $("meta[name='csrf-token']").attr("content");
                                 $.ajax(
                                 {
-                                    url: "destroy/"+id,
+                                    url: "/destroy/"+id,
                                     type: 'DELETE',
                                     data: {
                                         "id": id,
