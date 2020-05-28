@@ -209,7 +209,7 @@
       function viewDetail(e){
             console.log(e);
             alert(e);
-            window.location = '/customerdetail?id=' + e;
+            window.location = '/detail?id=' + e;
         }
 
     function create_user() {

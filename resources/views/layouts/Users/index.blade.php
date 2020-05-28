@@ -157,7 +157,7 @@
                         '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                        '</td><td>' + ' <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <button href="/user/destroye/"'+response[i].id+
+                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <button href="/user/destroye/"'+response[i].id+
                     ' class="btn btn-danger todo-delete-btn" id="{{'.$user->id .'}}"><i class="fa fa-trash"></i></button>' + '</td> </tr>';
 
                 });
@@ -169,6 +169,12 @@
         });
     };
 
+
+        function viewDetail(e){
+            console.log(e);
+            // alert(e);
+            window.location = '/detail?id=' + e;
+        }
 
 
 

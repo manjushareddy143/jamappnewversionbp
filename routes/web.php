@@ -75,15 +75,15 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
-    Route::get('/vendorsdetail', function()
+    Route::get('/detail', function()
     {
-        return view('layouts.Users.vendorsdetail');
+        return view('layouts.Users.detail');
     });
 
-        Route::get('/customerdetail', function()
-    {
-        return view('layouts.Users.customerdetail');
-    });
+    //     Route::get('/customerdetail', function()
+    // {
+    //     return view('layouts.Users.customerdetail');
+    // });
 
 
 

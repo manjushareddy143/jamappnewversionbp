@@ -291,7 +291,7 @@
         function viewDetail(e){
             console.log(e);
             // alert(e);
-            window.location = '/vendorsdetail?id=' + e;
+            window.location = '/detail?id=' + e;
         }
 
         var selectedLang = [];
