@@ -479,6 +479,24 @@ class UserController extends Controller
         $input['password'] = Hash::make('password');
         $user = User::create($input);
 
+        if(array_key_exists('token', $input)) {
+            $fcm_response = array();
+            $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
+            if($fcm_user->count() <= 0) {
+
+                $fcm_data = [
+                    "user_id" => $user['id'],
+                    "fcm_device_token" => $input['token'],
+                    "device_type" => $input['device']
+                ];
+                $fcm_response = FCMDevices::create($fcm_data);
+            } else {
+                $fcm_response = $fcm_user;
+            }
+
+            $user['fcm'] = $fcm_response;
+        }
+
         $user_id=$user->id;
         $now = now()->utc();
         $term_agreement= [

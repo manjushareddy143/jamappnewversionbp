@@ -297,7 +297,6 @@
 
         function deleteRecord(e){
             console.log(e);
-
             $.ajax(
                 {
                     url: "/users/"+e,
@@ -308,7 +307,6 @@
                         window.top.location = window.top.location;
                     }
                 });
-            //
         }
 
         var selectedLang = [];
