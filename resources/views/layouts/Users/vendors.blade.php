@@ -276,11 +276,6 @@
 
         }
 
-        // $(document).on('click', '.tree label', function (e) {
-        //     $(this).next('ul').fadeToggle();
-        //     e.stopPropagation();
-        // });
-
         $(document).on('change', '.tree input[type=checkbox]',
             function (e) {
                 $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
@@ -300,6 +295,19 @@
             window.location = '/detail?id=' + e;
         }
 
+        function deleteRecord(e){
+            console.log(e);
+            $.ajax(
+                {
+                    url: "/users/"+e,
+                    type: 'DELETE',
+                    data: null,
+                    success: function (){
+                        console.log("Delete");
+                        window.top.location = window.top.location;
+                    }
+                });
+        }
 
         var selectedLang = [];
         $('#lang-english').change(function () {

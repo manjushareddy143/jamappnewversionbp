@@ -6,6 +6,22 @@
         <div class="row">
             <div class="col-lg-12 margin-tb">
                 <div class="card">
+                    <div class="order-listing">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist" style="border: 0px!important">
+                            <li class="nav-item first-tab">
+                                <a class="nav-link active" id="orderplaced-tab" data-toggle="tab"
+                                    href="#" role="tab"
+                                    aria-controls="home" aria-selected="true" onclick="placedorder()" >
+                                    <i class="fas fa-user"></i>Order Placed by You</a>
+                            </li>
+                            <li class="nav-item second-tab">
+                                <a class="nav-link" id="orderreceive-tab" data-toggle="tab"
+                                    href="#" role="tab"
+                                    aria-controls="profile" aria-selected="false" onclick="receivedorder()">
+                                    <i class="fas fa-users"></i> Order Received From Users <br/></a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Orders Management</h6>
                         {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
@@ -57,14 +73,17 @@
 
 
 
+        var currentuser;
         function onLoad() {
             console.log("ON LOAD  tbl_id")
             var retrievedObject = localStorage.getItem('userObject');
             console.log(retrievedObject)
-            var obj = JSON.parse(retrievedObject);
-            console.log(obj.roles[0].name)
-            if(obj.roles[0].name == 'Admin') {
+            currentuser = JSON.parse(retrievedObject);
+            console.log(currentuser.roles[0].name)
+            if(currentuser.roles[0].name == 'Admin') {
                 getAllOrders();
+            } else if (currentuser.roles[0].name == 'Individual Service Provider') {
+                placedorder();
             }
             // getResult(obj.id);
 
@@ -92,7 +111,7 @@
                             status = "Cancel by User"
                         }
                         trHTML += '<tr><td>' + response[i].orderer_name +
-                            '</td><td>' + response[i].services.name  + '</td>' +
+                            '</td><td>' + response[i].service  + '</td>' +
                             '</td><td>' + category  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
                             '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
@@ -140,6 +159,94 @@
                 }
             });
         };
+
+        function receivedorder() {
+            console.log("order by user" + currentuser.id);
+            $.ajax({
+                url: '/api/v1/booking/provider?id=' + currentuser.id,
+                type: 'GET',
+                data: null,
+                success: function(response){
+                    console.log("order by user:::" +JSON.stringify(response));
+
+                    var trHTML = '';
+                    $.each(response, function (i, item) {
+                        var category = (response[i].category == null) ? "" : response[i].category.name;
+                        var status = "";
+                        if(response[i].status == 1) {
+                            status = "Pending"
+                        } else if(response[i].status == 2) {
+                            status = "Accept"
+                        } else if(response[i].status == 3) {
+                            status = "Cancel by Vendor"
+                        } else if(response[i].status == 4) {
+                            status = "Cancel by User"
+                        }
+                        console.log("1");
+                        trHTML += '<tr><td>' + response[i].orderer_name +
+                            '</td><td>' + response[i].services  + '</td>' +
+                            '</td><td>' + category  + '</td>' +
+                            '</td><td>' + response[i].booking_date  + '</td>' +
+                            '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
+                            '</td><td>' + status +
+                            '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
+                            '<a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> ' +
+                            '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
+                            '</td></tr>';
+
+                    });
+                    $('#tbl_id').append(trHTML);
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function placedorder() {
+
+            console.log("order by You");
+            $.ajax({
+                url: '/api/v1/booking?id=' + currentuser.id,
+                type: 'GET',
+                data: null,
+                success: function(response){
+
+                    var trHTML = '';
+
+                    $.each(response, function (i, item) {
+                        var category = (response[i].category == null) ? "" : response[i].category.name;
+                        var status = "";
+                        if(response[i].status == 1) {
+                            status = "Pending"
+                        } else if(response[i].status == 2) {
+                            status = "Accept"
+                        } else if(response[i].status == 3) {
+                            status = "Cancel by Vendor"
+                        } else if(response[i].status == 4) {
+                            status = "Cancel by User"
+                        }
+                        console.log("1");
+                        trHTML += '<tr><td>' + response[i].orderer_name +
+                            '</td><td>' + response[i].services  + '</td>' +
+                            '</td><td>' + category  + '</td>' +
+                            '</td><td>' + response[i].booking_date  + '</td>' +
+                            '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
+                            '</td><td>' + status +
+                            '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
+                            '<a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> ' +
+                            '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
+                            '</td></tr>';
+
+                    });
+                    $('#tbl_id').append(trHTML);
+                    console.log("2")
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
         function viewDetail(e){
             console.log(e);

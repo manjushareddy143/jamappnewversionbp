@@ -213,6 +213,7 @@
                 type: 'GET',
                 data: null,
                 success: function (response) {
+
                     console.log(response);
                     $('#Booking_id').text(response['id']);
                     $('#booking_date').text(response['booking_date']);

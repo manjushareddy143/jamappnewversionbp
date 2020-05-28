@@ -313,11 +313,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        return response()->json($id);
         $users = User::find($id);
-
         $users->delete();
-        return response()->json($response);
+        return response()->json($users, 200);
     }
 
     // User Login API
@@ -370,9 +368,11 @@ class UserController extends Controller
             $fcm_response = array();
             $checkuser  = User::where('email', '=', $username)->first();
 
+//            echo 123;exit();
             if (isset($checkuser)) {
                 if (Hash::check($password,$checkuser->password))
                 {
+
                     $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
                     if($fcm_user->count() <= 0) {
 
@@ -478,6 +478,24 @@ class UserController extends Controller
 
         $input['password'] = Hash::make('password');
         $user = User::create($input);
+
+        if(array_key_exists('token', $input)) {
+            $fcm_response = array();
+            $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
+            if($fcm_user->count() <= 0) {
+
+                $fcm_data = [
+                    "user_id" => $user['id'],
+                    "fcm_device_token" => $input['token'],
+                    "device_type" => $input['device']
+                ];
+                $fcm_response = FCMDevices::create($fcm_data);
+            } else {
+                $fcm_response = $fcm_user;
+            }
+
+            $user['fcm'] = $fcm_response;
+        }
 
         $user_id=$user->id;
         $now = now()->utc();
