@@ -250,6 +250,7 @@
                     first_name: user.given_name,
                     last_name: user.family_name,
                 };
+            console.log(data);
             socialSigin(data);
 
         }).catch(function(error) {
@@ -317,6 +318,7 @@
     }
 
     function socialSigin(data) {
+
 
         $.ajax({
             type: 'POST',

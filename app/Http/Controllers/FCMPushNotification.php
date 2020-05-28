@@ -57,7 +57,7 @@ class FCMPushNotification extends Controller
 //                    $pushnotification = [
 //                        "f_c_m_device_id" => $fcm->id,
 //                        "title" =>$notification['title'],
-//                        "message" =>$notification['body '],
+//                        "message" =>$notixfication['body '],
 //                        "data" => $dataPayload->toString(),
 //                    ];
 //                    FCMPushNotification::create($pushnotification);
