@@ -193,7 +193,11 @@
                                     '" name="' + response[i].id +
                                     '" value="' + response[i].id + '">' +
                                     '<img src="' + img + '" class="square" width="50" height="40" />' +
-                                    '<label style="margin: 10px;"> ' + response[i].name + ' </label> </li>';
+                                    '<label style="margin: 10px;"> ' + response[i].name +
+                                    '</label> ' +  '<input type="text" ' +
+                                'onclick="clickMe(' + response[i].id + ')"' + 'id="' + response[i].id +
+                                '" name="' + response[i].id +
+                                '" value="' + response[i].id + '"></li>';
                             }
                             $('#tree_box').append(trHTML);
                         }

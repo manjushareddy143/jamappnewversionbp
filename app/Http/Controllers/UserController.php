@@ -84,12 +84,16 @@ class UserController extends Controller
 
     public function getuserbyid($id)
     {
+
+        $user = User::with('userservices')->find(4);
+//        $user = services::with('serviceusers')->get();
+        //dd( $user->userservices);
+//        dd( $user); //->serviceusers, DB::getQueryLog()
+//        return response()->json($service, 200);
         $users=User::where('users.id', '=', (int)$id)
             ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
             ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
             ->leftJoin('addresses', 'addresses.user_id','=', 'users.id')
-//            ->leftJoin('provider_service_mappings', 'provider_service_mappings.user_id','=', 'users.id')
-//            ->leftJoin('services', 'provider_service_mappings.service_id', '=', 'services.id')
             ->select('users.*',
                 'user_types.type as type',
                 'organisation.name as company',
@@ -109,6 +113,7 @@ class UserController extends Controller
                 'sub_categories.name as category', 'sub_categories.id as category_id',
                 'sub_categories.image as category_image', 'sub_categories.description as category_description')
             ->get();
+
 
         $users["services"] = $results;
 
@@ -153,7 +158,7 @@ class UserController extends Controller
         return response()->json($users, 200);
     }
 
-    
+
     public function addUser(Request $request)
     {
         $roles = Role::pluck('name','name')->all();

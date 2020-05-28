@@ -49,5 +49,15 @@ class User extends Authenticatable
     ];
 
 
+    public function userservices() {
+        return $this->hasManyThrough(services::class, ProviderServiceMapping::class, 'user_id' , 'id');
+    }
+
+    
+
+//    public function servicesuser() {
+//        return $this->hasMany('provider_service_mappings', 'service_id', 'id');
+//    }
+
 
 }

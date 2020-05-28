@@ -32,6 +32,7 @@
                                 <th>Category</th>
                                 <th>Booking Date</th>
                                 <th>Time</th>
+                                <th>Status</th>
 {{--                                <th>End</th>--}}
                                 <th width="280px">Action
                                 </th>
@@ -61,8 +62,53 @@
             var retrievedObject = localStorage.getItem('userObject');
             console.log(retrievedObject)
             var obj = JSON.parse(retrievedObject);
-            getResult(obj.id);
+            console.log(obj.roles[0].name)
+            if(obj.roles[0].name == 'Admin') {
+                getAllOrders();
+            }
+            // getResult(obj.id);
 
+        }
+
+        function getAllOrders() {
+            $.ajax({
+                url: '/api/v1/booking/getallbooking',
+                type: 'GET',
+                data: null,
+                success: function(response){
+                    console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
+                    var trHTML = '';
+
+                    $.each(response, function (i, item) {
+                        var category = (response[i].category == null) ? "" : response[i].category.name;
+                        var status = "";
+                        if(response[i].status == 1) {
+                            status = "Pending"
+                        } else if(response[i].status == 2) {
+                            status = "Accept"
+                        } else if(response[i].status == 3) {
+                            status = "Cancel by Vendor"
+                        } else if(response[i].status == 4) {
+                            status = "Cancel by User"
+                        }
+                        trHTML += '<tr><td>' + response[i].orderer_name +
+                            '</td><td>' + response[i].services.name  + '</td>' +
+                            '</td><td>' + category  + '</td>' +
+                            '</td><td>' + response[i].booking_date  + '</td>' +
+                            '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
+                            '</td><td>' + status +
+                            '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
+                            '<a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> ' +
+                            '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
+                            '</td></tr>';
+
+                    });
+                    $('#tbl_id').append(trHTML);
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
         }
 
         function getResult(id) {
@@ -97,7 +143,7 @@
 
         function viewDetail(e){
             console.log(e);
-            alert(e);
+            //alert(e);
             window.location = '/orderdetails?id=' + e;
         }
 
