@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
 //            $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('image')->nullable();
-            $table->string('contact');
+            $table->string('contact')->unique()->nullable();
             $table->string('gender')->nullable();
             $table->string('languages')->nullable();
             $table->integer('type_id')->unsigned();
@@ -39,12 +39,10 @@ class CreateUsersTable extends Migration
                 'last_name' =>  'JAM',
                 'email'=> 'admin@jam.com',
                 'password' => Hash::make('admin@jam.com'),
-                'contact' => '',
                 'type_id' => 1,
                 'term_id' => 2,
             )
         );
-
 
 //        $admin_user->roles()->attach($permissions->adminPermissions());
 

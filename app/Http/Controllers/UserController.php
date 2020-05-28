@@ -313,10 +313,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+
         return response()->json($id);
-        $users = User::find($id);
+        $users = User::find($id)->delete($id);
 
         $users->delete();
+
         return redirect()->route('/user')->with('Success','User deleted successfully');
     }
 
@@ -602,7 +604,6 @@ class UserController extends Controller
         $fcm_response = array();
         $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
         if($fcm_user->count() <= 0) {
-
             $fcm_data = [
                 "user_id" => $user['id'],
                 "fcm_device_token" => $input['token'],

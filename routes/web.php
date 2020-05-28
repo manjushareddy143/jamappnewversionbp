@@ -33,6 +33,8 @@ Route::post('/org_register', '\App\Http\Controllers\Auth\RegisterController@orga
 Route::post('/changepassword','UserController@changepassword');
 Route::post('/resetPassword','UserController@resetPassword');
 
+
+
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', function() {
@@ -43,6 +45,8 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
+    Route::delete('users/{id}', 'UserController@destroy');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/logout', '\App\Http\Controllers\Auth\LoginController@customLogOut')->name('logout');
 
@@ -52,7 +56,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/show/{$id}', 'UserController@show');
     Route::get('/addUser', 'UserController@addUser');
     Route::get('/edit','UserController@edit');
-    Route::post('/user/destroy/{$id}','UserController@destroy');
+
+    // Route::delete('/users/{id}', 'UserController@destroy')->name('users.destroy');
+
 
 
     Route::get('locale/{locale}',function ($locale){
