@@ -313,10 +313,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+
         return response()->json($id);
-        $users = User::find($id);
+        $users = User::find($id)->delete($id);
 
         $users->delete();
+
         return redirect()->route('/user')->with('Success','User deleted successfully');
     }
 
