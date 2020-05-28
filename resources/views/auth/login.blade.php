@@ -251,7 +251,7 @@
                     last_name: user.family_name,
                 };
             console.log(data);
-            // socialSigin(data);
+            socialSigin(data);
 
         }).catch(function(error) {
             // Handle Errors here.

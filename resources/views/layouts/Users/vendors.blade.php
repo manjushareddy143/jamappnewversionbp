@@ -264,27 +264,6 @@
 
 
 
-
-            // Delete record
-                        $(".deleteRecord").click(function(){
-                        var id = $(this).data("id");
-                        var token = $("meta[name='csrf-token']").attr("content");
-                                $.ajax(
-                                {
-                                    url: "destroy/"+id,
-                                    type: 'DELETE',
-                                    data: {
-                                        "id": id,
-                                        "_token": token,
-                                    },
-                                    success: function (){
-                                        alert(data);
-                                        console.log("Delete");
-                                    }
-                                });
-                            });
-
-
         window.addEventListener ?
             window.addEventListener("load", onLoad(), false) :
             window.attachEvent && window.attachEvent("onload", onLoad());
@@ -323,8 +302,18 @@
 
         function deleteRecord(e){
             console.log(e);
-            alert(e);
-            // window.location = '/destroy?id=' + e;
+
+            $.ajax(
+                {
+                    url: "/users/"+e,
+                    type: 'DELETE',
+                    data: null,
+                    success: function (){
+                        console.log("Delete");
+                        window.top.location = window.top.location;
+                    }
+                });
+            //
         }
 
         var selectedLang = [];
@@ -415,7 +404,7 @@
                 $(this).next('div.red').remove();
             }
         });
-        
+
         // Form Validation
 
         var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
