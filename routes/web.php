@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
+    
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/logout', '\App\Http\Controllers\Auth\LoginController@customLogOut')->name('logout');
 
