@@ -247,7 +247,7 @@
                             '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                             '</td><td>' + response[i].gender + '</td>' +
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
-                            '<a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> ' +
+                            '<a href="#" class="btn btn-primary" id="user_btn"><i class="fas fa-edit"></i></a> ' +
                             '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a> ' +
                             '<a href="#" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
                             '> Verified ' +
@@ -397,6 +397,7 @@
                 $(this).next('div.red').remove();
             }
         });
+
 
         // Form Validation
 

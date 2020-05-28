@@ -642,6 +642,7 @@ class UserController extends Controller
         $fcm_response = array();
         $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
         if($fcm_user->count() <= 0) {
+
             $fcm_data = [
                 "user_id" => $user['id'],
                 "fcm_device_token" => $input['token'],

@@ -56,8 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/show/{$id}', 'UserController@show');
     Route::get('/addUser', 'UserController@addUser');
     Route::get('/edit','UserController@edit');
-
-    // Route::delete('/users/{id}', 'UserController@destroy')->name('users.destroy');
+    Route::get('/users/{id}/edit', 'UserController@edit');
+    
 
 
 
