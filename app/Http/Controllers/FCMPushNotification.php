@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
+use App\BookingCancellation;
 use App\FCMDevices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,7 @@ class FCMPushNotification extends Controller
                     "order" => "2",
                 ];
 
+
                 $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
                 foreach ($fcm_customer as $fcm) {
 //                    $pushnotification = [
@@ -66,8 +68,17 @@ class FCMPushNotification extends Controller
                 return response($fcm_customer, 200)
                     ->header('content-type', 'application/json');
 
-            } else if ($input['status'] == 3) {
+            }
+            else if ($input['status'] == 3) {
                 // Cancel Order by provider
+
+                $cancellation =  [
+                    "booking_id" => $input['booking_id'],
+                    "reason" => $input['reason'],
+                    "comment" => $input['comment'],
+                ];
+
+                BookingCancellation::create($cancellation);
 
                 $notification =  [
                     "title" => 'JAM',
@@ -82,7 +93,8 @@ class FCMPushNotification extends Controller
                 }
                 return response($fcm_customer, 200)
                     ->header('content-type', 'application/json');
-            } else if ($input['status'] == 4) {
+            }
+            else if ($input['status'] == 4) {
                 // Cancel Order by user
                 $notification =  [
                     "title" => 'JAM',
@@ -96,6 +108,30 @@ class FCMPushNotification extends Controller
                     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
                 }
                 return response($fcm_provider, 200)
+                    ->header('content-type', 'application/json');
+            }
+            else if($input['status'] == 5) {
+                // order complete successfully
+                $notification =  [
+                    "title" => 'JAM',
+                    "body" => "Order Complete",
+                ];
+                $dataPayload = [
+                    "order" => "5",
+                ];
+
+                $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+                foreach ($fcm_customer as $fcm) {
+//                    $pushnotification = [
+//                        "f_c_m_device_id" => $fcm->id,
+//                        "title" =>$notification['title'],
+//                        "message" =>$notixfication['body '],
+//                        "data" => $dataPayload->toString(),
+//                    ];
+//                    FCMPushNotification::create($pushnotification);
+                    $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+                }
+                return response($fcm_customer, 200)
                     ->header('content-type', 'application/json');
             }
         }
