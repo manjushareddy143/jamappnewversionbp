@@ -248,8 +248,8 @@
                             '</td><td>' + response[i].gender + '</td>' +
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> ' +
-                            '<a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a> ' +
-                            '<a href="/vendorsdetail" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
+                            '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a> ' +
+                            '<a href="#" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
                             '> Verified ' +
                             '</a>' + '</td></tr>';
                     });
@@ -261,6 +261,29 @@
                 }
             });
         };
+
+
+
+
+            // Delete record
+                        $(".deleteRecord").click(function(){
+                        var id = $(this).data("id");
+                        var token = $("meta[name='csrf-token']").attr("content");
+                                $.ajax(
+                                {
+                                    url: "destroy/"+id,
+                                    type: 'DELETE',
+                                    data: {
+                                        "id": id,
+                                        "_token": token,
+                                    },
+                                    success: function (){
+                                        alert(data);
+                                        console.log("Delete");
+                                    }
+                                });
+                            });
+
 
         window.addEventListener ?
             window.addEventListener("load", onLoad(), false) :
@@ -296,6 +319,12 @@
             console.log(e);
             // alert(e);
             window.location = '/detail?id=' + e;
+        }
+
+        function deleteRecord(e){
+            console.log(e);
+            alert(e);
+            // window.location = '/destroy?id=' + e;
         }
 
         var selectedLang = [];
@@ -386,6 +415,9 @@
                 $(this).next('div.red').remove();
             }
         });
+        
+        // Form Validation
+
         var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
         var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
         var selectGender = "";

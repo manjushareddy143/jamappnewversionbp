@@ -52,7 +52,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/show/{$id}', 'UserController@show');
     Route::get('/addUser', 'UserController@addUser');
     Route::get('/edit','UserController@edit');
-    Route::post('/user/destroy/{$id}','UserController@destroy');
+    
+    // Route::delete('/users/{id}', 'UserController@destroy')->name('users.destroy');
+    Route::delete('users/{id}', function($id) {
+        dd($id);
+});
 
 
     Route::get('locale/{locale}',function ($locale){
