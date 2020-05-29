@@ -211,8 +211,20 @@
             // This gives you a Facebook Access Token. You can use it to access the Facebook API.
             var token = result.credential.accessToken;
             // The signed-in user info.
-            var user = result.user;
+            var user = result.user.providerData;
             console.log("FB user :: " + JSON.stringify(user));
+            var userName = user.displayName.split(" ");
+            var data =
+                {
+                    email: user.email,
+                    password: user.uid,
+                    image: user.picture,
+                    first_name: userName[0],
+                    last_name: userName[1],
+                    social_signin: "facebook",
+                };
+            console.log(data);
+            socialSigin(data);
             console.log("FB result :: " + JSON.stringify(result));
             // ...
         }).catch(function(error) {
@@ -251,6 +263,7 @@
                     image: user.picture,
                     first_name: user.given_name,
                     last_name: user.family_name,
+                    social_signin: 'gmail',
                 };
             console.log(data);
             socialSigin(data);

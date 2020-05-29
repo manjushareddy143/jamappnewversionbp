@@ -209,6 +209,10 @@
                 type: 'GET',
                 data: null,
                 success: function(response){
+
+                    $("#tbl_id").empty();
+
+
                     console.log("order by user:::" +JSON.stringify(response));
 
                     var trHTML = '';
@@ -225,7 +229,7 @@
                             status = "Cancel by User"
                         }
                         console.log("1");
-                        trHTML += '<tr><td>' + response[i].orderer_name +
+                        trHTML += '<tr id="r1"><td>' + response[i].orderer_name +
                             '</td><td>' + response[i].services  + '</td>' +
                             '</td><td>' + category  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
@@ -253,6 +257,7 @@
                 type: 'GET',
                 data: null,
                 success: function(response){
+                    $("#tbl_id").empty();
 
                     var trHTML = '';
 
@@ -269,7 +274,7 @@
                             status = "Cancel by User"
                         }
                         console.log("1");
-                        trHTML += '<tr><td>' + response[i].orderer_name +
+                        trHTML += '<tr id="r1"><td>' + response[i].orderer_name +
                             '</td><td>' + response[i].services  + '</td>' +
                             '</td><td>' + category  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
