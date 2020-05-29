@@ -14,10 +14,12 @@
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                       <h1 class="h3 mb-0 text-gray-800">Order Details</h1>
-                      <div class="custom-buttons">
-                        <button type="button" class="btn btn-primary mb-1">Create</button>
-                        <button type="button" class="btn btn-secondary mb-1">Back</button>
-                      </div>
+                        @if (Auth::user()->roles[0]->slug == 'provider')
+                            <div class="custom-buttons">
+                                <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1">Accept</button>
+                                <button type="button" class="btn btn-secondary mb-1">Back</button>
+                            </div>
+                        @endif
                     </div>
                     <div class="order-details-container">
                       <div class="row mb-3">
@@ -102,15 +104,15 @@
                               <div class="order-info">
                                 <div class="order-info-block">
                                   <span>Service</span>
-                                  <p>Home Cleaning and Home Maids</p>
+                                  <p id="serviceName">Home Cleaning and Home Maids</p>
                                 </div>
                               </div>
-                              <div class="order-info">
-                                <div class="order-info-block">
-                                  <span>Sub Category</span>
-                                  <p>Sofa Cleaning</p>
-                                </div>
-                              </div>
+{{--                              <div class="order-info">--}}
+{{--                                <div class="order-info-block">--}}
+{{--                                  <span>Sub Category</span>--}}
+{{--                                  <p>Sofa Cleaning</p>--}}
+{{--                                </div>--}}
+{{--                              </div>--}}
                             </div>
                           </div>
                         </div>
@@ -122,8 +124,8 @@
                                 <div class="order-info-block">
                                   <span>Address</span>
                                   <p id=addressname>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
-                                  <p id=address_line1>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
-                                  <p id=address_line2>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
+{{--                                  <p id=address_line1>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>--}}
+{{--                                  <p id=address_line2>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>--}}
                                 </div>
                               </div>
                               <div class="order-info">
@@ -187,6 +189,26 @@
             // alert(user_id);
             viewDetail();
         }
+        function acceptOrder() {
+            console.log("accept");
+            var data =
+                {
+                    status: 2,
+                    booking_id: Booking_id,
+                };
+            $.ajax({
+                url: '/api/v1/booking_status',
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    console.log(response);
+                    $('#status').text("Accepted");
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
         function getUrlParameter(sParam)
         {
@@ -218,12 +240,27 @@
                     $('#Booking_id').text(response['id']);
                     $('#booking_date').text(response['booking_date']);
                     $('#start_time').text(response['start_time']);
-                    $('#status').text(response['status']);
+                    var status = "Pending";
+                    if(response['status']  == 1) {
+                        status = "Pending";
+                    } else if(response['status']  == 2) {
+                        status = "Accepted";
+                    } else if(response['status']  == 3) {
+                        status = "Cancel by Vendor";
+                    } else if(response['status']  == 4) {
+                        status = "Cancel by User";
+                    } else if(response['status']  == 5) {
+                        status = "Completed";
+                    }
+                    $('#status').text(status);
                     $('#orderer_name').text(response['orderer_name']);
-                    $('#service').text(response['service_id']);
+                    $('#serviceName').text(response['services']['name']);
                     $('#contact').text(response['contact']);
                     $('#email').text(response['email']);
-                    $('#address').text(response['address']);
+                    var addressLine = response['address']['name'] +response['address']['address_line1'] + " " +
+                        response['address']['address_line2'] + response['address']['landmark'] +
+                        response['address']['city'] + response['address']['district'] + response['address']['postal_code'];
+                    $('#addressname').text(addressLine);
                     $('#address_line1').text(response['address_line1']);
                     $('#address_line2').text(response['address_line2']);
 

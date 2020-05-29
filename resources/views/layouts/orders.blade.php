@@ -60,6 +60,7 @@
                             </tbody>
                         </table>
                     </div>
+
                     @elseif (Auth::user()->roles[0]->slug == 'admin-admin')
 
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -85,7 +86,7 @@
                             <tr>
                                 <th>Booking User</th>
                                 <th>Service</th>
-                                <th>Category</th>
+                                <th>Provider</th>
                                 <th>Booking Date</th>
                                 <th>Time</th>
                                 <th>Status</th>
@@ -153,8 +154,8 @@
                             status = "Cancel by User"
                         }
                         trHTML += '<tr><td>' + response[i].orderer_name +
-                            '</td><td>' + response[i].service  + '</td>' +
-                            '</td><td>' + category  + '</td>' +
+                            '</td><td>' + response[i].services.name  + '</td>' +
+                            '</td><td>' + response[i].provider.first_name  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
                             '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
                             '</td><td>' + status +
@@ -185,7 +186,7 @@
                     $.each(response, function (i, item) {
                         trHTML += '<tr><td>' + response[i].order_user.first_name +
                             '</td><td>' + response[i].service  + '</td>' +
-                            '</td><td>' + response[i].category  + '</td>' +
+                            '</td><td>' + response[i].provider_first_name  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
                             '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
@@ -230,8 +231,8 @@
                         }
                         console.log("1");
                         trHTML += '<tr id="r1"><td>' + response[i].orderer_name +
-                            '</td><td>' + response[i].services  + '</td>' +
-                            '</td><td>' + category  + '</td>' +
+                            '</td><td>' + response[i].service  + '</td>' +
+                            '</td><td>' + response[i].provider_first_name  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
                             '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
                             '</td><td>' + status +
@@ -275,8 +276,8 @@
                         }
                         console.log("1");
                         trHTML += '<tr id="r1"><td>' + response[i].orderer_name +
-                            '</td><td>' + response[i].services  + '</td>' +
-                            '</td><td>' + category  + '</td>' +
+                            '</td><td>' + response[i].service  + '</td>' +
+                            '</td><td>' + response[i].provider_first_name  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
                             '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
                             '</td><td>' + status +

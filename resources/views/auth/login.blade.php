@@ -216,11 +216,11 @@
             // var userName = user.displayName.split(" ");
             var data =
                 {
-                    email: user.email,
-                    password: user.uid,
-                    image: user.picture,
-                    first_name: user.displayName,
-                    last_name: user.displayName,
+                    email: user[0].email,
+                    password: user[0].uid,
+                    image: user[0].picture,
+                    first_name: user[0].displayName,
+                    last_name: user[0].displayName,
                     social_signin: "facebook",
                 };
             console.log(data);
