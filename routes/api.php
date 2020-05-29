@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 Route::get('v1/details', 'UserController@getSingupDetail');
 Route::post('v1/login', 'UserController@login');
 Route::post('v1/sendPush', 'FCMPushNotification@sendPush');
-Route::post('v1/order_accept', 'FCMPushNotification@orderAccept');
+Route::post('v1/booking_status', 'FCMPushNotification@orderAccept');
 Route::post('v1/register', 'UserController@register');
 Route::post('v1/register_provider', 'UserController@register_provider');
 Route::post('v1/adduser', 'UserController@store');

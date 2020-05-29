@@ -19,8 +19,6 @@ class FCMPushNotification extends Controller
             [
                 'status' => 'required',
                 'booking_id' => 'required|exists:bookings,id',
-//                'provider_id' => 'required|exists:service_providers,user_id',
-//                'user_id' => 'required|exists:bookings,user_id'
             ]
         );
 
@@ -30,19 +28,34 @@ class FCMPushNotification extends Controller
         }
         $input = $request->all();
 
-        $booking = Booking::where('id', '=', $input['booking_id'])->first();
 
+
+
+        $booking = Booking::where('id', '=', $input['booking_id'])->first();
+        if($input['status'] == 5) {
+            $validator = Validator::make($request->all(),
+                [
+                    'otp' => 'required|exists:bookings,otp',
+                ]);
+
+            if ($validator->fails())
+            {
+                return response()->json(['error'=>$validator->errors()], 401);
+            }
+
+            if($booking['otp'] != $input['otp']) {
+                return response()->json(['error'=>"Invalid OTP"], 401);
+            }
+        }
         $orderStatus = [
             'status' => $input['status'],
         ];
 
         $isUpdate = DB::table('bookings')->where('id', $input['booking_id'])->update($orderStatus);
 
+//        dd($isUpdate);
         if ($isUpdate) {
             // send notification
-
-
-
             if ($input['status'] == 2) {
                 // Accept order
                 $notification =  [
@@ -111,6 +124,7 @@ class FCMPushNotification extends Controller
                     ->header('content-type', 'application/json');
             }
             else if($input['status'] == 5) {
+
                 // order complete successfully
                 $notification =  [
                     "title" => 'JAM',
