@@ -711,10 +711,10 @@ class UserController extends Controller
             $profileImg = $request->file('profile_photo');
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
-            $host = url('/');
+//            $host = url('/');
             unset($input["profile_photo"]);
             $input +=  [
-                'image' => $host . "/images/profiles/" . $profile_name,
+                'image' => "/images/profiles/" . $profile_name,
             ];
         }
 
