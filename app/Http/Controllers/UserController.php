@@ -269,7 +269,7 @@ class UserController extends Controller
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
 
-         return view('layouts.Users.edit',compact('user','roles','userRole'));
+         return response()->json($user, 200);
     }
 
     /**
@@ -284,9 +284,9 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|unique:users,email',
-            'password' => 'required|confirm-password',
-            'contact' => 'required|digits:10',
-            'roles' => 'required',
+            'contact' => 'required',
+            "gender" => "required",
+            "languages" => "required",
         ]);
 
         $input = $request->all();
@@ -302,7 +302,8 @@ class UserController extends Controller
         $user->update($input);
         DB::table('users_has_roles')->where('users_id',$id)->delete();
         //$users->update($request->all());
-        return redirect()->route('/index')->with('Success','User updated successfully');
+        // return redirect()->route('/index')->with('Success','User updated successfully');
+        return response()->json($users, 200);
     }
 
     /**
@@ -317,6 +318,8 @@ class UserController extends Controller
         $users->delete();
         return response()->json($users, 200);
     }
+
+
 
     // User Login API
     /**

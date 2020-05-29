@@ -142,6 +142,9 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="button" onclick="create_user()" class="btn btn-primary">Save</button>
+                                    <button type="button" onclick="update_user()" class="btn btn-primary">Update</button>
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -247,7 +250,7 @@
                             '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                             '</td><td>' + response[i].gender + '</td>' +
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
-                            '<a href="#" class="btn btn-primary" id="user_btn"><i class="fas fa-edit"></i></a> ' +
+                            '<a href="#" onclick="getVendorData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> ' +
                             '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a> ' +
                             '<a href="#" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
                             '> Verified ' +
@@ -402,32 +405,69 @@
 
 
         //edit Record
-
-        $(document).on('click', '.edit', function(){
-            var id = $(this).attr(id);
+    var editUserid;
+    function getVendorData(vendorid)
+        {
+            // alert(id);
+            editUserid=vendorid;
+           
             $.ajax({
-                url:"",
+                url:"/user/"+vendorid+"/edit",
                 method:'get',
-                data:{id:id},
+                data:{id:vendorid},
                 dataType:'JSON',
                 success:function(data)
                 {
+                    console.log(data);
                     $('#first_name').val(data.first_name);
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
-                    $('#password').val(data.password);
-                    $('#contact').val(data.contact);
-                    $('#gender').val(data.gender);
-                    $('#language').val(data.language);
-                    $('#select_country').val(data.select_country);
-
+                    $('#mobile').val(data.mobile);  
+                    $("#lang-arabic").prop('checked', true);
+                    $("#lang-english").prop('checked', true);
+                    $("#gender-male ").prop('checked', true);
+                    $("#gender-female ").prop('checked', true);
+                    $("#gender-other ").prop('checked', true);
 
                     $('#action').val('Edit');
+                }
+            });
 
                 }
 
-            })
-        })
+
+                //Update Vendor
+
+                function update_user(){
+                    // alert(editUserid);
+
+                    $.ajax({
+                    url:"/user/"+id+"/update",
+                    method:'POST',
+                    data:{id:id},
+                    dataType:'JSON',
+                    success:function(data)
+                    {
+                        console.log(data);
+                        $('#first_name').val(data.first_name);
+                        $('#last_name').val(data.last_name);
+                        $('#email').val(data.email);
+                        $('#password').val(data.password);
+                        $('#contact').val(data.mobile);
+                        // $('#gender').val(data.gender);
+                        // $('#languages').val(data.languages);
+                        $("#lang-arabic").prop('checked', true);
+                        $("#lang-english").prop('checked', true);
+                        $("#gender-male ").prop('checked', true);
+                        $("#gender-female ").prop('checked', true);
+                        $("#gender-other ").prop('checked', true);
+
+                        $('#action').val('Edit');
+                    }
+                });
+                }
+
+
 
         // Form Validation
 
@@ -602,7 +642,33 @@
         });
 
 
-    </script>
+
+                //change save Button
+
+                $('.btn btn-primary').click(function() {
+                    $(this).hide();
+                    $(this).siblings('.update, .cancel').show();
+                });
+                $('.cancel').click(function() {
+                    $(this).siblings('.btn btn-primary').show();
+                    $(this).siblings('.update').hide();
+                    $(this).hide();
+                });
+                $('.update').click(function() {
+                    $(this).siblings('.btn btn-primary').show();
+                    $(this).siblings('.cancel').hide();
+                    $(this).hide();
+                }); 
+
+        </script>
+
+
+            <style>
+            .update, .cancel {
+            display:none;
+            };
+            </style>
 
 @endsection
+
 
