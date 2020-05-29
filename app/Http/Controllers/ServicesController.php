@@ -18,7 +18,7 @@ class ServicesController extends Controller
                 'name'  => 'required',
                 'icon_image' => 'required|image',  //|max:2048
                 'banner_image' => 'required|image', //|max:2048
-                
+
             ]);
 
 
@@ -39,11 +39,11 @@ class ServicesController extends Controller
         }
 
         $input = $request->all();
-        $host = url('/');
+//        $host = url('/');
         $form_data = array(
             'name'  => $input['name'],
-            'icon_image' => $host . "/images/category/" . $iconName,
-            'banner_image' => $host . "/images/category/" . $bannerName,
+            'icon_image' =>  "/images/category/" . $iconName,
+            'banner_image' => "/images/category/" . $bannerName,
             'description' => array_key_exists('description', $input) ? $input['description'] : "",
 
         );

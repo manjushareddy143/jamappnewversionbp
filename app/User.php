@@ -22,7 +22,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'first_name','last_name', 'email', 'password','image', 'gender', 'languages' ,'contact','type_id',
-        'term_id', 'org_id'
+        'term_id', 'org_id', "social_signin"
     ];
 
 
@@ -53,7 +53,7 @@ class User extends Authenticatable
         return $this->hasManyThrough(services::class, ProviderServiceMapping::class, 'user_id' , 'id');
     }
 
-    
+
 
 //    public function servicesuser() {
 //        return $this->hasMany('provider_service_mappings', 'service_id', 'id');
