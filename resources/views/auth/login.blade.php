@@ -213,14 +213,14 @@
             // The signed-in user info.
             var user = result.user.providerData;
             console.log("FB user :: " + JSON.stringify(user));
-            var userName = user.displayName.split(" ");
+            // var userName = user.displayName.split(" ");
             var data =
                 {
                     email: user.email,
                     password: user.uid,
                     image: user.picture,
-                    first_name: userName[0],
-                    last_name: userName[1],
+                    first_name: user.displayName,
+                    last_name: user.displayName,
                     social_signin: "facebook",
                 };
             console.log(data);
