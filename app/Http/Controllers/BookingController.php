@@ -77,9 +77,9 @@ class BookingController extends Controller
         foreach ($result as $obj) {
             $data = array();
             $data = $obj;
-            $user = User::where('id','=',$obj->user_id)->first();
+           // $user = User::where('id','=',$obj->user_id)->first();
             $address = Address::where('user_id', '=', $obj->user_id)->first();
-            $data['order_user'] = $user;
+           // $data['order_user'] = $user;
             $data['address'] = $address;
             array_push($response, $data);
         }
