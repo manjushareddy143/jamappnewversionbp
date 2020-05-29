@@ -295,6 +295,8 @@
             window.location = '/detail?id=' + e;
         }
 
+        // Delete Record
+
         function deleteRecord(e){
             console.log(e);
             $.ajax(
@@ -398,6 +400,34 @@
             }
         });
 
+
+        //edit Record
+
+        $(document).on('click', '.edit', function(){
+            var id = $(this).attr(id);
+            $.ajax({
+                url:"",
+                method:'get',
+                data:{id:id},
+                dataType:'JSON',
+                success:function(data)
+                {
+                    $('#first_name').val(data.first_name);
+                    $('#last_name').val(data.last_name);
+                    $('#email').val(data.email);
+                    $('#password').val(data.password);
+                    $('#contact').val(data.contact);
+                    $('#gender').val(data.gender);
+                    $('#language').val(data.language);
+                    $('#select_country').val(data.select_country);
+
+
+                    $('#action').val('Edit');
+
+                }
+
+            })
+        })
 
         // Form Validation
 
