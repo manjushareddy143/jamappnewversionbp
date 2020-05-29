@@ -68,7 +68,7 @@ class BookingController extends Controller
 //            ->with('address')
 //            ->with('rating')
 //            ->where('provider_id', '=', $user_id)->get();
-        
+
         $result = Booking::where('provider_id', '=', $user_id)
             ->leftJoin('users', 'users.id', '=','bookings.provider_id')
             ->leftJoin('services', 'services.id', '=','bookings.service_id')

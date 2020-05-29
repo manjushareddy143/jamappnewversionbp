@@ -203,6 +203,7 @@
         console.log("FACEBOOK LOGIN");
         var provider = new firebase.auth.FacebookAuthProvider();
         provider.addScope('public_profile');
+        provider.addScope('email');
         provider.setCustomParameters({
             'display': 'popup'
         });
@@ -212,6 +213,7 @@
             // The signed-in user info.
             var user = result.user;
             console.log("FB user :: " + JSON.stringify(user));
+            console.log("FB result :: " + JSON.stringify(result));
             // ...
         }).catch(function(error) {
             // Handle Errors here.
