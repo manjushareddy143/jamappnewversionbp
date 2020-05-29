@@ -6,6 +6,8 @@
         <div class="row">
             <div class="col-lg-12 margin-tb">
                 <div class="card">
+
+                    @if (Auth::user()->roles[0]->slug == 'provider')
                     <div class="order-listing">
                         <ul class="nav nav-tabs" id="myTab" role="tablist" style="border: 0px!important">
                             <li class="nav-item first-tab">
@@ -58,6 +60,45 @@
                             </tbody>
                         </table>
                     </div>
+                    @elseif (Auth::user()->roles[0]->slug == 'admin-admin')
+
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Orders Management</h6>
+                        {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                            id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button> --}}
+
+                               {{-- filter dropdown --}}
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Filter
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <input class="form-control" id="myInput" type="text" placeholder="Search..">
+                                <li><a href="#" style="padding-left: 20%;">Rating</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Price</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Availability</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Distance</a></li>
+                            </ul>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush" id="tbl_id">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Booking User</th>
+                                <th>Service</th>
+                                <th>Category</th>
+                                <th>Booking Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+{{--                                <th>End</th>--}}
+                                <th width="280px">Action
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -70,8 +111,6 @@
         window.addEventListener ?
             window.addEventListener("load",onLoad(),false) :
             window.attachEvent && window.attachEvent("onload",onLoad());
-
-
 
         var currentuser;
         function onLoad() {
@@ -88,6 +127,9 @@
             // getResult(obj.id);
 
         }
+
+
+
 
         function getAllOrders() {
             $.ajax({
