@@ -375,7 +375,8 @@ class UserController extends Controller
 
                     $checkuser = Auth::onceUsingId($checkuser['id']);
                     $roles = Auth::user()->roles;
-                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
+//                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
+                    $fcm_user = FCMDevices::where('user_id', '=', $checkuser['id'])->get();
                     if($fcm_user->count() <= 0) {
 
                         $fcm_data = [
@@ -493,7 +494,8 @@ class UserController extends Controller
         }
         if(array_key_exists('token', $input)) {
             $fcm_response = array();
-            $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
+//            $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
+            $fcm_user = FCMDevices::where('user_id', '=', $response['id'])->get();
             if($fcm_user->count() <= 0) {
 
                 $fcm_data = [
@@ -640,7 +642,8 @@ class UserController extends Controller
         $user = Auth::onceUsingId($user['id']);
         $roles = Auth::user()->roles;
         $fcm_response = array();
-        $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
+//        $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
+        $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
         if($fcm_user->count() <= 0) {
 
             $fcm_data = [

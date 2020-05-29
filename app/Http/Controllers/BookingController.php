@@ -58,7 +58,17 @@ class BookingController extends Controller
 
 
     public function getOrderByProvider(Request $request) {
+
         $user_id = $request->input('id');
+
+        //        $result = Booking::with('users')
+//            ->with('services')
+//            ->with('category')
+//            ->with('provider')
+//            ->with('address')
+//            ->with('rating')
+//            ->where('provider_id', '=', $user_id)->get();
+
         $result = Booking::where('provider_id', '=', $user_id)
             ->leftJoin('users', 'users.id', '=','bookings.provider_id')
             ->leftJoin('services', 'services.id', '=','bookings.service_id')
@@ -84,11 +94,21 @@ class BookingController extends Controller
             array_push($response, $data);
         }
 
+
         return response()->json($response);
     }
 
     public  function getorderbyuser(Request $request) {
+
         $user_id = $request->input('id');
+
+//        $result = Booking::with('users')
+//            ->with('services')
+//            ->with('category')
+//            ->with('provider')
+//            ->with('address')
+//            ->with('rating')
+//            ->where('user_id', user_id'=', $user_id)->groupBy('id')->get();
         $result = Booking::where('user_id', '=', $user_id)
             ->leftJoin('users', 'users.id', '=','bookings.provider_id')
             ->leftJoin('services', 'services.id', '=','bookings.service_id')
@@ -116,7 +136,7 @@ class BookingController extends Controller
     }
 
     public  function getorder($id) {
-        $result = Booking::with('users')->with('services')->with('category')->with('provider')->with('address')->where('id', '=', $id)->first();
+        $result = Booking::with('users')->with('services')->with('category')->with('provider')->with('address')->with('rating')->where('id', '=', $id)->first();
         return response()->json($result);
     }
 

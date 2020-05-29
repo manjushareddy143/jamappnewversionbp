@@ -26,7 +26,12 @@ class Booking extends Model
     public function services() {
         return $this->hasOne(services::class, 'id', 'service_id');
     }
+
     public function category() {
         return $this->hasOne(SubCategories::class, 'id', 'category_id');
+    }
+
+    public function rating() {
+        return $this->hasOne(Experience::class, 'booking_id', 'id');
     }
 }
