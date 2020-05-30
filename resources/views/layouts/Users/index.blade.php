@@ -72,7 +72,7 @@
                                 <input id="image" type="file" name="image" class="form-control" required>
                        </div>
                      </div>
-               </div>      
+               </div>
 
                   <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -100,11 +100,11 @@
      <table class="table align-items-center table-flush" id="tbl_id">
          <thead class="thead-light">
          <tr>
-             <th>Company Name</th>
-             <th>Admin Name</th>
+             <th>Compan</th>
+             <th>Admin</th>
              <th>Mobile</th>
              <th>Email</th>
-             <th>Profile</th>
+             <th>Logo</th>
              <th width="280px">Action
              </th>
          </tr>
@@ -152,7 +152,7 @@
 
                     var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
                     var gender = (response[i].gender == null) ? '-' : response[i].gender;
-                    trHTML += '<tr><td>' + response[i].name +
+                    trHTML += '<tr><td>' + response[i].company +
                         '</td><td>' + response[i].first_name  + '</td>' +
                         '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
@@ -316,8 +316,8 @@
                  //return true;
              }
          }
-             
-         
+
+
 
          if(document.getElementById("email").value == "") {
             $("#email").focus();
