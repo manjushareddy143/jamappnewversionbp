@@ -310,8 +310,11 @@
                     success: function (){
                         console.log("Delete");
                         window.top.location = window.top.location;
-                    }
-                });
+                        location.reload(); 
+                    }   
+                })  .done(function() { 
+                 ajaxFunction();
+                 });
         }
 
         var selectedLang = [];
@@ -375,6 +378,7 @@
                     success: function (response) {
                         console.log("CREATE CREATE REPOSNE == " + response);
                         window.top.location = window.top.location;
+                        location.reload();
                     },
                     fail: function (error) {
                         console.log(error);
@@ -442,7 +446,7 @@
                     // alert(editUserid);
 
                     $.ajax({
-                    url:"/user/"+id+"/update",
+                    url:"/user/"+editUserid+"/update",
                     method:'POST',
                     data:{id:id},
                     dataType:'JSON',
