@@ -523,12 +523,22 @@ class UserController extends Controller
         ];
         TermAgreement::create($term_agreement);
 
-        $service_provider= [
-            'user_id' => $user_id,
-            'resident_country' => $input['resident_country']
-        ];
-        $service_provider_detail = ServiceProvider::create($service_provider);
-        $response['resident_country'] = $service_provider_detail['resident_country'];
+        if(array_key_exists('resident_country', $input)) {
+            $service_provider= [
+                'user_id' => $user_id,
+                'resident_country' => $input['resident_country']
+            ];
+            $service_provider_detail = ServiceProvider::create($service_provider);
+            $response['resident_country'] = $service_provider_detail['resident_country'];
+        } else {
+            $service_provider= [
+                'user_id' => $user_id,
+                'resident_country' => ""
+            ];
+            $service_provider_detail = ServiceProvider::create($service_provider);
+
+        }
+
 
 
 //        if (isset($user)) {
