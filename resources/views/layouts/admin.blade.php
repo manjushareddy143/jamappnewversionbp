@@ -28,13 +28,14 @@
         </a>
         <hr class="sidebar-divider my-0">
 
+        <li class="nav-item active">
+            <a class="nav-link" href="home">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
         @if (Auth::user()->roles[0]->slug == 'admin-admin')
-            <li class="nav-item active">
-                <a class="nav-link" href="home">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
+
 
 
 
