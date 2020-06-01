@@ -362,6 +362,7 @@ class UserController extends Controller
     public function login(Request $request) {
         try {
             $response = array();
+            $input = $request->all();
 
             $username = $request->input('email');
             $password = $request->input('password');
@@ -371,38 +372,34 @@ class UserController extends Controller
             $fcm_response = array();
             $checkuser  = User::where('email', '=', $username)->first();
 
-//            echo 123;exit();
             if (isset($checkuser)) {
                 if (Hash::check($password,$checkuser->password))
                 {
 
+                    $user = User::with('userservices')->with('address')->with('provider')->where('email', '=', $username)->first();
+
                     $checkuser = Auth::onceUsingId($checkuser['id']);
                     $roles = Auth::user()->roles;
+                    $user["roles"] = $roles;
+
+                    if(array_key_exists('token', $input)) {
+                        $fcm_response = array();
 //                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
-                    $fcm_user = FCMDevices::where('user_id', '=', $checkuser['id'])->get();
-                    if($fcm_user->count() <= 0) {
+                        $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
+                        if ($fcm_user->count() <= 0) {
 
-                        $fcm_data = [
-                            "user_id" => $checkuser['id'],
-                            "fcm_device_token" => $token,
-                            "device_type" => $device
-                        ];
-                        $fcm_response = FCMDevices::create($fcm_data);
-                    } else {
-                        $fcm_response = $fcm_user;
+                            $fcm_data = [
+                                "user_id" => $user['id'],
+                                "fcm_device_token" => $input['token'],
+                                "device_type" => $input['device']
+                            ];
+                            $fcm_response = FCMDevices::create($fcm_data);
+                        } else {
+                            $fcm_response = $fcm_user;
+                        }
+                        $user['fcm'] = $fcm_response;
                     }
-
-                    if($checkuser['type_id'] == 3)
-                    {
-                        $service_provider = ServiceProvider::where('user_id', '=', $checkuser['id'])->first();
-                        $checkuser['resident_country'] = $service_provider['resident_country'];
-                    }
-                    $response = $checkuser;
-                    $address = Address::where('user_id', '=', $checkuser['id'])->first();
-                    $response['address'] = $address;
-                    $response['fcm'] = $fcm_response;
-                    return response($response, 200)
-                        ->header('content-type', 'application/json');
+                    return response($user, 200);
                 } else {
                     $response['code'] = false;
                     $response['message'] = "user unauthorized";
@@ -415,12 +412,6 @@ class UserController extends Controller
                 return response($response, 401)
                     ->header('content-type', 'application/json');
             }
-
-//            if($access_type == null) {
-//                return redirect('/home')->with('success', 'User Login!');
-//            } else {
-
-//            }
         } catch (\Exception $e) {
             $response['code'] = 400;
             $response['message'] = "There is some error";
@@ -482,6 +473,28 @@ class UserController extends Controller
 
         $input = $request->all();
 
+        if(array_key_exists('social_signin', $input)) {
+
+            $user = User::where('email', '=', $input['email'])->first();
+            $user = Auth::onceUsingId($user['id']);
+            $roles = Auth::user()->roles;
+            if($user != null) {
+                if($user['type_id'] != 4)
+                {
+                    $service_provider = ServiceProvider::where('user_id', '=', $user['id'])->first();
+                    $user['resident_country'] = $service_provider['resident_country'];
+                }
+                $response = $user;
+
+                $address = Address::where('user_id', '=', $user['id'])->first();
+                $response['address'] = $address;
+                $response['existing_user'] = 1;
+                return response($response, 200);
+            } else {
+
+            }
+        }
+
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         $customer_role = Role::where('slug','=', 'provider')->first();
@@ -538,38 +551,14 @@ class UserController extends Controller
             $service_provider_detail = ServiceProvider::create($service_provider);
 
         }
-
-
-
-//        if (isset($user)) {
-//            $response  = $user;
-//        } else {
-//            $response['message']  = "Please add valid details";
-//            return response()->json($response, 406);
-//        }
-
-//        return response()->json($response, 200);
-//        $credentials = [
-//            'email' => $input['email'],
-//            'password' => $input['password']
-//        ];
         return response()->json($response, 200);
-//        $credentials = $request->only('email', 'password');
-//        if(Auth::attempt($credentials)) {
-////            dd($user);
-//            $authUser = Auth::user();
-//            $roles = Auth::user()->roles;
-////            $response['roles'] = $roles;
-//            return response()->json($response, 200);
-//        } else{
-////            dd(123);
-//            return response()->json($response, 200);
-//        }
 
     }
 
-    public function register(Request $request) {
-
+    public function register(Request $request)
+    {
+//        $user = User::with('userservices')->with('address')->where('email', '=', $input['email']);
+//        return response()->json($user); exit();
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [
@@ -579,94 +568,125 @@ class UserController extends Controller
             ]
         );
 
-        if ($initialValidator->fails())
-        {
-            return response()->json(['error'=>$initialValidator->errors()], 401);
+        if ($initialValidator->fails()) {
+            return response()->json(['error' => $initialValidator->errors()], 401);
         }
 
 
         $input = $request->all();
 
 
+        if (array_key_exists('social_signin', $input)) {
 
-        if(array_key_exists('social_signin', $input)) {
+//            $user = User::with('userservices')->with('address')->where('email', '=', $input['email'])->first(); //
+            $user = User::with('userservices')->with('address')->with('provider')->where('email', '=', $input['email'])->first();
+            if ($user != null) {
+//                $user = Auth::onceUsingId($user['id']);
+//                $roles = Auth::user()->roles;
+                $checkuser = Auth::onceUsingId($user['id']);
+                $roles = Auth::user()->roles;
+                $user["roles"] = $roles;
+                if(array_key_exists('token', $input)) {
+                    $fcm_response = array();
+//                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
+                    $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
+                    if ($fcm_user->count() <= 0) {
 
-            $user = User::where('email', '=', $input['email'])->first();
-
-            if($user != null) {
-                if($user['type_id'] != 4)
-                {
-//                        dd(\Session::getId());
-                    $service_provider = ServiceProvider::where('user_id', '=', $user['id'])->first();
-                    $user['resident_country'] = $service_provider['resident_country'];
+                        $fcm_data = [
+                            "user_id" => $user['id'],
+                            "fcm_device_token" => $input['token'],
+                            "device_type" => $input['device']
+                        ];
+                        $fcm_response = FCMDevices::create($fcm_data);
+                    } else {
+                        $fcm_response = $fcm_user;
+                    }
+                    $user['fcm'] = $fcm_response;
                 }
-                $response = $user;
-
-                $address = Address::where('user_id', '=', $user['id'])->first();
-                $response['address'] = $address;
-                $response['existing_user'] = 1;
-                return response($response, 200);
+//                $response = $user;
+//                $address = Address::where('user_id', '=', $user['id'])->first();
+//                $response['address'] = $address;
+                $user['existing_user'] = 1;
+                return response($user, 200);
             } else {
 
             }
+        } else {
+
         }
-        if(array_key_exists('contact', $input)) {
+        if (array_key_exists('contact', $input)) {
             $contactValidator = Validator::make($request->all(),
                 [
                     'contact' => 'required|unique:users,contact',
                 ]
             );
 
-            if ($contactValidator->fails())
-            {
-                return response()->json(['error'=>$contactValidator->errors()], 401);
+            if ($contactValidator->fails()) {
+                return response()->json(['error' => $contactValidator->errors()], 401);
             }
         }
 
-        if(array_key_exists('email', $input)) {
+        if (array_key_exists('email', $input)) {
             $emailValidator = Validator::make($request->all(),
                 [
                     'email' => 'required|unique:users,email',
                 ]
             );
 
-            if ($emailValidator->fails())
-            {
-                return response()->json(['error'=>$emailValidator->errors()], 401);
+            if ($emailValidator->fails()) {
+                return response()->json(['error' => $emailValidator->errors()], 401);
             }
         }
 
 
+        $input['type_id'] = (int)$request->get('type_id');
+        $input['term_id'] = (int)$request->get('term_id');
 
 
-
-        $input['type_id'] = (int) $request->get('type_id');
-        $input['term_id'] = (int) $request->get('term_id');
-
-        if(array_key_exists('social_signin', $input)) {
-
-        } else {
-            $input['password'] = Hash::make($input['password']);
+        $input['password'] = Hash::make($input['password']);
+        $user = User::create($input);
+        if ($input['type_id'] == 4) {
+            $customer_role = Role::where('slug', '=', 'customer')->first();
+            $user->roles()->attach($customer_role);
+        } else if ($input['type_id'] == 3) {
+            $customer_role = Role::where('slug', '=', 'provider')->first();
+            $user->roles()->attach($customer_role);
         }
 
-        $user = User::create($input);
-        $customer_role = Role::where('slug','=', 'customer')->first();
-        $user->roles()->attach($customer_role);
         $user = Auth::onceUsingId($user['id']);
         $roles = Auth::user()->roles;
-        $fcm_response = array();
+        if($input['type_id'] == 3) {
+            if (array_key_exists('resident_country', $input)) {
+                $service_provider = [
+                    'user_id' => $user['id'],
+                    'resident_country' => $input['resident_country']
+                ];
+                $service_provider_detail = ServiceProvider::create($service_provider);
+                $user['resident_country'] = $service_provider_detail['resident_country'];
+            } else {
+                $service_provider = [
+                    'user_id' => $user['id'],
+                    'resident_country' => ""
+                ];
+                $service_provider_detail = ServiceProvider::create($service_provider);
+            }
+        }
+        if(array_key_exists('token', $input)) {
+            $fcm_response = array();
 //        $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
-        $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
-        if($fcm_user->count() <= 0) {
+            $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
+            if ($fcm_user->count() <= 0) {
 
-            $fcm_data = [
-                "user_id" => $user['id'],
-                "fcm_device_token" => $input['token'],
-                "device_type" => $input['device']
-            ];
-            $fcm_response = FCMDevices::create($fcm_data);
-        } else {
-            $fcm_response = $fcm_user;
+                $fcm_data = [
+                    "user_id" => $user['id'],
+                    "fcm_device_token" => $input['token'],
+                    "device_type" => $input['device']
+                ];
+                $fcm_response = FCMDevices::create($fcm_data);
+            } else {
+                $fcm_response = $fcm_user;
+            }
+            $user['fcm'] = $fcm_response;
         }
 
         $user_id=$user->id;
@@ -677,8 +697,6 @@ class UserController extends Controller
                 'agreed_at' => $now
             ];
         TermAgreement::create($term_agreement);
-
-        $user['fcm'] = $fcm_response;
 
         if (isset($user)) {
             return response()->json($user);
@@ -1111,8 +1129,15 @@ class UserController extends Controller
             }
 
             if($this->update_user_details($imagedata, $id)) {
-                $user = Auth::onceUsingId($id);
+
+                $user = User::with('userservices')->with('address')->with('provider')->where('id', '=', $id)->first();
+
+                $checkuser = Auth::onceUsingId($id);
                 $roles = Auth::user()->roles;
+                $user["roles"] = $roles;
+
+//                $user = Auth::onceUsingId($id);
+//                $roles = Auth::user()->roles;
                 if(array_key_exists('profile_photo', $input)) {
                     $user["image"] = $host . "/images/profiles/" . $profile_name;
                 }
