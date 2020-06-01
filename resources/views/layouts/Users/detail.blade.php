@@ -47,6 +47,7 @@
             height: 150px;
         }
 
+
         /* Add Animation */
         .modal-content, #caption {
             -webkit-animation-name: zoom;
@@ -88,7 +89,9 @@
             .modal-content {
                 width: 100%;
             }
+
         }
+
     </style>
     <body id="page-top">
 
@@ -119,8 +122,12 @@
                                     <div class="login-form create-user user-details-container">
                                         <div class="col-md-3 float-l">
                                             <div class="profile-container" style="width: 200px !important;">
-                                                <img id="image" src="/images/profiles/155775427.png" alt="Snow" style="width:100%;max-width:300px">
+
+                                                    <img id="image" src="/images/profiles/155775427.png" alt="Snow" style="width:100%;max-width:300px">
 {{--                                                <img src="/images/profiles/155775427.png" id="image">--}}
+                                                {{-- <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    </div> --}}
+
                                                 <div class="sidebar-user-info">
                  <span class="first_name" id="first_name">jaydip</span> <span class="last_name" id="last_name">jaydip</span>
                 <div class="email" id="email"><i class="fas fa-fw fa-envelope"></i>jd112@savitriya.com</div>
@@ -202,11 +209,11 @@
                                                     <span>Lorem Ipsum</span>
                                                     <div class="user-documents-container">
                                                         <div class="document-block">
-                                      <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name">
+                                      <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name1" alt="document1" style="width:100%;max-width:300px" onclick="headerhide()">
                                                             <span>Parn Card</span>
                                                         </div>
                                                         <div class="document-block">
-                                        <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name">
+                                        <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name2" alt="document2" style="width:100%;max-width:300px">
                                                             <span>Passport</span>
                                                         </div>
                                                     </div>
@@ -280,6 +287,25 @@
         // Get the image and insert it inside the modal - use its "alt" text as a caption
         var img = document.getElementById("image");
         var modalImg = document.getElementById("img01");
+
+        // var captionText = document.getElementById("caption");
+        img.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            // captionText.innerHTML = this.alt;
+
+        }
+
+        //Document image zoom
+        var img = document.getElementById("doc_name1");
+        // var captionText = document.getElementById("caption");
+        img.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            // captionText.innerHTML = this.alt;
+        }
+
+        var img = document.getElementById("doc_name2");
         // var captionText = document.getElementById("caption");
         img.onclick = function(){
             modal.style.display = "block";
@@ -383,8 +409,22 @@
             });
         }
 
-    </script>
+        $(function() {
+		$('.pop').on('click', function() {
+			$('.imagepreview').attr('src', $(this).find('img').attr('src'));
+			$('#imagemodal').modal('show');
+		});
+});
 
+
+
+</script>
+{{-- <style>
+ .bg-navbar {
+    background-color: #04bfac;
+    display: none;
+    }
+</style> --}}
 <style>
 .organization_field {
 display: none;
