@@ -216,6 +216,8 @@
                     success: function (){
                         console.log("Delete");
                         window.top.location = window.top.location;
+                        location.reload();
+
                     }
                 });
              }
@@ -259,6 +261,7 @@
                success: function(response){
                    console.log("CREATE CREATE REPOSNE == "+response);
                    window.top.location = window.top.location;
+                   location.reload();
                },
                fail: function (error) {
                    console.log(error);

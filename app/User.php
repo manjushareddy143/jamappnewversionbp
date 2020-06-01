@@ -53,11 +53,25 @@ class User extends Authenticatable
         return $this->hasManyThrough(services::class, ProviderServiceMapping::class, 'user_id' , 'id');
     }
 
+    public function orderAsCustomer() {
+        return $this->hasMany(Booking::class, 'user_id' , 'id');
+    }
+
+    public function orderAsProvider() {
+        return $this->hasMany(Booking::class, 'provider_id' , 'id');
+    }
+
+    public function address() {
+        return $this->hasMany(Address::class, 'user_id', 'id');
+    }
 
 
-//    public function servicesuser() {
-//        return $this->hasMany('provider_service_mappings', 'service_id', 'id');
-//    }
+
+    public function provider() {
+        return $this->hasOne(ServiceProvider::class, 'user_id', 'id');
+    }
+
+
 
 
 }

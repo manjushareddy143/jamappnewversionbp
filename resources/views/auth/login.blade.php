@@ -40,22 +40,17 @@
                 <div class="card-body p-0">
                     <div class="row">
                         <div class="col-lg-12">
-                            <!-- checkbox -->
+
+                            <!-- Language Dropdown -->
                             <div class="dropdown">
-                                <button class="dropbtn">Language<i class="fal fa-angle-down"></i></button>
+                                <button class="dropbtn">Language</button>
                                 <div class="dropdown-content">
-                                    <option value="english"><a href="locale/en"><img src="{{asset('img/en.png')}}"
-                                                                                     alt=""
-                                                                                     style="width: 20px;height: 10px;">
-                                            English</a></option>
-                                    <a href="locale/ar"><img src="{{asset('img/ar.png')}}" alt=""
-                                                             style="width: 20px;height: 10px;"> Arabic</a>
+                                 <option value="english"><a href="locale/en">
+                                <img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;">English</a></option>
+                    <a href="locale/ar"><img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;"> Arabic</a>
                                 </div>
                             </div>
-
-
-
-                            <!-- checkbox -->
+                            <!-- Language Dropdown -->
                             <div class="login-form">
                                 <div class="text-center">
                                     <div class="loginlogo">

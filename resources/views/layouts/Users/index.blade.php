@@ -18,7 +18,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add Organisations</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">@lang('organisation.label_title')</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -29,13 +29,13 @@
                     <div class="row">
                     <div class="col-md-6 float-l">
                      <div class="form-group">
-                       <label>Company Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                       <label>@lang('organisation.label_cname') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                        <input type="text" class="form-control" id="org_company_name" placeholder="Enter Your Company Name" required="">
                     </div>
                     </div>
                     <div class="col-md-6 float-l">
                     <div class="form-group">
-                      <label>Admin Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                      <label>@lang('organisation.label_aname') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                       <input type="text" class="form-control" id="org_name" placeholder="Enter Your Name" required="">
                     </div>
                     </div>
@@ -44,7 +44,7 @@
                   <div class="row">
                 <div class="col-md-6 float-l">
                   <div class="form-group">
-                  <label>Mobile Number <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                  <label>@lang('organisation.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="text" class="form-control" id="contact" placeholder="Enter Number" required>
                   </div>
                 </div>
@@ -52,7 +52,7 @@
 
                <div class="col-md-6 float-l">
                  <div class="form-group">
-                  <label>Email Address <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                  <label>@lang('organisation.label_email') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="email" class="form-control" id="email"  placeholder="Enter Email Address" required>
                   </div>
                 </div>
@@ -61,18 +61,18 @@
               <div class="row">
               <div class="col-md-6 float-l">
                   <div class="form-group">
-                  <label>Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                  <label>@lang('organisation.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter Your Password" required="">
                 </div>
               </div>
 
                     <div class="col-md-6 float-l">
                       <div class="form-group">
-                                <label>Image</label>
+                                <label>@lang('organisation.label_image')</label>
                                 <input id="image" type="file" name="image" class="form-control" required>
                        </div>
                      </div>
-               </div>      
+               </div>
 
                   <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -100,11 +100,11 @@
      <table class="table align-items-center table-flush" id="tbl_id">
          <thead class="thead-light">
          <tr>
-             <th>Company Name</th>
-             <th>Admin Name</th>
+             <th>Compan</th>
+             <th>Admin</th>
              <th>Mobile</th>
              <th>Email</th>
-             <th>Profile</th>
+             <th>Logo</th>
              <th width="280px">Action
              </th>
          </tr>
@@ -152,7 +152,7 @@
 
                     var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
                     var gender = (response[i].gender == null) ? '-' : response[i].gender;
-                    trHTML += '<tr><td>' + response[i].name +
+                    trHTML += '<tr><td>' + response[i].company +
                         '</td><td>' + response[i].first_name  + '</td>' +
                         '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
@@ -186,6 +186,7 @@
                     success: function (){
                         console.log("Delete");
                         window.top.location = window.top.location;
+                        location.reload();
                     }
                 });
         }
@@ -222,6 +223,7 @@
                  success: function(response){
                      console.log("CREATE CREATE REPOSNE == "+response);
                      window.top.location = window.top.location;
+                     location.reload();
                  },
                  fail: function (error) {
                      console.log(error);
@@ -314,8 +316,8 @@
                  //return true;
              }
          }
-             
-         
+
+
 
          if(document.getElementById("email").value == "") {
             $("#email").focus();
