@@ -1130,7 +1130,7 @@ class UserController extends Controller
 
             if($this->update_user_details($imagedata, $id)) {
 
-                $user = User::with('userservices')->with('address')->with('provider')->where('id', '=', $id)->first();
+                $user = User::with('userservices')->with('provider')->where('id', '=', $id)->first();
 
                 $checkuser = Auth::onceUsingId($id);
                 $roles = Auth::user()->roles;
@@ -1161,7 +1161,7 @@ class UserController extends Controller
 
                 $adddressdata = Address::create($address);
 //
-                $addressRes = Address::where('user_id', '=', $id)->first();
+                $addressRes = Address::where('user_id', '=', $id)->get();
 //                return response($addressRes, 403);
                 $user['address'] = $addressRes;
             }
