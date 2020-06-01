@@ -22,12 +22,25 @@
                 <div class="card-body p-0">
                     <div class="row">
                         <div class="col-lg-12">
+                             <!-- Language Dropdown -->
+                            <div class="dropdown">
+                                <button class="dropbtn">Language</button>
+                                <div class="dropdown-content">
+                                    <option value="english"><a href="locale/en"><img src="{{asset('img/en.png')}}"
+                                                                                     alt=""
+                                                                                     style="width: 20px;height: 10px;">
+                                            English</a></option>
+                                    <a href="locale/ar"><img src="{{asset('img/ar.png')}}" alt=""
+                                                             style="width: 20px;height: 10px;"> Arabic</a>
+                                </div>
+                            </div>
+                            <!-- Language Dropdown -->
                             <div class="login-form">
                                 <div class="text-center">
                                     <div class="loginlogo">
                                         <img src="img/logo/jam-logo.png">
                                     </div>
-                                    <h1 class="h4 text-gray-900 mb-4">Service Provider Sign-Up</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">@lang('register.message')</h1>
                                 </div>
                                 <div class="service-provider-tab">
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -35,13 +48,13 @@
                                             <a class="nav-link active" id="individual-tab" data-toggle="tab"
                                                href="#individual" role="tab"
                                                aria-controls="home" aria-selected="true">
-                                                <i class="fas fa-user"></i> For Individual</a>
+                                                <i class="fas fa-user"></i> @lang('register.label_title')</a>
                                         </li>
                                         <li class="nav-item second-tab">
                                             <a class="nav-link" id="organization-tab" data-toggle="tab"
                                                href="#organization" role="tab"
                                                aria-controls="profile" aria-selected="false">
-                                                <i class="fas fa-users"></i> For Organization <br/></a>
+                                                <i class="fas fa-users"></i> @lang('register.label_title2') <br/></a>
                                         </li>
                                     </ul>
 
@@ -51,39 +64,39 @@
                                              aria-labelledby="individual-tab">
                                             <form id="form">
                                                 <div class="form-group">
-                                                    <label>First Name <strong>*</strong></label>
+                                                    <label>@lang('register.label_fname') <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="first_name" placeholder="Enter Your First Name" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Last Name <strong>*</strong></label>
+                                                    <label>@lang('register.label_lname')<strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="last_name" placeholder="Enter Your Last Name" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Mobile Number <strong>*</strong></label>
+                                                    <label>@lang('register.label_mobile') <strong>*</strong></label>
                                                     <input type="text" class="form-control"
                                                            id="mobile" placeholder="Enter Mobile Number" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Email Address <strong>*</strong></label>
+                                                    <label>@lang('register.label_email')<strong>*</strong></label>
                                                     <input type="email" class="form-control"
                                                            id="email" aria-describedby="emailHelp"
                                                            placeholder="Enter Your Email Address" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Password<strong>*</strong></label>
+                                                    <label>@lang('register.label_password')<strong>*</strong></label>
                                                     <input type="password" class="form-control"
                                                            id="password" aria-describedby="passwordHelp"
                                                            placeholder="Enter Your Password" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="exampleFormControlSelect1">Resident Status
+                                                    <label for="exampleFormControlSelect1">@lang('register.label_rstatus')
                                                         <strong>*</strong></label>
                                                     <select class="form-control" id="select1">
                                                         <option>Select Country</option>
@@ -114,7 +127,7 @@
                                                     <button type="button"
                                                             class="btn btn-primary btn-block"
                                                             id="singupbtn"
-                                                            onclick="registerIndividuals()">Sign Up
+                                                            onclick="registerIndividuals()">@lang('register.label_btn')
                                                     </button>
                                                     {{--                                                    mobileSignup--}}
 
@@ -155,37 +168,37 @@
 
                                         <div class="tab-pane fade" id="organization" role="tabpanel"
                                              aria-labelledby="organization-tab">
-                                            <span>Proprietorship Firm / Partnership Firm / Company / Business Establishment</span>
+                                            <span>@lang('register.label_titlename')</span>
                                             <form id="org_form">
                                                 <div class="form-group">
-                                                    <label>Company Name <strong>*</strong></label>
+                                                    <label>@lang('register.label_cname') <strong>*</strong></label>
                                                     <input type="text" class="form-control" id="org_company_name"
                                                            placeholder="Enter Your Company Name" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Admin Name <strong>*</strong></label>
+                                                    <label>@lang('register.label_adname')<strong>*</strong></label>
                                                     <input type="text" class="form-control" id="org_name"
                                                            placeholder="Enter Your Name" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Mobile Number <strong>*</strong></label>
+                                                    <label>@lang('register.label_mnumber') <strong>*</strong></label>
                                                     <input type="text" class="form-control" id="org_mobile"
                                                            placeholder="Enter Number" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Email Address <strong>*</strong></label>
+                                                    <label>@lang('register.label_eaddress')<strong>*</strong></label>
                                                     <input type="email" class="form-control" id="org_email"
                                                            aria-describedby="emailHelp"
                                                            placeholder="Enter Your Email Address" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Password<strong>*</strong></label>
+                                                    <label>@lang('register.label_password2')<strong>*</strong></label>
                                                     <input type="password" class="form-control"
                                                            id="org_password" aria-describedby="passwordHelp"
                                                            placeholder="Enter Your Password" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleFormControlSelect1">Country
+                                                    <label for="exampleFormControlSelect1">@lang('register.label_Country2')
                                                         <strong>*</strong></label>
                                                     <select class="form-control" id="org_select_country" required>
                                                         <option>Select Country</option>
@@ -213,7 +226,7 @@
                                                     <button type="button" class="btn btn-primary btn-block"
                                                             data-toggle="modal" id="#myBtn"
                                                             onclick="registerOrganisation()">
-                                                        Sign Up
+                                                        @lang('register.label_btn')
                                                     </button>
                                                 </div>
                                             </form>
@@ -746,3 +759,48 @@
     }
 
 </script>
+
+<style>
+    .dropbtn {
+        background-color: #0aa698;;
+        color: white;
+        padding: 4px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        margin-right: 100px;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+</style>

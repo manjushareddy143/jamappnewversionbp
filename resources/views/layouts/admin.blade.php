@@ -89,6 +89,18 @@
                 <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
                     <i class="fa fa-bars"></i>
                 </button>
+
+                 <!-- Language Dropdown -->
+                            <div class="dropdown">
+                                <button class="dropbtn">Language</button>
+                                <div class="dropdown-content">
+                                 <option value="english"><a href="locale/en">
+                                <img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;">English</a></option>
+                    <a href="locale/ar"><img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;"> Arabic</a>
+                                </div>
+                            </div>
+                            <!-- Language Dropdown -->
+
                 <ul class="navbar-nav ml-auto">
                     <div class="topbar-divider d-none d-sm-block"></div>
                     <li class="nav-item dropdown no-arrow">
@@ -203,6 +215,50 @@
     }
 </script>
 </body>
-
-
 </html>
+
+
+<style>
+    .dropbtn {
+        background-color: #0aa698;;
+        color: white;
+        padding: 4px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        margin-right: 100px;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+</style>
