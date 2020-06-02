@@ -211,8 +211,8 @@
             $('#profile_img').attr("src", '{{ URL::asset('/img/boy.png') }}')
             //{{asset('img/boy.png')}});
         }
-        // console.log('retrievedObject: ', JSON.parse(retrievedObject));
-        // console.log('retrievedObject: ', obj.first_name);
+        //currentuser = JSON.parse(retrievedObject);
+         //   console.log(currentuser.roles[0].name);
 
     }
 </script>

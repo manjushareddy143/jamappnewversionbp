@@ -10,17 +10,96 @@
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
             <!-- TopBar -->
+            <div class="custome_model">
+                {{-- <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+
+                </div> --}}
+                </div>
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                       <h1 class="h3 mb-0 text-gray-800">Order Details</h1>
                         @if (Auth::user()->roles[0]->slug == 'provider')
                             <div class="custom-buttons">
-                                <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1">Accept</button>
-                                <button type="button" class="btn btn-secondary mb-1">Back</button>
+                                <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
+                                {{-- <button type="button" class="btn btn-secondary mb-1" id="cancel" data-text="Cancelled">Cancel</button> --}}
+                                <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#exampleModal"
+                            id="user_btn"> Cancel
+                    </button>
                             </div>
                         @endif
                     </div>
+                    {{-- modal --}}
+                    <div class="card">
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Order Cancellation Reason</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <select class="form-control" id="reasons" required>
+                                            <option>Select Reason for Cancel </option>
+                                            <option>Too far</option>
+                                            <option>Busy</option>
+                                            <option>Not Available at that time</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Comment</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea3" rows="7" style="height: 100px;"></textarea>
+                                        {{-- <input type="text" id="comment" name="comment" class="form-control" required> --}}
+                                    </div>
+                                </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" onclick="create_user()" class="btn btn-primary">Save</button>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Cancellation</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <select class="form-control" id="reasons" required>
+                                                <option>Select Reason for Cancel </option>
+                                                <option>Too far</option>
+                                                <option>Busy</option>
+                                                <option>Not Available at that time</option>
+                                                <option>Not in youe working radius</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Comment</label>
+                                            <input type="text" id="comment" name="comment" class="form-control" required>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
                     <div class="order-details-container">
                       <div class="row mb-3">
                         <!-- Order Number -->
@@ -183,6 +262,7 @@
             window.addEventListener("load",onLoad(),false) :
             window.attachEvent && window.attachEvent("onload",onLoad());
         var Booking_id;
+
         function onLoad() {
             Booking_id = getUrlParameter('id');
             console.log(Booking_id);
@@ -190,12 +270,37 @@
             viewDetail();
         }
         function acceptOrder() {
-            console.log("accept");
+            console.log("accept" + document.getElementById('accept').innerHTML);
+            var btnText = document.getElementById('accept').innerHTML;//$('#accept').text();
             var data =
                 {
                     status: 2,
                     booking_id: Booking_id,
                 };
+              if(btnText == 'Accept')
+              {
+                data =
+                {
+                    status: 2,
+                    booking_id: Booking_id,
+                };
+                  $('#accept').text('Complete');
+                  //$('#Cancel').show();
+              }
+              else{
+                data =
+                {
+                    status: 1,
+                    booking_id: Booking_id,
+
+                };
+                $('#accept').text('Pending');
+              }
+            // var data =
+            //     {
+            //         status: 2,
+            //         booking_id: Booking_id,
+            //     };
             $.ajax({
                 url: '/api/v1/booking_status',
                 type: 'POST',
@@ -203,6 +308,40 @@
                 success: function (response) {
                     console.log(response);
                     $('#status').text("Accepted");
+
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function cancelorder() {
+            console.log("are sure to cancel?");
+            $.ajax({
+                url: '/api/v1/booking_status',
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    console.log(response);
+                    var status = "Pending";
+                    if(response['status']  == 1) {
+                        status = "Pending";
+                    } else if(response['status']  == 2) {
+                        status = "Accepted";
+                    } else if(response['status']  == 3) {
+                        status = "Cancel by Vendor";
+                    } else if(response['status']  == 4) {
+                        status = "Cancel by User";
+                    } else if(response['status']  == 5) {
+                        status = "Completed";
+                    }
+                    $('#status').text(status);
+                    "status" : 2,
+                    "booking_id" : 1,
+                    "reason" : "Too Slow",
+                    "comment" : "Its good but too slow"
+
                 },
                 fail: function (error) {
                     console.log(error);
