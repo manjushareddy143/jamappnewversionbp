@@ -93,17 +93,20 @@
                  <!-- Language Dropdown -->
 
                             <div class="dropdown custom">
-                                <button class="dropbtn">Language</button>
+                                <button class="dropbtn"><img id="langFlag" alt="" style="width: 20px;height: 10px;"></button>
                                 <div class="dropdown-content">
-                                 <option value="english"><a href="locale/en">
-                                <img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;">English</a></option>
-                    <a href="locale/ar"><img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;"> Arabic</a>
+{{--                                 <option value="english"><a href="locale/en">--}}
+{{--                                <img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;">English</a>--}}
+{{--                                 </option>--}}
+                                    <a href="locale/en" onclick="langChange('en')"><img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;"> English</a>
+                                    <a href="locale/ar" onclick="langChange('ar')"><img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;"> Arabic</a>
                                 </div>
                             </div>
-                            
+
                             <!-- Language Dropdown -->
 
                 <ul class="navbar-nav ml-auto">
+
                     <div class="topbar-divider d-none d-sm-block"></div>
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -179,6 +182,19 @@
 
 <script>
     var hideShow = 0;
+
+    var selectedLang;
+    function langChange(lang) {
+        console.log(lang);
+        selectedLang = lang;
+        if(lang == "en") {
+            $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
+            localStorage.setItem('langauge', 'en');
+        } else {
+            $('#langFlag').attr("src", '{{ URL::asset('/img/ar.png') }}')
+            localStorage.setItem('langauge', 'ar');
+        }
+    }
     function clickCollaps() {
 
         console.log("clickCollaps()" + hideShow)
@@ -200,10 +216,22 @@
 
     }
     window.onload = function () {
-        // console.log('retrievedObject: ');
+        var language = localStorage.getItem('langauge');
+        console.log('retrievedObject: ' + selectedLang);
+        console.log('language: ' + language);
         var retrievedObject = localStorage.getItem('userObject');
+
         var obj = JSON.parse(retrievedObject);
 
+        if(language == null) {
+            $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
+        } else {
+            if(language == "en") {
+                $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
+            } else {
+                $('#langFlag').attr("src", '{{ URL::asset('/img/ar.png') }}')
+            }
+        }
         $('#user_name').text(obj.first_name);
         if (obj.image) {
             $('#profile_img').attr("src", obj.image);
