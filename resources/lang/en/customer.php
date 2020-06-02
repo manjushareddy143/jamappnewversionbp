@@ -4,6 +4,8 @@ return[
 
 'label_title'=>'Add Customers',
 
+'label_header'=>'Customers',
+
 'label_fname'=>'First Name',
 
 'label_lname'=>'Last Name',
@@ -34,5 +36,13 @@ return[
 
 'label_cbtn'=>'Close',
  
+
+'label_tab_fname'=>'First Name',
+'label_tab_lname'=>'Last Name',
+'label_tab_email'=>'Email',
+'label_tab_profile'=>'Profile',
+'label_tab_gender'=>'Gender',
+'label_tab_action'=>'Action',
+
 ];
 

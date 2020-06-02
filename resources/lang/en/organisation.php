@@ -5,6 +5,8 @@ return[
 
 'label_title'=>'Add Organisations',
 
+'label_header'=>'Organisations',
+
 'label_cname'=>'Company Name',
 
 'label_aname'=>'Admin Name',
@@ -32,6 +34,14 @@ return[
 'label_place_sbtn'=>'Save',
 
 'label_place_cbtn'=>'Close',
+
+
+'label_tab_company'=>'Company',
+'label_tab_admin'=>'Admin',
+'label_tab_mobile'=>'Mobile',
+'label_tab_email'=>'Email',
+'label_tab_logo'=>'Logo',
+'label_tab_action'=>'Action',
 
 ];
 

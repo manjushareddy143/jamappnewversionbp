@@ -4,6 +4,9 @@ return[
 
 'label_title'=>'Add Vendors',
 
+'label_header'=>'Vendors',
+
+
 'label_fname'=>'First Name',
 
 'label_lname'=>'Last Name',

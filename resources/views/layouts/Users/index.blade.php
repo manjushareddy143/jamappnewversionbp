@@ -6,7 +6,7 @@
     <div class="col-lg-12 margin-tb">
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Organisations</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">@lang('organisation.label_header')</h6>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                     id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('organisation.label_title')</button>
                 </div>
@@ -100,13 +100,12 @@
      <table class="table align-items-center table-flush" id="tbl_id">
          <thead class="thead-light">
          <tr>
-             <th>Company</th>
-             <th>Admin</th>
-             <th>Mobile</th>
-             <th>Email</th>
-             <th>Logo</th>
-             <th width="280px">Action
-             </th>
+             <th>@lang('organisation.label_tab_company')</th>
+             <th>@lang('organisation.label_tab_admin')</th>
+             <th>@lang('organisation.label_tab_mobile')</th>
+             <th>@lang('organisation.label_tab_email')</th>
+             <th>@lang('organisation.label_tab_logo')</th>
+             <th width="280px">@lang('organisation.label_tab_action')</th>
          </tr>
          </thead>
          <tbody>
