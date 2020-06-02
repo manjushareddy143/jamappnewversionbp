@@ -93,13 +93,19 @@
                  <!-- Language Dropdown -->
 
                             <div class="dropdown custom">
-                                <button class="dropbtn"><img id="langFlag" alt="" style="width: 20px;height: 10px;"></button>
+                                <button class="dropbtn"><img id="langFlag" alt="" style="width: 30px;height: 20px;"></button>
                                 <div class="dropdown-content">
 {{--                                 <option value="english"><a href="locale/en">--}}
 {{--                                <img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;">English</a>--}}
 {{--                                 </option>--}}
-                                    <a href="locale/en" onclick="langChange('en')"><img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;"> English</a>
-                                    <a href="locale/ar" onclick="langChange('ar')"><img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;"> Arabic</a>
+                                    <a href="locale/en" onclick="langChange('en')">
+                                        <img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;">
+                                        English
+                                    </a>
+                                    <a href="locale/ar" onclick="langChange('ar')">
+                                        <img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;">
+                                        Arabic
+                                    </a>
                                 </div>
                             </div>
 
