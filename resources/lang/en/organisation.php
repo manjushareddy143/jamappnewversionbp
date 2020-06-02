@@ -2,11 +2,6 @@
 
 return[
 
-'home_menu'=>'Home',
-
-'about_menu'=>'About Us',
-
-'Contact_menu'=>'Contact US',
 
 'label_title'=>'Add Organisations',
 
@@ -21,5 +16,22 @@ return[
 'label_password'=>'Password',
 
 'label_image'=>'Image',
+
+'label_place_cname'=>'Enter Your Company Name',
+
+'label_place_aname'=>'Enter Your Name',
+
+'label_place_mobile'=>'Enter Your Number',
+
+'label_place_email'=>'Enter Email Address',
+
+'label_place_pass'=>'Enter Your Password',
+
+
+
+'label_place_sbtn'=>'Save',
+
+'label_place_cbtn'=>'Close',
+
 ];
 

@@ -91,7 +91,8 @@
                 </button>
 
                  <!-- Language Dropdown -->
-                            <div class="dropdown">
+
+                            <div class="dropdown custom">
                                 <button class="dropbtn">Language</button>
                                 <div class="dropdown-content">
                                  <option value="english"><a href="locale/en">
@@ -99,6 +100,7 @@
                     <a href="locale/ar"><img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;"> Arabic</a>
                                 </div>
                             </div>
+                            
                             <!-- Language Dropdown -->
 
                 <ul class="navbar-nav ml-auto">
@@ -227,11 +229,14 @@
         border: none;
         cursor: pointer;
     }
+    .dropdown.custom {
+        padding-left: 73%;
+    }
 
     .dropdown {
         position: relative;
         display: inline-block;
-        margin-right: 100px;
+        /*margin-right: 100px;*/
     }
 
     .dropdown-content {

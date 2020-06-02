@@ -43,7 +43,7 @@
                <div class="modal-dialog" role="document">
                   <div class="modal-content">
                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Customers</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">@lang('customer.label_title')</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -53,42 +53,42 @@
                            <div class="row">
                               <div class="col-md-6 float-l">
                                  <div class="form-group">
-                                    <label>First Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input type="text" class="form-control" id="first_name" placeholder="Enter Your First Name" required>
+                                    <label>@lang('customer.label_fname') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <input type="text" class="form-control" id="first_name" placeholder="@lang('customer.label_place_fname')" required>
                                  </div>
                               </div>
                               <div class="col-md-6 float-l">
                                  <div class="form-group">
-                                    <label>Last Name </label>
-                                    <input type="text" class="form-control"id="last_name" placeholder="Enter Your Last Name" required>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="row">
-                              <div class="col-md-6 float-l">
-                                 <div class="form-group">
-                                    <label>Email Address <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input type="email" class="form-control" id="email"  placeholder="Enter Email Address" required>
-                                 </div>
-                              </div>
-                              <div class="col-md-6 float-l">
-                                 <div class="form-group">
-                                    <label>Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter Your Password" required="">
+                                    <label>@lang('customer.label_lname') </label>
+                                    <input type="text" class="form-control"id="last_name" placeholder="@lang('customer.label_place_lname')" required>
                                  </div>
                               </div>
                            </div>
                            <div class="row">
                               <div class="col-md-6 float-l">
                                  <div class="form-group">
-                                    <label>Image <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <label>@lang('customer.label_email') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <input type="email" class="form-control" id="email"  placeholder="@lang('customer.label_place_email')" required>
+                                 </div>
+                              </div>
+                              <div class="col-md-6 float-l">
+                                 <div class="form-group">
+                                    <label>@lang('customer.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="@lang('customer.label_place_pass')" required="">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-md-6 float-l">
+                                 <div class="form-group">
+                                    <label>@lang('customer.label_Image') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <input id="image" type="file" name="image" class="form-control" required>
                                  </div>
                               </div>
                               <div class="col-md-6 float-l">
                                  <div class="form-group">
-                                    <label>Mobile Number <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input type="text" class="form-control" id="contact" placeholder="Enter Number" required>
+                                    <label>@lang('customer.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <input type="text" class="form-control" id="contact" placeholder="@lang('customer.label_place_mobile')" required>
                                  </div>
                               </div>
                            </div>
@@ -96,7 +96,7 @@
                               <!--radiobutton -->
                               <div class="col-md-6 float-l">
                                  <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                    <label>Gender <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
+                                    <label>@lang('customer.label_gender') <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
                                     <input type="radio" name="gender" id="gender" value="male"> Male
                                     <input type="radio" name="gender" id="gender" value="female"> Female
                                     <input type="radio" name="gender" id="gender" value="other"> Other
@@ -109,7 +109,7 @@
                               </div>
                               <div class="col-md-6 float-l">
                                  <div class="form-group">
-                                    <label for="language">Languages known <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <label for="language">@lang('customer.label_language') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <div class="checkbox">
                                        <label>
                                        <input type="checkbox" name="arabic" id="languages" value="arabic"> Arabic
@@ -127,8 +127,8 @@
                               </div>
                            </div>
                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <button type="button" onclick="create_user()" class="btn btn-primary">Save</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('customer.label_cbtn')</button>
+                              <button type="button" onclick="create_user()" class="btn btn-primary">@lang('customer.label_sbtn')</button>
                            </div>
                         </form>
                      </div>
