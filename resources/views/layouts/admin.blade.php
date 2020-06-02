@@ -216,13 +216,14 @@
 
     }
     window.onload = function () {
-        var language = localStorage.getItem('langauge');
-        console.log('retrievedObject: ' + selectedLang);
-        console.log('language: ' + language);
+
+
+
         var retrievedObject = localStorage.getItem('userObject');
 
         var obj = JSON.parse(retrievedObject);
 
+        var language = localStorage.getItem('langauge');
         if(language == null) {
             $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
         } else {
