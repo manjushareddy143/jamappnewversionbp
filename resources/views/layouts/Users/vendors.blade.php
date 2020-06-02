@@ -17,7 +17,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">@lang('vendor.label_title')</h5>
+                                    <h5 class="modal-title" id="btntext">Add Vendors</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -50,7 +50,7 @@
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>@lang('vendor.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label id="lbl_pass">@lang('vendor.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="password" class="form-control" id="password"
                                                            aria-describedby="passwordHelp"
                                                            placeholder="@lang('vendor.label_place_pass')" required="">
@@ -141,8 +141,9 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('vendor.label_cbtn')</button>
-                                    <button type="button" onclick="create_user()" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
+                                    <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
                                     <button type="button" onclick="update_user()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
+                                    
 
                                     
                                 </div>
@@ -412,6 +413,11 @@
     var editUserid;
     function getVendorData(vendorid)
         {
+            
+             document.getElementById('btntext').innerHTML = 'Edit Vendors';
+             // document.getElementById('button').innerHTML = 'Update';
+             $("#lbl_pass").hide();
+             $("#password").hide();
             // alert(id);
             editUserid=vendorid;
            
@@ -453,19 +459,24 @@
                     success:function(data)
                     {
                         console.log(data);
+                        var id=$(this).attr("data-id");
+                        var first_name=$(this).attr("data-first_name");
+                        var last_name=$(this).attr("data-last_name");
+                        var email=$(this).attr("data-email");
+                        var contact=$(this).attr("data-contact");
+                        var gender=$(this).attr("data-gender");
+                        var languages=$(this).attr("data-languages");
+                        var select_country=$(this).attr("data-select_country");
+                        var tree_box=$(this).attr("data-tree_box");
+                        
                         $('#first_name').val(data.first_name);
                         $('#last_name').val(data.last_name);
                         $('#email').val(data.email);
-                        $('#password').val(data.password);
                         $('#contact').val(data.mobile);
-                        // $('#gender').val(data.gender);
-                        // $('#languages').val(data.languages);
-                        $("#lang-arabic").prop('checked', true);
-                        $("#lang-english").prop('checked', true);
-                        $("#gender-male ").prop('checked', true);
-                        $("#gender-female ").prop('checked', true);
-                        $("#gender-other ").prop('checked', true);
-
+                        $('#gender').val(data.gender);
+                        $('#languages').val(data.languages);
+                        $('#select_country').val(data.select_country);
+                        $('#tree_box').val(data.tree_box);
                         $('#action').val('Edit');
                     }
                 });
@@ -663,6 +674,11 @@
                     $(this).siblings('.cancel').hide();
                     $(this).hide();
                 }); 
+
+
+                $('#button').click(function() {
+                    $(this).val('update');
+                });
 
         </script>
 
