@@ -5,7 +5,7 @@
             <div class="col-lg-12 margin-tb">
                 <div class="card">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Vendors</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">@lang('vendor.label_header')</h6>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                                 id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('vendor.label_title')
                         </button>

@@ -5,6 +5,8 @@ return[
 
 'label_title'=>'أضف البائعين',
 
+'label_header'=>'الباعة',
+
 'label_fname'=>'الاسم الاول',
 
 'label_lname'=>'الكنية',

@@ -5,6 +5,9 @@ return[
 
 'label_title'=>'إضافة منظمات',
 
+'label_header'=>'المنظمات',
+
+
 'label_cname'=>'اسم الشركة',
 
 'label_aname'=>'اسم المسؤول',
@@ -31,5 +34,14 @@ return[
 'label_place_sbtn'=>'حفظ',
 
 'label_place_cbtn'=>'قريب',
+
+
+
+'label_tab_company'=>'شركة',
+'label_tab_admin'=>'مشرف',
+'label_tab_mobile'=>'التليفون المحمول',
+'label_tab_email'=>'البريد الإلكتروني',
+'label_tab_logo'=>'شعار',
+'label_tab_action'=>'عمل',
 
 ];

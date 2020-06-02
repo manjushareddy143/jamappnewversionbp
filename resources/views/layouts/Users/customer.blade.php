@@ -5,11 +5,11 @@
       <div class="col-lg-12 margin-tb">
             <div class="card">
                 <div class="card-header py-3 d-flex">
-                    <h6 class="m-0 font-weight-bold text-primary">Customers</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">@lang('customer.label_header')</h6>
 
                     <div style="padding-left: 68%;">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                        id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customers</button>
+                        id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('customer.label_title')</button>
                     </div>
 
                        {{-- filter dropdown --}}
@@ -141,13 +141,13 @@
                   <thead class="thead-light">
                      <tr>
                         <!-- <th>id</th> -->
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Profile</th>
-                        <th>Gender</th>
+                        <th>@lang('customer.label_tab_fname')</th>
+                        <th>@lang('customer.label_tab_lname')</th>
+                        <th>@lang('customer.label_tab_email')</th>
+                        <th>@lang('customer.label_tab_profile')</th>
+                        <th>@lang('customer.label_tab_gender')</th>
                         <!-- <th>Languages Known</th> -->
-                        <th width="280px">Action</th>
+                        <th width="280px">@lang('customer.label_tab_action')</th>
                      </tr>
                   </thead>
                   <tbody>

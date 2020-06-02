@@ -249,6 +249,9 @@
 
 
 <style>
+    .col-md-2 {
+        padding-left: 820px;
+    }
     .dropbtn {
         background-color: #0aa698;;
         color: white;

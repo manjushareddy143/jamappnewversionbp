@@ -4,6 +4,8 @@ return[
 
 'label_title'=>'أضف عملاء',
 
+'label_header'=>'الزبائن',
+
 'label_fname'=>'الاسم الاول',
 
 'label_lname'=>'الكنية',
@@ -33,6 +35,13 @@ return[
 'label_sbtn'=>'حفظ',
 
 'label_cbtn'=>'قريب',
+
+'label_tab_fname'=>'الاسم الاول',
+'label_tab_lname'=>'الكنية',
+'label_tab_email'=>'البريد الإلكتروني',
+'label_tab_profile'=>'الملف الشخصي',
+'label_tab_gender'=>'جنس',
+'label_tab_action'=>'عمل',
  
 ];
 
