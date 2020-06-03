@@ -91,7 +91,7 @@
                 </button>
 
                  <!-- Language Dropdown -->
-
+                            <div class="col-md-2">
                             <div class="dropdown custom">
                                 <button class="dropbtn"><img id="langFlag" alt="" style="width: 30px;height: 20px;"></button>
                                 <div class="dropdown-content">
@@ -108,6 +108,7 @@
                                     </a>
                                 </div>
                             </div>
+                        </div>
 
                             <!-- Language Dropdown -->
 
