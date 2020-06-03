@@ -9,7 +9,7 @@
     <div class="col-lg-12 margin-tb">
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">@lang('services.label_header')</h6>
                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                     id="add_btn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('services.label_title')</button>
 
@@ -173,11 +173,11 @@
  <tr>
 
    <!-- <th>id</th> -->
-   <th>Name</th>
-   <th>Icon</th>
-   <th>Banner</th>
-   <th>Description</th>
-   <th width="280px">Action</th>
+   <th>@lang('services.label_tab_name')</th>
+   <th>@lang('services.label_tab_icon')</th>
+   <th>@lang('services.label_tab_banner')</th>
+   <th>@lang('services.label_tab_disc')</th>
+   <th width="280px">@lang('services.label_tab_action')</th>
  </tr>
 </thead>
 

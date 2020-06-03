@@ -91,7 +91,7 @@
                 </button>
 
                  <!-- Language Dropdown -->
-                            <div class="col-md-2">
+                            <div class="col-md-1" style="padding-left:78%">
                             <div class="dropdown custom">
                                 <button class="dropbtn"><img id="langFlag" alt="" style="width: 30px;height: 20px;"></button>
                                 <div class="dropdown-content">
@@ -257,9 +257,7 @@
 
 
 <style>
-    .col-md-2 {
-        padding-left: 820px;
-    }
+    
     .dropbtn {
         background-color: #0aa698;;
         color: white;
@@ -268,9 +266,7 @@
         border: none;
         cursor: pointer;
     }
-    .dropdown.custom {
-        padding-left: 73%;
-    }
+    
 
     .dropdown {
         position: relative;

@@ -14,7 +14,8 @@
 
                        {{-- filter dropdown --}}
                     <div class="col-md-1">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #46a396 !important;border: none;"  required> Filter
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #46a396 !important;border: none;"  required> 
+                          @lang('orders.label_tab_filter')
                             {{-- <span class="caret"></span> --}}
                             <ul class="dropdown-menu">
                                 <input class="form-control" id="filter_option" type="text" placeholder="Search.."  >

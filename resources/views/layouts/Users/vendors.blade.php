@@ -446,43 +446,6 @@
                 }
 
 
-                //Update Vendor
-
-                function update_user(){
-                    // alert(editUserid);
-
-                    $.ajax({
-                    url:"/user/"+editUserid+"/update",
-                    method:'POST',
-                    data:{id:id},
-                    dataType:'JSON',
-                    success:function(data)
-                    {
-                        console.log(data);
-                        var id=$(this).attr("data-id");
-                        var first_name=$(this).attr("data-first_name");
-                        var last_name=$(this).attr("data-last_name");
-                        var email=$(this).attr("data-email");
-                        var contact=$(this).attr("data-contact");
-                        var gender=$(this).attr("data-gender");
-                        var languages=$(this).attr("data-languages");
-                        var select_country=$(this).attr("data-select_country");
-                        var tree_box=$(this).attr("data-tree_box");
-                        
-                        $('#first_name').val(data.first_name);
-                        $('#last_name').val(data.last_name);
-                        $('#email').val(data.email);
-                        $('#contact').val(data.mobile);
-                        $('#gender').val(data.gender);
-                        $('#languages').val(data.languages);
-                        $('#select_country').val(data.select_country);
-                        $('#tree_box').val(data.tree_box);
-                        $('#action').val('Edit');
-                    }
-                });
-                }
-
-
 
         // Form Validation
 

@@ -281,6 +281,8 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        print_r($request->all());
+        exit();
         $request->validate([
             'name' => 'required',
             'email' => 'required|unique:users,email',

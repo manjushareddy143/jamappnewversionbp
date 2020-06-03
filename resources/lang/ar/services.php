@@ -2,6 +2,7 @@
 
 return[
 
+'label_header'=>'إدارة الخدمات',
 
 'label_title'=>'أضف خدمات',
 
@@ -36,6 +37,14 @@ return[
 'label_sbtn'=>'حفظ',
 
 'label_cbtn'=>'قريب',
+
+
+'label_tab_name'=>'اسم',
+'label_tab_icon'=>'أيقونة',
+'label_tab_banner'=>'بانر',
+'label_tab_disc'=>'وصف',
+'label_tab_action'=>'عمل',
+
 
 ];
 

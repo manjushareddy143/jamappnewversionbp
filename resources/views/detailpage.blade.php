@@ -16,10 +16,10 @@
     <div class="col-lg-12 margin-tb">
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">@lang('sdetailpage.label_header')</h6>
 
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="category_btn"> <i class="fa fa-plus" aria-hidden="true"></i> Create New Category</button>
+                    id="category_btn"> <i class="fa fa-plus" aria-hidden="true"></i> @lang('sdetailpage.label_header_btn')</button>
 
 
 
@@ -29,7 +29,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">@lang('sdetailpage.label_title')</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -42,22 +42,22 @@
                               <input type="checkbox" class="custom-control-input"
                                      id="terms" name="terms" onclick="checkClick()">
                               <label class="custom-control-label" for="terms">
-                                  Select category from existing list
+                                  @lang('sdetailpage.label_title2')
                               </label>
                           </div>
                       </div>
 
                   <div class="col-md-12" id="namediv">
                     <div class="form-group">
-                      <label>Name</label>
+                      <label>@lang('sdetailpage.label_name')</label>
                           <input id="name" type="text" name="name"  class="form-control"
-                                 placeholder="Enter Name" required>
+                                 placeholder="@lang('sdetailpage.label_plac_name')" required>
                     </div>
                   </div>
 
                   <div class="col-md-12" id="categorydiv">
                           <div class="form-group">
-                              <label for="exampleFormControlSelect1">Type</label>
+                              <label for="exampleFormControlSelect1">@lang('sdetailpage.label_type')</label>
                               <select class="form-control" id="categorieslist">
                               </select>
                           </div>
@@ -65,7 +65,7 @@
 
                   <div class="col-md-12" id="imagediv">
                     <div class="form-group">
-                        <label>Image</label>
+                        <label>@lang('sdetailpage.label_image')</label>
                         <input id="image" type="file" name="image" class="form-control ">
 
                      </div>
@@ -74,23 +74,23 @@
 
                   <div class="col-md-12" id="descriptiondiv">
                       <div class="form-group">
-                      <label>Description</label>
-                     <input id="description" type="text" name="description" placeholder="Enter Description"  class="form-control" required>
+                      <label>@lang('sdetailpage.label_plac_desc')</label>
+                     <input id="description" type="text" name="description" placeholder="@lang('sdetailpage.label_plac_desc')"  class="form-control" required>
                       </div>
                     </div>
 
                     <div class="col-md-12" id="pricediv">
                       <div class="form-group">
-                      <label>Price</label>
+                      <label>@lang('sdetailpage.label_price')</label>
                       <div class="input-symbol-euro">
-                     <input id="price" type="text" name="price" placeholder="Enter Price"  class="form-control" required>
+                     <input id="price" type="text" name="price" placeholder="@lang('sdetailpage.label_plac_price')"  class="form-control" required>
                       </div>
                       </div>
                     </div>
 
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" onclick="store()" class="btn btn-primary">Save</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('sdetailpage.label_cbtn')</button>
+                  <button type="button" onclick="store()" class="btn btn-primary">@lang('sdetailpage.label_sbtn')</button>
                 </div>
 
                       <div class="alert alert-danger alert-dismissible" role="alert" id="alerterror">
@@ -129,10 +129,10 @@
 <thead class="thead-light">
  <tr>
    <!-- <th>id</th> -->
-   <th>Name</th>
-   <th>Image</th>
-   <th>Description</th>
-   <th>Price</th>
+   <th>@lang('sdetailpage.label_tab_name')</th>
+   <th>@lang('sdetailpage.label_tab_image')</th>
+   <th>@lang('sdetailpage.label_tab_desc')</th>
+   <th>@lang('sdetailpage.label_tab_price')</th>
  </tr>
 </thead>
 

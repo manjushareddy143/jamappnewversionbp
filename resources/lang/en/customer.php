@@ -44,5 +44,6 @@ return[
 'label_tab_gender'=>'Gender',
 'label_tab_action'=>'Action',
 
+'label_tab_filter'=>'Filter',
 ];
 

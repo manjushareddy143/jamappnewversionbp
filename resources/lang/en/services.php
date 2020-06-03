@@ -2,6 +2,7 @@
 
 return[
 
+'label_header'=>'Services Management',
 
 'label_title'=>'Add Services',
 
@@ -38,6 +39,14 @@ return[
 'label_sbtn'=>'Save',
 
 'label_cbtn'=>'Close',
+
+
+
+'label_tab_name'=>'Name',
+'label_tab_icon'=>'Icon',
+'label_tab_banner'=>'Banner',
+'label_tab_disc'=>'Description',
+'label_tab_action'=>'Action',
 
 ];
 
