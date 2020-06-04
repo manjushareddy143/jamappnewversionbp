@@ -106,11 +106,10 @@
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-
-                        <h1 class="h3 mb-0 text-gray-800">User Details</h1>
+                        <h1 class="h3 mb-0 text-gray-800">@lang('details.label_header')</h1>
+                        {{-- <h1 class="h3 mb-0 text-gray-800">User Details</h1> --}}
                        <div class="custom-buttons">
 
-                        <h1 class="h3 mb-0 text-gray-800">@lang('details.label_header')</h1>
 {{--                        <div class="custom-buttons">--}}
 
 {{--                            <button type="button" class="btn btn-primary mb-1">Create</button>--}}
@@ -227,8 +226,8 @@
                                                 <div class="form-group">
                                                     <label>@lang('details.label_proof')</label>
                                                     <span>Lorem Ipsum</span>
-                                                    <div class="col-md-1">
-                                                        <div class="form-group">
+                                                    <div class="col-md-1" style="float: right;">
+                                                        <div class="form-group" >
                                                             <button type="button" class="btn btn-primary">Verify<button>
                                                         </div>
                                                     </div>
@@ -254,7 +253,7 @@
                                             <div class="col-md-12 float-l">
                                                 <div class="form-group">
 
-                                                    <label>Address</label>
+                                                    {{-- <label>Address</label> --}}
 
                                                     <label>@lang('details.label_add')</label>
 {{--                                                    <div class="custom-buttons">--}}
