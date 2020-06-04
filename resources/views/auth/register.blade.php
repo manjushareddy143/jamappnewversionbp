@@ -23,15 +23,13 @@
                     <div class="row">
                         <div class="col-lg-12">
                              <!-- Language Dropdown -->
-                            <div class="dropdown">
-                                <button class="dropbtn">Language</button>
+                            <div class="dropdown custom">
+                                <button class="dropbtn">
+                                    <img id="langFlag" alt="" style="width: 30px;height: 20px;">
+                                </button>
                                 <div class="dropdown-content">
-                                    <option value="english"><a href="locale/en"><img src="{{asset('img/en.png')}}"
-                                                                                     alt=""
-                                                                                     style="width: 20px;height: 10px;">
-                                            English</a></option>
-                                    <a href="locale/ar"><img src="{{asset('img/ar.png')}}" alt=""
-                                                             style="width: 20px;height: 10px;"> Arabic</a>
+                                    <a href="locale/en" onclick="langChange('en')"><img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;"> English</a>
+                                    <a href="locale/ar" onclick="langChange('ar')"><img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;"> Arabic</a>
                                 </div>
                             </div>
                             <!-- Language Dropdown -->
@@ -301,7 +299,35 @@
 <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
 <script>
+
+    var selectedLang;
+    function langChange(lang) {
+        console.log(lang);
+        selectedLang = lang;
+        if(lang == "en") {
+            $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
+            localStorage.setItem('langauge', 'en');
+        } else {
+            $('#langFlag').attr("src", '{{ URL::asset('/img/ar.png') }}')
+            localStorage.setItem('langauge', 'ar');
+        }
+    }
+
+
+
     window.onload = function () {
+
+        var language = localStorage.getItem('langauge');
+        if(language == null) {
+            $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
+        } else {
+            if(language == "en") {
+                $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
+            } else {
+                $('#langFlag').attr("src", '{{ URL::asset('/img/ar.png') }}')
+            }
+        }
+
         var firebaseConfig = {
             apiKey: "AIzaSyAByZ6mHqPhd1Pl3KHcUiXJSQ-8EGOW-6s",
             authDomain: "jamqatar-bf1c1.firebaseapp.com",
@@ -762,7 +788,7 @@
 
 <style>
     .dropbtn {
-        background-color: #0aa698;;
+        background-color: #0aa69800;;
         color: white;
         padding: 4px;
         font-size: 16px;

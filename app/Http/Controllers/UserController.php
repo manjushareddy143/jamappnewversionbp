@@ -281,6 +281,8 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        print_r($request->all());
+        exit();
         $request->validate([
             'name' => 'required',
             'email' => 'required|unique:users,email',
@@ -1147,6 +1149,20 @@ class UserController extends Controller
                 return response($response, 406)
                     ->header('content-type', 'application/json');
             }
+
+            if(array_key_exists('services', $input)) {
+                $services = $input['services'];
+
+                $services =explode(',', $services);
+                foreach ($services as $data) {
+                    $obj = array();
+                    $obj['user_id'] = $user['id'];
+                    $obj['service_id'] = $data;
+                    ProviderServiceMapping::create($obj);
+                }
+;
+                $user['services'] = $this->get_user_services($id);
+             }
             // ADDRESS
             if(array_key_exists('address', $input)) {
 

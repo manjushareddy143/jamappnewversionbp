@@ -5,9 +5,9 @@
             <div class="col-lg-12 margin-tb">
                 <div class="card">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Vendors</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">@lang('vendor.label_header')</h6>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                                id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Vendors
+                                id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('vendor.label_title')
                         </button>
                     </div>
                     <!-- Modal -->
@@ -17,7 +17,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">@lang('vendor.label_title')</h5>
+                                    <h5 class="modal-title" id="btntext"> @lang('vendor.label_title')</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -29,14 +29,14 @@
                                                 <div class="form-group">
                                                     <label>@lang('vendor.label_fname')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="text" class="form-control" id="first_name"
-                                                           placeholder="Enter Your First Name">
+                                                           placeholder="@lang('vendor.label_place_fname')">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
                                                     <label>@lang('vendor.label_lname') <strong style="font-size: 14px;color: #e60606;">*</strong> </label>
                                                     <input type="text" class="form-control" id="last_name"
-                                                           placeholder="Enter Your Last Name">
+                                                           placeholder="@lang('vendor.label_place_lname')">
                                                 </div>
                                             </div>
                                         </div>
@@ -45,15 +45,15 @@
                                                 <div class="form-group">
                                                     <label>@lang('vendor.label_email') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="email" class="form-control" id="email"
-                                                           placeholder="Enter Email Address">
+                                                           placeholder="@lang('vendor.label_place_email')">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>@lang('vendor.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label id="lbl_pass">@lang('vendor.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="password" class="form-control" id="password"
                                                            aria-describedby="passwordHelp"
-                                                           placeholder="Enter Your Password" required="">
+                                                           placeholder="@lang('vendor.label_place_pass')" required="">
                                                 </div>
                                             </div>
                                         </div>
@@ -62,7 +62,7 @@
                                                 <div class="form-group">
                                                     <label>@lang('vendor.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="text" class="form-control" id="mobile"
-                                                           placeholder="Enter Number">
+                                                           placeholder="@lang('vendor.label_place_mobile')">
                                                 </div>
                                             </div>
                                             <!--radiobutton -->
@@ -124,7 +124,7 @@
                                                 <option>Australia</option>
                                                 <option>USA</option>
                                                 <option>Afghanistan</option>
-                                            </select>
+                                            </select>   
                                             <p id="countryError"></p>
                                         </div>
                                         <div class="row">
@@ -140,9 +140,10 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" onclick="create_user()" class="btn btn-primary">Save</button>
-                                    <button type="button" onclick="update_user()" class="btn btn-primary">Update</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('vendor.label_cbtn')</button>
+                                    <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
+                                    <button type="button" onclick="update_user()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
+                                    
 
                                     
                                 </div>
@@ -154,12 +155,12 @@
                         <table class="table align-items-center table-flush" id="tbl_id">
                             <thead class="thead-light">
                             <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Profile</th>
-                                <th>Gender</th>
-                                <th width="280px">Action
+                                <th>@lang('vendor.label_tab_fname')</th>
+                                <th>@lang('vendor.label_tab_lname')</th>
+                                <th>@lang('vendor.label_tab_email')</th>
+                                <th>@lang('vendor.label_tab_profile')</th>
+                                <th>@lang('vendor.label_tab_gender')</th>
+                                <th width="280px">@lang('vendor.label_tab_action')
                                 </th>
                             </tr>
                             </thead>
@@ -412,6 +413,11 @@
     var editUserid;
     function getVendorData(vendorid)
         {
+            
+             document.getElementById('btntext').innerHTML = 'Edit Vendors';
+             // document.getElementById('button').innerHTML = 'Update';
+             $("#lbl_pass").hide();
+             $("#password").hide();
             // alert(id);
             editUserid=vendorid;
            
@@ -437,38 +443,6 @@
                 }
             });
 
-                }
-
-
-                //Update Vendor
-
-                function update_user(){
-                    // alert(editUserid);
-
-                    $.ajax({
-                    url:"/user/"+editUserid+"/update",
-                    method:'POST',
-                    data:{id:id},
-                    dataType:'JSON',
-                    success:function(data)
-                    {
-                        console.log(data);
-                        $('#first_name').val(data.first_name);
-                        $('#last_name').val(data.last_name);
-                        $('#email').val(data.email);
-                        $('#password').val(data.password);
-                        $('#contact').val(data.mobile);
-                        // $('#gender').val(data.gender);
-                        // $('#languages').val(data.languages);
-                        $("#lang-arabic").prop('checked', true);
-                        $("#lang-english").prop('checked', true);
-                        $("#gender-male ").prop('checked', true);
-                        $("#gender-female ").prop('checked', true);
-                        $("#gender-other ").prop('checked', true);
-
-                        $('#action').val('Edit');
-                    }
-                });
                 }
 
 
@@ -663,6 +637,11 @@
                     $(this).siblings('.cancel').hide();
                     $(this).hide();
                 }); 
+
+
+                $('#button').click(function() {
+                    $(this).val('update');
+                });
 
         </script>
 

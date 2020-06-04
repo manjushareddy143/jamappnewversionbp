@@ -91,17 +91,29 @@
                 </button>
 
                  <!-- Language Dropdown -->
-                            <div class="dropdown">
-                                <button class="dropbtn">Language</button>
+                            <div class="col-md-1" style="padding-left:78%">
+                            <div class="dropdown custom">
+                                <button class="dropbtn"><img id="langFlag" alt="" style="width: 30px;height: 20px;"></button>
                                 <div class="dropdown-content">
-                                 <option value="english"><a href="locale/en">
-                                <img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;">English</a></option>
-                    <a href="locale/ar"><img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;"> Arabic</a>
+{{--                                 <option value="english"><a href="locale/en">--}}
+{{--                                <img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;">English</a>--}}
+{{--                                 </option>--}}
+                                    <a href="locale/en" onclick="langChange('en')">
+                                        <img src="{{asset('img/en.png')}}" alt="" style="width: 20px;height: 10px;">
+                                        English
+                                    </a>
+                                    <a href="locale/ar" onclick="langChange('ar')">
+                                        <img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;">
+                                        Arabic
+                                    </a>
                                 </div>
                             </div>
+                        </div>
+
                             <!-- Language Dropdown -->
 
                 <ul class="navbar-nav ml-auto">
+
                     <div class="topbar-divider d-none d-sm-block"></div>
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -177,6 +189,19 @@
 
 <script>
     var hideShow = 0;
+
+    var selectedLang;
+    function langChange(lang) {
+        console.log(lang);
+        selectedLang = lang;
+        if(lang == "en") {
+            $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
+            localStorage.setItem('langauge', 'en');
+        } else {
+            $('#langFlag').attr("src", '{{ URL::asset('/img/ar.png') }}')
+            localStorage.setItem('langauge', 'ar');
+        }
+    }
     function clickCollaps() {
 
         console.log("clickCollaps()" + hideShow)
@@ -198,10 +223,23 @@
 
     }
     window.onload = function () {
-        // console.log('retrievedObject: ');
+
+
+
         var retrievedObject = localStorage.getItem('userObject');
+
         var obj = JSON.parse(retrievedObject);
 
+        var language = localStorage.getItem('langauge');
+        if(language == null) {
+            $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
+        } else {
+            if(language == "en") {
+                $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
+            } else {
+                $('#langFlag').attr("src", '{{ URL::asset('/img/ar.png') }}')
+            }
+        }
         $('#user_name').text(obj.first_name);
         if (obj.image) {
             $('#profile_img').attr("src", obj.image);
@@ -219,6 +257,7 @@
 
 
 <style>
+    
     .dropbtn {
         background-color: #0aa698;;
         color: white;
@@ -227,11 +266,12 @@
         border: none;
         cursor: pointer;
     }
+    
 
     .dropdown {
         position: relative;
         display: inline-block;
-        margin-right: 100px;
+        /*margin-right: 100px;*/
     }
 
     .dropdown-content {

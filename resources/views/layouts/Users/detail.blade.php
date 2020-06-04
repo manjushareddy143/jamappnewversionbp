@@ -106,8 +106,13 @@
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+
                         <h1 class="h3 mb-0 text-gray-800">User Details</h1>
                        <div class="custom-buttons">
+
+                        <h1 class="h3 mb-0 text-gray-800">@lang('details.label_header')</h1>
+{{--                        <div class="custom-buttons">--}}
+
 {{--                            <button type="button" class="btn btn-primary mb-1">Create</button>--}}
                            <button type="button" class="btn btn-secondary mb-1">Back</button>
                        </div>
@@ -152,75 +157,75 @@
                                         <div class="col-md-9 float-l">
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
-                                                    <label>Id</label>
+                                                    <label>@lang('details.label_id')</label>
                                                     <span id="vendorId">#123456</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
-                                                    <label>Role</label>
+                                                    <label>@lang('details.label_role')</label>
                                                     <span id="role">Admin</span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4 float-l organization_field">
                                                 <div class="form-group">
-                                                    <label>Organization Name</label>
+                                                    <label>@lang('details.label_oname')</label>
                                                     <span>Savitriya Technologies</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
-                                                    <label>Gender</label>
+                                                    <label>@lang('details.label_gender')</label>
                                                     <span id="gender">Male</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
-                                                    <label>Languages</label>
+                                                    <label>@lang('details.label_lang')</label>
                                                     <span id="languages">Arabic, English</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l organization_field">
                                                 <div class="form-group">
-                                                    <label>Organization Email</label>
+                                                    <label>@lang('details.label_oemail')</label>
                                                     <span>organization@gmail.com</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
-                                                    <label>Type</label>
+                                                    <label>@lang('details.label_type')</label>
                                                     <span>Lorem Ipsum</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
-                                                    <label>Providing Services</label>
+                                                    <label>@lang('details.label_pservices')</label>
                                                     <span>Lorem Ipsum</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l organization_field">
                                                 <div class="form-group">
-                                                    <label>Organization Contact</label>
+                                                    <label>@lang('details.label_ocontact')</label>
                                                     <span>+91 1234567890</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
-                                                    <label>Providing Services subcategories</label>
+                                                    <label>@lang('details.label_subcat')</label>
                                                     <span>Lorem Ipsum</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
-                                                    <label>Residence country</label>
+                                                    <label>@lang('details.label_country')</label>
                                                     <span id="resident_country">India</span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-10 float-l spe-padding">
                                                 <div class="form-group">
-                                                    <label>Identity Proof Detail</label>
+                                                    <label>@lang('details.label_proof')</label>
                                                     <span>Lorem Ipsum</span>
                                                     <div class="col-md-1">
                                                         <div class="form-group">
@@ -248,26 +253,31 @@
 
                                             <div class="col-md-12 float-l">
                                                 <div class="form-group">
+
                                                     <label>Address</label>
+
+                                                    <label>@lang('details.label_add')</label>
+{{--                                                    <div class="custom-buttons">--}}
+
 
                                                     {{-- <div class="addresscontainer">
 
                                                             <div class="addressdiv">
                                                                 <div class="col-md-4 float-l paddingleft0 addressblock">
-                                                                    <label>Home</label>
+                                                                    <label>@lang('details.label_add1')</label>
                                                                     <span id="address_line1">Lorem ipsum</span>
                                                                     <span id="address_line2">Lorem ipsum</span>
                                                                 </div>
                                                                 <div class="col-md-4 float-l paddingleft0 addressblock">
-                                                                    <label>Office</label>
+                                                                    <label>@lang('details.label_add2')</label>
                                                                     <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
                                                                 </div>
                                                                 <div class="col-md-4 float-l paddingleft0 addressblock">
-                                                                    <label>Farmhouse</label>
+                                                                    <label>@lang('details.label_add3')</label>
                                                                     <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
                                                                 </div>
                                                                 <div class="col-md-4 float-l paddingleft0 addressblock">
-                                                                    <label>Factory</label>
+                                                                    <label>@lang('details.label_add4')</label>
                                                                     <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
                                                                 </div>
                                                             </div>
@@ -455,7 +465,7 @@
 </style> --}}
 <style>
 .organization_field {
-display: none;
+/*display: none;*/
 }
 
 </style>

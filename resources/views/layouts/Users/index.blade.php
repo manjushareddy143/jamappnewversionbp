@@ -6,9 +6,9 @@
     <div class="col-lg-12 margin-tb">
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Organisations</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">@lang('organisation.label_header')</h6>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Organisations</button>
+                    id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('organisation.label_title')</button>
                 </div>
 
 
@@ -30,13 +30,13 @@
                     <div class="col-md-6 float-l">
                      <div class="form-group">
                        <label>@lang('organisation.label_cname') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                       <input type="text" class="form-control" id="org_company_name" placeholder="Enter Your Company Name" required="">
+                       <input type="text" class="form-control" id="org_company_name" placeholder="@lang('organisation.label_place_cname')" required="">
                     </div>
                     </div>
                     <div class="col-md-6 float-l">
                     <div class="form-group">
                       <label>@lang('organisation.label_aname') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                      <input type="text" class="form-control" id="org_name" placeholder="Enter Your Name" required="">
+                      <input type="text" class="form-control" id="org_name" placeholder="@lang('organisation.label_place_aname')" required="">
                     </div>
                     </div>
                   </div>
@@ -45,7 +45,7 @@
                 <div class="col-md-6 float-l">
                   <div class="form-group">
                   <label>@lang('organisation.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                  <input type="text" class="form-control" id="contact" placeholder="Enter Number" required>
+                  <input type="text" class="form-control" id="contact" placeholder="@lang('organisation.label_place_mobile')" required>
                   </div>
                 </div>
 
@@ -53,7 +53,7 @@
                <div class="col-md-6 float-l">
                  <div class="form-group">
                   <label>@lang('organisation.label_email') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                  <input type="email" class="form-control" id="email"  placeholder="Enter Email Address" required>
+                  <input type="email" class="form-control" id="email"  placeholder="@lang('organisation.label_place_email')" required>
                   </div>
                 </div>
               </div>
@@ -62,7 +62,7 @@
               <div class="col-md-6 float-l">
                   <div class="form-group">
                   <label>@lang('organisation.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                  <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter Your Password" required="">
+                  <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="@lang('organisation.label_place_pass')" required="">
                 </div>
               </div>
 
@@ -75,8 +75,8 @@
                </div>
 
                   <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" onclick="create_users()" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('organisation.label_place_cbtn')</button>
+                            <button type="button" onclick="create_users()" class="btn btn-primary">@lang('organisation.label_place_sbtn')</button>
                   </div>
 
                     </form>
@@ -100,13 +100,12 @@
      <table class="table align-items-center table-flush" id="tbl_id">
          <thead class="thead-light">
          <tr>
-             <th>Compan</th>
-             <th>Admin</th>
-             <th>Mobile</th>
-             <th>Email</th>
-             <th>Logo</th>
-             <th width="280px">Action
-             </th>
+             <th>@lang('organisation.label_tab_company')</th>
+             <th>@lang('organisation.label_tab_admin')</th>
+             <th>@lang('organisation.label_tab_mobile')</th>
+             <th>@lang('organisation.label_tab_email')</th>
+             <th>@lang('organisation.label_tab_logo')</th>
+             <th width="280px">@lang('organisation.label_tab_action')</th>
          </tr>
          </thead>
          <tbody>

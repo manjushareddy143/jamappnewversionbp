@@ -2,10 +2,9 @@
 
 return[
 
+'label_title'=>'أضف عملاء',
 
-'label_title'=>'أضف البائعين',
-
-'label_header'=>'الباعة',
+'label_header'=>'الزبائن',
 
 'label_fname'=>'الاسم الاول',
 
@@ -15,17 +14,13 @@ return[
 
 'label_password'=>'كلمه السر',
 
+'label_Image'=>'صورة',
+
 'label_mobile'=>'رقم الهاتف المحمول',
 
 'label_gender'=>'جنس',
 
 'label_language'=>'انا اعرف اللغات',
-
-'label_Image'=>'صورة',
-
-'label_Country'=>'بلد',
-
-'label_Services'=>'خدمات',
 
 'label_place_fname'=>'أدخل اسمك الأول',
 
@@ -37,10 +32,9 @@ return[
 
 'label_place_mobile'=>'أدخل رقمك',
 
+'label_sbtn'=>'حفظ',
 
 'label_cbtn'=>'قريب',
-'label_sbtn'=>'حفظ',
-'label_ubtn'=>'تحديث',
 
 'label_tab_fname'=>'الاسم الاول',
 'label_tab_lname'=>'الكنية',
@@ -49,5 +43,7 @@ return[
 'label_tab_gender'=>'جنس',
 'label_tab_action'=>'عمل',
 
-
+'label_tab_filter'=>'منقي',
+ 
 ];
+

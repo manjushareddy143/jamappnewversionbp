@@ -9,9 +9,9 @@
     <div class="col-lg-12 margin-tb">
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Services Management</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">@lang('services.label_header')</h6>
                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="add_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Services</button>
+                    id="add_btn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('services.label_title')</button>
 
 
  <!-- Modal -->
@@ -20,7 +20,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="service_btn">Add Services</h5>
+                  <h5 class="modal-title" id="service_btn"> @lang('services.label_title')</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -43,20 +43,20 @@
 
                               <div class="col-md-12" >
                                   <div class="form-group">
-                                      <label>Name <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                      <input id="service_name" type="text" name="name" placeholder="Enter Name" class="form-control" required>
+                                      <label>@lang('services.label_name')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                      <input id="service_name" type="text" name="name" placeholder="@lang('services.label_plac_name')" class="form-control" required>
                                   </div>
                               </div>
                               <div class="col-md-12">
                                   <div class="form-group">
-                                      <label>Icon<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                      <label>@lang('services.label_Icon')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                       <input id="icon_image" type="file" name="image" class="form-control" required>
                                   </div>
                               </div>
 
                               <div class="col-md-12">
                                   <div class="form-group">
-                                      <label>Banner<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                      <label>@lang('services.label_Banner')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                       <input id="banner_image" type="file" name="image" class="form-control" required>
                                   </div>
                               </div>
@@ -64,8 +64,8 @@
 
                               <div class="col-md-12">
                                   <div class="form-group">
-                                      <label>Descriptions</label>
-                                      <input id="service_description" type="text" name="description" placeholder="Enter Description" class="form-control">
+                                      <label>@lang('services.label_Descriptions')</label>
+                                      <input id="service_description" type="text" name="description" placeholder="@lang('services.label_plac_Descriptions')" class="form-control">
                                   </div>
                               </div>
 
@@ -81,7 +81,7 @@
                             <div class="form-group">
                               <div class="custom-control custom-checkbox">
                                   <input type="checkbox" class="custom-control-input" id="terms" name="terms" onclick="checkClick()">
-                                  <label class="custom-control-label" for="terms">Click to select category from existing list</label>
+                                  <label class="custom-control-label" for="terms">@lang('services.label_chebox')</label>
                               </div>
                           </div>
                       </div>
@@ -90,7 +90,7 @@
 {{--                      CATEGORY LIST--}}
                       <div class="col-md-12" id="categorydiv">
                           <div class="form-group">
-                              <label for="exampleFormControlSelect1">Category</label>
+                              <label for="exampleFormControlSelect1">@lang('services.label_Category')</label>
                               <select class="form-control" id="categorieslist" required>
                               </select>
                           </div>
@@ -102,9 +102,9 @@
                       <div class="form-group" id="cate_namediv">
                           <div class="col-md-6 float-l">
                               <div class="form-group">
-                                  <label>Name<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                  <label>@lang('services.label_cat_name')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                   <input id="categoy_name" type="text" name="categoy_name"
-                                         class="form-control" placeholder="Enter Name" required>
+                                         class="form-control" placeholder="@lang('services.label_plac_name')" required>
                               </div>
                           </div>
 
@@ -112,7 +112,7 @@
 
                           <div class="col-md-6 float-r" id="cate_imgdiv">
                             <div class="form-group">
-                                <label>Image<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                <label>@lang('services.label_cat_image')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                 <input id="category_image" type="file" name="category_image" class="form-control">
                             </div>
                           </div>
@@ -120,8 +120,8 @@
 
                           <div class="col-md-6 float-l" id="cate_disdiv">
                             <div class="form-group">
-                                <label>Description</label>
-                                <input id="category_description" type="text" name="category_description" placeholder="Enter Description"
+                                <label>@lang('services.label_cat_Descriptions')</label>
+                                <input id="category_description" type="text" name="category_description" placeholder="@lang('services.label_plac_Descriptions')"
                                        class="form-control" required>
                             </div>
                           </div>
@@ -129,8 +129,8 @@
                           <div class="col-md-6 float-l" id="cate_pridiv">
                             <div class="form-group">
                                <div class="input-symbol-euro">
-                                <label>Pricing</label>
-                                <input id="category_price" type="text" name="category_price" placeholder="Enter Pricing"
+                                <label>@lang('services.label_cat_Pricing')</label>
+                                <input id="category_price" type="text" name="category_price" placeholder="@lang('services.label_plac_Pricing')"
                                        class="form-control" required>
                             </div>
                             </div>
@@ -140,8 +140,8 @@
 
 {{--                      BUTTONS --}}
                       <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" onclick="create_service()" class="btn btn-primary">Save</button>
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('services.label_cbtn')</button>
+                          <button type="button" onclick="create_service()" class="btn btn-primary">@lang('services.label_sbtn')</button>
                       </div>
 
 
@@ -173,11 +173,11 @@
  <tr>
 
    <!-- <th>id</th> -->
-   <th>Name</th>
-   <th>Icon</th>
-   <th>Banner</th>
-   <th>Description</th>
-   <th width="280px">Action</th>
+   <th>@lang('services.label_tab_name')</th>
+   <th>@lang('services.label_tab_icon')</th>
+   <th>@lang('services.label_tab_banner')</th>
+   <th>@lang('services.label_tab_disc')</th>
+   <th width="280px">@lang('services.label_tab_action')</th>
  </tr>
 </thead>
 

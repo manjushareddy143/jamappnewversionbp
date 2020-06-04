@@ -64,12 +64,12 @@
                     @elseif (Auth::user()->roles[0]->slug == 'admin-admin')
 
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Orders Management</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">@lang('orders.label_tab_title')</h6>
                         {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                             id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button> --}}
 
                                {{-- filter dropdown --}}
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Filter
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> @lang('orders.label_tab_filter')
                             <span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <input class="form-control" id="myInput" type="text" placeholder="Search..">
@@ -84,15 +84,14 @@
                         <table class="table align-items-center table-flush" id="tbl_id">
                             <thead class="thead-light">
                             <tr>
-                                <th>Booking User</th>
-                                <th>Service</th>
-                                <th>Provider</th>
-                                <th>Booking Date</th>
-                                <th>Time</th>
-                                <th>Status</th>
+                                <th>@lang('orders.label_tab_buser')</th>
+                                <th>@lang('orders.label_tab_services')</th>
+                                <th>@lang('orders.label_tab_provider')</th>
+                                <th>@lang('orders.label_tab_bdate')</th>
+                                <th>@lang('orders.label_tab_time')</th>
+                                <th>@lang('orders.label_tab_status')</th>
 {{--                                <th>End</th>--}}
-                                <th width="280px">Action
-                                </th>
+                                <th width="280px">@lang('orders.label_tab_action')</th>
                             </tr>
                             </thead>
                             <tbody>
