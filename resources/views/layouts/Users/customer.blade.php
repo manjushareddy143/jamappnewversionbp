@@ -227,7 +227,7 @@
 
       function viewDetail(e){
             console.log(e);
-            alert(e);
+            //alert(e);
             window.location = '/detail?id=' + e;
         }
 
