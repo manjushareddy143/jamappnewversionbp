@@ -16,7 +16,7 @@
         .modal {
             display: none; /* Hidden by default */
             position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
+            /*z-index: 0; !* Sit on top *!*/
             padding-top: 100px; /* Location of the box */
             left: 0;
             top: 0;
@@ -127,24 +127,6 @@
                                     <div class="login-form create-user user-details-container">
                                         <div class="col-md-3 float-l">
                                             <div class="profile-container" style="width: 200px !important;">
-
-                                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                                    &times;</button>
-                                                                    <div class="modal-body">
-
-                                                {{--<img class="img-rounded zoom" src="/images/profiles/155775427.png" alt="Snow">--}}
-                                                    <img id="image" src="https://staging.jam-app.com/img/boy.png" alt="Snow" style="width:100%;max-width:300px">
-{{--                                                <img src="/images/profiles/155775427.png" id="image">--}}
-                                                                    </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <img id="image" src="https://staging.jam-app.com/img/boy.png" alt="Snow" style="width:100%;max-width:300px" onclick="docdisplay()">
                                                 <div class="sidebar-user-info">
                  <span class="first_name" id="first_name">jaydip</span> <span class="last_name" id="last_name">jaydip</span>
@@ -228,7 +210,7 @@
                                                     <span>Lorem Ipsum</span>
                                                     <div class="col-md-1" style="float: right;">
                                                         <div class="form-group" >
-                                                            <button type="button" class="btn btn-primary">Verify<button>
+                                                            <button type="button" class="btn btn-primary">Verify</button>
                                                         </div>
                                                     </div>
                                                     <div class="user-documents-container">
@@ -285,7 +267,30 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                     </form>
+
+
+                                    <div class="modal fade" id="myModel" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Document Image</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">X</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="#" class="form-container">
+                                                        <div class="form-group">
+                                                            <img id="image" src="https://staging.jam-app.com/img/boy.png" alt="Snow" style="width:100%;max-width:300px">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -330,7 +335,7 @@
         function docdisplay(){
 
         // $("#image").click(function () {
-             $('#myModal').modal('show');
+             $('#myModel').modal('show');
 
         }
         //Document image zoom
@@ -407,7 +412,7 @@
                 type: 'GET',
                 data: null,
                 success: function (response) {
-                    console.log("res=== "+response);
+                    console.log("res=== "+ JSON.stringify(response));
                     if(response['image'] != null) {
                         $('#image').attr("src", response['image']);
                     }
