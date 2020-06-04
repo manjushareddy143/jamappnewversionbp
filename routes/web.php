@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/addUser', 'UserController@addUser');
     Route::get('/edit','UserController@edit');
     Route::get('/user/{id}/edit', 'UserController@edit');
-    Route::get('/user/{id}/update', 'UserController@update');
+    Route::post('/user/{id}/update', 'UserController@update');
 
     
 

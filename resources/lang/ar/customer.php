@@ -42,6 +42,8 @@ return[
 'label_tab_profile'=>'الملف الشخصي',
 'label_tab_gender'=>'جنس',
 'label_tab_action'=>'عمل',
+
+'label_tab_filter'=>'منقي',
  
 ];
 
