@@ -57,7 +57,7 @@
                                         <textarea class="form-control" id="exampleFormControlTextarea3" rows="7" style="height: 100px;"></textarea>
                                         {{-- <input type="text" id="comment" name="comment" class="form-control" required> --}}
                                     </div>
-                                </form>
+{{--                                </form>--}}
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
