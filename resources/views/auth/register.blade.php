@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                              <!-- Language Dropdown -->
-                            <div class="dropdown custom">
+                            <div class="dropdown custom" style="margin: 25px 0px 0px 40px;">
                                 <button class="dropbtn">
                                     <img id="langFlag" alt="" style="width: 30px;height: 20px;">
                                 </button>
