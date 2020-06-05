@@ -13,16 +13,13 @@ class ServiceProviderController extends Controller
      //for vendor verification
      public function verification($id)
      {
-        //  echo ($id);
-        //  exit;
         $updatedata = [
             'verified' => 1,
         ];
         $temp= DB::table('service_providers')
             ->where('user_id', $id)
             ->update($updatedata);
-        echo ($temp);
-        exit;
+
         return $temp;
     }
 

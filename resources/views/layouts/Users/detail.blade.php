@@ -456,9 +456,12 @@
                     }
 
                     var services = response['services'];
-                    for(var i = 0; i < services.length; i++) {
-                        console.log(services[i].service);
+                    if(services != null) {
+                        for(var i = 0; i < services.length; i++) {
+                            console.log(services[i].service);
+                        }
                     }
+
                 },
                 fail: function (error) {
                     console.log(error);
@@ -466,14 +469,19 @@
             });
         }
 
-        function verify($id){
+        function verify(){
             console.log("hi docs");
             $.ajax({
-                url: '/api/v1/providers/verification/' +$id,
-                type: 'GET',
+                url: '/api/v1/verification/' + user_id,
+                type: 'POST',
                 data: null,
                 success: function (response) {
-                    console.log("u click the verify button" + JSON.stringify(response));
+                    console.log("response ::" + response);
+                    if(response == 1) {
+                        console.log("SUCCESS");
+                    } else {
+                        console.log("FAIL");
+                    }
                 },
                 fail: function (error) {
                     console.log(error);
