@@ -22,10 +22,10 @@
     </head>
     <body>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <h1 class="h3 mb-0 text-gray-800">@lang('dashboard.label_header')</h1>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="./">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            <li class="breadcrumb-item"><a href="./">@lang('dashboard.label_home')</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('dashboard.label_nmenu')</li>
         </ol>
     </div>
 

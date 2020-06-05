@@ -50,7 +50,7 @@
 {{--                    <a href="locale/ar"><img src="{{asset('img/ar.png')}}" alt="" style="width: 20px;height: 10px;"> Arabic</a>--}}
 {{--                                </div>--}}
 {{--                            </div>--}}
-                            <div class="dropdown custom">
+                            <div class="dropdown custom" style="margin: 25px 0px 0px 40px;">
                                 <button class="dropbtn">
                                     <img id="langFlag" alt="" style="width: 30px;height: 20px;">
                                 </button>
