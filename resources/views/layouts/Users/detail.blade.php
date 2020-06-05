@@ -16,7 +16,7 @@
         .modal {
             display: none; /* Hidden by default */
             position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
+            /*z-index: 0; !* Sit on top *!*/
             padding-top: 100px; /* Location of the box */
             left: 0;
             top: 0;
@@ -101,15 +101,20 @@
         <!-- Sidebar -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
+
                 <!-- TopBar -->
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">@lang('details.label_header')</h1>
+                        {{-- <h1 class="h3 mb-0 text-gray-800">User Details</h1> --}}
+                       <div class="custom-buttons">
+
 {{--                        <div class="custom-buttons">--}}
+
 {{--                            <button type="button" class="btn btn-primary mb-1">Create</button>--}}
-{{--                            <button type="button" class="btn btn-secondary mb-1">Back</button>--}}
-{{--                        </div>--}}
+                           <button type="button" class="btn btn-secondary mb-1">Back</button>
+                       </div>
                     </div>
                     <div class="row sectionrow">
 
@@ -122,12 +127,7 @@
                                     <div class="login-form create-user user-details-container">
                                         <div class="col-md-3 float-l">
                                             <div class="profile-container" style="width: 200px !important;">
-
-                                                    <img id="image" src="/images/profiles/155775427.png" alt="Snow" style="width:100%;max-width:300px">
-{{--                                                <img src="/images/profiles/155775427.png" id="image">--}}
-                                                {{-- <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                    </div> --}}
-
+                                                <img id="image" src="https://staging.jam-app.com/img/boy.png" alt="Snow" style="width:100%;max-width:300px" onclick="docdisplay()">
                                                 <div class="sidebar-user-info">
                  <span class="first_name" id="first_name">jaydip</span> <span class="last_name" id="last_name">jaydip</span>
                 <div class="email" id="email"><i class="fas fa-fw fa-envelope"></i>jd112@savitriya.com</div>
@@ -203,31 +203,45 @@
                                                     <span id="resident_country">India</span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 float-l spe-padding">
+
+                                            <div class="col-md-10 float-l spe-padding">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_proof')</label>
                                                     <span>Lorem Ipsum</span>
+                                                    <div class="col-md-1" style="float: right;">
+                                                        <div class="form-group" >
+                                                            <button type="button" class="btn btn-primary">Verify</button>
+                                                        </div>
+                                                    </div>
                                                     <div class="user-documents-container">
                                                         <div class="document-block">
-                                      <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name1" alt="document1" style="width:100%;max-width:300px" onclick="headerhide()">
+                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name1" alt="document1" style="width:100%;max-width:300px" onclick="headerhide()">
                                                             <span>Parn Card</span>
                                                         </div>
                                                         <div class="document-block">
-                                        <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name2" alt="document2" style="width:100%;max-width:300px">
+                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name2" alt="document2" style="width:100%;max-width:300px">
                                                             <span>Passport</span>
                                                         </div>
                                                     </div>
+
+                                                    {{-- <div class="col-sm-1" style="float: right">
+                                                    <button type="button" class="btn btn-primary">Verify<button>
+                                                    </div> --}}
+
                                                 </div>
+
                                             </div>
+
                                             <div class="col-md-12 float-l">
                                                 <div class="form-group">
+
+                                                    {{-- <label>Address</label> --}}
+
                                                     <label>@lang('details.label_add')</label>
 {{--                                                    <div class="custom-buttons">--}}
 
-{{--                                                        <button type="button" class="btn btn-primary mb-1">Create</button>--}}
-{{--                                                        <button type="button" class="btn btn-secondary mb-1">Back</button>--}}
-{{--                                                    </div>--}}
-                                                    <div class="addresscontainer">
+
+                                                    {{-- <div class="addresscontainer">
 
                                                             <div class="addressdiv">
                                                                 <div class="col-md-4 float-l paddingleft0 addressblock">
@@ -249,11 +263,34 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                     </form>
+
+
+                                    <div class="modal fade" id="myModel" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Document Image</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">X</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="#" class="form-container">
+                                                        <div class="form-group">
+                                                            <img id="image" src="https://staging.jam-app.com/img/boy.png" alt="Snow" style="width:100%;max-width:300px">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -282,20 +319,25 @@
 
 
     <script type="text/javascript">
-        var modal = document.getElementById("myModal");
+       // var modal = document.getElementById("myModal");
 
         // Get the image and insert it inside the modal - use its "alt" text as a caption
-        var img = document.getElementById("image");
-        var modalImg = document.getElementById("img01");
+        //var img = document.getElementById("image");
+        //var modalImg = document.getElementById("img01");
 
         // var captionText = document.getElementById("caption");
-        img.onclick = function(){
-            modal.style.display = "block";
-            modalImg.src = this.src;
+        // img.onclick = function(){
+        //     modal.style.display = "block";
+        //     modalImg.src = this.src;
             // captionText.innerHTML = this.alt;
 
-        }
+        // }
+        function docdisplay(){
 
+        // $("#image").click(function () {
+             $('#myModel').modal('show');
+
+        }
         //Document image zoom
         var img = document.getElementById("doc_name1");
         // var captionText = document.getElementById("caption");
@@ -370,7 +412,7 @@
                 type: 'GET',
                 data: null,
                 success: function (response) {
-                    console.log("res=== "+response);
+                    console.log("res=== "+ JSON.stringify(response));
                     if(response['image'] != null) {
                         $('#image').attr("src", response['image']);
                     }
@@ -409,12 +451,12 @@
             });
         }
 
-        $(function() {
-		$('.pop').on('click', function() {
-			$('.imagepreview').attr('src', $(this).find('img').attr('src'));
-			$('#imagemodal').modal('show');
-		});
-});
+        // $(function() {
+		// $('.pop').on('click', function() {
+		// 	$('.imagepreview').attr('src', $(this).find('img').attr('src'));
+		// 	$('#imagemodal').modal('show');
+		// });
+
 
 
 

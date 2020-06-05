@@ -85,39 +85,39 @@ class UserController extends Controller
     public function getuserbyid($id)
     {
 
-        $user = User::with('userservices')->find(4);
+        $user = User::with('documents')->with('address')->with('provider')->with('userservices')->find($id);
 //        $user = services::with('serviceusers')->get();
         //dd( $user->userservices);
 //        dd( $user); //->serviceusers, DB::getQueryLog()
-//        return response()->json($service, 200);
-        $users=User::where('users.id', '=', (int)$id)
-            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
-            ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
-            ->leftJoin('addresses', 'addresses.user_id','=', 'users.id')
-            ->select('users.*',
-                'user_types.type as type',
-                'organisation.name as company',
-                'organisation.resident_country as country',
-                'organisation.number_of_employee as number_of_employee',
-                'addresses.name as addressname',
-                'addresses.address_line1 as address_line1',
-                'addresses.address_line2 as address_line2')
-            ->first();
-
-        $results = ProviderServiceMapping::where('user_id', '=', $users['id'])
-            ->leftJoin('services', 'services.id', '=','provider_service_mappings.service_id')
-            ->leftJoin('sub_categories', 'sub_categories.id', '=','provider_service_mappings.category_id')
-            ->select('services.id as service_id',
-                'services.name as service','services.icon_image as service_icon',
-                'services.banner_image as service_banner', 'services.description as service_description' ,
-                'sub_categories.name as category', 'sub_categories.id as category_id',
-                'sub_categories.image as category_image', 'sub_categories.description as category_description')
-            ->get();
-
-
-        $users["services"] = $results;
-
-        return response()->json($users, 200);
+        return response()->json($user, 200);
+//        $users=User::where('users.id', '=', (int)$id)
+//            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
+//            ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
+//            ->leftJoin('addresses', 'addresses.user_id','=', 'users.id')
+//            ->select('users.*',
+//                'user_types.type as type',
+//                'organisation.name as company',
+//                'organisation.resident_country as country',
+//                'organisation.number_of_employee as number_of_employee',
+//                'addresses.name as addressname',
+//                'addresses.address_line1 as address_line1',
+//                'addresses.address_line2 as address_line2')
+//            ->first();
+//
+//        $results = ProviderServiceMapping::where('user_id', '=', $users['id'])
+//            ->leftJoin('services', 'services.id', '=','provider_service_mappings.service_id')
+//            ->leftJoin('sub_categories', 'sub_categories.id', '=','provider_service_mappings.category_id')
+//            ->select('services.id as service_id',
+//                'services.name as service','services.icon_image as service_icon',
+//                'services.banner_image as service_banner', 'services.description as service_description' ,
+//                'sub_categories.name as category', 'sub_categories.id as category_id',
+//                'sub_categories.image as category_image', 'sub_categories.description as category_description')
+//            ->get();
+//
+//
+//        $users["services"] = $results;
+//
+//        return response()->json($users, 200);
     }
     /** Form for creating a new resource
      *
@@ -973,7 +973,7 @@ class UserController extends Controller
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
             $imagedata = [
-                'image' => $host . "/images/profiles/" . $profile_name,
+                    'image' => $host . "/images/profiles/" . $profile_name,
             ];
 
             if($this->update_user_details($imagedata, $id)) {

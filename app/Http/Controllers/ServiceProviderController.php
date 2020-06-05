@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class ServiceProviderController extends Controller
 {
+
+
      //for vendor verification
      public function verification($id)
      {
