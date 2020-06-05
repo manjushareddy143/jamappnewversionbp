@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <body id="page-top">
+    {{-- <body id="page-top"> --}}
         <div id="wrapper">
             <!-- Sidebar -->
 
@@ -171,7 +171,7 @@
                                 <i class="fas fa-address-book"></i>
                                 <div class="order-info-block">
                                   <span>Address</span>
-                                  <p id=addressname>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
+                                  <p id="addressname">11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
 {{--                                  <p id=address_line1>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>--}}
 {{--                                  <p id=address_line2>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>--}}
                                 </div>
@@ -238,6 +238,7 @@
             // alert(user_id);
             viewDetail();
         }
+
         function acceptOrder() {
             console.log("accept" + document.getElementById('accept').innerHTML);
             var btnText = document.getElementById('accept').innerHTML;//$('#accept').text();
@@ -381,6 +382,6 @@
 
 
         </script>
-      </body>
-    </html>
+      {{-- </body> --}}
+    {{-- </html> --}}
 @endsection

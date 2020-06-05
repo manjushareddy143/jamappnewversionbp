@@ -73,7 +73,8 @@ Route::get('v1/providers/service_category', 'ServiceMappingController@get_provid
 
 Route::get('v1/services/category', 'ServicesController@get_service_categories');
 
-
+//Verification
+Route::get('v1/providers/verification/{id}', 'ServiceProviderController@verification');
 // User Type Mng
 Route::post('v1/usertype', 'UserTypeController@add_type');
 Route::get('v1/usertype', 'UserTypeController@show_all');

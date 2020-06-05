@@ -5,17 +5,25 @@ namespace App\Http\Controllers;
 use App\ServiceProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceProviderController extends Controller
 {
 
-
      //for vendor verification
      public function verification($id)
      {
-        $verify = ServiceProvider::find($id);
-        $verify -> verified == 1;
-        $verify = save();
+        //  echo ($id);
+        //  exit;
+        $updatedata = [
+            'verified' => 1,
+        ];
+        $temp= DB::table('service_providers')
+            ->where('user_id', $id)
+            ->update($updatedata);
+        echo ($temp);
+        exit;
+        return $temp;
     }
 
 }
