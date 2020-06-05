@@ -14,23 +14,23 @@
                                 <a class="nav-link active" id="orderplaced-tab" data-toggle="tab"
                                     href="#" role="tab"
                                     aria-controls="home" aria-selected="true" onclick="placedorder()" >
-                                    <i class="fas fa-user"></i>Order Placed by You</a>
+                                    <i class="fas fa-user"></i>@lang('cus_orders.label_header')</a>
                             </li>
                             <li class="nav-item second-tab">
                                 <a class="nav-link" id="orderreceive-tab" data-toggle="tab"
                                     href="#" role="tab"
                                     aria-controls="profile" aria-selected="false" onclick="receivedorder()">
-                                    <i class="fas fa-users"></i> Order Received From Users <br/></a>
+                                    <i class="fas fa-users"></i> @lang('cus_orders.label_header_user') <br/></a>
                             </li>
                         </ul>
                     </div>
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Orders Management</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">@lang('cus_orders.label_title')</h6>
                         {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                             id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button> --}}
 
                                {{-- filter dropdown --}}
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Filter
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> @lang('cus_orders.label_filter')
                             <span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <input class="form-control" id="myInput" type="text" placeholder="Search..">
