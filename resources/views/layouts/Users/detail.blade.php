@@ -210,16 +210,16 @@
                                                     <span>Lorem Ipsum</span>
                                                     <div class="col-md-1" style="float: right;">
                                                         <div class="form-group" >
-                                                            <button type="button" class="btn btn-primary">Verify</button>
+                                                            <button type="button" class="btn btn-primary" onclick="verify()">Verify</button>
                                                         </div>
                                                     </div>
                                                     <div class="user-documents-container">
                                                         <div class="document-block">
-                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name1" alt="document1" style="width:100%;max-width:300px" onclick="headerhide()">
+                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name1" alt="document1" style="width:100%;max-width:300px" onclick="docdisplay()">
                                                             <span>Parn Card</span>
                                                         </div>
                                                         <div class="document-block">
-                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name2" alt="document2" style="width:100%;max-width:300px">
+                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name2" alt="document2" style="width:100%;max-width:300px" onclick="docdisplay()">
                                                             <span>Passport</span>
                                                         </div>
                                                     </div>
@@ -292,6 +292,48 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="modal fade" id="myModel_1" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Document Image</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">X</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="#" class="form-container">
+                                                        <div class="form-group">
+                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name1" alt="document1" style="width:100%;max-width:300px" onclick="docdisplay()">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="myModel_2" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Document Image</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">X</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="#" class="form-container">
+                                                        <div class="form-group">
+                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name2" alt="document2" style="width:100%;max-width:300px" onclick="docdisplay()">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                         </div>
@@ -319,48 +361,21 @@
 
 
     <script type="text/javascript">
-       // var modal = document.getElementById("myModal");
 
-        // Get the image and insert it inside the modal - use its "alt" text as a caption
-        //var img = document.getElementById("image");
-        //var modalImg = document.getElementById("img01");
-
-        // var captionText = document.getElementById("caption");
-        // img.onclick = function(){
-        //     modal.style.display = "block";
-        //     modalImg.src = this.src;
-            // captionText.innerHTML = this.alt;
-
-        // }
         function docdisplay(){
 
-        // $("#image").click(function () {
-             $('#myModel').modal('show');
-
-        }
-        //Document image zoom
-        var img = document.getElementById("doc_name1");
-        // var captionText = document.getElementById("caption");
-        img.onclick = function(){
-            modal.style.display = "block";
-            modalImg.src = this.src;
-            // captionText.innerHTML = this.alt;
-        }
-
-        var img = document.getElementById("doc_name2");
-        // var captionText = document.getElementById("caption");
-        img.onclick = function(){
-            modal.style.display = "block";
-            modalImg.src = this.src;
-            // captionText.innerHTML = this.alt;
-        }
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
+            $("#image").click(function () {
+                console.log("Image of vendor")
+                $('#myModel').modal('show');
+            });
+            $("#doc_name1").click(function(){
+                console.log("Document1")
+                $('#myModel_1').modal('show');
+            });
+            $("#doc_name2").click(function(){
+                console.log("Document2")
+                $('#myModel_2').modal('show');
+            });
         }
 
     $( document ).ready(function() {
@@ -441,8 +456,31 @@
                     }
 
                     var services = response['services'];
-                    for(var i = 0; i < services.length; i++) {
-                        console.log(services[i].service);
+                    if(services != null) {
+                        for(var i = 0; i < services.length; i++) {
+                            console.log(services[i].service);
+                        }
+                    }
+
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function verify(){
+            console.log("hi docs");
+            $.ajax({
+                url: '/api/v1/verification/' + user_id,
+                type: 'POST',
+                data: null,
+                success: function (response) {
+                    console.log("response ::" + response);
+                    if(response == 1) {
+                        console.log("SUCCESS");
+                    } else {
+                        console.log("FAIL");
                     }
                 },
                 fail: function (error) {
@@ -461,12 +499,7 @@
 
 
 </script>
-{{-- <style>
- .bg-navbar {
-    background-color: #04bfac;
-    display: none;
-    }
-</style> --}}
+
 <style>
 .organization_field {
 /*display: none;*/
