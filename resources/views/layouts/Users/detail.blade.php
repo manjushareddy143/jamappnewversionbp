@@ -113,7 +113,7 @@
 {{--                        <div class="custom-buttons">--}}
 
 {{--                            <button type="button" class="btn btn-primary mb-1">Create</button>--}}
-                           <button type="button" class="btn btn-secondary mb-1">Back</button>
+                           <button type="button" id="back_btn" class="btn btn-secondary mb-1">Back</button>
                        </div>
                     </div>
                     <div class="row sectionrow">
@@ -210,7 +210,7 @@
                                                     <span>Lorem Ipsum</span>
                                                     <div class="col-md-1" style="float: right;">
                                                         <div class="form-group" >
-                                                            <button type="button" class="btn btn-primary" onclick="verify()">Verify</button>
+                                                            <button type="button" id="btn_verify" class="btn btn-primary" onclick="verify()">Verify</button>
                                                         </div>
                                                     </div>
                                                     <div class="user-documents-container">
@@ -403,6 +403,8 @@
             console.log(user_id);
             // alert(user_id);
             viewDetail();
+
+
         }
 
 
@@ -445,7 +447,9 @@
                     $('#doc_name').text(response['doc_name']);
                     $('#resident_country').text(response['resident_country']);
 
-
+                    if(response['verified'] == 1){
+                        $('#btn_verify').hide();
+                    }
 
 
                     if(response['org_id'] == null) {
@@ -479,8 +483,10 @@
                     console.log("response ::" + response);
                     if(response == 1) {
                         console.log("SUCCESS");
+                        $('#btn_verify').hide();
                     } else {
                         console.log("FAIL");
+                        // $('#btn_verify').show();
                     }
                 },
                 fail: function (error) {
@@ -489,6 +495,9 @@
             });
         }
 
+        $("#back_btn").click(function (){
+           window.history.back();
+        });
         // $(function() {
 		// $('.pop').on('click', function() {
 		// 	$('.imagepreview').attr('src', $(this).find('img').attr('src'));

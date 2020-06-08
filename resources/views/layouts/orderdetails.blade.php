@@ -286,38 +286,38 @@
             });
         }
 
-        function cancelorder() {
-            console.log("are sure to cancel?");
-            $.ajax({
-                url: '/api/v1/booking_status',
-                type: 'POST',
-                data: data,
-                success: function (response) {
-                    console.log(response);
-                    var status = "Pending";
-                    if(response['status']  == 1) {
-                        status = "Pending";
-                    } else if(response['status']  == 2) {
-                        status = "Accepted";
-                    } else if(response['status']  == 3) {
-                        status = "Cancel by Vendor";
-                    } else if(response['status']  == 4) {
-                        status = "Cancel by User";
-                    } else if(response['status']  == 5) {
-                        status = "Completed";
-                    }
-                    $('#status').text(status);
-                    "status" : 2,
-                    "booking_id" : 1,
-                    "reason" : "Too Slow",
-                    "comment" : "Its good but too slow"
+        // function cancelorder() {
+        //     console.log("are sure to cancel?");
+        //     $.ajax({
+        //         url: '/api/v1/booking_status',
+        //         type: 'POST',
+        //         data: data,
+        //         success: function (response) {
+        //             console.log(response);
+        //             var status = "Pending";
+        //             if(response['status']  == 1) {
+        //                 status = "Pending";
+        //             } else if(response['status']  == 2) {
+        //                 status = "Accepted";
+        //             } else if(response['status']  == 3) {
+        //                 status = "Cancel by Vendor";
+        //             } else if(response['status']  == 4) {
+        //                 status = "Cancel by User";
+        //             } else if(response['status']  == 5) {
+        //                 status = "Completed";
+        //             }
+        //             $('#status').text(status);
+        //             "status" : 2,
+        //             "booking_id" : 1,
+        //             "reason" : "Too Slow",
+        //             "comment" : "Its good but too slow"
 
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
-            });
-        }
+        //         },
+        //         fail: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // }
 
         function getUrlParameter(sParam)
         {
