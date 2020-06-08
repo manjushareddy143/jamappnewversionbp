@@ -362,27 +362,27 @@ class UserController extends Controller
      * )
      *
      */
-    public function login(Request $request) 
+    public function login(Request $request)
     {
-        try 
+        try
         {
             $response = array();
             $input = $request->all();
 
             $username = "";
             $condition = "";
-            if(array_key_exists('email', $input)) 
+            if(array_key_exists('email', $input))
             {
                 $username = $request->input('email');
                 $condition = "email";
-            } 
-            else if(array_key_exists('contact', $input)) 
+            }
+            else if(array_key_exists('contact', $input))
             {
                 $username = $request->input('contact');
                 $condition = "contact";
             } else {
 
-            }            
+            }
             $password = $request->input('password');
             $token = $request->input('token');
             $device = $request->input('device');
@@ -390,7 +390,7 @@ class UserController extends Controller
             $fcm_response = array();
             $checkuser  = User::where($condition, '=', $username)->first();
 
-            if (isset($checkuser)) 
+            if (isset($checkuser))
             {
                 if (Hash::check($password,$checkuser->password))
                 {
@@ -401,12 +401,12 @@ class UserController extends Controller
                     $roles = Auth::user()->roles;
                     $user["roles"] = $roles;
 
-                    if(array_key_exists('token', $input)) 
+                    if(array_key_exists('token', $input))
                     {
                         $fcm_response = array();
 //                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
                         $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
-                        if ($fcm_user->count() <= 0) 
+                        if ($fcm_user->count() <= 0)
                         {
 
                             $fcm_data = [
@@ -415,8 +415,8 @@ class UserController extends Controller
                                 "device_type" => $input['device']
                             ];
                             $fcm_response = FCMDevices::create($fcm_data);
-                        } 
-                        else 
+                        }
+                        else
                         {
                             $fcm_response = $fcm_user;
                         }
@@ -424,7 +424,7 @@ class UserController extends Controller
                     }
                     return response($user, 200);
                 }
-                else 
+                else
                 {
                     return response(null, 401);
                 }
@@ -487,7 +487,7 @@ class UserController extends Controller
      *
      */
 
-    public function register_provider(Request $request) 
+    public function register_provider(Request $request)
     {
         $response = array();
 
@@ -596,7 +596,7 @@ class UserController extends Controller
         $input = $request->all();
 
 
-        if (array_key_exists('social_signin', $input)) 
+        if (array_key_exists('social_signin', $input))
         {
 
 //            $user = User::with('userservices')->with('address')->where('email', '=', $input['email'])->first(); //
