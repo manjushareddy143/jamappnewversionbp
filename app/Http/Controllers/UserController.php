@@ -39,6 +39,7 @@ use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
 use Kreait\Laravel\Firebase\Facades\FirebaseAuth;
 use Validator;
 use PHPUnit\Util\Json;
+// use App\Http\Controllers\response;
 
 class UserController extends Controller
 {
@@ -361,34 +362,52 @@ class UserController extends Controller
      * )
      *
      */
-    public function login(Request $request) {
-        try {
+    public function login(Request $request) 
+    {
+        try 
+        {
             $response = array();
             $input = $request->all();
 
-            $username = $request->input('email');
+            $username = "";
+            $condition = "";
+            if(array_key_exists('email', $input)) 
+            {
+                $username = $request->input('email');
+                $condition = "email";
+            } 
+            else if(array_key_exists('contact', $input)) 
+            {
+                $username = $request->input('contact');
+                $condition = "contact";
+            } else {
+
+            }            
             $password = $request->input('password');
             $token = $request->input('token');
             $device = $request->input('device');
 
             $fcm_response = array();
-            $checkuser  = User::where('email', '=', $username)->first();
+            $checkuser  = User::where($condition, '=', $username)->first();
 
-            if (isset($checkuser)) {
+            if (isset($checkuser)) 
+            {
                 if (Hash::check($password,$checkuser->password))
                 {
 
-                    $user = User::with('userservices')->with('address')->with('provider')->where('email', '=', $username)->first();
+                    $user = User::with('userservices')->with('address')->with('provider')->where($condition, '=', $username)->first();
 
                     $checkuser = Auth::onceUsingId($checkuser['id']);
                     $roles = Auth::user()->roles;
                     $user["roles"] = $roles;
 
-                    if(array_key_exists('token', $input)) {
+                    if(array_key_exists('token', $input)) 
+                    {
                         $fcm_response = array();
 //                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
                         $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
-                        if ($fcm_user->count() <= 0) {
+                        if ($fcm_user->count() <= 0) 
+                        {
 
                             $fcm_data = [
                                 "user_id" => $user['id'],
@@ -396,23 +415,21 @@ class UserController extends Controller
                                 "device_type" => $input['device']
                             ];
                             $fcm_response = FCMDevices::create($fcm_data);
-                        } else {
+                        } 
+                        else 
+                        {
                             $fcm_response = $fcm_user;
                         }
                         $user['fcm'] = $fcm_response;
                     }
                     return response($user, 200);
-                } else {
-                    $response['code'] = false;
-                    $response['message'] = "user unauthorized";
-                    return response($response, 401)
-                        ->header('content-type', 'application/json');
+                }
+                else 
+                {
+                    return response(null, 401);
                 }
             } else {
-                $response['code'] = false;
-                $response['message'] = "user unauthorized";
-                return response($response, 401)
-                    ->header('content-type', 'application/json');
+                return response(null, 401);
             }
         } catch (\Exception $e) {
             $response['code'] = 400;
@@ -470,7 +487,8 @@ class UserController extends Controller
      *
      */
 
-    public function register_provider(Request $request) {
+    public function register_provider(Request $request) 
+    {
         $response = array();
 
         $input = $request->all();
@@ -564,21 +582,22 @@ class UserController extends Controller
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [
-                'first_name' => 'required',
+                // 'first_name' => 'required',
                 'type_id' => 'required|exists:user_types,id',
                 'term_id' => 'required|exists:term_conditions,id',
             ]
         );
 
         if ($initialValidator->fails()) {
-            return response()->json(['error' => $initialValidator->errors()], 401);
+            return response()->json(['error' => $initialValidator->errors()], 406);
         }
 
 
         $input = $request->all();
 
 
-        if (array_key_exists('social_signin', $input)) {
+        if (array_key_exists('social_signin', $input)) 
+        {
 
 //            $user = User::with('userservices')->with('address')->where('email', '=', $input['email'])->first(); //
             $user = User::with('userservices')->with('address')->with('provider')->where('email', '=', $input['email'])->first();
@@ -624,7 +643,7 @@ class UserController extends Controller
             );
 
             if ($contactValidator->fails()) {
-                return response()->json(['error' => $contactValidator->errors()], 401);
+                return response()->json(['error' => $contactValidator->errors()], 406);
             }
         }
 
@@ -636,7 +655,7 @@ class UserController extends Controller
             );
 
             if ($emailValidator->fails()) {
-                return response()->json(['error' => $emailValidator->errors()], 401);
+                return response()->json(['error' => $emailValidator->errors()], 406);
             }
         }
 
@@ -1078,7 +1097,8 @@ class UserController extends Controller
                 [
                     'id'  => 'required|exists:users,id',
 //                    'profile_photo' => 'required|image',  //|max:2048
-                    'gender' => 'required'
+                    'gender' => 'required',
+                    'address' => 'required'
                 ]);
             if ($validator->fails())
             {
@@ -1120,8 +1140,12 @@ class UserController extends Controller
                 $imagedata +=  [
                     'gender' => $input['gender'],
                 ];
+            }
 
-
+            if(array_key_exists('languages', $input)) {
+                $imagedata +=  [
+                    'languages' => $input['languages'],
+                ];
             }
 
             if(array_key_exists('email', $input)) {
