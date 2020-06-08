@@ -2,7 +2,6 @@
 
 @section('content')
 
-    {{-- <body id="page-top"> --}}
         <div id="wrapper">
             <!-- Sidebar -->
 
@@ -11,9 +10,6 @@
             <div id="content">
             <!-- TopBar -->
             <div class="custome_model">
-                {{-- <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-
-                </div> --}}
                 </div>
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
@@ -22,14 +18,17 @@
                         @if (Auth::user()->roles[0]->slug == 'provider')
                             <div class="custom-buttons">
                                 <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
-                                {{-- <button type="button" class="btn btn-secondary mb-1" id="cancel" data-text="Cancelled">Cancel</button> --}}
+                               
                                 <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#exampleModal"
                             id="user_btn"> Cancel
                     </button>
                             </div>
                         @endif
                     </div>
-                    {{-- modal --}}
+
+                    
+                   <!-- modal  -->
+
                     <div class="card">
 
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -55,14 +54,11 @@
                                     <div class="form-group">
                                         <label>Comment</label>
                                         <textarea class="form-control" id="exampleFormControlTextarea3" rows="7" style="height: 100px;"></textarea>
-                                        {{-- <input type="text" id="comment" name="comment" class="form-control" required> --}}
                                     </div>
-{{--                                </form>--}}
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" onclick="create_user()" class="btn btn-primary">Save</button>
-
+                                    <button type="button" onclick="cancelorder()" class="btn btn-primary">Save</button>
 
                                 </div>
                             </div>
@@ -155,12 +151,7 @@
                                   <p id="serviceName">Home Cleaning and Home Maids</p>
                                 </div>
                               </div>
-{{--                              <div class="order-info">--}}
-{{--                                <div class="order-info-block">--}}
-{{--                                  <span>Sub Category</span>--}}
-{{--                                  <p>Sofa Cleaning</p>--}}
-{{--                                </div>--}}
-{{--                              </div>--}}
+
                             </div>
                           </div>
                         </div>
@@ -172,8 +163,6 @@
                                 <div class="order-info-block">
                                   <span>Address</span>
                                   <p id="addressname">11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
-{{--                                  <p id=address_line1>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>--}}
-{{--                                  <p id=address_line2>11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>--}}
                                 </div>
                               </div>
                               <div class="order-info">
@@ -203,28 +192,17 @@
                   </div>
                   <!---Container Fluid-->
                 </div>
-                <!-- Footer -->
-                                    {{-- <footer class="sticky-footer bg-white">
-                                    <div class="container my-auto">
-                                        <div class="copyright text-center my-auto">
-                                        <span>© 2020 JAM.
-                                        </span>
-                                        </div>
-                                    </div>
-                                    </footer> --}}
-                <!-- Footer -->
               </div>
             </div>
             <!-- Scroll to top -->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
         </a>
-        {{-- <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-        <script src="js/ruang-admin.min.js"></script> --}}
+
+
         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+       
         <script type="text/javascript">
 
         window.addEventListener ?
@@ -287,13 +265,14 @@
         }
 
         function cancelorder() {
+          
             console.log("are sure to cancel?");
             $.ajax({
                 url: '/api/v1/booking_status',
                 type: 'POST',
-                data: data,
-                success: function (response) {
-                    console.log(response);
+                data:Booking_id,
+                success: function(response) {
+                    console.log(Booking_id);
                     var status = "Pending";
                     if(response['status']  == 1) {
                         status = "Pending";
@@ -306,15 +285,14 @@
                     } else if(response['status']  == 5) {
                         status = "Completed";
                     }
-                    $('#status').text(status);
-                    "status" : 2,
-                    "booking_id" : 1,
-                    "reason" : "Too Slow",
-                    "comment" : "Its good but too slow"
+                    $('#status').text(status)
+                    "status" = 2,
+                    "booking_id" = 1,
+                    "reason" = "Too Slow",
+                    "comment" = "Its good but too slow",
 
-                },
-                fail: function (error) {
-                    console.log(error);
+                },fail: function (error) {
+                  console.log(error);
                 }
             });
         }
@@ -382,6 +360,4 @@
 
 
         </script>
-      {{-- </body> --}}
-    {{-- </html> --}}
 @endsection
