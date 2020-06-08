@@ -61,6 +61,17 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class, 'provider_id' , 'id');
     }
 
+    public function experince() {
+        return $this->hasMany(Experience::class, 'rate_to', 'id');
+    }
+
+    public function rate()
+    {
+        return  $this->experince()->selectRaw('AVG(rating) as rate, rate_to,
+        COUNT(rating) AS reviews')
+        ->groupBy('rate_to');
+    }
+
     public function address() {
         return $this->hasMany(Address::class, 'user_id', 'id');
     }
