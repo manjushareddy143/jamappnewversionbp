@@ -60,20 +60,23 @@ class ServiceMappingController extends Controller
     public function get_providers_by_service(Request $request) {
         $id = $request->input('id');
         $host = url('/');
-        $results = ProviderServiceMapping::where('service_id', '=', $id)
-            ->leftJoin('users', 'users.id', '=','provider_service_mappings.user_id')
-            ->leftJoin('service_providers', 'service_providers.user_id', '=','users.id')
-            ->leftJoin('documents', 'documents.user_id', '=','users.id')
-            ->leftJoin('experiences', 'experiences.rate_to', '=','users.id')
-            ->select('users.*',
-                'service_providers.resident_country',
-                'documents.type as doc',
-                'documents.doc_name as document_image',
-                \DB::raw('AVG(experiences.rating) AS rate'),
-                \DB::raw('COUNT(experiences.rating) AS reviews'))
-            ->groupBy('provider_service_mappings.user_id')
-            ->get();
-        return response()->json($results);
+
+        $result = services::with('user')->find($id);
+
+        // $results = ProviderServiceMapping::where('service_id', '=', $id)
+        //     ->leftJoin('users', 'users.id', '=','provider_service_mappings.user_id')
+        //     ->leftJoin('service_providers', 'service_providers.user_id', '=','users.id')
+        //     ->leftJoin('documents', 'documents.user_id', '=','users.id')
+        //     ->leftJoin('experiences', 'experiences.rate_to', '=','users.id')
+        //     ->select('users.*',
+        //         'service_providers.resident_country',
+        //         'documents.type as doc',
+        //         'documents.doc_name as document_image',
+        //         \DB::raw('AVG(experiences.rating) AS rate'),
+        //         \DB::raw('COUNT(experiences.rating) AS reviews'))
+        //     ->groupBy('provider_service_mappings.user_id')
+        //     ->get();
+        return response()->json($result);
     }
 
     public function get_providers_by_category(Request $request) {

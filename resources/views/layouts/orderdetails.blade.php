@@ -18,7 +18,7 @@
                         @if (Auth::user()->roles[0]->slug == 'provider')
                             <div class="custom-buttons">
                                 <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
-                               
+
                                 <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#exampleModal"
                             id="user_btn"> Cancel
                     </button>
@@ -26,7 +26,7 @@
                         @endif
                     </div>
 
-                    
+
                    <!-- modal  -->
 
                     <div class="card">
@@ -202,7 +202,7 @@
 
         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-       
+
         <script type="text/javascript">
 
         window.addEventListener ?
@@ -265,7 +265,7 @@
         }
 
         function cancelorder() {
-          
+
             console.log("are sure to cancel?");
             $.ajax({
                 url: '/api/v1/booking_status',

@@ -16,7 +16,9 @@ class services extends Model
 //        return $this->hasMany('provider_service_mappings', 'service_id', 'id');
 //    }
 //
-//    public function user() {
-//        return $this->hasManyThrough(\App\User::class, ProviderServiceMapping::class, 'user_id' , 'id');
-//    }
+
+   public function user() {
+       return $this->hasManyThrough(User::class,
+       ProviderServiceMapping::class, 'service_id' , 'id')->with('provider')->with('rate');
+   }
 }
