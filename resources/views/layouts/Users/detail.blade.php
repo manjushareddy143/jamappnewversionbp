@@ -145,7 +145,7 @@
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_role')</label>
-                                                    <span id="role">Admin</span>
+                                                    <span id="role">test</span>
                                                 </div>
                                             </div>
 
@@ -440,10 +440,11 @@
                     $('#role').text(response['type']);
                     $('#contact').text(response['contact']);
                     $('#email').text(response['email']);
-                    $('#address_line1').text(response['address_line1']);
-                    $('#address_line2').text(response['address_line2']);
+                    $('#address_line1').text(response['address']['address_line1']);
+                    $('#address_line2').text(response['address']['address_line2']);
                     $('#doc_name').text(response['doc_name']);
-                    $('#resident_country').text(response['resident_country']);
+                    $('#resident_country').text(response['provider']['resident_country']);
+
 
 
 

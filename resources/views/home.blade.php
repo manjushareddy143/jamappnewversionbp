@@ -53,7 +53,7 @@
                                        name="profile_photo" placeholder="Photo" required="" capture>
                             </div>
                         </div>
-
+                        <div class="row">
                         <div class="col-md-6 float-l" id="doctypelistdiv">
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Document</label>
@@ -65,10 +65,11 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6 float-r">
+                          <div class="col-md-6 float-r">
                             <div class="form-group">
                                 <label>Document</label>
                                 <input id="docupload" type="file" name="docupload" class="form-control ">
+                            </div>
                             </div>
                         </div>
 
@@ -76,7 +77,7 @@
                             <div class="col-md-6 float-r">
                                 <div class="form-group" id="languages">
                                     <label>Language  <strong
-                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                            style="font-size: 14px;color: #e60606;">*</strong></label><br>
                                     <label for="english">English</label>
                                     <input type="checkbox" name="languages" id="lang-english" value="English" />
 
