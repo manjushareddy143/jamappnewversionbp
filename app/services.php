@@ -17,6 +17,10 @@ class services extends Model
 //    }
 //
 
+    public function subcategories() {
+        return $this->hasManyThrough(SubCategories::class, ServiceMapping::class, 'service_id', 'id');
+    }
+
    public function user() {
        return $this->hasManyThrough(User::class,
        ProviderServiceMapping::class, 'service_id' , 'id')->with('provider')->with('rate');

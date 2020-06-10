@@ -127,7 +127,7 @@
                                     <div class="login-form create-user user-details-container">
                                         <div class="col-md-3 float-l">
                                             <div class="profile-container" style="width: 200px !important;">
-                                                <img id="image" src="https://staging.jam-app.com/img/boy.png" alt="Snow" style="width:100%;max-width:300px" onclick="docdisplay()">
+                                                <img id="image" src="https://staging.jam-app.com/img/boy.png" alt="Snow" style="width:100%;max-width:300px">
                                                 <div class="sidebar-user-info">
                  <span class="first_name" id="first_name">jaydip</span> <span class="last_name" id="last_name">jaydip</span>
                 <div class="email" id="email"><i class="fas fa-fw fa-envelope"></i>jd112@savitriya.com</div>
@@ -149,10 +149,10 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 float-l organization_field">
+                                            <div class="col-md-4 float-l organization_field" id="org_nameDiv">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_oname')</label>
-                                                    <span>Savitriya Technologies</span>
+                                                    <span id="org_name">Savitriya Technologies</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
@@ -167,167 +167,87 @@
                                                     <span id="languages">Arabic, English</span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 float-l organization_field">
+                                            <div class="col-md-4 float-l organization_field" id="org_emailDiv">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_oemail')</label>
-                                                    <span>organization@gmail.com</span>
+                                                    <span id="org_email">organization@gmail.com</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 float-l">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_type')</label>
-                                                    <span>Lorem Ipsum</span>
+                                                    <span id="type">++++++++++++</span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 float-l">
+                                            <div class="col-md-4 float-l" id="serviceDiv">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_pservices')</label>
-                                                    <span>Lorem Ipsum</span>
+                                                    <span id="services"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 float-l organization_field">
+                                            <div class="col-md-4 float-l organization_field" id="org_contatDiv">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_ocontact')</label>
                                                     <span>+91 1234567890</span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 float-l">
+                                            <div class="col-md-4 float-l" id="subcateDiv">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_subcat')</label>
-                                                    <span>Lorem Ipsum</span>
+                                                    <span id="subcategories"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 float-l">
+                                            <div class="col-md-4 float-l" id="countryDiv">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_country')</label>
                                                     <span id="resident_country">India</span>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-10 float-l spe-padding">
+                                            <div class="col-md-10 float-l spe-padding" id="documentDiv">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_proof')</label>
-                                                    <span>Lorem Ipsum</span>
                                                     <div class="col-md-1" style="float: right;">
-                                                        <div class="form-group" >
-                                                            <button type="button" id="btn_verify" class="btn btn-primary" onclick="verify()">Verify</button>
-                                                        </div>
+                                                        <button type="button" id="btn_verify" class="btn btn-primary" onclick="verify()">Verify</button>
                                                     </div>
-                                                    <div class="user-documents-container">
-                                                        <div class="document-block">
-                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name1" alt="document1" style="width:100%;max-width:300px" onclick="docdisplay()">
-                                                            <span>Parn Card</span>
-                                                        </div>
-                                                        <div class="document-block">
-                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name2" alt="document2" style="width:100%;max-width:300px" onclick="docdisplay()">
-                                                            <span>Passport</span>
-                                                        </div>
+                                                    <div class="user-documents-container float-l" id="doc">
+                                                        {{-- doc html --}}
                                                     </div>
-
-                                                    {{-- <div class="col-sm-1" style="float: right">
-                                                    <button type="button" class="btn btn-primary">Verify<button>
-                                                    </div> --}}
-
                                                 </div>
-
                                             </div>
-
                                             <div class="col-md-12 float-l">
                                                 <div class="form-group">
-
                                                     {{-- <label>Address</label> --}}
-
                                                     <label>@lang('details.label_add')</label>
-{{--                                                    <div class="custom-buttons">--}}
+
+                                                    <div id="addresslist">
 
 
-                                                    {{-- <div class="addresscontainer">
-
-                                                            <div class="addressdiv">
-                                                                <div class="col-md-4 float-l paddingleft0 addressblock">
-                                                                    <label>@lang('details.label_add1')</label>
-                                                                    <span id="address_line1">Lorem ipsum</span>
-                                                                    <span id="address_line2">Lorem ipsum</span>
-                                                                </div>
-                                                                <div class="col-md-4 float-l paddingleft0 addressblock">
-                                                                    <label>@lang('details.label_add2')</label>
-                                                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
-                                                                </div>
-                                                                <div class="col-md-4 float-l paddingleft0 addressblock">
-                                                                    <label>@lang('details.label_add3')</label>
-                                                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
-                                                                </div>
-                                                                <div class="col-md-4 float-l paddingleft0 addressblock">
-                                                                    <label>@lang('details.label_add4')</label>
-                                                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus condimentum velit, </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div> --}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     </form>
 
-
-                                    <div class="modal fade" id="myModel" tabindex="-1" role="dialog"
+                                    <div class="modal fade" id="popupModel" tabindex="-1" role="dialog"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Document Image</h5>
+                                                    <h5 class="modal-title"
+                                                    id="popupTitle">Document Image</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
-                                                        <span aria-hidden="true">X</span>
+                                                        <span aria-hidden="true" style="color: #04bfac;">X
+                                                        </span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form action="#" class="form-container">
                                                         <div class="form-group">
-                                                            <img id="image" src="https://staging.jam-app.com/img/boy.png" alt="Snow" style="width:100%;max-width:300px">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal fade" id="myModel_1" tabindex="-1" role="dialog"
-                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Document Image</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">X</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="#" class="form-container">
-                                                        <div class="form-group">
-                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name1" alt="document1" style="width:100%;max-width:300px" onclick="docdisplay()">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal fade" id="myModel_2" tabindex="-1" role="dialog"
-                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Document Image</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">X</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="#" class="form-container">
-                                                        <div class="form-group">
-                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg" id="doc_name2" alt="document2" style="width:100%;max-width:300px" onclick="docdisplay()">
+                                                            <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg"
+                                                            id="popup_img" alt="document1" style="width:fit-content;max-width:fit-content">
                                                         </div>
                                                     </form>
                                                 </div>
@@ -361,23 +281,6 @@
 
 
     <script type="text/javascript">
-
-        function docdisplay(){
-
-            $("#image").click(function () {
-                console.log("Image of vendor")
-                $('#myModel').modal('show');
-            });
-            $("#doc_name1").click(function(){
-                console.log("Document1")
-                $('#myModel_1').modal('show');
-            });
-            $("#doc_name2").click(function(){
-                console.log("Document2")
-                $('#myModel_2').modal('show');
-            });
-        }
-
     $( document ).ready(function() {
     // console.log( "ready!" );
     // alert('hello');
@@ -423,6 +326,22 @@
             }
         };
 
+
+        function docdisplay(id)
+        {
+            console.log("Image of vendor" + JSON.stringify(docs[id]));
+            // idVal = '"#'+ docs[id].id +'"';
+            // console.log(idVal);
+            $("#doc").click(function(){
+                console.log("idVal");
+                $('#popupModel').modal();
+            });
+
+            $('#popupTitle').text(docs[id].type);
+            $('#popup_img').attr("src", docs[id].doc_name);
+        }
+
+        var docs;
         function viewDetail() {
             $.ajax({
                     url: '/api/v1/getuserbyid/' + user_id,
@@ -439,19 +358,169 @@
                     $('#last_name').text(response['last_name']);
                     $('#gender').text(response['gender']);
                     $('#languages').text(response['languages']);
-                    $('#role').text(response['type']);
+                    $('#role').text(response['type']['type']);
+                    $('#type').text(response['type']['type']);
                     $('#contact').text(response['contact']);
                     $('#email').text(response['email']);
-                    $('#address_line1').text(response['address']['address_line1']);
-                    $('#address_line2').text(response['address']['address_line2']);
-                    $('#doc_name').text(response['doc_name']);
-                    $('#resident_country').text(response['provider']['resident_country']);
 
 
-                    if(response['verified'] == 1){
-                        $('#btn_verify').hide();
+
+
+                    if(response['address'] == undefined) {
+
+
+                    } else {
+                        if(response['address'].length == 0) {
+
+                        } else {
+                            var  i = 0;
+                            var trHTML = '';
+                            for(i = 0; i <response['address'].length; i++ ) {
+
+                                var addressline = response['address'][i].address_line1;
+
+                                if(response['address'][i].address_line2 != "") {
+                                    addressline += ", " + response['address'][i].address_line2;
+                                }
+
+                                if(response['address'][i].landmark != "") {
+                                    addressline += ", " + response['address'][i].landmark;
+                                }
+
+                                if(response['address'][i].district != "") {
+                                    addressline += ", " + response['address'][i].district;
+                                }
+
+                                if(response['address'][i].city != "") {
+                                    addressline += ", " + response['address'][i].city;
+                                }
+
+                                if(response['address'][i].postal_code != "") {
+                                    addressline += ", " + response['address'][i].postal_code;
+                                }
+
+
+
+
+
+                                trHTML += '<div class="col-md-6">' +
+                                ' <label>' + response['address'][i].name +'</label>'+
+                                '<span> ' + addressline +'</span></div><br />';
+                            }
+                            $('#addresslist').append(trHTML);
+                        }
                     }
 
+
+                    // $('#address_line1').text(response['address']['address_line1']);
+                    // $('#address_line2').text(response['address']['address_line2']);
+                    // $('#doc_name').text(response['doc_name']);
+
+
+                    if(response['documents'] == undefined) {
+                        $('#documentDiv').hide();
+                    } else {
+
+                        if(response['documents'].length == 0) {
+                            $('#documentDiv').hide();
+                        } else {
+                            docs = response['documents'];
+                            var trHTML = '';
+                            var i;
+                            for(i = 0; i < docs.length; i++)
+                            {
+                                var obj = docs[i];
+                                trHTML += '<div class="document-block">'+
+                                '<img src="'+ docs[i].doc_name +'"'+
+                                ' id="doc" alt="document1" style="width:100%;max-width:300px"'+
+                                ' onclick="docdisplay(' + i + ')">' +
+                                '<span>' + docs[i].type +'</span></div>';
+                                // console.log("DOCS == " + JSON.stringify(docs));
+                            }
+
+                            $('#doc').append(trHTML);
+                        }
+
+                    }
+
+
+                    if(response['services'] == undefined) {
+                        $('#serviceDiv').hide()
+                        $('#subcateDiv').hide()
+                    } else {
+                        if(response['services'].length == 0) {
+                            $('#serviceDiv').hide()
+                            $('#subcateDiv').hide()
+                        } else {
+                            var i = 0;
+                            service = response['services'];
+                            var serviceName = "";
+                            var subCategoriesName = "";
+                            for( i=0; i<service.length; i++ ) {
+
+                                if(serviceName == "") {
+                                    serviceName = service[i].name;
+                                } else {
+                                    serviceName += ',' +service[i].name;
+                                }
+
+                                if(service[i].subcategories == undefined) {
+
+                                } else {
+                                    if(service[i].subcategories.length == 0) {
+
+                                    } else {
+                                        var j = 0;
+                                        for(j = 0; j<service[i].subcategories; j++ ) {
+                                            if(subCategoriesName == "") {
+                                                subCategoriesName = service[i].subcategories.name;
+                                            } else {
+                                                subCategoriesName += ',' +service[i].subcategories.name;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if(subCategoriesName == "") {
+                                $('#subcateDiv').hide()
+                            } else  {
+                                $('#subcategories').text(subCategoriesName);
+                            }
+
+                            $('#services').text(serviceName);
+
+                        }
+
+                    }
+
+                    if(response['organisation'] == null) {
+                        $('#org_nameDiv').hide();
+                        $('#org_contatDiv').hide();
+                        $('#org_emailDiv').hide();
+                    } else {
+                        
+                        $('#org_name').text(response['organisation']['name']);
+                        $('#org_contatDiv').hide();
+                        $('#org_emailDiv').hide();
+                        // $('#org_email').text(response['organisation']['name']);
+                        // $('#contact').text(response['organisation']['name']);
+                        
+                        
+                    }
+
+
+                    if(response['provider'] != null) {
+                        $('#resident_country').text(response['provider']['resident_country']);
+                        if(response['provider']['verified'] == 1){
+                            $('#btn_verify').hide();
+                        }
+                    } else {
+                        $('#resident_country').hide();
+                        $('#countryDiv').hide();
+                        $('#btn_verify').hide();
+
+                    }
 
                     if(response['org_id'] == null) {
                         $('#organization_name').hide();
@@ -459,14 +528,6 @@
                         $("#organization_email").hide();
 
                     }
-
-                    var services = response['services'];
-                    if(services != null) {
-                        for(var i = 0; i < services.length; i++) {
-                            console.log(services[i].service);
-                        }
-                    }
-
                 },
                 fail: function (error) {
                     console.log(error);

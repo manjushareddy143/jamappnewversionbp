@@ -35,10 +35,6 @@
             </a>
         </li>
         @if (Auth::user()->roles[0]->slug == 'admin-admin')
-
-
-
-
             <li class="nav-item">
                 <a id="nav-id" class="nav-link collapsed" data-toggle="collapse" data-target="#collapsePage"
                    aria-expanded="true"
@@ -64,7 +60,12 @@
                 </a>
             </li>
         @elseif (Auth::user()->roles[0]->slug == 'organisation-admin')
-
+            <li class="nav-item">
+                <a class="nav-link" href="/vendors">
+                    <i class="fas fa-users"></i>
+                    <span>Vendors</span>
+                </a>
+            </li>
         @elseif (Auth::user()->roles[0]->slug == 'provider')
 
         @elseif (Auth::user()->roles[0]->slug == 'customer')
@@ -257,7 +258,7 @@
 
 
 <style>
-    
+
     .dropbtn {
         background-color: #0aa698;;
         color: white;
@@ -266,7 +267,7 @@
         border: none;
         cursor: pointer;
     }
-    
+
 
     .dropdown {
         position: relative;

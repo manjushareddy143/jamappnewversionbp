@@ -74,7 +74,7 @@ class ServiceMappingController extends Controller
         //         'documents.doc_name as document_image',
         //         \DB::raw('AVG(experiences.rating) AS rate'),
         //         \DB::raw('COUNT(experiences.rating) AS reviews'))
-        //     ->groupBy('provider_service_mappings.user_id')
+         //     ->groupBy('provider_service_mappings.user_id')
         //     ->get();
         return response()->json($result);
     }
