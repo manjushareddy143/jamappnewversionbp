@@ -115,7 +115,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">@lang('vendor.label_Country') 
+                                            <label for="exampleFormControlSelect1">@lang('vendor.label_Country')
                                                 <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                             <select class="form-control" id="select_country" required>
                                                 <option>Select Country</option>
@@ -124,7 +124,7 @@
                                                 <option>Australia</option>
                                                 <option>USA</option>
                                                 <option>Afghanistan</option>
-                                            </select>   
+                                            </select>
                                             <p id="countryError"></p>
                                         </div>
                                         <div class="row">
@@ -142,10 +142,10 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('vendor.label_cbtn')</button>
                                     <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
-                                    <button type="button" onclick="update_user()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
-                                    
+                                    <button type="button" onclick="update_vendor()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
 
-                                    
+
+
                                 </div>
                             </div>
                         </div>
@@ -299,6 +299,77 @@
             window.location = '/detail?id=' + e;
         }
 
+        //update vendor record
+        function update_vendor(vendorid){
+            alert('hello');
+            console.log("this is for vendor updation");
+            var edit = 'edit_data';
+            $.ajax({
+                url: '/api/v1/vendorupdate/' + vendorid,
+                type: 'POST',
+                data: {'id' : vendorid,
+                'first_name' : first_name,
+                'last_name' : last_name},
+                success: function (data) {
+                    console.log("update done" + vendorid);
+                    $('#id').val(data.vendorid);
+                    $('#first_name').val('');
+                    $('#last_name').val('');
+
+                    // 'email' = $input('email'),
+                    // 'contact' = $input('contact'),
+                    // 'gender' = $input('gender'),
+                    // 'language' = $input('language'),
+                    // 'country' = $input('country'),
+                    // 'services' = $input('services'),
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        // //Update Vendor
+
+        //         function update_user(vendorid){
+        //             // alert(editUserid);
+        //              // console.log(vendorid);
+        //             if (servicevalite == true) {
+        //                 form.append('id', selectId);
+        //                 form.append('first_name', document.getElementById("first_name").value);
+        //                 form.append('last_name', document.getElementById("last_name").value);
+        //                 form.append('email', document.getElementById("email").value);
+        //                 form.append('contact', document.getElementById("mobile").value);
+        //                 form.append('gender', selectGender);
+        //                 form.append('language', selectedLang.toString());
+        //                 form.append('resident_country', document.getElementsByTagName("option")[country].value);
+
+        //             $.ajax({
+        //             url:"/user/"+editUserid+"/update",
+        //             method:'POST',
+        //             data: form,
+        //             dataType:'JSON',
+        //             success:function(data)
+        //             {
+        //                  console.log("CREATE CREATE REPOSNE == " + response);
+        //                 window.top.location = window.top.location;
+        //                 location.reload();
+        //             },
+
+        //             fail: function (error) {
+        //                 console.log(error);
+        //             }
+        //             });
+        //          } else {
+        //                 $("#alerterror").text(servicevalite);
+        //                 $("#alerterror").show();
+        //                 setTimeout(function () {
+        //                     $("#alerterror").hide()
+        //                 }, 1000);
+        //             }
+
+        //     };
+
         // Delete Record
 
         function deleteRecord(e){
@@ -311,9 +382,9 @@
                     success: function (){
                         console.log("Delete");
                         window.top.location = window.top.location;
-                        location.reload(); 
-                    }   
-                })  .done(function() { 
+                        location.reload();
+                    }
+                })  .done(function() {
                  ajaxFunction();
                  });
         }
@@ -413,14 +484,14 @@
     var editUserid;
     function getVendorData(vendorid)
         {
-            
+
              document.getElementById('btntext').innerHTML = 'Edit Vendors';
              // document.getElementById('button').innerHTML = 'Update';
              $("#lbl_pass").hide();
              $("#password").hide();
             // alert(id);
             editUserid=vendorid;
-           
+
             $.ajax({
                 url:"/user/"+vendorid+"/edit",
                 method:'get',
@@ -432,7 +503,7 @@
                     $('#first_name').val(data.first_name);
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
-                    $('#mobile').val(data.mobile);  
+                    $('#mobile').val(data.mobile);
                     $("#lang-arabic").prop('checked', true);
                     $("#lang-english").prop('checked', true);
                     $("#gender-male ").prop('checked', true);
@@ -636,7 +707,7 @@
                     $(this).siblings('.btn btn-primary').show();
                     $(this).siblings('.cancel').hide();
                     $(this).hide();
-                }); 
+                });
 
 
                 $('#button').click(function() {
@@ -653,5 +724,3 @@
             </style>
 
 @endsection
-
-

@@ -11,10 +11,151 @@
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                         id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('customer.label_title')</button>
                     </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="btntext"> @lang('vendor.label_title')</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-6 float-l">
+                                                <div class="form-group">
+                                                    <label>@lang('vendor.label_fname')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <input type="text" class="form-control" id="first_name"
+                                                           placeholder="@lang('vendor.label_place_fname')">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 float-l">
+                                                <div class="form-group">
+                                                    <label>@lang('vendor.label_lname') <strong style="font-size: 14px;color: #e60606;">*</strong> </label>
+                                                    <input type="text" class="form-control" id="last_name"
+                                                           placeholder="@lang('vendor.label_place_lname')">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 float-l">
+                                                <div class="form-group">
+                                                    <label>@lang('vendor.label_email') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <input type="email" class="form-control" id="email"
+                                                           placeholder="@lang('vendor.label_place_email')">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 float-l">
+                                                <div class="form-group">
+                                                    <label id="lbl_pass">@lang('vendor.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <input type="password" class="form-control" id="password"
+                                                           aria-describedby="passwordHelp"
+                                                           placeholder="@lang('vendor.label_place_pass')" required="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 float-l">
+                                                <div class="form-group">
+                                                    <label>@lang('vendor.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <input type="text" class="form-control" id="mobile"
+                                                           placeholder="@lang('vendor.label_place_mobile')">
+                                                </div>
+                                            </div>
+                                            <!--radiobutton -->
+                                            <div class="col-md-6 float-l">
+                                                <div id="gender-group"
+                                                     class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
+                                                    <label>@lang('vendor.label_gender') <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
+                                                    <input type="radio" name="gender" onclick="genderClick()" id="gender-male" value="male"> Male
+                                                    <input type="radio" name="gender" onclick="genderClick()" id="gender-female" value="female"> Female
+                                                    <input type="radio" name="gender" onclick="genderClick()" id="gender-other" value="other"> Other
+                                                    @if ($errors->has('gender'))
+                                                        <span class="help-block">
+                                    <strong>{{ $errors->first('gender') }}</strong>
+                                    </span>
+                                                    @endif
+                                                </div>
+                                                <p id="genderError"></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 float-l">
+                                                <div class="form-group">
+                                                    <label for="language">@lang('vendor.label_language')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="arabic" id="lang-arabic"
+                                                                   value="arabic"> Arabic
+                                                        </label>
+                                                        <label>
+                                                            <input type="checkbox" name="english" id="lang-english"
+                                                                   value="english"> English
+                                                        </label>
+                                                        @error('language')
+                                                        <span class="invalid-feedback" role="alert">
+                                       <strong>{{ $message }}</strong>
+                                       </span>
+                                                        @enderror
+                                                    </div>
+
+                                                    <p id="langError"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 float-l">
+                                                <div class="form-group">
+                                                    <label>@lang('vendor.label_Image')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <input id="image" type="file" name="image" class="form-control"
+                                                           required>
+                                                </div>
+                                                <p id="imageError"></p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">@lang('vendor.label_Country')
+                                                <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                            <select class="form-control" id="select_country" required>
+                                                <option>Select Country</option>
+                                                <option>India</option>
+                                                <option>Bangladesh</option>
+                                                <option>Australia</option>
+                                                <option>USA</option>
+                                                <option>Afghanistan</option>
+                                            </select>
+                                            <p id="countryError"></p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>@lang('vendor.label_Services')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <p id="serviceError"></p>
+                                                    <ul class="tree" id="tree_box"
+                                                        style="overflow: auto;height: 200px;"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('vendor.label_cbtn')</button>
+                                    <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
+                                    <button type="button" onclick="update_user()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
 
                        {{-- filter dropdown --}}
                     <div class="col-md-1">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #46a396 !important;border: none;"  required> 
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #46a396 !important;border: none;"  required>
                           @lang('orders.label_tab_filter')
                             {{-- <span class="caret"></span> --}}
                             <ul class="dropdown-menu">
@@ -177,6 +318,41 @@
 
     }
 
+    var editUserid;
+    function getcustomerData(customerid)
+        {
+
+             document.getElementById('btntext').innerHTML = 'Edit Vendors';
+             // document.getElementById('button').innerHTML = 'Update';
+             $("#lbl_pass").hide();
+             $("#password").hide();
+            // alert(id);
+            editUserid=customerid;
+
+            $.ajax({
+                url:"/user/"+customerid+"/edit",
+                method:'get',
+                data:{id:customerid},
+                dataType:'JSON',
+                success:function(data)
+                {
+                    console.log(data);
+                    $('#first_name').val(data.first_name);
+                    $('#last_name').val(data.last_name);
+                    $('#email').val(data.email);
+                    $('#mobile').val(data.mobile);
+                    $("#lang-arabic").prop('checked', true);
+                    $("#lang-english").prop('checked', true);
+                    $("#gender-male ").prop('checked', true);
+                    $("#gender-female ").prop('checked', true);
+                    $("#gender-other ").prop('checked', true);
+
+                    $('#action').val('Edit');
+                }
+            });
+
+        }
+
     function getResult() {
 
         $.ajax({
@@ -194,7 +370,7 @@
         '</td><td>' + response[i].email + '</td>' +
         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
         '</td><td>' + response[i].gender + '</td>' +
-        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a>' + '</td></tr>';
+        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getcustomerData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a>' + '</td></tr>';
 
                 });
                 $('#tbl_id').append(trHTML);
