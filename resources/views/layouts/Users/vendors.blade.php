@@ -291,11 +291,20 @@
                 type: 'GET',
                 data: null,
                 success: function (response) {
-                    console.log("CREATE CREATE REPOSNE == " + JSON.stringify(response));
+                    // console.log("CREATE CREATE REPOSNE == " + JSON.stringify(response));
                     var trHTML = '';
 
                     $.each(response, function (i, item) {
+                        console.log("PR== " + response[i]['provider']);
                         var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
+                        var icon;
+                        if(response[i]['provider'] == null) {
+                            icon = "fa fa-thumbs-up";
+
+                        } else {
+                            icon = (response[i]['provider'].verified == 0) ? 'fa fa-thumbs-down' : "fa fa-thumbs-up";
+                        }
+                        
                         trHTML += '<tr><td>' + response[i].first_name +
                             '</td><td>' + response[i].last_name + '</td>' +
                             '</td><td>' + response[i].email + '</td>' +
@@ -303,10 +312,10 @@
                             '</td><td>' + response[i].gender + '</td>' +
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" onclick="getVendorData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> ' +
-                            '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a> ' +
-                            '<a href="#" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
-                            '> Verified ' +
-                            '</a>' + '</td></tr>';
+                            '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')">'+
+                            '<i class="fas fa-trash"></i></a> ' +
+                            '<a href="#" class="btn btn-success" > <i class="'+ icon +'"></i></a>'
+                             + '</td></tr>';
                     });
                     $('#tbl_id').append(trHTML);
 
@@ -448,8 +457,8 @@
 
 
         //edit Record
-    var editUserid;
-    function getVendorData(vendorid)
+        var editUserid;
+        function getVendorData(vendorid)
         {
 
              document.getElementById('btntext').innerHTML = 'Edit Vendors';
