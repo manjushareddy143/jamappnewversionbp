@@ -812,11 +812,17 @@ class UserController extends Controller
 
         $input = $request->all();
         $updatedata = [];
-
+        if(array_key_exists('first_name', $input)) {
         $updatedata += [
             'first_name' => $input['first_name'],
             'last_name' => $input['last_name'],
+            'contact' => $input['contact'],
+            'gender' => $input['gender'],
+            'language' => $input['language'],
+            'country' => $input['country'],
+            'services' => $input['services'],
         ];
+    }
 
         $temp= DB::table('users')
             ->where('id', $input['id'])

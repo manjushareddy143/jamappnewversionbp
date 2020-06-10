@@ -61,7 +61,7 @@
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
                                                     <label>@lang('vendor.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                                    <input type="text" class="form-control" id="mobile"
+                                                    <input type="text" class="form-control" id="contact"
                                                            placeholder="@lang('vendor.label_place_mobile')">
                                                 </div>
                                             </div>
@@ -355,7 +355,8 @@
                 data: {
                     'id' : editUserid, 
                     'first_name' : document.getElementById("first_name").value, 
-                    'last_name' : document.getElementById("last_name").value
+                    'last_name' : document.getElementById("last_name").value,
+                    'contact' : document.getElementById("contact").value
                     },
 
                 success: function (data) {
@@ -434,7 +435,7 @@
                 form.append('last_name', document.getElementById("last_name").value);
                 form.append('email', document.getElementById("email").value);
                 form.append('password', document.getElementById("password").value);
-                form.append('contact', document.getElementById("mobile").value);
+                form.append('contact', document.getElementById("contact").value);
                 form.append('gender', selectGender);
                 form.append('languages', selectedLang.toString());
                 form.append('resident_country', document.getElementsByTagName("option")[country].value);
@@ -508,7 +509,7 @@
                     $('#first_name').val(data.first_name);
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
-                    $('#mobile').val(data.mobile);
+                    $('#contact').val(data.contact);
                     $("#lang-arabic").prop('checked', true);
                     $("#lang-english").prop('checked', true);
                     $("#gender-male ").prop('checked', true);
@@ -641,20 +642,20 @@
                 });
             }
 
-            if (document.getElementById("mobile").value == "") {
-                $("#mobile").focus();
-                $("#mobile").focus();
-                $("#mobile").blur(function () {
-                    var name = $('#mobile').val();
+            if (document.getElementById("contact").value == "") {
+                $("#contact").focus();
+                $("#contact").focus();
+                $("#contact").blur(function () {
+                    var name = $('#contact').val();
                     if (name.length == 0) {
-                        $('#mobile').next('div.red').remove();
-                        $('#mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
+                        $('#contact').next('div.red').remove();
+                        $('#contact').after('<div class="red" style="color:red">Mobile number is Required</div>');
                         isValidate = false;
                     } else {
-                        if (!phone_regex.test($('#mobile').val())) {
+                        if (!phone_regex.test($('#contact').val())) {
                             console.log("ERRPR");
-                            $('#mobile').next('div.red').remove();
-                            $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                            $('#contact').next('div.red').remove();
+                            $('#contact').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
                             isValidate = false;
                         } else {
                             console.log("NOT WORL");
@@ -663,10 +664,10 @@
                     }
                 });
             } else {
-                if (!phone_regex.test($('#mobile').val())) {
+                if (!phone_regex.test($('#contact').val())) {
                     console.log("ERRPR");
-                    $('#mobile').next('div.red').remove();
-                    $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                    $('#contact').next('div.red').remove();
+                    $('#contact').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
                     isValidate = false;
                 } else {
                     console.log("NOT WORL");
