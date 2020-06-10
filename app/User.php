@@ -49,8 +49,8 @@ class User extends Authenticatable
     ];
 
 
-    public function userservices() {
-        return $this->hasManyThrough(services::class, ProviderServiceMapping::class, 'user_id' , 'id');
+    public function services() {
+        return $this->hasManyThrough(services::class, ProviderServiceMapping::class, 'user_id' , 'id')->with('subcategories');
     }
 
     public function orderAsCustomer() {
@@ -65,11 +65,20 @@ class User extends Authenticatable
         return $this->hasMany(Experience::class, 'rate_to', 'id');
     }
 
+    public function organisation() {
+        return $this->hasOne(organisation::class, 'id', 'org_id');
+    }
+
     public function rate()
     {
         return  $this->experince()->selectRaw('AVG(rating) as rate, rate_to,
         COUNT(rating) AS reviews')
         ->groupBy('rate_to');
+    }
+
+    public function type()
+    {
+        return $this->hasOne(UserTypes::class, 'id', 'type_id');
     }
 
     public function address() {
