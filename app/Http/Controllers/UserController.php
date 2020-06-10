@@ -808,20 +808,18 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
-    function updatevendor(Request $request){
-        
-        $input = $request->all();
-        $updatedata = [
-            'first_name' => $input('first_name'),
-            'last_name' => $input('last_name'),
-            'gender' => $input('gender'),
-            'language' => $input('language'),
-            'country' => $input('country'),
-            'services' => $input('services'),
+    function updatevendor(Request $request) {
 
+        $input = $request->all();
+        $updatedata = [];
+
+        $updatedata += [
+            'first_name' => $input['first_name'],
+            'last_name' => $input['last_name'],
         ];
+
         $temp= DB::table('users')
-            ->where('user_id', $id)
+            ->where('id', $input['id'])
             ->update($updatedata);
 
         return $temp;

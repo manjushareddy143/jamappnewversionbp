@@ -346,75 +346,33 @@
         }
 
         //update vendor record
-        function update_vendor(vendorid){
-            alert('hello');
-            console.log("this is for vendor updation");
+        function update_vendor() {
+            
             var edit = 'edit_data';
             $.ajax({
-                url: '/api/v1/vendorupdate/' + vendorid,
-                type: 'POST',
-                data: {'id' : vendorid,
-                'first_name' : first_name,
-                'last_name' : last_name},
-                success: function (data) {
-                    console.log("update done" + vendorid);
-                    $('#id').val(data.vendorid);
-                    $('#first_name').val('');
-                    $('#last_name').val('');
+                url: '/api/v1/vendorupdate/' + editUserid,
+                type: 'PUT',
+                data: {
+                    'id' : editUserid, 
+                    'first_name' : document.getElementById("first_name").value, 
+                    'last_name' : document.getElementById("last_name").value
+                    },
 
-                    // 'email' = $input('email'),
-                    // 'contact' = $input('contact'),
-                    // 'gender' = $input('gender'),
-                    // 'language' = $input('language'),
-                    // 'country' = $input('country'),
-                    // 'services' = $input('services'),
+                success: function (data) {
+                    if(data == 1) {
+                        console.log("SUCCESS");
+                        window.top.location = window.top.location;
+                        location.reload();
+                    } else {
+                        console.log("FAIL");
+                        // $('#btn_verify').show();
+                    }
                 },
                 fail: function (error) {
                     console.log(error);
                 }
             });
         }
-
-        // //Update Vendor
-
-        //         function update_user(vendorid){
-        //             // alert(editUserid);
-        //              // console.log(vendorid);
-        //             if (servicevalite == true) {
-        //                 form.append('id', selectId);
-        //                 form.append('first_name', document.getElementById("first_name").value);
-        //                 form.append('last_name', document.getElementById("last_name").value);
-        //                 form.append('email', document.getElementById("email").value);
-        //                 form.append('contact', document.getElementById("mobile").value);
-        //                 form.append('gender', selectGender);
-        //                 form.append('language', selectedLang.toString());
-        //                 form.append('resident_country', document.getElementsByTagName("option")[country].value);
-
-        //             $.ajax({
-        //             url:"/user/"+editUserid+"/update",
-        //             method:'POST',
-        //             data: form,
-        //             dataType:'JSON',
-        //             success:function(data)
-        //             {
-        //                  console.log("CREATE CREATE REPOSNE == " + response);
-        //                 window.top.location = window.top.location;
-        //                 location.reload();
-        //             },
-
-        //             fail: function (error) {
-        //                 console.log(error);
-        //             }
-        //             });
-        //          } else {
-        //                 $("#alerterror").text(servicevalite);
-        //                 $("#alerterror").show();
-        //                 setTimeout(function () {
-        //                     $("#alerterror").hide()
-        //                 }, 1000);
-        //             }
-
-        //     };
 
         // Delete Record
 
@@ -531,7 +489,7 @@
         var editUserid;
         function getVendorData(vendorid)
         {
-
+            console.log("vendorid:::::::::::::::"+ vendorid)
              document.getElementById('btntext').innerHTML = 'Edit Vendors';
              // document.getElementById('button').innerHTML = 'Update';
              $("#lbl_pass").hide();
