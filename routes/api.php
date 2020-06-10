@@ -37,7 +37,7 @@ Route::get('v1/booking/provider', 'BookingController@getOrderByProvider');
 Route::get('v1/booking/getallbooking', 'BookingController@getallbooking');
 Route::get('v1/booking/{id}', 'BookingController@getorder');
 
-
+Route::get('v1/organisation/vendors/{orgId}', 'ServiceProviderController@GetOrganisationVendors');
 Route::get('v1/getuser/{id}', 'UserController@getuser');
 
 Route::get('v1/getuserbyid/{id}', 'UserController@getuserbyid');
@@ -73,6 +73,7 @@ Route::get('v1/providers/service_category', 'ServiceMappingController@get_provid
 
 Route::get('v1/services/category', 'ServicesController@get_service_categories');
 
+Route::put('v1/vendorupdate/{id}', 'UserController@updatevendor');
 //Verification
 Route::post('v1/verification/{id}', 'ServiceProviderController@verification');
 // User Type Mng

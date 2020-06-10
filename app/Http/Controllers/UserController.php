@@ -86,10 +86,8 @@ class UserController extends Controller
     public function getuserbyid($id)
     {
 
-        $user = User::with('documents')->with('address')->with('provider')->with('userservices')->find($id);
-//        $user = services::with('serviceusers')->get();
-        //dd( $user->userservices);
-//        dd( $user); //->serviceusers, DB::getQueryLog()
+        $user = User::with('documents')->with('address')->with('provider')
+        ->with('type')->with('services')->with('organisation')->find($id);
         return response()->json($user, 200);
 //        $users=User::where('users.id', '=', (int)$id)
 //            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
@@ -395,7 +393,7 @@ class UserController extends Controller
                 if (Hash::check($password,$checkuser->password))
                 {
 
-                    $user = User::with('userservices')->with('address')->with('provider')->where($condition, '=', $username)->first();
+                    $user = User::with('services')->with('address')->with('provider')->where($condition, '=', $username)->first();
 
                     $checkuser = Auth::onceUsingId($checkuser['id']);
                     $roles = Auth::user()->roles;
@@ -600,7 +598,7 @@ class UserController extends Controller
         {
 
 //            $user = User::with('userservices')->with('address')->where('email', '=', $input['email'])->first(); //
-            $user = User::with('userservices')->with('address')->with('provider')->where('email', '=', $input['email'])->first();
+            $user = User::with('services')->with('address')->with('provider')->where('email', '=', $input['email'])->first();
             if ($user != null) {
 //                $user = Auth::onceUsingId($user['id']);
 //                $roles = Auth::user()->roles;
@@ -738,7 +736,7 @@ class UserController extends Controller
                 'password' => 'required',
                 'contact' => 'required|unique:users,contact',
                 'gender' => 'required',
-                'language' => 'required',
+                'languages' => 'required',
 
             ]);
 
@@ -809,6 +807,24 @@ class UserController extends Controller
 
         return response()->json($user, 200);
     }
+
+    function updatevendor(Request $request) {
+
+        $input = $request->all();
+        $updatedata = [];
+
+        $updatedata += [
+            'first_name' => $input['first_name'],
+            'last_name' => $input['last_name'],
+        ];
+
+        $temp= DB::table('users')
+            ->where('id', $input['id'])
+            ->update($updatedata);
+
+        return $temp;
+    }
+    
 
     //User profile API
     /**
@@ -1156,7 +1172,7 @@ class UserController extends Controller
 
             if($this->update_user_details($imagedata, $id)) {
 
-                $user = User::with('userservices')->with('provider')->where('id', '=', $id)->first();
+                $user = User::with('services')->with('provider')->where('id', '=', $id)->first();
 
                 $checkuser = Auth::onceUsingId($id);
                 $roles = Auth::user()->roles;

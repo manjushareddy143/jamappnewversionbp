@@ -47,7 +47,7 @@
 
                         <div class="panel panel-default">
                             <div class="panel-body text-center">
-                                <image id="profileImage" src="{{ asset('img/boy.png') }}"
+                                <img id="profileImage" src="{{ asset('img/boy.png') }}"
                                        style="width: 100px; height: 100px; border-radius: 100%;"/>
                                 <input id="imageUpload" type="file"
                                        name="profile_photo" placeholder="Photo" required="" capture>
@@ -246,7 +246,7 @@
 
                         <div class="panel panel-default">
                             <div class="panel-body text-center">
-                                <image id="org_profileImage" src="{{ asset('img/boy.png') }}"
+                                <img id="org_profileImage" src="{{ asset('img/boy.png') }}"
                                        style="width: 100px; height: 100px; border-radius: 100%;"/>
                                 <input id="org_imageUpload" type="file"
                                        name="org_profile_photo" placeholder="Photo" required="" capture>

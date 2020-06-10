@@ -115,7 +115,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">@lang('vendor.label_Country') 
+                                            <label for="exampleFormControlSelect1">@lang('vendor.label_Country')
                                                 <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                             <select class="form-control" id="select_country" required>
                                                 <option>Select Country</option>
@@ -124,7 +124,7 @@
                                                 <option>Australia</option>
                                                 <option>USA</option>
                                                 <option>Afghanistan</option>
-                                            </select>   
+                                            </select>
                                             <p id="countryError"></p>
                                         </div>
                                         <div class="row">
@@ -142,10 +142,10 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('vendor.label_cbtn')</button>
                                     <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
-                                    <button type="button" onclick="update_user()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
-                                    
+                                    <button type="button" onclick="update_vendor()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
 
-                                    
+
+
                                 </div>
                             </div>
                         </div>
@@ -175,13 +175,11 @@
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
 
-        function addServices() {
+        function getListOfService() {
             $.ajax({
                 url: '/api/v1/all_services',
                 type: 'GET',
                 success: function (response, xhr) {
-                    console.log(JSON.stringify(xhr));
-                    console.log("DATA::: "+response);
                     if (xhr['status'] == 204) {
                         console.log(response);
                     } else {
@@ -190,7 +188,6 @@
                             var i;
                             for(i = 0; i < response.length; i++)
                             {
-                                console.log(response[i].name);
                                 var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
                                 trHTML += '<li class=""> <input type="checkbox" ' +
                                     'onclick="clickMe(' + response[i].id + ')"' + 'id="' + response[i].id +
@@ -266,18 +263,67 @@
             });
         };
 
-
-
         window.addEventListener ?
             window.addEventListener("load", onLoad(), false) :
             window.attachEvent && window.attachEvent("onload", onLoad());
 
-
+        var currentuser;
         function onLoad() {
             console.log("ON LOAD  tbl_id")
-            getResult();
-            addServices();
+            var retrievedObject = localStorage.getItem('userObject');
+            console.log(retrievedObject)
+            currentuser = JSON.parse(retrievedObject);
+            console.log(currentuser.roles[0].name)
 
+
+            if(currentuser.roles[0].name == 'Admin') {
+                getResult();
+            } else if (currentuser.roles[0].name == 'Corporate Service Provider') {
+                getOrgVendors();
+            }
+            getListOfService();
+        }
+
+        function getOrgVendors()
+        {
+            $.ajax({
+                url: '/api/v1/organisation/vendors/' + currentuser.org_id,
+                type: 'GET',
+                data: null,
+                success: function (response) {
+                    // console.log("CREATE CREATE REPOSNE == " + JSON.stringify(response));
+                    var trHTML = '';
+
+                    $.each(response, function (i, item) {
+                        console.log("PR== " + response[i]['provider']);
+                        var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
+                        var icon;
+                        if(response[i]['provider'] == null) {
+                            icon = "fa fa-thumbs-up";
+
+                        } else {
+                            icon = (response[i]['provider'].verified == 0) ? 'fa fa-thumbs-down' : "fa fa-thumbs-up";
+                        }
+
+                        trHTML += '<tr><td>' + response[i].first_name +
+                            '</td><td>' + response[i].last_name + '</td>' +
+                            '</td><td>' + response[i].email + '</td>' +
+                            '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
+                            '</td><td>' + response[i].gender + '</td>' +
+                            '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
+                            '<a href="#" onclick="getVendorData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> ' +
+                            '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')">'+
+                            '<i class="fas fa-trash"></i></a> ' +
+                            '<a href="#" class="btn btn-success" > <i class="'+ icon +'"></i></a>'
+                             + '</td></tr>';
+                    });
+                    $('#tbl_id').append(trHTML);
+
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
         }
 
         $(document).on('change', '.tree input[type=checkbox]',
@@ -299,6 +345,35 @@
             window.location = '/detail?id=' + e;
         }
 
+        //update vendor record
+        function update_vendor() {
+            
+            var edit = 'edit_data';
+            $.ajax({
+                url: '/api/v1/vendorupdate/' + editUserid,
+                type: 'PUT',
+                data: {
+                    'id' : editUserid, 
+                    'first_name' : document.getElementById("first_name").value, 
+                    'last_name' : document.getElementById("last_name").value
+                    },
+
+                success: function (data) {
+                    if(data == 1) {
+                        console.log("SUCCESS");
+                        window.top.location = window.top.location;
+                        location.reload();
+                    } else {
+                        console.log("FAIL");
+                        // $('#btn_verify').show();
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
         // Delete Record
 
         function deleteRecord(e){
@@ -311,9 +386,9 @@
                     success: function (){
                         console.log("Delete");
                         window.top.location = window.top.location;
-                        location.reload(); 
-                    }   
-                })  .done(function() { 
+                        location.reload();
+                    }
+                })  .done(function() {
                  ajaxFunction();
                  });
         }
@@ -347,28 +422,29 @@
         });
 
         function create_user()  {
-            console.log("create_serviceusers_validate ");
             var servicevalite = users_validate();
-            console.log("users_validate ::" + servicevalite);
             if (servicevalite == true) {
-                console.log("CREATE SERVER CALL");
                 var country = document.getElementById("select_country").selectedIndex;
                 var form = new FormData();
+                if (currentuser.roles[0].name == 'Corporate Service Provider') {
+                    form.append('org_id', currentuser.org_id);
+                }
+
                 form.append('first_name', document.getElementById("first_name").value);
                 form.append('last_name', document.getElementById("last_name").value);
                 form.append('email', document.getElementById("email").value);
                 form.append('password', document.getElementById("password").value);
                 form.append('contact', document.getElementById("mobile").value);
                 form.append('gender', selectGender);
-                form.append('language', selectedLang.toString());
+                form.append('languages', selectedLang.toString());
                 form.append('resident_country', document.getElementsByTagName("option")[country].value);
                 // form.append('category', document.getElementById("category").value);
                 var image = $('#image')[0].files[0];
                 form.append('profile_photo', image);
 
                 // var checkedCheckboxes = $('#tree_box input[type="checkbox"]:checked');
-                console.log(selectedService.toString());
                 form.append('services', selectedService.toString());
+
 
                 $.ajax({
                     url: '/api/v1/add_vendors',
@@ -410,17 +486,17 @@
 
 
         //edit Record
-    var editUserid;
-    function getVendorData(vendorid)
+        var editUserid;
+        function getVendorData(vendorid)
         {
-            
+            console.log("vendorid:::::::::::::::"+ vendorid)
              document.getElementById('btntext').innerHTML = 'Edit Vendors';
              // document.getElementById('button').innerHTML = 'Update';
              $("#lbl_pass").hide();
              $("#password").hide();
             // alert(id);
             editUserid=vendorid;
-           
+
             $.ajax({
                 url:"/user/"+vendorid+"/edit",
                 method:'get',
@@ -432,7 +508,7 @@
                     $('#first_name').val(data.first_name);
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
-                    $('#mobile').val(data.mobile);  
+                    $('#mobile').val(data.mobile);
                     $("#lang-arabic").prop('checked', true);
                     $("#lang-english").prop('checked', true);
                     $("#gender-male ").prop('checked', true);
@@ -472,11 +548,11 @@
             // var gender = document.getElementById('gender-group').value;
 
             if (document.getElementById('gender-male').checked) {
-                selectGender = document.getElementById('gender-male').value;
+                selectGender = "Male";
             } else if(document.getElementById('gender-female').checked) {
-                selectGender = document.getElementById('gender-male').value;
+                selectGender = "Female";
             }else if(document.getElementById('gender-other').checked) {
-                selectGender = document.getElementById('gender-male').value;
+                selectGender = "Other";
             } else {
                 $('#genderError').css('color', 'red');
                 $('#genderError').text('Please select Gender')
@@ -636,7 +712,7 @@
                     $(this).siblings('.btn btn-primary').show();
                     $(this).siblings('.cancel').hide();
                     $(this).hide();
-                }); 
+                });
 
 
                 $('#button').click(function() {
@@ -653,5 +729,3 @@
             </style>
 
 @endsection
-
-
