@@ -108,8 +108,10 @@
                                     <label>Services <strong
                                             style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <p id="serviceError"></p>
-                                    <ul class="tree" id="tree_box"
-                                        style="overflow: auto;height: 200px;"></ul>
+                                    <ul class="tree" id="tree_box" style="overflow: auto;height: 200px;">
+                                        
+
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -442,12 +444,13 @@
                             {
                                 console.log(response[i].name);
                                 var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
-                                trHTML += '<li class=""> <input type="checkbox" ' +
+                                trHTML += '<li class=""> <input type="checkbox" id="scheckbox" ' +
                                     'onclick="serviceClick(' + response[i].id + ')"' + 'id="' + response[i].id +
                                     '" name="' + response[i].id +
                                     '" value="' + response[i].id + '">' +
                                     '<img src="' + img + '" class="square" width="50" height="40" />' +
-                                    '<label style="margin: 10px;"> ' + response[i].name + ' </label> </li>';
+                                    '<label style="margin: 10px;width: 260px!important;"> ' + response[i].name  + ' </label> ' +
+                                    '<input type="number" id="'+response[i].id+'" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;"> </li>';
                             }
                             $('#tree_box').append(trHTML);
                         }
@@ -628,7 +631,15 @@
                 $('#serviceError').css('color', 'red');
                 $('#serviceError').text('Please select Services')
                 isValidate = false;
-            }
+            }else{
+                    console.log('hello'+ selectedService);
+                     $('.selectedService').each(function (val) {
+                     if(document.getElementById("'+val+'").value) {
+                     $('#selectedService').text('Please select PriceBox');    
+                     }
+                    });
+
+                    }
 
 
             if ($('#collapseTable').is(':visible')) {
@@ -663,7 +674,15 @@
             return isValidate;
         }
 
+        //textbox validation
 
+           function validatebox() {
+        if (document.getElementById('scheckbox').checked) {
+            $("[name='someid']").prop("required", true);
+        } else {
+            alert("You didn't check it! Let me check it for you.");
+        }
+             }
 
         // it return true if form is validdated @please test it before proceed
         function org_validateForm()
@@ -847,6 +866,7 @@
 
 
     function saveProfile() {
+            validatebox();
         if (validateForm() == true) {
             console.log("VALIDATE FORM");
             apiCall();
@@ -987,6 +1007,13 @@
             }
         }
 
+
+            function isNumberKey(evt){
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                    return false;
+                return true;
+            }  
 
     </script>
     </body>

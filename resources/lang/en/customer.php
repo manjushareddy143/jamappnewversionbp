@@ -22,6 +22,10 @@ return[
 
 'label_language'=>'Languages known',
 
+'label_country'=>'Country',
+
+'label_services'=>'Services',
+
 'label_place_fname'=>'Enter Your First Name',
 
 'label_place_lname'=>'Enter Your Last Name',
@@ -35,6 +39,8 @@ return[
 'label_sbtn'=>'Save',
 
 'label_cbtn'=>'Close',
+
+'label_ubtn'=>'Update',
  
 
 'label_tab_fname'=>'First Name',
