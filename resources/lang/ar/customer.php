@@ -22,6 +22,10 @@ return[
 
 'label_language'=>'انا اعرف اللغات',
 
+'label_country'=>'بلد',
+
+'label_services'=>'خدمات',
+
 'label_place_fname'=>'أدخل اسمك الأول',
 
 'label_place_lname'=>'أدخل اسمك الأخير',
@@ -35,6 +39,7 @@ return[
 'label_sbtn'=>'حفظ',
 
 'label_cbtn'=>'قريب',
+'label_ubtn'=>'تحديث',
 
 'label_tab_fname'=>'الاسم الاول',
 'label_tab_lname'=>'الكنية',

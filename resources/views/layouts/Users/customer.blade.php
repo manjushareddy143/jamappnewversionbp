@@ -18,7 +18,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="btntext"> @lang('vendor.label_title')</h5>
+                                    <h5 class="modal-title" id="btntext"> @lang('customer.label_title')</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -28,49 +28,49 @@
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>@lang('vendor.label_fname')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>@lang('customer.label_fname')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="text" class="form-control" id="first_name"
-                                                           placeholder="@lang('vendor.label_place_fname')">
+                                                           placeholder="@lang('customer.label_place_fname')">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>@lang('vendor.label_lname') <strong style="font-size: 14px;color: #e60606;">*</strong> </label>
+                                                    <label>@lang('customer.label_lname') <strong style="font-size: 14px;color: #e60606;">*</strong> </label>
                                                     <input type="text" class="form-control" id="last_name"
-                                                           placeholder="@lang('vendor.label_place_lname')">
+                                                           placeholder="@lang('customer.label_place_lname')">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>@lang('vendor.label_email') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>@lang('customer.label_email') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="email" class="form-control" id="email"
-                                                           placeholder="@lang('vendor.label_place_email')">
+                                                           placeholder="@lang('customer.label_place_email')">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label id="lbl_pass">@lang('vendor.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label id="lbl_pass">@lang('customer.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="password" class="form-control" id="password"
                                                            aria-describedby="passwordHelp"
-                                                           placeholder="@lang('vendor.label_place_pass')" required="">
+                                                           placeholder="@lang('customer.label_place_pass')" required="">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>@lang('vendor.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>@lang('customer.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="text" class="form-control" id="mobile"
-                                                           placeholder="@lang('vendor.label_place_mobile')">
+                                                           placeholder="@lang('customer.label_place_mobile')">
                                                 </div>
                                             </div>
                                             <!--radiobutton -->
                                             <div class="col-md-6 float-l">
                                                 <div id="gender-group"
                                                      class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                                    <label>@lang('vendor.label_gender') <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
+                                                    <label>@lang('customer.label_gender') <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-male" value="male"> Male
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-female" value="female"> Female
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-other" value="other"> Other
@@ -86,7 +86,7 @@
                                         <div class="row">
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label for="language">@lang('vendor.label_language')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label for="language">@lang('customer.label_language')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <div class="checkbox">
                                                         <label>
                                                             <input type="checkbox" name="arabic" id="lang-arabic"
@@ -108,7 +108,7 @@
                                             </div>
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
-                                                    <label>@lang('vendor.label_Image')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>@lang('customer.label_Image')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input id="image" type="file" name="image" class="form-control"
                                                            required>
                                                 </div>
@@ -116,7 +116,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">@lang('vendor.label_Country')
+                                            <label for="exampleFormControlSelect1">@lang('customer.label_country')
                                                 <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                             <select class="form-control" id="select_country" required>
                                                 <option>Select Country</option>
@@ -131,19 +131,18 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label>@lang('vendor.label_Services')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                    <label>@lang('customer.label_services')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <p id="serviceError"></p>
-                                                    <ul class="tree" id="tree_box"
-                                                        style="overflow: auto;height: 200px;"></ul>
+                                                    <ul class="tree" id="tree_box" style="overflow: auto;height: 200px;"></ul>
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('vendor.label_cbtn')</button>
-                                    <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
-                                    <button type="button" onclick="update_user()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('customer.label_cbtn')</button>
+                                    <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('customer.label_sbtn')</button>
+                                    <button type="button" onclick="update_user()" class="btn btn-primary">@lang('customer.label_ubtn')</button>
 
 
 
