@@ -811,6 +811,7 @@ class UserController extends Controller
     function updatevendor(Request $request) {
 
         $input = $request->all();
+        
         $updatedata = [];
 
         $updatedata += [
