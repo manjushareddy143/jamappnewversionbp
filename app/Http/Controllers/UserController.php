@@ -811,6 +811,7 @@ class UserController extends Controller
     function updatevendor(Request $request) {
 
         $input = $request->all();
+        
         $updatedata = [];
         if(array_key_exists('first_name', $input)) {
         $updatedata += [
