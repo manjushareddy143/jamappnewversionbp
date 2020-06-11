@@ -62,7 +62,7 @@
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
                                                     <label>@lang('customer.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                                    <input type="text" class="form-control" id="mobile"
+                                                    <input type="text" class="form-control" id="contact"
                                                            placeholder="@lang('customer.label_place_mobile')">
                                                 </div>
                                             </div>
@@ -142,7 +142,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('customer.label_cbtn')</button>
                                     <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('customer.label_sbtn')</button>
-                                    <button type="button" onclick="update_user()" class="btn btn-primary">@lang('customer.label_ubtn')</button>
+                                    <button type="button" onclick="update_customer()" class="btn btn-primary">@lang('customer.label_ubtn')</button>
 
 
 
@@ -270,6 +270,7 @@
                            <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('customer.label_cbtn')</button>
                               <button type="button" onclick="create_user()" class="btn btn-primary">@lang('customer.label_sbtn')</button>
+                              {{-- <button type="button" onclick="update_customer()" class="btn btn-primary">@lang('customer.label_ubtn')</button> --}}
                            </div>
                         </form>
                      </div>
@@ -320,8 +321,8 @@
     var editUserid;
     function getcustomerData(customerid)
         {
-
-             document.getElementById('btntext').innerHTML = 'Edit Vendors';
+            console.log("hello" + customerid);
+             document.getElementById('btntext').innerHTML = 'Edit Customer';
              // document.getElementById('button').innerHTML = 'Update';
              $("#lbl_pass").hide();
              $("#password").hide();
@@ -331,7 +332,7 @@
             $.ajax({
                 url:"/user/"+customerid+"/edit",
                 method:'get',
-                data:{id:customerid},
+                data:{id:editUserid},
                 dataType:'JSON',
                 success:function(data)
                 {
@@ -339,7 +340,7 @@
                     $('#first_name').val(data.first_name);
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
-                    $('#mobile').val(data.mobile);
+                    $('#contact').val(data.contact);
                     $("#lang-arabic").prop('checked', true);
                     $("#lang-english").prop('checked', true);
                     $("#gender-male ").prop('checked', true);
@@ -350,6 +351,36 @@
                 }
             });
 
+        }
+
+        //update customer record
+        function update_customer() {
+
+            var edit = 'edit_data';
+            $.ajax({
+                url: '/api/v1/customerupdate/' + editUserid,
+                type: 'PUT',
+                data: {
+                    'id' : editUserid,
+                    'first_name' : document.getElementById("first_name").value,
+                    'last_name' : document.getElementById("last_name").value,
+                    'contact' : document.getElementById("contact").value
+                    },
+
+                success: function (data) {
+                    if(data == 1) {
+                        console.log("SUCCESS");
+                        window.top.location = window.top.location;
+                        location.reload();
+                    } else {
+                        console.log("FAIL");
+                        // $('#btn_verify').show();
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
         }
 
     function getResult() {
@@ -381,7 +412,7 @@
     };
 
 
-          function deleteRecord(e){
+        function deleteRecord(e){
             console.log(e);
 
             $.ajax(
@@ -396,9 +427,11 @@
 
                     }
                 });
-             }
+        }
 
-
+        function genderClick() {
+            $('#genderError').text('')
+        }
 
 
       function viewDetail(e){
