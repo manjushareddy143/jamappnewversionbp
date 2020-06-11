@@ -450,7 +450,7 @@
                                     '" value="' + response[i].id + '">' +
                                     '<img src="' + img + '" class="square" width="50" height="40" />' +
                                     '<label style="margin: 10px;width: 260px!important;"> ' + response[i].name  + ' </label> ' +
-                                    '<input type="number" id="'+response[i].id+'" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;"> </li>';
+                                    '<input type="number" id="'+response[i].id+'price" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;"> </li>';
                             }
                             $('#tree_box').append(trHTML);
                         }
@@ -628,13 +628,24 @@
             }
 
             if(selectedService.length <= 0) {
+                alert('if');
                 $('#serviceError').css('color', 'red');
                 $('#serviceError').text('Please select Services')
                 isValidate = false;
             }else{
-                    console.log('hello'+ selectedService);
+                alert('else');
+                    console.log("start");
+                    console.log(selectedService);
+                    $.each(selectedService , function( index, value ) {
+                    alert( index + ": " + value );
+                    // alert(document.getElementById('"'+value+'price"').value)
+
+                    });
+                    console.log("end");
                      $('.selectedService').each(function (val) {
-                     if(document.getElementById("'+val+'").value) {
+                        alert('hello');
+                     if(document.getElementById('"'+value+'price"').value) {
+
                      $('#selectedService').text('Please select PriceBox');    
                      }
                     });
