@@ -53,7 +53,7 @@
                                                     <label id="lbl_pass">@lang('vendor.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="password" class="form-control" id="password"
                                                            aria-describedby="passwordHelp"
-                                                           placeholder="@lang('vendor.label_place_pass')" required="">
+                                                           placeholder="@lang('vendor.label_place_pass')" required>
                                                 </div>
                                             </div>
                                         </div>
