@@ -421,6 +421,8 @@
         //update vendor record
         function update_vendor() {
 
+            console.log("UPDATE CLICK");
+
             var edit = 'edit_data';
             $.ajax({
                 url: '/api/v1/vendorupdate/' + editUserid,
@@ -587,24 +589,16 @@
 
                     // $('#gender').val(data.gender);
 
-                    if("#gender" == 'male')
+                    if(data.gender == 'Male')
                     {
                         $("#gender-male").prop("checked", true);
-                    } else if("#gender" == 'female') {
+                    } else if(data.gender == 'Female') {
                         $("#gender-female").prop("checked", true);
+                    } else {
+                        $("#gender-other").prop("checked", true);
                     }
-                    // $(document).ready(function(){
-                    //     $("[type='radio']").on("change", function(){
-                    //         var radioValue = $("input[name='gender']:checked").val();
-                    //         console.log("selected" +  radioValue);
-                    //     });
 
-                    // });
                     $('#select_country').val();
-                    // $( "#select_country :selected" ).text();
-                    // $("#gender-male ").prop('checked', true);
-                    // $("#gender-female ").prop('checked', true);
-                    // $("#gender-other ").prop('checked', true);
 
                     $('#action').val('Edit');
                 }
