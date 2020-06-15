@@ -63,7 +63,7 @@
                                                     <label id="lbl_pass">@lang('vendor.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="password" class="form-control" id="password"
                                                            aria-describedby="passwordHelp"
-                                                           placeholder="@lang('vendor.label_place_pass')" required="">
+                                                           placeholder="@lang('vendor.label_place_pass')" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -395,14 +395,14 @@
 
         //update vendor record
         function update_vendor() {
-            
+
             var edit = 'edit_data';
             $.ajax({
                 url: '/api/v1/vendorupdate/' + editUserid,
                 type: 'PUT',
                 data: {
-                    'id' : editUserid, 
-                    'first_name' : document.getElementById("first_name").value, 
+                    'id' : editUserid,
+                    'first_name' : document.getElementById("first_name").value,
                     'last_name' : document.getElementById("last_name").value,
                     'contact' : document.getElementById("contact").value
                     },
@@ -558,11 +558,13 @@
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
                     $('#contact').val(data.contact);
+                    $('input[name="gender"]:checked').val();
                     $("#lang-arabic").prop('checked', true);
                     $("#lang-english").prop('checked', true);
-                    $("#gender-male ").prop('checked', true);
-                    $("#gender-female ").prop('checked', true);
-                    $("#gender-other ").prop('checked', true);
+                    $('input:radio[name="gender"][value="Male"]').prop('checked', true);
+                    // $("#gender-male ").prop('checked', true);
+                    // $("#gender-female ").prop('checked', true);
+                    // $("#gender-other ").prop('checked', true);
 
                     $('#action').val('Edit');
                 }

@@ -60,7 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user/{id}/update', 'UserController@update');
 
    //customer edit & update
-   Route::get('/user/{id}/edit', 'userController@edit');
+//    Route::get('/user/{id}/edit', 'userController@edit');
 
 
 

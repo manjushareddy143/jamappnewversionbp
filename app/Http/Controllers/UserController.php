@@ -815,27 +815,44 @@ class UserController extends Controller
     function updatevendor(Request $request) {
 
         $input = $request->all();
-        
+
         $updatedata = [];
         if(array_key_exists('first_name', $input)) {
-            $updatedata += [
-                'first_name' => $input['first_name'],
-                'last_name' => $input['last_name'],
-                'contact' => $input['contact'],
-                'gender' => $input['gender'],
-                'language' => $input['language'],
-                'country' => $input['country'],
-                'services' => $input['services'],
-            ];
-        }
+        $updatedata += [
+            'first_name' => $input['first_name'],
+        ];
 
+    }
+    if(array_key_exists('last_name', $input)) {
+        $updatedata += [
+            'last_name' => $input['last_name'],
+        ];
+    }
+    if(array_key_exists('contact', $input)) {
+        $updatedata += [
+            'contact' => $input['contact'],
+
+        ];
+    }
+    // if(array_key_exists('gender', $input)) {
+    //     $updatedata += [
+    //          'gender' => $input['gender'],
+
+    //     ];
+    // }
+    // if(array_key_exists('language', $input)) {
+    //     $updatedata += [
+    //          'language' => $input['language'],
+
+    //     ];
+    // }
         $temp= DB::table('users')
             ->where('id', $input['id'])
             ->update($updatedata);
 
         return $temp;
     }
-    
+
 
     //User profile API
     /**
@@ -1282,7 +1299,7 @@ class UserController extends Controller
             ];
         }
 
-        
+
 
         $company += [
             'name' => $input['company'],
