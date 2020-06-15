@@ -61,7 +61,7 @@ class ServiceMappingController extends Controller
         $id = $request->input('id');
         $host = url('/');
 
-        $result = services::with('user')->find($id);
+        $result = ProviderServiceMapping::with('user')->with('service')->where('service_id', '=', $id)->get();
 
         // $results = ProviderServiceMapping::where('service_id', '=', $id)
         //     ->leftJoin('users', 'users.id', '=','provider_service_mappings.user_id')

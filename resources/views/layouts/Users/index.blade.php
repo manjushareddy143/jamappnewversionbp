@@ -148,16 +148,17 @@
                 var trHTML = '';
 
                 $.each(response, function (i, item) {
-
-                    var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
-                    var gender = (response[i].gender == null) ? '-' : response[i].gender;
-                    trHTML += '<tr><td>' + response[i].company +
+                    var img = (response[i]['organisation'].logo == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i]['organisation'].logo;
+                    // var gender = (response[i].gender == null) ? '-' : response[i].gender;
+                    trHTML += '<tr><td>' + response[i]['organisation'].name +
                         '</td><td>' + response[i].first_name  + '</td>' +
                         '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a> ' + '</td> </tr>';
-
+                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id 
+                            + ')"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' 
+                            + response[i].id + ')"><i class="fas fa-trash"></i></a> ' 
+                            + '</td> </tr>';
                 });
                 $('#tbl_id').append(trHTML);
             },
@@ -168,76 +169,68 @@
     };
 
 
-        function viewDetail(e){
-            console.log(e);
-            // alert(e);
-            window.location = '/detail?id=' + e;
+    function viewDetail(e){
+        console.log(e);
+        // alert(e);
+        window.location = '/detail?id=' + e;
+    }
+
+    function deleteRecord(e) {
+        $.ajax({
+            url: "/users/"+e,
+            type: 'DELETE',
+            data: null,
+            success: function () {
+                console.log("Delete");
+                window.top.location = window.top.location;
+                location.reload();
+            }
+        });
+    }
+
+    function create_users() {
+        var servicevalite = users_validate();
+        console.log("users_validate ::" + servicevalite);
+        if(servicevalite == null) 
+        {
+            console.log("CREATE SERVER CALL");
+            var form = new FormData();
+            form.append('company', document.getElementById("org_company_name").value);
+            form.append('first_name', document.getElementById("org_name").value);
+            form.append('contact', document.getElementById("contact").value);
+            form.append('email', document.getElementById("email").value);
+            form.append('password', document.getElementById("password").value);
+            var image = $('#image')[0].files[0];
+            if(image) {
+                form.append('profile_photo',image);
+            }
+
+
+
+            $.ajax({
+                url: '/api/v1/add_organisation',
+                type: 'POST',
+                data: form,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    console.log("CREATE CREATE REPOSNE == "+response);
+                    window.top.location = window.top.location;
+                    location.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        } else {
+            $("#alerterror").text(servicevalite);
+            $("#alerterror").show();
+            setTimeout(function() {
+                $("#alerterror").hide()
+            }, 1000);
         }
-
-          function deleteRecord(e){
-            console.log(e);
-
-            $.ajax(
-                {
-                    url: "/users/"+e,
-                    type: 'DELETE',
-                    data: null,
-                    success: function (){
-                        console.log("Delete");
-                        window.top.location = window.top.location;
-                        location.reload();
-                    }
-                });
-        }
-
-
-
-
-     function create_users() {
-         console.log("create_service");
-         var servicevalite = users_validate();
-         console.log("users_validate ::" + servicevalite);
-         if(servicevalite == null) {
-             console.log("CREATE SERVER CALL");
-
-             var form = new FormData();
-           form.append('company', document.getElementById("org_company_name").value);
-           form.append('first_name', document.getElementById("org_name").value);
-           form.append('contact', document.getElementById("contact").value);
-           form.append('email', document.getElementById("email").value);
-           form.append('password', document.getElementById("password").value);
-           var image = $('#image')[0].files[0];
-           if(image) {
-               form.append('profile_photo',image);
-           }
-
-
-
-             $.ajax({
-                 url: '/api/v1/add_organisation',
-                 type: 'POST',
-                 data: form,
-                 contentType: false,
-                 processData: false,
-                 success: function(response){
-                     console.log("CREATE CREATE REPOSNE == "+response);
-                     window.top.location = window.top.location;
-                     location.reload();
-                 },
-                 fail: function (error) {
-                     console.log(error);
-                 }
-             });
-         } else {
-             $("#alerterror").text(servicevalite);
-             $("#alerterror").show();
-             setTimeout(function() {
-                 $("#alerterror").hide()
-             }, 1000);
-         }
-     }
-
-
+    }
+    
     var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
     var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
     function users_validate() {
@@ -275,7 +268,7 @@
          }
 
 
-    if (document.getElementById("contact").value == "") {
+        if (document.getElementById("contact").value == "") {
             $("#contact").focus();
             $("#contact").focus();
             $("#contact").blur(function ()
@@ -398,36 +391,37 @@
            });
          }
 
-}
+    }
 
 
-  $(function(){
+    $(function(){
 
-  // handle delete button click
-  $('body').on('click', '.todo-delete-btn', function(e) {
-    e.preventDefault();
+    // handle delete button click
+    $('body').on('click', '.todo-delete-btn', function(e) {
+        e.preventDefault();
 
-    // get the id of the todo task
-    var id = $(this).attr('id');
+        // get the id of the todo task
+        var id = $(this).attr('id');
 
-    // get csrf token value
-    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        // get csrf token value
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
 
-    // now make the ajax request
-    $.ajax({
-      'url': '/user/destroy/' + id,
-      'type': 'POST',
-      headers: { 'X-CSRF-TOKEN': csrf_token }
-    }).done(function() {
-      console.log('User  deleted: ' + id);
-      window.location = window.location.href;
-    }).fail(function() {
-      alert('something went wrong!');
+        // now make the ajax request
+        $.ajax({
+        'url': '/user/destroy/' + id,
+        'type': 'POST',
+        headers: { 'X-CSRF-TOKEN': csrf_token }
+        }).done(function() {
+        console.log('User  deleted: ' + id);
+        window.location = window.location.href;
+        }).fail(function() {
+        alert('something went wrong!');
+        });
+
     });
 
-  });
+    });
 
-});
 
 
 </script>

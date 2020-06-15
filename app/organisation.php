@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class organisation extends Model
 {
-    //
     protected $table = "organisation";
 
-    protected $fillable = ['name', 'number_of_employee'];
+    protected $fillable = ['name', 'number_of_employee', 'logo', 'country'];
 }
