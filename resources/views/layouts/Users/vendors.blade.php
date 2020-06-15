@@ -107,8 +107,7 @@
                                                         </label>
                                                         @error('language')
                                                         <span class="invalid-feedback" role="alert">
-                                       <strong>{{ $message }}</strong>
-                                       </span>
+                                                            <strong>{{ $message }}</strong></span>
                                                         @enderror
                                                     </div>
 
@@ -124,19 +123,38 @@
                                                 <p id="imageError"></p>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">@lang('vendor.label_Country')
-                                                <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                            <select class="form-control" id="select_country" required>
-                                                <option>Select Country</option>
-                                                <option>India</option>
-                                                <option>Bangladesh</option>
-                                                <option>Australia</option>
-                                                <option>USA</option>
-                                                <option>Afghanistan</option>
-                                            </select>
-                                            <p id="countryError"></p>
+
+                                        <div class="row">
+                                         <div class="col-md-6 float-l">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">@lang('vendor.label_Country')
+                                                    <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                <select class="form-control" id="select_country" required>
+                                                    <option>Select Country</option>
+                                                    <option>India</option>
+                                                    <option>Bangladesh</option>
+                                                    <option>Australia</option>
+                                                    <option>USA</option>
+                                                    <option>Afghanistan</option>
+                                                </select>
+                                                <p id="countryError"></p>
+                                            </div>
+                                         </div>
+
+                                         <div class="col-md-6 float-l">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">@lang('vendor.label_organisation')</label>
+                                                <select class="form-control" id="orglist" required>
+                                                    <option value="select_org">Select Organisation</option>
+                                                </select>
+                                            </div>
                                         </div>
+                                            
+                                        </div>
+
+
+                                        
+
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -165,10 +183,10 @@
                         <table class="table align-items-center table-flush" id="tbl_id">
                             <thead class="thead-light">
                             <tr>
-                                <th>@lang('vendor.label_tab_fname')</th>
-                                <th>@lang('vendor.label_tab_lname')</th>
-                                <th>@lang('vendor.label_tab_email')</th>
                                 <th>@lang('vendor.label_tab_profile')</th>
+                                <th>@lang('vendor.label_tab_organisation')</th>
+                                <th>@lang('vendor.label_tab_fname')</th>
+                                <th>@lang('vendor.label_tab_email')</th>
                                 @if (Auth::user()->roles[0]->slug == 'organisation-admin')
                                     <th>@lang('vendor.label_tab_role')</th>
                                 @else
@@ -270,24 +288,23 @@
                         var servicesString = "-";
 
                         $.each(response[i]['services'], function (j, item) {
-
-                            console.log(j);
                             if(servicesString == "-") {
-                                servicesString =  item.name;
+                                servicesString =  item['service'].name;
                             } else {
-                                servicesString += ", " + item.name;
+                                servicesString += ", " + item['service'].name;
                             }
-                            console.log(item);
-
                         });
 
-                        trHTML += '<tr><td>' + response[i].first_name +
-                            '</td><td>' + last_name + '</td>' +
+                        var org_name = (response[i]['organisation'] == null)? "Individual" : response[i]['organisation'].name;
+
+
+                        trHTML += '<tr><td><img src="' + img + '" class="square" width="60" height="50" /></td>' + 
+                        '   </td><td>' + org_name +
+                            '</td><td>' + response[i].first_name + " " + last_name + '</td>' +
                             '</td><td>' + response[i].email + '</td>' +
-                            '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                             '</td><td>' + response[i].gender + '</td>' +
                             '</td><td>' + servicesString + '</td>' +
-                            '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
+                            '</td><td style="padding: 6px 0 0 10px;">' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" onclick="getVendorData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> ' +
                             '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')">'+
                             '<i class="fas fa-trash"></i></a> ' +
@@ -318,10 +335,31 @@
 
             if(currentuser.roles[0].name == 'Admin') {
                 getAllVendors();
+                getListOfOrganisation();
             } else if (currentuser.roles[0].name == 'Corporate Service Provider') {
                 getOrgVendors();
             }
             getListOfService();
+        }
+
+        function getListOfOrganisation() {
+            $.ajax({
+                url: '/api/v1/organisation',
+                type: 'GET',
+                data: null,
+                success: function (response) {
+                    console.log("Get organisation == " + JSON.stringify(response));
+                    for(var i = 0; i < response.length; i ++) {
+                        //  console.log(response[i].name);
+                         $('#orglist').append(`<option value="${response[i].id}">
+                                       ${response[i].name}
+                                  </option>`);
+                     }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
         }
 
         function getOrgVendors()
@@ -352,7 +390,7 @@
                             role = response[i].gender;
                         }
 
-                        var last_name = (response[i].last_name == null)? "-" : response[i].last_name;
+                        var last_name = (response[i].last_name == null)? "" : response[i].last_name;
 
                         var servicesString = "-";
 
@@ -360,28 +398,23 @@
 
                             console.log(j);
                             if(servicesString == "-") {
-                                servicesString =  item.name;
+                                servicesString =  item['service'].name;
                             } else {
-                                servicesString += ", " + item.name;
+                                servicesString += ", " + item['service'].name;
                             }
                             console.log(item);
 
                         });
-                        // if(response[i]['services'].) {
-                        //     var serviceCount;
-                        //     for(serviceCount = 0; serviceCount< response[i]['services'].length; serviceCount++) {
-                        //         console.log( response[i].id +" " +response[i].first_name
-                        //         + "  "+ response[serviceCount]['services']);
-                        //     }
-                        // }
 
 
+                        var org_name = (response[i]['organisation'] == null)? "Individual" : response[i]['organisation'].name;
 
-                        trHTML += '<tr><td>' + response[i].first_name +
-                            '</td><td>' + last_name + '</td>' +
+
+                        trHTML += '<tr><td><img src="' + img + '" class="square" width="60" height="50" /></td>' + 
+                        '   </td><td>' + org_name +
+                            '</td><td>' + response[i].first_name + " " + last_name + '</td>' +
                             '</td><td>' + response[i].email + '</td>' +
-                            '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                            '</td><td>' + role + '</td>' +
+                            '</td><td>' + response[i].gender + '</td>' +
                             '</td><td>' + servicesString + '</td>' +
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" onclick="getVendorData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> ' +
@@ -398,6 +431,9 @@
                 }
             });
         }
+
+
+        
 
         $(document).on('change', '.tree input[type=checkbox]',
             function (e) {
@@ -505,6 +541,14 @@
                 if (currentuser.roles[0].name == 'Corporate Service Provider') {
                     form.append('org_id', currentuser.org_id);
                 }
+
+                var org_id_select = $('#orglist').children("option:selected").val();
+                console.log("category_id = " + org_id_select);
+                if(org_id_select != 'select_org') {
+                    form.append('org_id', org_id_select);
+                }
+                
+
 
                 form.append('first_name', document.getElementById("first_name").value);
                 form.append('last_name', document.getElementById("last_name").value);

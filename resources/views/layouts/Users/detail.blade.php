@@ -247,7 +247,7 @@
                                                     <form action="#" class="form-container">
                                                         <div class="form-group">
                                                             <img src="https://staging.jam-app.com/images/profiles/1365577202.jpg"
-                                                            id="popup_img" alt="document1" style="width:fit-content;max-width:fit-content">
+                                                            id="popup_img" alt="document1" style="width:auto;max-width:-webkit-fill-available">
                                                         </div>
                                                     </form>
                                                 </div>
@@ -459,9 +459,9 @@
                             for( i=0; i<service.length; i++ ) {
 
                                 if(serviceName == "") {
-                                    serviceName = service[i].name;
+                                    serviceName = service[i]['service'].name;
                                 } else {
-                                    serviceName += ',' +service[i].name;
+                                    serviceName += ',' +service[i]['service'].name;
                                 }
 
                                 if(service[i].subcategories == undefined) {
