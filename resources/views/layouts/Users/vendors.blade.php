@@ -257,17 +257,42 @@
 
                     $.each(response, function (i, item) {
                         var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
+                        var icon;
+                        if(response[i]['provider'] == null) {
+                            icon = "fa fa-thumbs-up";
+
+                        } else {
+                            icon = (response[i]['provider'].verified == 0) ? 'fa fa-thumbs-down' : "fa fa-thumbs-up";
+                        }
+
+                        var last_name = (response[i].last_name == null)? "-" : response[i].last_name;
+
+                        var servicesString = "-";
+
+                        $.each(response[i]['services'], function (j, item) {
+
+                            console.log(j);
+                            if(servicesString == "-") {
+                                servicesString =  item.name;
+                            } else {
+                                servicesString += ", " + item.name;
+                            }
+                            console.log(item);
+
+                        });
+
                         trHTML += '<tr><td>' + response[i].first_name +
-                            '</td><td>' + response[i].last_name + '</td>' +
+                            '</td><td>' + last_name + '</td>' +
                             '</td><td>' + response[i].email + '</td>' +
                             '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                             '</td><td>' + response[i].gender + '</td>' +
+                            '</td><td>' + servicesString + '</td>' +
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" onclick="getVendorData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> ' +
-                            '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a> ' +
-                            '<a href="#" class="btn btn-success" name="verifyvendor" onclick="getColumnValue(' + response[i].id + ')" ' +
-                            '> Verified ' +
-                            '</a>' + '</td></tr>';
+                            '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')">'+
+                            '<i class="fas fa-trash"></i></a> ' +
+                            '<a href="#" class="btn btn-success" > <i class="'+ icon +'"></i></a>'
+                             + '</td></tr>';
                     });
                     $('#tbl_id').append(trHTML);
 
