@@ -71,16 +71,20 @@ class UserController extends Controller
 
     public function getuser($id)
     {
-        $users=User::where('type_id', '=', (int)$id)
-            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
-            ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
-            ->select('users.*',
-                'user_types.type as type',
-                'organisation.name as company',
-                'organisation.resident_country as country',
-                'organisation.number_of_employee as number_of_employee')
-            ->get();
-        return response()->json($users, 200);
+        $user = User::with('documents')->with('address')->with('provider')
+        ->with('type')->with('services')->with('organisation')->where('type_id', '=', (int)$id)->get();
+        return response()->json($user, 200);
+
+        // $users=User::where('type_id', '=', (int)$id)
+        //     ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
+        //     ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
+        //     ->select('users.*',
+        //         'user_types.type as type',
+        //         'organisation.name as company',
+        //         'organisation.resident_country as country',
+        //         'organisation.number_of_employee as number_of_employee')
+        //     ->get();
+        // return response()->json($users, 200);
     }
 
     public function getuserbyid($id)
@@ -519,7 +523,7 @@ class UserController extends Controller
         $user->roles()->attach($customer_role);
         $credentials = $request->only('email', 'password');
         if(Auth::attempt($credentials)) {
-//            dd($user);
+            //            dd($user);
             $authUser = Auth::user();
             $roles = Auth::user()->roles;
             $response = $authUser;
@@ -528,7 +532,7 @@ class UserController extends Controller
         }
         if(array_key_exists('token', $input)) {
             $fcm_response = array();
-//            $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
+            //            $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
             $fcm_user = FCMDevices::where('user_id', '=', $response['id'])->get();
             if($fcm_user->count() <= 0) {
 
@@ -575,8 +579,8 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-//        $user = User::with('userservices')->with('address')->where('email', '=', $input['email']);
-//        return response()->json($user); exit();
+        //        $user = User::with('userservices')->with('address')->where('email', '=', $input['email']);
+        //        return response()->json($user); exit();
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [
@@ -597,17 +601,17 @@ class UserController extends Controller
         if (array_key_exists('social_signin', $input))
         {
 
-//            $user = User::with('userservices')->with('address')->where('email', '=', $input['email'])->first(); //
+            //            $user = User::with('userservices')->with('address')->where('email', '=', $input['email'])->first(); //
             $user = User::with('services')->with('address')->with('provider')->where('email', '=', $input['email'])->first();
             if ($user != null) {
-//                $user = Auth::onceUsingId($user['id']);
-//                $roles = Auth::user()->roles;
+            //                $user = Auth::onceUsingId($user['id']);
+            //                $roles = Auth::user()->roles;
                 $checkuser = Auth::onceUsingId($user['id']);
                 $roles = Auth::user()->roles;
                 $user["roles"] = $roles;
                 if(array_key_exists('token', $input)) {
                     $fcm_response = array();
-//                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
+                //                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
                     $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
                     if ($fcm_user->count() <= 0) {
 
@@ -622,9 +626,9 @@ class UserController extends Controller
                     }
                     $user['fcm'] = $fcm_response;
                 }
-//                $response = $user;
-//                $address = Address::where('user_id', '=', $user['id'])->first();
-//                $response['address'] = $address;
+                //                $response = $user;
+                //                $address = Address::where('user_id', '=', $user['id'])->first();
+                //                $response['address'] = $address;
                 $user['existing_user'] = 1;
                 return response($user, 200);
             } else {
@@ -692,7 +696,7 @@ class UserController extends Controller
         }
         if(array_key_exists('token', $input)) {
             $fcm_response = array();
-//        $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
+            //        $fcm_user = FCMDevices::where('fcm_device_token', '=', $input['token'])->get();
             $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
             if ($fcm_user->count() <= 0) {
 
@@ -761,7 +765,7 @@ class UserController extends Controller
             $profileImg = $request->file('profile_photo');
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
-//            $host = url('/');
+            //            $host = url('/');
             unset($input["profile_photo"]);
             $input +=  [
                 'image' => "/images/profiles/" . $profile_name,
@@ -793,7 +797,7 @@ class UserController extends Controller
 
         $services = $input['services'];
 
-//        $services =array_map('intval', explode(',', $services));
+        //        $services =array_map('intval', explode(',', $services));
         $services =explode(',', $services); // json_decode($services, true );
 
         foreach ($services as $data) {
@@ -817,7 +821,7 @@ class UserController extends Controller
         $updatedata += [
             'first_name' => $input['first_name'],
         ];
-        
+
     }
     if(array_key_exists('last_name', $input)) {
         $updatedata += [
@@ -827,7 +831,7 @@ class UserController extends Controller
     if(array_key_exists('contact', $input)) {
         $updatedata += [
             'contact' => $input['contact'],
-          
+
         ];
     }
     // if(array_key_exists('gender', $input)) {
@@ -936,13 +940,6 @@ class UserController extends Controller
                        ProviderServiceMapping::create($obj);
                    }
 
-//                   $services = $input['services'];
-//                   $services = json_decode($services, true);
-//                   foreach ($services as $data) {
-//                       $data['user_id'] = $id;
-//                       ProviderServiceMapping::create($data);
-//                   }
-
                    $user['services'] = $this->get_user_services($id);
 
                } else {
@@ -1048,17 +1045,24 @@ class UserController extends Controller
             // ADDRESS
             if(array_key_exists('address', $input)) {
                 $address = $input['address'];
-//                $address += [
-//                    "user_id" => $id
-//                ];
+                //                $address += [
+                //                    "user_id" => $id
+                //                ];
                 $address = json_decode($address, true);
 
                 $adddressdata = Address::create($address);
                 $user['address'] = $adddressdata;
             }
 
-            return response($user, 200)
-                ->header('content-type', 'application/json');
+
+        $result = User::with('documents')->with('address')->with('provider')
+        ->with('type')->with('services')->with('organisation')->find($id);
+        $checkuser = Auth::onceUsingId($result['id']);
+        $roles = Auth::user()->roles;
+        $result["roles"] = $roles;
+        return response()->json($result, 200);
+            // return response($user, 200)
+            //     ->header('content-type', 'application/json');
         }
         catch (\Exception $e) {
             $response['code'] = 400;
@@ -1282,20 +1286,25 @@ class UserController extends Controller
             'term_id' => $term->id,
         ];
 
+        $company = [];
+
         if(array_key_exists('profile_photo', $input)) {
             $profileImg = $request->file('profile_photo');
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
             $host = url('/');
             unset($input["profile_photo"]);
-            $input +=  [
-                'image' => $host . "/images/profiles/" . $profile_name,
+            $company +=  [
+                'logo' => $host . "/images/profiles/" . $profile_name,
             ];
         }
 
-        $company= [
+
+
+        $company += [
             'name' => $input['company'],
         ];
+
         $org = organisation::create($company);
 
         $input += [

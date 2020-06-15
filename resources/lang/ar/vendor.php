@@ -47,6 +47,8 @@ return[
 'label_tab_email'=>'البريد الإلكتروني',
 'label_tab_profile'=>'الملف الشخصي',
 'label_tab_gender'=>'جنس',
+'label_tab_services'=>'خدمات',
+'label_tab_role'=>'وظيفة',
 'label_tab_action'=>'عمل',
 
 

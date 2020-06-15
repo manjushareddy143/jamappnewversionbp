@@ -43,6 +43,8 @@ return[
 'label_tab_email'=>'Email',
 'label_tab_profile'=>'Profile',
 'label_tab_gender'=>'Gender',
+'label_tab_services'=>'Services',
+'label_tab_role'=>'Role',
 'label_tab_action'=>'Action',
 
  

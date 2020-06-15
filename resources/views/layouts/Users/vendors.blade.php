@@ -1,4 +1,14 @@
 @extends('layouts.admin')
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet" type="text/css">
+</head>
+
 @section('content')
     <div class="container-fluid" id="container-wrapper">
         <div class="row">
@@ -53,7 +63,7 @@
                                                     <label id="lbl_pass">@lang('vendor.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <input type="password" class="form-control" id="password"
                                                            aria-describedby="passwordHelp"
-                                                           placeholder="@lang('vendor.label_place_pass')" required="">
+                                                           placeholder="@lang('vendor.label_place_pass')" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -159,7 +169,12 @@
                                 <th>@lang('vendor.label_tab_lname')</th>
                                 <th>@lang('vendor.label_tab_email')</th>
                                 <th>@lang('vendor.label_tab_profile')</th>
-                                <th>@lang('vendor.label_tab_gender')</th>
+                                @if (Auth::user()->roles[0]->slug == 'organisation-admin')
+                                    <th>@lang('vendor.label_tab_role')</th>
+                                @else
+                                    <th>@lang('vendor.label_tab_gender')</th>
+                                @endif
+                                <th>@lang('vendor.label_tab_services')</th>
                                 <th width="280px">@lang('vendor.label_tab_action')
                                 </th>
                             </tr>
@@ -230,7 +245,7 @@
             console.log(selectedService);
         }
 
-        function getResult() {
+        function getAllVendors() {
 
             $.ajax({
                 url: '/api/v1/getuser/3',
@@ -277,7 +292,7 @@
 
 
             if(currentuser.roles[0].name == 'Admin') {
-                getResult();
+                getAllVendors();
             } else if (currentuser.roles[0].name == 'Corporate Service Provider') {
                 getOrgVendors();
             }
@@ -291,11 +306,11 @@
                 type: 'GET',
                 data: null,
                 success: function (response) {
-                    // console.log("CREATE CREATE REPOSNE == " + JSON.stringify(response));
+                    console.log("CREATE CREATE REPOSNE == " + JSON.stringify(response));
                     var trHTML = '';
 
                     $.each(response, function (i, item) {
-                        console.log("PR== " + response[i]['provider']);
+                        // console.log("PR== " + response[i]['provider']);
                         var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
                         var icon;
                         if(response[i]['provider'] == null) {
@@ -305,11 +320,44 @@
                             icon = (response[i]['provider'].verified == 0) ? 'fa fa-thumbs-down' : "fa fa-thumbs-up";
                         }
 
+                        var role ;
+                        if(currentuser.type_id == 2) {
+                            role = (response[i]['type'].id == 2) ? "Admin" : response[i]['type'].type;
+                        } else {
+                            role = response[i].gender;
+                        }
+
+                        var last_name = (response[i].last_name == null)? "-" : response[i].last_name;
+
+                        var servicesString = "-";
+
+                        $.each(response[i]['services'], function (j, item) {
+
+                            console.log(j);
+                            if(servicesString == "-") {
+                                servicesString =  item.name;
+                            } else {
+                                servicesString += ", " + item.name;
+                            }
+                            console.log(item);
+
+                        });
+                        // if(response[i]['services'].) {
+                        //     var serviceCount;
+                        //     for(serviceCount = 0; serviceCount< response[i]['services'].length; serviceCount++) {
+                        //         console.log( response[i].id +" " +response[i].first_name
+                        //         + "  "+ response[serviceCount]['services']);
+                        //     }
+                        // }
+
+
+
                         trHTML += '<tr><td>' + response[i].first_name +
-                            '</td><td>' + response[i].last_name + '</td>' +
+                            '</td><td>' + last_name + '</td>' +
                             '</td><td>' + response[i].email + '</td>' +
                             '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                            '</td><td>' + response[i].gender + '</td>' +
+                            '</td><td>' + role + '</td>' +
+                            '</td><td>' + servicesString + '</td>' +
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" onclick="getVendorData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> ' +
                             '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')">'+
@@ -485,7 +533,6 @@
             }
         });
 
-
         //edit Record
         var editUserid;
         function getVendorData(vendorid)
@@ -510,10 +557,26 @@
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
                     $('#contact').val(data.contact);
-                    $('input[name="gender"]:checked').val();
                     $("#lang-arabic").prop('checked', true);
                     $("#lang-english").prop('checked', true);
-                    $('input:radio[name="gender"][value="Male"]').prop('checked', true);
+
+                    // $('#gender').val(data.gender);
+
+                    if("#gender" == 'male')
+                    {
+                        $("#gender-male").prop("checked", true);
+                    } else if("#gender" == 'female') {
+                        $("#gender-female").prop("checked", true);
+                    }
+                    // $(document).ready(function(){
+                    //     $("[type='radio']").on("change", function(){
+                    //         var radioValue = $("input[name='gender']:checked").val();
+                    //         console.log("selected" +  radioValue);
+                    //     });
+
+                    // });
+                    $('#select_country').val();
+                    // $( "#select_country :selected" ).text();
                     // $("#gender-male ").prop('checked', true);
                     // $("#gender-female ").prop('checked', true);
                     // $("#gender-other ").prop('checked', true);
@@ -521,10 +584,7 @@
                     $('#action').val('Edit');
                 }
             });
-
-                }
-
-
+        }
 
         // Form Validation
 
