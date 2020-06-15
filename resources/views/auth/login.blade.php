@@ -146,17 +146,30 @@
                 <div class="modal-body">
                   <!-- <p>You Content</p> -->
                   <form name="fpform" id="fpmain">
-                  <div class="form-group" id="femail">
-                  <label>Email <strong>*</strong></label>
-                    <input id="fpemail" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter Email">
+                    <div class="form-group" id="femail">
+                        <label>Email <strong>*</strong></label>
+                        <input id="fpemail" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter Email">
                   </div>
                   <h6 style="text-align: center;">OR</h6>
-                  <div class="form-group" id="fmobile">
-                 <label>Mobile <strong>*</strong></label>
-                 <input type="text" nam="contact" class="form-control"
-                 id="contact" placeholder="Enter Mobile Number">
-                  </div>
-              </form>
+                <div class="form-group" id="fmobile">
+                    <label>Mobile <strong>*</strong></label>
+                    <input type="text" nam="contact" class="form-control" id="contact" placeholder="Enter Mobile Number">
+                </div>
+            </form>
+
+            <form id="newpass">
+                <div class="form-group">
+                    <label id="lbl_pass">New Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="" required>
+                </div>
+                <h6 style="text-align: center;">OR</h6>
+
+                <div class="form-group">
+                    <label id="lbl_pass">Confirm Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="" required>
+                </div>
+
+            </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -179,19 +192,7 @@
                 </div>
                 <div class="modal-body">
                   <!-- <p>You Content</p> -->
-                  <form id="newpass">
-                    <div class="form-group">
-                    <label id="lbl_pass">New Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="" required>
-                    </div>
-                  <h6 style="text-align: center;">OR</h6>
-                  
-                  <div class="form-group">
-                    <label id="lbl_pass">Confirm Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="" required>
-                 </div>
 
-              </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -199,7 +200,7 @@
                 </div>
               </div>
             </div>
-          </div>          
+          </div>
           <!-- password -->
 
                      <!-- Modal -->
@@ -387,18 +388,31 @@
     }
 
 
+    var cPass = 0;
     function changePass(){
-        alert('hello');
+
+
         var forPassvalidate = forgotPass_validate();
+        console.log(forPassvalidate);
+        if(forPassvalidate == true) {
 
+            if(cPass == 0) {
 
-             $("#newpass").hide();
+                $("#newpass").show();
+             $("#fpmain").hide();
+
+                cPass = 1;
+            } else {
+                $("#newpass").hide();
              $("#fpmain").show();
-             
+            }
+        }
 
-             // $("#newpass").show();
-             // $("#fpmain").hide();
-             
+            //  $("#newpass").hide();
+            //  $("#fpmain").show();
+
+
+
 
 
         }
@@ -411,20 +425,32 @@
         var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
     function forgotPass_validate() {
 
-        var isValidate = true;
+        // var isValidate = true;
 
 
             // only required one field
-     
-             var a = document.forms["fpform"]["email"].value;
-             var b = document.forms["fpform"]["contact"].value;
 
-            if (a != null || a != "", b != null || b != "") {
-              alert("Please Fill One Required Field");
+             var a = document.forms["fpform"]["email"].value;
+             console.log(a);
+             var b = document.forms["fpform"]["contact"].value;
+             console.log(b);
+
+            if(a == "" && b == "") {
+                alert("Please Fill One Required Field");
               return false;
+            } else if(a != "" && b != "")  {
+                alert("Please Fill Only One Required Field");
+              return false;
+            } else {
+                return true;
             }
-          
-                return isValidate;
+
+            // if (a != null || a != "" && b != null || b != "") {
+            //   alert("Please Fill One Required Field");
+            //   return false;
+            // }
+
+                // return isValidate;
             }
 
     function login_validate() {
