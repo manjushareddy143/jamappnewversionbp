@@ -77,7 +77,7 @@
 {{--                      SUB CATEGORIES--}}
 
 
-                          <div class="col-md-12">
+                        <div class="col-md-12">
                             <div class="form-group">
                               <div class="custom-control custom-checkbox">
                                   <input type="checkbox" class="custom-control-input" id="terms" name="terms" onclick="checkClick()">

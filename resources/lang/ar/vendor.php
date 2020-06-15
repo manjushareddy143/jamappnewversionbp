@@ -25,6 +25,8 @@ return[
 
 'label_Country'=>'بلد',
 
+'label_organisation'=>'منظمة',
+
 'label_Services'=>'خدمات',
 
 'label_place_fname'=>'أدخل اسمك الأول',
@@ -42,7 +44,8 @@ return[
 'label_sbtn'=>'حفظ',
 'label_ubtn'=>'تحديث',
 
-'label_tab_fname'=>'الاسم الاول',
+'label_tab_organisation'=>'منظمة',
+'label_tab_fname'=>'اسم',
 'label_tab_lname'=>'الكنية',
 'label_tab_email'=>'البريد الإلكتروني',
 'label_tab_profile'=>'الملف الشخصي',

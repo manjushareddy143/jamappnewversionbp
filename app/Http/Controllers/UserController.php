@@ -51,26 +51,16 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $usr = $request->user();
-//        dd($usr->hasRole('manager'));
-//        dd($usr->givePermissionsTo('edit-users'));
-//        dd($usr->can('create-tasks'));
-
-
-//         SELECT * FROM `users` LEFT JOIN `user_types` ON `users`.`type_id` = `user_types`.`id`
         $users=User::where('users.id', '>', 0)
             ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
             ->select('users.*', 'user_types.*')
-//            ->groupBy('users.id')
             ->get();
-//        echo ($users); exit();
-//        $individualserviceprovidermaster = IndividualServiceProvider::all();
         return view('layouts.Users.index')->with('data',$users);  //->with('individualserviceprovider', $individualserviceprovidermaster);
-       // $users = User::latest()->paginate(5);
-//        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
     }
 
     public function getuser($id)
     {
+        // $user = ProviderServiceMapping::with('user')->with('service')->where('service_id', '=', $id)->get();
         $user = User::with('documents')->with('address')->with('provider')
         ->with('type')->with('services')->with('organisation')->where('type_id', '=', (int)$id)->get();
         return response()->json($user, 200);
