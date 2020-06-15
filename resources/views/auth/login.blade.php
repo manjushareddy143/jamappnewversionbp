@@ -145,16 +145,16 @@
                 </div>
                 <div class="modal-body">
                   <!-- <p>You Content</p> -->
-                  <form name="fpform" id="fpsubmit">
+                  <form name="fpform" id="fpmain">
                   <div class="form-group" id="femail">
                   <label>Email <strong>*</strong></label>
-                    <input id="fpemail" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter Email" required>
+                    <input id="fpemail" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter Email">
                   </div>
                   <h6 style="text-align: center;">OR</h6>
                   <div class="form-group" id="fmobile">
                  <label>Mobile <strong>*</strong></label>
                  <input type="text" nam="contact" class="form-control"
-                 id="contact" placeholder="Enter Mobile Number" required>
+                 id="contact" placeholder="Enter Mobile Number">
                   </div>
               </form>
                 </div>
@@ -180,8 +180,6 @@
                 <div class="modal-body">
                   <!-- <p>You Content</p> -->
                   <form id="newpass">
-
-
                     <div class="form-group">
                     <label id="lbl_pass">New Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                     <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="" required>
@@ -390,33 +388,20 @@
 
 
     function changePass(){
-        // alert('hello');
+        alert('hello');
         var forPassvalidate = forgotPass_validate();
 
 
-    }
-
-
-     // function changePass() {
-     //     if(!fpsubmit.terms.checked) {
-     //         fpsubmit.terms.focus();
-     //         console.log('cancel');
-     //         $("#newpass").hide(1000);
-     //         $("#femail").show(1000);
-     //         $("#fmobile").show(1000);
+             $("#newpass").hide();
+             $("#fpmain").show();
              
 
+             // $("#newpass").show();
+             // $("#fpmain").hide();
              
 
-     //     } else {
-     //         console.log('click');
-     //         $("#newpass").show(1000);
-     //         $("#femail").hide(1000);
-     //         $("#fmobile").hide(1000);
 
-             
-     //     }
-     // }
+        }
 
 
 
@@ -427,69 +412,6 @@
     function forgotPass_validate() {
 
         var isValidate = true;
-
-        if (document.getElementById("fpemail").value == "") {
-            // EXPAND ADDRESS FORM
-            $("#fpemail").focus();
-            $("#fpemail").blur(function () {
-                if ($('#fpemail').val().length == 0) {
-                    $('#fpemail').next('div.red').remove();
-                    $('#fpemail').after('<div class="red" style="color:red">Email is Required</div>');
-                    isValidate = false;
-                } else {
-                    if (!email_regex.test($('#fpemail').val())) {
-                        $('#fpemail').next('div.red').remove();
-                        $('#fpemail').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                        isValidate = false;
-                    } else {
-                        $(this).next('div.red').remove();
-                        isValidate = true;
-                    }
-                }
-            });
-        } else {
-            if (!email_regex.test($('#fpemail').val())) {
-                $('#fpemail').next('div.red').remove();
-                $('#fpemail').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                isValidate = false;
-            } else {
-                $(this).next('div.red').remove();
-                isValidate = true;
-            }
-        }
-
-        if (document.getElementById("contact").value == "") {
-                $("#contact").focus();
-                $("#contact").focus();
-                $("#contact").blur(function () {
-                    var name = $('#contact').val();
-                    if (name.length == 0) {
-                        $('#contact').next('div.red').remove();
-                        $('#contact').after('<div class="red" style="color:red">Mobile number is Required</div>');
-                        isValidate = false;
-                    } else {
-                        if (!phone_regex.test($('#contact').val())) {
-                            console.log("ERRPR");
-                            $('#contact').next('div.red').remove();
-                            $('#contact').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                            isValidate = false;
-                        } else {
-                            console.log("NOT WORL");
-                            $(this).next('div.red').remove();
-                        }
-                    }
-                });
-            } else {
-                if (!phone_regex.test($('#contact').val())) {
-                    console.log("ERRPR");
-                    $('#contact').next('div.red').remove();
-                    $('#contact').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                    isValidate = false;
-                } else {
-                    console.log("NOT WORL");
-                    $(this).next('div.red').remove();
-                }
-            }
 
 
             // only required one field
