@@ -25,6 +25,8 @@ return[
 
 'label_Country'=>'Country',
 
+'label_organisation'=>'Organisation',
+
 'label_Services'=>'Services',
 
 'label_place_fname'=>'Enter Your First Name',
@@ -38,7 +40,8 @@ return[
 'label_sbtn'=>'Save',
 'label_ubtn'=>'Update',
 
-'label_tab_fname'=>'First Name',
+'label_tab_organisation'=>'Organisation',
+'label_tab_fname'=>'Name',
 'label_tab_lname'=>'Last Name',
 'label_tab_email'=>'Email',
 'label_tab_profile'=>'Profile',

@@ -102,7 +102,7 @@ class LoginController extends Controller
                 $address = Address::where('user_id', '=', $user->id)->first();
                 $response['address'] = $address;
 
-//            $response  = $user;
+            //            $response  = $user;
 
                 $now = now()->utc();
                 $term_agreement= [

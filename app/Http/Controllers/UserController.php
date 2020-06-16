@@ -51,26 +51,16 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $usr = $request->user();
-//        dd($usr->hasRole('manager'));
-//        dd($usr->givePermissionsTo('edit-users'));
-//        dd($usr->can('create-tasks'));
-
-
-//         SELECT * FROM `users` LEFT JOIN `user_types` ON `users`.`type_id` = `user_types`.`id`
         $users=User::where('users.id', '>', 0)
             ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
             ->select('users.*', 'user_types.*')
-//            ->groupBy('users.id')
             ->get();
-//        echo ($users); exit();
-//        $individualserviceprovidermaster = IndividualServiceProvider::all();
         return view('layouts.Users.index')->with('data',$users);  //->with('individualserviceprovider', $individualserviceprovidermaster);
-       // $users = User::latest()->paginate(5);
-//        return view('layouts.Users.index',compact('Users'))->with('i',(request()->input('page',1)-1) * 5);
     }
 
     public function getuser($id)
     {
+        // $user = ProviderServiceMapping::with('user')->with('service')->where('service_id', '=', $id)->get();
         $user = User::with('documents')->with('address')->with('provider')
         ->with('type')->with('services')->with('organisation')->where('type_id', '=', (int)$id)->get();
         return response()->json($user, 200);
@@ -284,8 +274,6 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        print_r($request->all());
-        exit();
         $request->validate([
             'name' => 'required',
             'email' => 'required|unique:users,email',
@@ -383,7 +371,7 @@ class UserController extends Controller
                 $username = $request->input('contact');
                 $condition = "contact";
             } else {
-
+                return response(null, 401);
             }
             $password = $request->input('password');
             $token = $request->input('token');
@@ -406,7 +394,7 @@ class UserController extends Controller
                     if(array_key_exists('token', $input))
                     {
                         $fcm_response = array();
-//                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
+                        //                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
                         $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
                         if ($fcm_user->count() <= 0)
                         {
@@ -1581,16 +1569,16 @@ class UserController extends Controller
         }
 
         $password = $request->password;
-// Validate the token
+        // Validate the token
         $tokenData = DB::table('password_resets')
             ->where('token', $request->token)->first();
-// Redirect the user back to the password reset request form if the token is invalid
+        // Redirect the user back to the password reset request form if the token is invalid
         if (!$tokenData) return view('auth.passwords.email');
 
         $user = User::where('email', $tokenData->email)->first();
-// Redirect the user back if the email is invalid
+        // Redirect the user back if the email is invalid
         if (!$user) return redirect()->back()->withErrors(['email' => 'Email not found']);
-//Hash and update the new password
+        //Hash and update the new password
         $user->password = \Hash::make($password);
         $user->update(); //or $user->save();
 
@@ -1610,4 +1598,69 @@ class UserController extends Controller
 
     }
 
+
+
+
+    // Forgot Password function
+
+    public function resetPasswordform(Request $request) {
+        $response = array();
+        $input = $request->all();
+
+        $username = "";
+        $condition = "";
+        if(array_key_exists('email', $input))
+        {
+            $username = $request->input('email');
+            $condition = "email";
+        }
+        else if(array_key_exists('contact', $input))
+        {
+            $username = $request->input('contact');
+            $condition = "contact";
+        } else {
+            return response(null, 401);
+        }
+
+        $checkuser  = User::where($condition, '=', $username)->first();
+
+        if (isset($checkuser))
+        { 
+            return response($checkuser, 200); 
+        } 
+        else
+        {
+            return response(null, 401); 
+        }     
+    }
+
+
+
+    public function changePasswordform(Request $request) {
+        //Validate input
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:users,id',
+            'password' => 'required|confirmed'
+        ]);
+        //check if input is valid before moving on
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 401);
+        }
+        $input = $request->all();
+
+        $input['password'] = Hash::make($input['password']);
+        $imagedata =  [
+            'password' => $input['password'],
+        ];
+
+
+        if($this->update_user_details($imagedata, $input['id'])) {
+            return response(["status" => true], 200);
+        } else {
+            return response(null, 406);
+        }
+
+
+
+    }
 }

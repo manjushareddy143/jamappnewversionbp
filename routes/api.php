@@ -41,7 +41,7 @@ Route::get('v1/organisation/vendors/{orgId}', 'ServiceProviderController@GetOrga
 Route::get('v1/getuser/{id}', 'UserController@getuser');
 
 Route::get('v1/getuserbyid/{id}', 'UserController@getuserbyid');
-Route::get('v1/getcusbyid/{id}', 'UserController@getcusbyid');
+Route::get('v1/organisation', 'OrganisationController@getAll');
 
 
 Route::post('v1/add_customer', 'UserController@add_customer');

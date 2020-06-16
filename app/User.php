@@ -50,8 +50,19 @@ class User extends Authenticatable
 
 
     public function services() {
-        return $this->hasManyThrough(services::class, ProviderServiceMapping::class, 'user_id' , 'id')->with('subcategories');
+        // return ProviderServiceMapping::with('service')->get();
+        return $this->hasManyThrough(ProviderServiceMapping::class,services::class, 
+        'id' , 'user_id', 'id')->with('service');
+
+        // return $this->services()->with('service');
     }
+
+    // public function services() {
+    //     return $this->servicesData()->service();
+    // }
+
+
+
 
     public function orderAsCustomer() {
         return $this->hasMany(Booking::class, 'user_id' , 'id');

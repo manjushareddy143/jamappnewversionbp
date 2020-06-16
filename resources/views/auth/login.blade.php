@@ -145,18 +145,31 @@
                 </div>
                 <div class="modal-body">
                   <!-- <p>You Content</p> -->
-                  <form name="fpform" id="fpsubmit">
-                  <div class="form-group" id="femail">
-                  <label>Email <strong>*</strong></label>
-                    <input id="fpemail" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter Email" required>
+                <form name="fpform" id="fpmain">
+                    <div class="form-group" id="femail">
+                        <label>Email <strong>*</strong></label>
+                        <input id="fpemail" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter Email">
                   </div>
-                  <h6 style="text-align: center;">OR</h6>
-                  <div class="form-group" id="fmobile">
-                 <label>Mobile <strong>*</strong></label>
-                 <input type="text" nam="contact" class="form-control"
-                 id="contact" placeholder="Enter Mobile Number" required>
-                  </div>
-              </form>
+                    <h6 style="text-align: center;">OR</h6>
+                    <div class="form-group" id="fmobile">
+                        <label>Mobile <strong>*</strong></label>
+                        <input type="text" nam="contact" class="form-control" id="contact" placeholder="Enter Mobile Number">
+                    </div>
+                </form>
+
+                <form id="newpass" name="cpform">
+                    <div class="form-group" id="new_pass">
+                        <label id="lbl_pass">New Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                        <input type="password" class="form-control" id="forget_pass" aria-describedby="passwordHelp" placeholder="Enter New password" required>
+                    </div>
+                    <!-- <h6 style="text-align: center;">OR</h6> -->
+
+                    <div class="form-group" id="con_pass">
+                        <label id="lbl_pass">Confirm Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                        <input type="password" class="form-control" id="confirm_pass" aria-describedby="passwordHelp" placeholder="Enter Confirm password" required>
+                    </div>
+
+                </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -167,7 +180,7 @@
           </div>
 
           <!-- password -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -179,21 +192,7 @@
                 </div>
                 <div class="modal-body">
                   <!-- <p>You Content</p> -->
-                  <form id="newpass">
 
-
-                    <div class="form-group">
-                    <label id="lbl_pass">New Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="" required>
-                    </div>
-                  <h6 style="text-align: center;">OR</h6>
-                  
-                  <div class="form-group">
-                    <label id="lbl_pass">Confirm Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="" required>
-                 </div>
-
-              </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -201,7 +200,7 @@
                 </div>
               </div>
             </div>
-          </div>          
+          </div> --}}
           <!-- password -->
 
                      <!-- Modal -->
@@ -271,7 +270,9 @@
             localStorage.setItem('langauge', 'ar');
         }
     }
+
     function onLoad() {
+        $("#newpass").hide();
         localStorage.removeItem('userObject')
 
         $("#errorAlert").hide();
@@ -302,7 +303,6 @@
         firebase.analytics();
 
         firebase.auth().useDeviceLanguage();
-
     };
     var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 
@@ -389,121 +389,132 @@
     }
 
 
+    var cPass = 0;
+    var forgetPassId;
     function changePass(){
-        // alert('hello');
+
+
         var forPassvalidate = forgotPass_validate();
+        // var forconfirmvalidate = confirmPass_validate();
+        console.log(forPassvalidate);
+        console.log(cPass);
+        if(forPassvalidate != false) 
+        {
+            // ajax
+            if(cPass == 0) {
+                var data;
+                if(forPassvalidate == "email") {
+                    data = {
+                        "email" : document.forms["fpform"]["email"].value
+                    }
+                } else {
+                    data = {
+                        "contact" : document.forms["fpform"]["contact"].value
+                    }
+                }
+                // ajax response user get
+                $.ajax({
+                    type: 'POST',
+                    url: '/resetPassword',
+                    data: data,
+                    success: function (response) {
+                        console.log("SUCCESS" + JSON.stringify(response));
+                        forgetPassId = response['id'];
+                        // console.log(response);
+                        if (forgetPassId != null) {
+                            console.log(data);
+                            $("#newpass").show();
+                            $("#fpmain").hide();
+                            cPass = 1;
+                        } else {
+                            alert("Invalid email Id");
+                        }
+                    },
+                    error: function () {
+                        console.log();
+                        if(status == 401) {
+                            $("#errormsg").text("Invalid Email Id");
+                        } else {
+                            $("#errormsg").text("success");
+                        }
+                    },
+                });
+                
+            } else {
+                // change pass ajax
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/changepassword',
+                    data: {
+                        id:forgetPassId,
+                        password: $('#forget_pass').val()
+                    },
+                    success: function (response) {
+                        console.log("SUCCESS" + JSON.stringify(response));
+                        
+                        // // console.log(response);
+                        if (response != null) {
+                            var result = response['status'];
+                            console.log(result);
+                            if(result == true) {
+                                $("#exampleModal").hide();
+                            } else {
+                                $("#fpmain").show();
+                                $("#newpass").hide();
+                            }
+                        } else {
+                            alert("Invalid email Id");
+                        }
+                    },
+                    error: function ()
+                    {
+                        console.log();
+                        if(status == 401) {
+                            $("#errormsg").text("Invalid Email Id");
+                        } else {
+                            $("#errormsg").text("success");
+                        }
+                    },
+                });
+            }
+
+        }
 
 
-    }
-
-
-     // function changePass() {
-     //     if(!fpsubmit.terms.checked) {
-     //         fpsubmit.terms.focus();
-     //         console.log('cancel');
-     //         $("#newpass").hide(1000);
-     //         $("#femail").show(1000);
-     //         $("#fmobile").show(1000);
-             
-
-             
-
-     //     } else {
-     //         console.log('click');
-     //         $("#newpass").show(1000);
-     //         $("#femail").hide(1000);
-     //         $("#fmobile").hide(1000);
-
-             
-     //     }
-     // }
+        }
 
 
 
 
     // Forgot Password validation Function
-        var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
-        var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
     function forgotPass_validate() {
+             var txtEmail = document.forms["fpform"]["email"].value;
+             console.log(txtEmail);
+             var txtContact = document.forms["fpform"]["contact"].value;
+             console.log(txtContact);
 
-        var isValidate = true;
-
-        if (document.getElementById("fpemail").value == "") {
-            // EXPAND ADDRESS FORM
-            $("#fpemail").focus();
-            $("#fpemail").blur(function () {
-                if ($('#fpemail').val().length == 0) {
-                    $('#fpemail').next('div.red').remove();
-                    $('#fpemail').after('<div class="red" style="color:red">Email is Required</div>');
-                    isValidate = false;
-                } else {
-                    if (!email_regex.test($('#fpemail').val())) {
-                        $('#fpemail').next('div.red').remove();
-                        $('#fpemail').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                        isValidate = false;
-                    } else {
-                        $(this).next('div.red').remove();
-                        isValidate = true;
-                    }
-                }
-            });
-        } else {
-            if (!email_regex.test($('#fpemail').val())) {
-                $('#fpemail').next('div.red').remove();
-                $('#fpemail').after('<div class="red" style="color:red">Email Format is Wrong</div>');
-                isValidate = false;
+            if(txtEmail == "" && txtContact == "") {
+                // alert("Please Fill One Required Field");
+                 $('#fmobile').next('div.red').remove();
+                    $('#fmobile').after('<div class="red" style="color:red">Please Fill One Required Field</div>');
+              return false;
+            } else if(txtEmail != "" && txtContact != "")  {
+                // alert("Please Fill Only One Required Field");
+                $('#fmobile').next('div.red').remove();
+                    $('#fmobile').after('<div class="red" style="color:red">Please Fill Only One Required Field</div>');
+              return false;
             } else {
-                $(this).next('div.red').remove();
-                isValidate = true;
+                if(txtEmail != "") {
+                    return "email"
+                } 
+                if(txtContact != "") {
+                    return "contact"
+                }
             }
+
         }
 
-        if (document.getElementById("contact").value == "") {
-                $("#contact").focus();
-                $("#contact").focus();
-                $("#contact").blur(function () {
-                    var name = $('#contact').val();
-                    if (name.length == 0) {
-                        $('#contact').next('div.red').remove();
-                        $('#contact').after('<div class="red" style="color:red">Mobile number is Required</div>');
-                        isValidate = false;
-                    } else {
-                        if (!phone_regex.test($('#contact').val())) {
-                            console.log("ERRPR");
-                            $('#contact').next('div.red').remove();
-                            $('#contact').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                            isValidate = false;
-                        } else {
-                            console.log("NOT WORL");
-                            $(this).next('div.red').remove();
-                        }
-                    }
-                });
-            } else {
-                if (!phone_regex.test($('#contact').val())) {
-                    console.log("ERRPR");
-                    $('#contact').next('div.red').remove();
-                    $('#contact').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-                    isValidate = false;
-                } else {
-                    console.log("NOT WORL");
-                    $(this).next('div.red').remove();
-                }
-            }
-
-
-            // only required one field
-     
-             var a = document.forms["fpform"]["email"].value;
-             var b = document.forms["fpform"]["contact"].value;
-
-            if (a != null || a != "", b != null || b != "") {
-              alert("Please Fill One Required Field");
-              return false;
-            }
-          
-                return isValidate;
-            }
 
     function login_validate() {
 
