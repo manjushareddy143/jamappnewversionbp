@@ -373,7 +373,7 @@ class UserController extends Controller
                 $username = $request->input('contact');
                 $condition = "contact";
             } else {
-
+                return response(null, 401);
             }
             $password = $request->input('password');
             $token = $request->input('token');
@@ -396,7 +396,7 @@ class UserController extends Controller
                     if(array_key_exists('token', $input))
                     {
                         $fcm_response = array();
-//                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
+                        //                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
                         $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
                         if ($fcm_user->count() <= 0)
                         {
@@ -1606,11 +1606,25 @@ class UserController extends Controller
     // Forgot Password function
 
         public function resetPasswordform() {
-        
-          try
-         {
-            $response = array();
-            $input = $request->all();
+            $requestObject = Input::json()->all();
+            $email = Input::json('email');
+
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $emailErr = "Invalid email format";
+                $this->exceptionLogger->writeLog($requestObject, $emailErr);
+                return Response::json(array(
+                    'message' => $emailErr,
+                    'statuscode' => 0,
+                ),
+                    200);
+            } else {
+
+                $user = User::where('email',$email)->first();
+
+                if(isset($user) && !empty($user)) {
+
+                    $response = $this->broker()->sendResetLink(['email'=>$email]);
 
             $username = "";
             $condition = "";
@@ -1627,20 +1641,19 @@ class UserController extends Controller
             $checkuser  = User::where($condition, '=', $username)->first();
             return response($user, 200);
 
-            else {
-                    return response(null, 401);
-                }
-
-
-         } catch (\Exception $e) {
-        return false;
+            }
+        }          
     }
-        }
+
 
 
     public function changePasswordform() {
 
-       
+        
+            $requestObject = Input::json()->all();
+            $password = Input::json("password");
+
+            $user = User::where('email',$email)->first();
 
         if(strcmp($request->get('new-password'), $request->get('confirm-password')) == 0){
             //Current password and new password are same
@@ -1659,8 +1672,8 @@ class UserController extends Controller
         $user->password = bcrypt($request->get('confirm-password'));
         $user->save();
 
-        return redirect()->back()->with("success","Password changed successfully !");
     }
+    }
+            
+        
 
-
-}

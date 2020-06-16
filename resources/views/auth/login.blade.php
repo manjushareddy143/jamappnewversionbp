@@ -396,8 +396,11 @@
         console.log(forPassvalidate);
         if(forPassvalidate == true) {
 
+            // ajax
+
             if(cPass == 0) {
 
+                // ajax response user get
                 $("#newpass").show();
              $("#fpmain").hide();
              
@@ -430,6 +433,7 @@
 
                 cPass = 1;
             } else {
+                // change pass ajax
                 $("#newpass").hide();
              $("#fpmain").show();
              $("#npass").hide();
