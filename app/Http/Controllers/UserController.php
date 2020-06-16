@@ -1600,4 +1600,88 @@ class UserController extends Controller
 
     }
 
+
+
+
+    // Forgot Password function
+
+        public function resetPasswordform() {
+            try {
+            $requestObject = Input::json()->all();
+            $email = Input::json('email');
+
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $emailErr = "Invalid email format";
+                $this->exceptionLogger->writeLog($requestObject, $emailErr);
+                return Response::json(array(
+                    'message' => $emailErr,
+                    'statuscode' => 0,
+                ),
+                    200);
+            } else {
+
+                $user = User::where('email',$email)->first();
+
+                if(isset($user) && !empty($user)) {
+
+                    $response = $this->broker()->sendResetLink(['email'=>$email]);
+
+                    $this->exceptionLogger->writeLog($requestObject, 'Mail sent successfully.');
+                    return Response::json(array(
+                        'response' => $response,
+                        'message' => "Mail sent successfully.",
+                        'statuscode' => 1,
+                    ),
+                        200);
+                } else {
+                    $this->exceptionLogger->writeLog($requestObject, "No user with this email id available. Please Sign up.");
+                    return Response::json(array(
+                        'message' => "No user with this email id available. Please Sign up.",
+                        'statuscode' => 0,
+                    ),
+                        200);
+
+                }
+
+            }
+        } 
+    }
+
+
+
+    public function changePasswordform() {
+
+        try {
+            $requestObject = Input::json()->all();
+            $password = Input::json("password");
+
+            $user = User::where('email',$email)->first();
+
+            if(isset($user) && !empty($user)) {
+
+                $input['password'] = Hash::make($input['password']);
+                // $user->password = Hash::make($password);
+                $user->save();
+
+                $this->exceptionLogger->writeLog($requestObject, "Password updated successfully.");
+                return Response::json(array(
+                    'message' => "Password updated successfully.",
+                    'statuscode' => 1,
+                ),
+                    200);
+
+            } else {
+                $this->exceptionLogger->writeLog($requestObject, "No user with this email id available.");
+                return Response::json(array(
+                    'message' => "No user with this email id available.",
+                    'statuscode' => 0,
+                ),
+                    200);
+
+            }
+        }
+    }
+
+
 }
