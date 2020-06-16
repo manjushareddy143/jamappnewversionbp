@@ -158,13 +158,13 @@
             </form>
 
             <form id="newpass">
-                <div class="form-group">
+                <div class="form-group" id="npass">
                     <label id="lbl_pass">New Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                     <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter New password" required>
                 </div>
                 <!-- <h6 style="text-align: center;">OR</h6> -->
 
-                <div class="form-group">
+                <div class="form-group" id="cpass">
                     <label id="lbl_pass">Confirm Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                     <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter Confirm password" required>
                 </div>
@@ -400,6 +400,7 @@
 
                 $("#newpass").show();
              $("#fpmain").hide();
+             
 
          $.ajax({
             type: 'POST',
@@ -431,6 +432,9 @@
             } else {
                 $("#newpass").hide();
              $("#fpmain").show();
+             $("#npass").hide();
+
+
             }
 
 
