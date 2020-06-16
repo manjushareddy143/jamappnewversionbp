@@ -149,11 +149,11 @@
                                                 </select>
                                             </div>
                                         </div>
-                                            
+
                                         </div>
 
 
-                                        
+
 
                                         <div class="row">
                                             <div class="col-md-12">
@@ -298,7 +298,7 @@
                         var org_name = (response[i]['organisation'] == null)? "Individual" : response[i]['organisation'].name;
 
 
-                        trHTML += '<tr><td><img src="' + img + '" class="square" width="60" height="50" /></td>' + 
+                        trHTML += '<tr><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                         '   </td><td>' + org_name +
                             '</td><td>' + response[i].first_name + " " + last_name + '</td>' +
                             '</td><td>' + response[i].email + '</td>' +
@@ -384,11 +384,14 @@
                         }
 
                         var role ;
+                        console.log(currentuser.type_id);
+                        console.log(response[i]['type'].id);
                         if(currentuser.type_id == 2) {
                             role = (response[i]['type'].id == 2) ? "Admin" : response[i]['type'].type;
                         } else {
                             role = response[i].gender;
                         }
+                        console.log(role);
 
                         var last_name = (response[i].last_name == null)? "" : response[i].last_name;
 
@@ -410,11 +413,11 @@
                         var org_name = (response[i]['organisation'] == null)? "Individual" : response[i]['organisation'].name;
 
 
-                        trHTML += '<tr><td><img src="' + img + '" class="square" width="60" height="50" /></td>' + 
+                        trHTML += '<tr><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                         '   </td><td>' + org_name +
                             '</td><td>' + response[i].first_name + " " + last_name + '</td>' +
                             '</td><td>' + response[i].email + '</td>' +
-                            '</td><td>' + response[i].gender + '</td>' +
+                            '</td><td>' + role + '</td>' +
                             '</td><td>' + servicesString + '</td>' +
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
                             '<a href="#" onclick="getVendorData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> ' +
@@ -433,7 +436,7 @@
         }
 
 
-        
+
 
         $(document).on('change', '.tree input[type=checkbox]',
             function (e) {
@@ -547,7 +550,7 @@
                 if(org_id_select != 'select_org') {
                     form.append('org_id', org_id_select);
                 }
-                
+
 
 
                 form.append('first_name', document.getElementById("first_name").value);
