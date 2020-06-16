@@ -373,7 +373,7 @@ class UserController extends Controller
                 $username = $request->input('contact');
                 $condition = "contact";
             } else {
-
+                return response(null, 401);
             }
             $password = $request->input('password');
             $token = $request->input('token');
@@ -396,7 +396,7 @@ class UserController extends Controller
                     if(array_key_exists('token', $input))
                     {
                         $fcm_response = array();
-//                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
+                        //                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
                         $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
                         if ($fcm_user->count() <= 0)
                         {
@@ -1606,7 +1606,6 @@ class UserController extends Controller
     // Forgot Password function
 
         public function resetPasswordform() {
-            try {
             $requestObject = Input::json()->all();
             $email = Input::json('email');
 
@@ -1646,13 +1645,13 @@ class UserController extends Controller
 
             }
         } 
-    }
+    
 
 
 
     public function changePasswordform() {
 
-        try {
+        
             $requestObject = Input::json()->all();
             $password = Input::json("password");
 
@@ -1680,8 +1679,5 @@ class UserController extends Controller
                     200);
 
             }
-        }
     }
-
-
 }
