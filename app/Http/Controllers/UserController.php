@@ -274,8 +274,6 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        print_r($request->all());
-        exit();
         $request->validate([
             'name' => 'required',
             'email' => 'required|unique:users,email',
@@ -1571,16 +1569,16 @@ class UserController extends Controller
         }
 
         $password = $request->password;
-// Validate the token
+        // Validate the token
         $tokenData = DB::table('password_resets')
             ->where('token', $request->token)->first();
-// Redirect the user back to the password reset request form if the token is invalid
+        // Redirect the user back to the password reset request form if the token is invalid
         if (!$tokenData) return view('auth.passwords.email');
 
         $user = User::where('email', $tokenData->email)->first();
-// Redirect the user back if the email is invalid
+        // Redirect the user back if the email is invalid
         if (!$user) return redirect()->back()->withErrors(['email' => 'Email not found']);
-//Hash and update the new password
+        //Hash and update the new password
         $user->password = \Hash::make($password);
         $user->update(); //or $user->save();
 
@@ -1605,75 +1603,64 @@ class UserController extends Controller
 
     // Forgot Password function
 
-        public function resetPasswordform() {
-            $requestObject = Input::json()->all();
-            $email = Input::json('email');
+    public function resetPasswordform(Request $request) {
+        $response = array();
+        $input = $request->all();
 
-
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $emailErr = "Invalid email format";
-                $this->exceptionLogger->writeLog($requestObject, $emailErr);
-                return Response::json(array(
-                    'message' => $emailErr,
-                    'statuscode' => 0,
-                ),
-                    200);
-            } else {
-
-                $user = User::where('email',$email)->first();
-
-                if(isset($user) && !empty($user)) {
-
-                    $response = $this->broker()->sendResetLink(['email'=>$email]);
-
-            $username = "";
-            $condition = "";
-            if(array_key_exists('email', $input))
-            {
-                $username = $request->input('email');
-                $condition = "email";
-            }
-            else if(array_key_exists('contact', $input))
-            {
-                $username = $request->input('contact');
-                $condition = "contact";
-            }
-            $checkuser  = User::where($condition, '=', $username)->first();
-            return response($user, 200);
-
-            }
-        }          
-    }
-
-
-
-    public function changePasswordform() {
-
-        
-            $requestObject = Input::json()->all();
-            $password = Input::json("password");
-
-            $user = User::where('email',$email)->first();
-
-        if(strcmp($request->get('new-password'), $request->get('confirm-password')) == 0){
-            //Current password and new password are same
-            return redirect()->back()->with("error","Please choose a different password.");
+        $username = "";
+        $condition = "";
+        if(array_key_exists('email', $input))
+        {
+            $username = $request->input('email');
+            $condition = "email";
+        }
+        else if(array_key_exists('contact', $input))
+        {
+            $username = $request->input('contact');
+            $condition = "contact";
+        } else {
+            return response(null, 401);
         }
 
-        $validatedData = $request->validate([
-        
-            'new-password' => 'required|string|min:6|confirmed',
-            'confirm-password' => 'required|string|min:6|confirmed',
+        $checkuser  = User::where($condition, '=', $username)->first();
+
+        if (isset($checkuser))
+        { 
+            return response($checkuser, 200); 
+        } 
+        else
+        {
+            return response(null, 401); 
+        }     
+    }
+
+
+
+    public function changePasswordform(Request $request) {
+        //Validate input
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:users,id',
+            'password' => 'required'
         ]);
+        //check if input is valid before moving on
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 401);
+        }
+        $input = $request->all();
 
-        //Change Password
-        $user = Auth::user();
-        $user->password = bcrypt($request->get('new-password'));
-        $user->password = bcrypt($request->get('confirm-password'));
-        $user->save();
+        $input['password'] = Hash::make($input['password']);
+        $imagedata =  [
+            'password' => $input['password'],
+        ];
+
+
+        if($this->update_user_details($imagedata, $input['id'])) {
+            return response(["status" => true], 200);
+        } else {
+            return response(null, 406);
+        }
+
+
 
     }
-    }
-            
-        
-
+}

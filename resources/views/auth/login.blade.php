@@ -145,31 +145,31 @@
                 </div>
                 <div class="modal-body">
                   <!-- <p>You Content</p> -->
-                  <form name="fpform" id="fpmain">
+                <form name="fpform" id="fpmain">
                     <div class="form-group" id="femail">
                         <label>Email <strong>*</strong></label>
                         <input id="fpemail" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter Email">
                   </div>
-                  <h6 style="text-align: center;">OR</h6>
-                <div class="form-group" id="fmobile">
-                    <label>Mobile <strong>*</strong></label>
-                    <input type="text" nam="contact" class="form-control" id="contact" placeholder="Enter Mobile Number">
-                </div>
-            </form>
+                    <h6 style="text-align: center;">OR</h6>
+                    <div class="form-group" id="fmobile">
+                        <label>Mobile <strong>*</strong></label>
+                        <input type="text" nam="contact" class="form-control" id="contact" placeholder="Enter Mobile Number">
+                    </div>
+                </form>
 
-            <form id="newpass">
-                <div class="form-group" id="npass">
-                    <label id="lbl_pass">New Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter New password" required>
-                </div>
-                <!-- <h6 style="text-align: center;">OR</h6> -->
+                <form id="newpass">
+                    <div class="form-group">
+                        <label id="lbl_pass">New Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                        <input type="password" class="form-control" id="forget_pass" aria-describedby="passwordHelp" placeholder="Enter New password" required>
+                    </div>
+                    <!-- <h6 style="text-align: center;">OR</h6> -->
 
-                <div class="form-group" id="cpass">
-                    <label id="lbl_pass">Confirm Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter Confirm password" required>
-                </div>
+                    <div class="form-group">
+                        <label id="lbl_pass">Confirm Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                        <input type="password" class="form-control" id="confirm" aria-describedby="passwordHelp" placeholder="Enter Confirm password" required>
+                    </div>
 
-            </form>
+                </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -180,7 +180,7 @@
           </div>
 
           <!-- password -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -200,7 +200,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> --}}
           <!-- password -->
 
                      <!-- Modal -->
@@ -270,7 +270,9 @@
             localStorage.setItem('langauge', 'ar');
         }
     }
+
     function onLoad() {
+        $("#newpass").hide();
         localStorage.removeItem('userObject')
 
         $("#errorAlert").hide();
@@ -301,7 +303,6 @@
         firebase.analytics();
 
         firebase.auth().useDeviceLanguage();
-
     };
     var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 
@@ -389,82 +390,93 @@
 
 
     var cPass = 0;
+    var forgetPassId;
     function changePass(){
 
 
         var forPassvalidate = forgotPass_validate();
         console.log(forPassvalidate);
-        if(forPassvalidate == true) {
-
+        console.log(cPass);
+        if(forPassvalidate != false) 
+        {
             // ajax
-
             if(cPass == 0) {
-
+                var data;
+                if(forPassvalidate == "email") {
+                    data = {
+                        "email" : document.forms["fpform"]["email"].value
+                    }
+                } else {
+                    data = {
+                        "contact" : document.forms["fpform"]["contact"].value
+                    }
+                }
                 // ajax response user get
-                $("#newpass").show();
-             $("#fpmain").hide();
-             
-
-         $.ajax({
-            type: 'POST',
-            url: '/resetPassword',
-            data: data,
-            success: function (response) {
-                console.log("SUCCESS");
-                var data = response['status'];
-                console.log(response);
-                if (data === true) {
-                    console.log();
-                } else {
-                    alert("Invalid email Id");
-                }
-            },
-            error: function () {
-                console.log();
-                if(status == 401) {
-                    $("#errormsg").text("Invalid Email Id");
-                } else {
-                    $("#errormsg").text("success");
-                }
-            },
-        });
-
-
-
-                cPass = 1;
+                $.ajax({
+                    type: 'POST',
+                    url: '/resetPassword',
+                    data: data,
+                    success: function (response) {
+                        console.log("SUCCESS" + JSON.stringify(response));
+                        forgetPassId = response['id'];
+                        // console.log(response);
+                        if (forgetPassId != null) {
+                            console.log(data);
+                            $("#newpass").show();
+                            $("#fpmain").hide();
+                            cPass = 1;
+                        } else {
+                            alert("Invalid email Id");
+                        }
+                    },
+                    error: function () {
+                        console.log();
+                        if(status == 401) {
+                            $("#errormsg").text("Invalid Email Id");
+                        } else {
+                            $("#errormsg").text("success");
+                        }
+                    },
+                });
+                
             } else {
                 // change pass ajax
-                $("#newpass").hide();
-             $("#fpmain").show();
-             $("#npass").hide();
 
-
+                $.ajax({
+                    type: 'POST',
+                    url: '/changepassword',
+                    data: {
+                        id:forgetPassId,
+                        password: $('#forget_pass').val()
+                    },
+                    success: function (response) {
+                        console.log("SUCCESS" + JSON.stringify(response));
+                        
+                        // // console.log(response);
+                        if (response != null) {
+                            var result = response['status'];
+                            console.log(result);
+                            if(result == true) {
+                                $("#exampleModal").hide();
+                            } else {
+                                $("#fpmain").show();
+                                $("#newpass").hide();
+                            }
+                        } else {
+                            alert("Invalid email Id");
+                        }
+                    },
+                    error: function ()
+                    {
+                        console.log();
+                        if(status == 401) {
+                            $("#errormsg").text("Invalid Email Id");
+                        } else {
+                            $("#errormsg").text("success");
+                        }
+                    },
+                });
             }
-
-
-             $.ajax({
-            type: 'POST',
-            url: '/changepassword',
-            data: data,
-            success: function (response) {
-                console.log("SUCCESS");
-                var data = response['status'];
-                console.log(response);
-                if (data === true) {
-                    console.log();
-                } else {
-                    alert("Invalid Password");
-                }
-            },
-            error: function () {
-                console.log();
-                if(status == 401) {
-                    $("#errormsg").text("Invalid Password");
-                } else {
-                    $("#errormsg").text("Change Password successfully");
-                }
-            },
-        });
 
         }
 
@@ -478,34 +490,27 @@
         var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
         var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
     function forgotPass_validate() {
+             var txtEmail = document.forms["fpform"]["email"].value;
+             console.log(txtEmail);
+             var txtContact = document.forms["fpform"]["contact"].value;
+             console.log(txtContact);
 
-        // var isValidate = true;
-
-
-            // only required one field
-
-             var a = document.forms["fpform"]["email"].value;
-             console.log(a);
-             var b = document.forms["fpform"]["contact"].value;
-             console.log(b);
-
-            if(a == "" && b == "") {
+            if(txtEmail == "" && txtContact == "") {
                 alert("Please Fill One Required Field");
               return false;
-            } else if(a != "" && b != "")  {
+            } else if(txtEmail != "" && txtContact != "")  {
                 alert("Please Fill Only One Required Field");
               return false;
             } else {
-                return true;
+                if(txtEmail != "") {
+                    return "email"
+                } 
+                if(txtContact != "") {
+                    return "contact"
+                }
             }
 
-            // if (a != null || a != "" && b != null || b != "") {
-            //   alert("Please Fill One Required Field");
-            //   return false;
-            // }
-
-                // return isValidate;
-            }
+        }
 
     function login_validate() {
 
