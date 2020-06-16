@@ -1640,7 +1640,7 @@ class UserController extends Controller
         //Validate input
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:users,id',
-            'password' => 'required'
+            'password' => 'required|confirmed'
         ]);
         //check if input is valid before moving on
         if ($validator->fails()) {

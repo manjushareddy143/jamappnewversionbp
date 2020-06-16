@@ -157,16 +157,16 @@
                     </div>
                 </form>
 
-                <form id="newpass">
-                    <div class="form-group">
+                <form id="newpass" name="cpform">
+                    <div class="form-group" id="new_pass">
                         <label id="lbl_pass">New Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                         <input type="password" class="form-control" id="forget_pass" aria-describedby="passwordHelp" placeholder="Enter New password" required>
                     </div>
                     <!-- <h6 style="text-align: center;">OR</h6> -->
 
-                    <div class="form-group">
+                    <div class="form-group" id="con_pass">
                         <label id="lbl_pass">Confirm Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                        <input type="password" class="form-control" id="confirm" aria-describedby="passwordHelp" placeholder="Enter Confirm password" required>
+                        <input type="password" class="form-control" id="confirm_pass" aria-describedby="passwordHelp" placeholder="Enter Confirm password" required>
                     </div>
 
                 </form>
@@ -395,6 +395,7 @@
 
 
         var forPassvalidate = forgotPass_validate();
+        // var forconfirmvalidate = confirmPass_validate();
         console.log(forPassvalidate);
         console.log(cPass);
         if(forPassvalidate != false) 
@@ -487,8 +488,6 @@
 
 
     // Forgot Password validation Function
-        var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
-        var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
     function forgotPass_validate() {
              var txtEmail = document.forms["fpform"]["email"].value;
              console.log(txtEmail);
@@ -496,10 +495,14 @@
              console.log(txtContact);
 
             if(txtEmail == "" && txtContact == "") {
-                alert("Please Fill One Required Field");
+                // alert("Please Fill One Required Field");
+                 $('#fmobile').next('div.red').remove();
+                    $('#fmobile').after('<div class="red" style="color:red">Please Fill One Required Field</div>');
               return false;
             } else if(txtEmail != "" && txtContact != "")  {
-                alert("Please Fill Only One Required Field");
+                // alert("Please Fill Only One Required Field");
+                $('#fmobile').next('div.red').remove();
+                    $('#fmobile').after('<div class="red" style="color:red">Please Fill Only One Required Field</div>');
               return false;
             } else {
                 if(txtEmail != "") {
@@ -511,6 +514,7 @@
             }
 
         }
+
 
     function login_validate() {
 
