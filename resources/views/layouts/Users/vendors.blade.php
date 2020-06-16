@@ -422,17 +422,27 @@
         function update_vendor() {
 
             var edit = 'edit_data';
+            if (document.getElementById('gender-male').checked) {
+                selectGender = "Male";
+            } else if(document.getElementById('gender-female').checked) {
+                selectGender = "Female";
+            }else if(document.getElementById('gender-other').checked) {
+                selectGender = "Other";
+            }
             $.ajax({
                 url: '/api/v1/vendorupdate/' + editUserid,
                 type: 'PUT',
                 data: {
-                    'id' : editUserid,
+                    'id' : parseInt(editUserid),
                     'first_name' : document.getElementById("first_name").value,
                     'last_name' : document.getElementById("last_name").value,
-                    'contact' : document.getElementById("contact").value
-                    },
+                    'contact' : document.getElementById("contact").value,
+                    'gender' : selectGender,
+                    'languages' : selectedLang,
+                },
 
                 success: function (data) {
+                    console.log(JSON.stringify(data));
                     if(data == 1) {
                         console.log("SUCCESS");
                         window.top.location = window.top.location;
@@ -582,29 +592,36 @@
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
                     $('#contact').val(data.contact);
-                    $("#lang-arabic").prop('checked', true);
-                    $("#lang-english").prop('checked', true);
-
-                    // $('#gender').val(data.gender);
-
-                    if("#gender" == 'male')
+                    selectedLang = data.languages;
+                    if(data.languages == 'arabic')
+                    {
+                        $("#lang-arabic").prop('checked', true);
+                    }
+                    else if(data.languages == 'english'){
+                        $("#lang-english").prop('checked', true);
+                    }
+                    else
+                    {
+                        $("#lang-arabic").prop('checked', true);
+                        $("#lang-english").prop('checked', true);
+                    }
+                    selectGender = data.gender;
+                    if(data.gender == 'Male')
                     {
                         $("#gender-male").prop("checked", true);
-                    } else if("#gender" == 'female') {
+                    }
+                    else if(data.gender == 'Female')
+                    {
                         $("#gender-female").prop("checked", true);
                     }
-                    // $(document).ready(function(){
-                    //     $("[type='radio']").on("change", function(){
-                    //         var radioValue = $("input[name='gender']:checked").val();
-                    //         console.log("selected" +  radioValue);
-                    //     });
+                    else
+                    {
+                        $("#gender-other").prop("checked", true);
+                    }
+                    // $('#select_country').prop('selectedIndex', 3);
 
-                    // });
-                    $('#select_country').val();
                     // $( "#select_country :selected" ).text();
-                    // $("#gender-male ").prop('checked', true);
-                    // $("#gender-female ").prop('checked', true);
-                    // $("#gender-other ").prop('checked', true);
+
 
                     $('#action').val('Edit');
                 }
