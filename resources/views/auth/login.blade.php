@@ -160,13 +160,13 @@
             <form id="newpass">
                 <div class="form-group">
                     <label id="lbl_pass">New Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="" required>
+                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter New password" required>
                 </div>
-                <h6 style="text-align: center;">OR</h6>
+                <!-- <h6 style="text-align: center;">OR</h6> -->
 
                 <div class="form-group">
                     <label id="lbl_pass">Confirm Password <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="" required>
+                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Enter Confirm password" required>
                 </div>
 
             </form>
@@ -404,19 +404,65 @@
                 $("#newpass").show();
              $("#fpmain").hide();
 
+         $.ajax({
+            type: 'POST',
+            url: '/resetPassword',
+            data: data,
+            success: function (response) {
+                console.log("SUCCESS");
+                var data = response['status'];
+                console.log(response);
+                if (data === true) {
+                    console.log();
+                } else {
+                    alert("Invalid email Id");
+                }
+            },
+            error: function () {
+                console.log();
+                if(status == 401) {
+                    $("#errormsg").text("Invalid Email Id");
+                } else {
+                    $("#errormsg").text("success");
+                }
+            },
+        });
+
+
+
                 cPass = 1;
             } else {
                 // change pass ajax
                 $("#newpass").hide();
              $("#fpmain").show();
             }
+
+
+             $.ajax({
+            type: 'POST',
+            url: '/changepassword',
+            data: data,
+            success: function (response) {
+                console.log("SUCCESS");
+                var data = response['status'];
+                console.log(response);
+                if (data === true) {
+                    console.log();
+                } else {
+                    alert("Invalid Password");
+                }
+            },
+            error: function () {
+                console.log();
+                if(status == 401) {
+                    $("#errormsg").text("Invalid Password");
+                } else {
+                    $("#errormsg").text("Change Password successfully");
+                }
+            },
+        });
+
         }
-
-            //  $("#newpass").hide();
-            //  $("#fpmain").show();
-
-
-
 
 
         }

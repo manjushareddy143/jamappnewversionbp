@@ -30,8 +30,8 @@ Route::post('/register', '\App\Http\Controllers\Auth\RegisterController@customRe
 
 Route::post('/org_register', '\App\Http\Controllers\Auth\RegisterController@organisationRegister');
 
-Route::post('/changepassword','UserController@changepassword');
-Route::post('/resetPassword','UserController@resetPassword');
+Route::post('/resetPassword','UserController@resetPasswordform');
+Route::post('/changepassword','UserController@changepasswordform');
 
 
 
