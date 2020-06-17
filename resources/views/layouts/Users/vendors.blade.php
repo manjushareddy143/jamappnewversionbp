@@ -463,30 +463,61 @@
             console.log("UPDATE CLICK");
 
             var edit = 'edit_data';
+            if (document.getElementById('gender-male').checked) {
+                selectGender = "Male";
+            } else if(document.getElementById('gender-female').checked) {
+                selectGender = "Female";
+            }else if(document.getElementById('gender-other').checked) {
+                selectGender = "Other";
+            }
+            
+            let formUpdate = new FormData();
+            formUpdate.append('id', editUserid);
+            formUpdate.append('first_name', document.getElementById("first_name").value);
+            formUpdate.append('last_name', document.getElementById("last_name").value);
+            formUpdate.append('contact', document.getElementById("contact").value);
+            formUpdate.append('gender', selectGender);
+            formUpdate.append('languages', selectedLang.toString());
             $.ajax({
-                url: '/api/v1/vendorupdate/' + editUserid,
-                type: 'PUT',
-                data: {
-                    'id' : editUserid,
-                    'first_name' : document.getElementById("first_name").value,
-                    'last_name' : document.getElementById("last_name").value,
-                    'contact' : document.getElementById("contact").value
-                    },
-
-                success: function (data) {
-                    if(data == 1) {
-                        console.log("SUCCESS");
-                        window.top.location = window.top.location;
-                        location.reload();
-                    } else {
-                        console.log("FAIL");
-                        // $('#btn_verify').show();
-                    }
+                url: '/api/v1/vendorupdate',
+                type: 'POST',
+                data: formUpdate,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log("CREATE UPDATE REPOSNE == " + response);
+                // window.top.location = window.top.location;
+                // location.reload();
                 },
                 fail: function (error) {
                     console.log(error);
                 }
             });
+            //{
+            //         'id' : parseInt(editUserid),
+            //         'first_name' : document.getElementById("first_name").value,
+            //         'last_name' : document.getElementById("last_name").value,
+            //         'contact' : document.getElementById("contact").value,
+            //         'gender' : selectGender,
+            //         'languages': selectedLang.toString(),
+                    
+            //     },
+
+            //     success: function (data) {
+            //         console.log(data);
+            //         if(data == 1) {
+            //             console.log("SUCCESS");
+            //             window.top.location = window.top.location;
+            //             location.reload();
+            //         } else {
+            //             console.log("FAIL");
+            //             // $('#btn_verify').show();
+            //         }
+            //     },
+            //     fail: function (error) {
+            //         console.log(error);
+            //     }
+            // });
         }
 
         // Delete Record
@@ -508,7 +539,7 @@
                  });
         }
 
-        var selectedLang = [];
+        var selectedLang = new Array();
         $('#lang-english').change(function () {
             $('#langError').text('')
             if (this.checked) {
@@ -631,27 +662,43 @@
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
                     $('#contact').val(data.contact);
-                    $("#lang-arabic").prop('checked', true);
-                    $("#lang-english").prop('checked', true);
-
-                    // $('#gender').val(data.gender);
-
+                    //for Languages
+                    selectedLang = data.languages.split(",");
+                    console.log(selectedLang);
+                    if(data.languages == 'Arabic')
+                    {
+                        $("#lang-arabic").prop('checked', true);
+                    }
+                    else if(data.languages == 'English')
+                    {
+                        $("#lang-english").prop('checked', true);
+                    }
+                    else
+                    {
+                        $("#lang-arabic").prop('checked', true);
+                        $("#lang-english").prop('checked', true);
+                    }
+                    //for Gender
+                    selectGender = data.gender
                     if(data.gender == 'Male')
                     {
                         $("#gender-male").prop("checked", true);
                     } else if(data.gender == 'Female') {
+
                         $("#gender-female").prop("checked", true);
                     } else {
                         $("#gender-other").prop("checked", true);
                     }
-
+                    //for image
+                    $('#image').attr('src');
                     $('#select_country').val();
+
 
                     $('#action').val('Edit');
                 }
             });
-        }
 
+        }
         // Form Validation
 
         var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
@@ -802,7 +849,7 @@
                     $(this).next('div.red').remove();
                 }
             }
-
+            
             if(selectedLang.length <= 0) {
                 $('#langError').css('color', 'red');
                 $('#langError').text('Please select Language')

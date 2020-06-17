@@ -800,44 +800,40 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
-    function updatevendor(Request $request) {
-
+    public function updatevendor(Request $request) {
         $input = $request->all();
+        
 
         $updatedata = [];
         if(array_key_exists('first_name', $input)) {
-        $updatedata += [
-            'first_name' => $input['first_name'],
-        ];
+            $updatedata += [
+                'first_name' => $input['first_name'],
+            ];
 
-    }
-    if(array_key_exists('last_name', $input)) {
-        $updatedata += [
-            'last_name' => $input['last_name'],
-        ];
-    }
-    if(array_key_exists('contact', $input)) {
-        $updatedata += [
-            'contact' => $input['contact'],
+        }
+        if(array_key_exists('last_name', $input)) {
+            $updatedata += [
+                'last_name' => $input['last_name'],
+            ];
+        }
+        if(array_key_exists('contact', $input)) {
+            $updatedata += [
+                'contact' => $input['contact'],
 
-        ];
-    }
-    // if(array_key_exists('gender', $input)) {
-    //     $updatedata += [
-    //          'gender' => $input['gender'],
+            ];
+        }
+        if(array_key_exists('gender', $input)) {
+            $updatedata += [
+                'gender' => $input['gender'],
+            ];
+        }
+        if(array_key_exists('languages', $input)) {
+            $updatedata += [
+                'languages' => $input['languages'],
 
-    //     ];
-    // }
-    // if(array_key_exists('language', $input)) {
-    //     $updatedata += [
-    //          'language' => $input['language'],
-
-    //     ];
-    // }
-        $temp= DB::table('users')
-            ->where('id', $input['id'])
-            ->update($updatedata);
-
+                ];
+        }
+        $temp= DB::table('users')->where('id', (int)$input['id'])->update($updatedata);
         return $temp;
     }
 
@@ -1625,13 +1621,13 @@ class UserController extends Controller
         $checkuser  = User::where($condition, '=', $username)->first();
 
         if (isset($checkuser))
-        { 
-            return response($checkuser, 200); 
-        } 
+        {
+            return response($checkuser, 200);
+        }
         else
         {
-            return response(null, 401); 
-        }     
+            return response(null, 401);
+        }
     }
 
 
