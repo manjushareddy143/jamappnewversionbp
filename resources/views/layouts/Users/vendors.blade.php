@@ -473,7 +473,7 @@
 
             console.log(editUserid);
             $.ajax({
-                url: '/api/v1/vendorupdate/' + editUserid,
+                url: '/api/v1/vendorupdate',
                 type: 'PUT',
                 data: {
                     'id' : parseInt(editUserid),
