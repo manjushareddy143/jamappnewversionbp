@@ -800,10 +800,9 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
-    function updatevendor(Request $request) {
-
+    public function updatevendor(Request $request) {
         $input = $request->all();
-
+        
 
         $updatedata = [];
         if(array_key_exists('first_name', $input)) {
@@ -834,12 +833,9 @@ class UserController extends Controller
 
                 ];
         }
-    $temp= DB::table('users')
-        ->where('id', (int)$input['id'])
-        ->update($updatedata);
-
-    return $temp;
-}
+        $temp= DB::table('users')->where('id', (int)$input['id'])->update($updatedata);
+        return $temp;
+    }
 
 
     //User profile API

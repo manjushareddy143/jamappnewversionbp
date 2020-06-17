@@ -470,31 +470,30 @@
             }else if(document.getElementById('gender-other').checked) {
                 selectGender = "Other";
             }
-            console.log(editUserid);
-
-                var form = new FormData();
-                form.append('first_name', document.getElementById("first_name").value);
-                    form.append('last_name', document.getElementById("last_name").value);
-                    form.append('contact', document.getElementById("contact").value);
-                    form.append('gender', selectGender);
-                    form.append('languages', selectedLang.toString());
-             
-                $.ajax({
-                    url: '/api/v1/vendorupdate',
-                    type: 'PUT',
-                    data: form, 
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        console.log("CREATE UPDATE REPOSNE == " + response);
-                        window.top.location = window.top.location;
-                        location.reload();
-                    },
-                    fail: function (error) {
-                        console.log(error);
-                    }
-                });
-                    //{
+            
+            let formUpdate = new FormData();
+            formUpdate.append('id', editUserid);
+            formUpdate.append('first_name', document.getElementById("first_name").value);
+            formUpdate.append('last_name', document.getElementById("last_name").value);
+            formUpdate.append('contact', document.getElementById("contact").value);
+            formUpdate.append('gender', selectGender);
+            formUpdate.append('languages', selectedLang.toString());
+            $.ajax({
+                url: '/api/v1/vendorupdate',
+                type: 'POST',
+                data: formUpdate,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log("CREATE UPDATE REPOSNE == " + response);
+                // window.top.location = window.top.location;
+                // location.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+            //{
             //         'id' : parseInt(editUserid),
             //         'first_name' : document.getElementById("first_name").value,
             //         'last_name' : document.getElementById("last_name").value,
