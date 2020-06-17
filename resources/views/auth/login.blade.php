@@ -516,6 +516,34 @@
         }
 
 
+        //     function confirmPass_validate() {
+        //      var txtPass = document.forms["cpform"]["npassword"].value;
+        //      console.log(txtPass);
+        //      var txtCpass = document.forms["cpform"]["cpassword"].value;
+        //      console.log(txtCpass);
+
+        //     if(txtPass == txtCpass) {
+        //         // alert("Please Fill One Required Field");
+        //          $('#con_pass').next('div.red').remove();
+        //             $('#con_pass').after('<div class="red" style="color:red">Password Match</div>');
+        //       return false;
+        //     } else if(txtPass !=  txtCpass)  {
+        //         // alert("Please Fill Only One Required Field");
+        //         $('#con_pass').next('div.red').remove();
+        //             $('#con_pass').after('<div class="red" style="color:red">Password Does Not Match</div>');
+        //       return false;
+        //     } else {
+        //         if(txtPass != "") {
+        //             return "password"
+        //         } 
+        //         if(txtCpass != "") {
+        //             return "Confirm Password"
+        //         }
+        //     }
+
+        // }
+
+
     function login_validate() {
 
         var isValidate = true;
