@@ -470,35 +470,55 @@
             }else if(document.getElementById('gender-other').checked) {
                 selectGender = "Other";
             }
-
             console.log(editUserid);
-            $.ajax({
-                url: '/api/v1/vendorupdate',
-                type: 'PUT',
-                data: {
-                    'id' : parseInt(editUserid),
-                    'first_name' : document.getElementById("first_name").value,
-                    'last_name' : document.getElementById("last_name").value,
-                    'contact' : document.getElementById("contact").value,
-                    'gender' : selectGender,
-                    'languages': selectedLang.toString(),
-                },
 
-                success: function (data) {
-                    console.log(data);
-                    if(data == 1) {
-                        console.log("SUCCESS");
+                var form = new FormData();
+                form.append('first_name', document.getElementById("first_name").value);
+                    form.append('last_name', document.getElementById("last_name").value);
+                    form.append('contact', document.getElementById("contact").value);
+                    form.append('gender', selectGender);
+                    form.append('languages', selectedLang.toString());
+             
+                $.ajax({
+                    url: '/api/v1/vendorupdate',
+                    type: 'PUT',
+                    data: form, 
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log("CREATE UPDATE REPOSNE == " + response);
                         window.top.location = window.top.location;
                         location.reload();
-                    } else {
-                        console.log("FAIL");
-                        // $('#btn_verify').show();
+                    },
+                    fail: function (error) {
+                        console.log(error);
                     }
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
-            });
+                });
+                    //{
+            //         'id' : parseInt(editUserid),
+            //         'first_name' : document.getElementById("first_name").value,
+            //         'last_name' : document.getElementById("last_name").value,
+            //         'contact' : document.getElementById("contact").value,
+            //         'gender' : selectGender,
+            //         'languages': selectedLang.toString(),
+                    
+            //     },
+
+            //     success: function (data) {
+            //         console.log(data);
+            //         if(data == 1) {
+            //             console.log("SUCCESS");
+            //             window.top.location = window.top.location;
+            //             location.reload();
+            //         } else {
+            //             console.log("FAIL");
+            //             // $('#btn_verify').show();
+            //         }
+            //     },
+            //     fail: function (error) {
+            //         console.log(error);
+            //     }
+            // });
         }
 
         // Delete Record
@@ -670,13 +690,8 @@
                     } else {
                         $("#gender-other").prop("checked", true);
                     }
-
-                    // $('#select_country').prop('selectedIndex', 3);
-
-                    // $( "#select_country :selected" ).text();
-
-
-
+                    //for image
+                    $('#image').attr('src');
                     $('#select_country').val();
 
 
@@ -835,7 +850,7 @@
                     $(this).next('div.red').remove();
                 }
             }
-
+            
             if(selectedLang.length <= 0) {
                 $('#langError').css('color', 'red');
                 $('#langError').text('Please select Language')
