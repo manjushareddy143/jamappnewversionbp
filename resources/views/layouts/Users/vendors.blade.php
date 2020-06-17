@@ -470,6 +470,8 @@
             }else if(document.getElementById('gender-other').checked) {
                 selectGender = "Other";
             }
+
+            console.log(editUserid);
             $.ajax({
                 url: '/api/v1/vendorupdate/' + editUserid,
                 type: 'PUT',
@@ -479,11 +481,11 @@
                     'last_name' : document.getElementById("last_name").value,
                     'contact' : document.getElementById("contact").value,
                     'gender' : selectGender,
-                    'languages' : selectedLang,
+                    'languages': selectedLang.toString(),
                 },
 
                 success: function (data) {
-                    console.log(JSON.stringify(data));
+                    console.log(data);
                     if(data == 1) {
                         console.log("SUCCESS");
                         window.top.location = window.top.location;
@@ -518,7 +520,7 @@
                  });
         }
 
-        var selectedLang = [];
+        var selectedLang = new Array();
         $('#lang-english').change(function () {
             $('#langError').text('')
             if (this.checked) {
@@ -641,13 +643,15 @@
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
                     $('#contact').val(data.contact);
-
-                    selectedLang = data.languages;
-                    if(data.languages == 'arabic')
+                    //for Languages
+                    selectedLang = data.languages.split(",");
+                    console.log(selectedLang);
+                    if(data.languages == 'Arabic')
                     {
                         $("#lang-arabic").prop('checked', true);
                     }
-                    else if(data.languages == 'english'){
+                    else if(data.languages == 'English')
+                    {
                         $("#lang-english").prop('checked', true);
                     }
                     else
@@ -655,19 +659,8 @@
                         $("#lang-arabic").prop('checked', true);
                         $("#lang-english").prop('checked', true);
                     }
-                    selectGender = data.gender;
-                    if(data.gender == 'Male')
-                    {
-                        $("#gender-male").prop("checked", true);
-                    }
-                    else if(data.gender == 'Female')
-                    {
-
-                    $("#lang-arabic").prop('checked', true);
-                    $("#lang-english").prop('checked', true);
-
-                    // $('#gender').val(data.gender);
-
+                    //for Gender
+                    selectGender = data.gender
                     if(data.gender == 'Male')
                     {
                         $("#gender-male").prop("checked", true);
@@ -678,10 +671,6 @@
                         $("#gender-other").prop("checked", true);
                     }
 
-                    else
-                    {
-                        $("#gender-other").prop("checked", true);
-                    }
                     // $('#select_country').prop('selectedIndex', 3);
 
                     // $( "#select_country :selected" ).text();
@@ -694,8 +683,8 @@
                     $('#action').val('Edit');
                 }
             });
-        }
 
+        }
         // Form Validation
 
         var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/

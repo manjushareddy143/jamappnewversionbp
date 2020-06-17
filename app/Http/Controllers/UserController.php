@@ -803,7 +803,8 @@ class UserController extends Controller
     function updatevendor(Request $request) {
 
         $input = $request->all();
-        
+        return request($request, 200);
+
         $updatedata = [];
         if(array_key_exists('first_name', $input)) {
         $updatedata += [
@@ -825,15 +826,15 @@ class UserController extends Controller
     if(array_key_exists('gender', $input)) {
         $updatedata += [
              'gender' => $input['gender'],
-        ]; 
-    }
-    if(array_key_exists('language', $input)) {
-        $updatedata += [
-             'language' => $input['language'],
-
         ];
     }
-    // return response($updatedata, 200);
+    if(array_key_exists('languages', $input)) {
+        $updatedata += [
+             'languages' => $input['language'],
+        
+            ];
+    }
+    return response($updatedata, 200);
         $temp= DB::table('users')
             ->where('id', (int)$input['id'])
             ->update($updatedata);
@@ -1625,13 +1626,13 @@ class UserController extends Controller
         $checkuser  = User::where($condition, '=', $username)->first();
 
         if (isset($checkuser))
-        { 
-            return response($checkuser, 200); 
-        } 
+        {
+            return response($checkuser, 200);
+        }
         else
         {
-            return response(null, 401); 
-        }     
+            return response(null, 401);
+        }
     }
 
 
