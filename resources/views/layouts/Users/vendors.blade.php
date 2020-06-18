@@ -470,7 +470,7 @@
             }else if(document.getElementById('gender-other').checked) {
                 selectGender = "Other";
             }
-            
+
             let formUpdate = new FormData();
             formUpdate.append('id', editUserid);
             formUpdate.append('first_name', document.getElementById("first_name").value);
@@ -478,6 +478,12 @@
             formUpdate.append('contact', document.getElementById("contact").value);
             formUpdate.append('gender', selectGender);
             formUpdate.append('languages', selectedLang.toString());
+
+            if((!image).length === 0) {
+                alert("Please select Image for Profile");
+                var image = $('#image')[0].files[0];
+                formUpdate.append('profile_photo', image);
+            }
             $.ajax({
                 url: '/api/v1/vendorupdate',
                 type: 'POST',
@@ -486,8 +492,8 @@
                 processData: false,
                 success: function (response) {
                     console.log("CREATE UPDATE REPOSNE == " + response);
-                // window.top.location = window.top.location;
-                // location.reload();
+                window.top.location = window.top.location;
+                location.reload();
                 },
                 fail: function (error) {
                     console.log(error);
@@ -500,7 +506,7 @@
             //         'contact' : document.getElementById("contact").value,
             //         'gender' : selectGender,
             //         'languages': selectedLang.toString(),
-                    
+
             //     },
 
             //     success: function (data) {
@@ -519,7 +525,26 @@
             //     }
             // });
         }
-
+        function update_services()
+        {
+            var formService = new FormData();
+            formService.append('services', selectedService.toString());
+            $.ajax({
+                    url: '/api/v1/serviceupdate',
+                    type: 'POST',
+                    data: form,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log("CREATE Service REPOSNE == " + response);
+                        window.top.location = window.top.location;
+                        location.reload();
+                    },
+                    fail: function (error) {
+                        console.log(error);
+                    }
+                });
+        }
         // Delete Record
 
         function deleteRecord(e){
@@ -689,8 +714,7 @@
                     } else {
                         $("#gender-other").prop("checked", true);
                     }
-                    //for image
-                    $('#image').attr('src');
+            
                     $('#select_country').val();
 
 
@@ -849,7 +873,7 @@
                     $(this).next('div.red').remove();
                 }
             }
-            
+
             if(selectedLang.length <= 0) {
                 $('#langError').css('color', 'red');
                 $('#langError').text('Please select Language')

@@ -74,6 +74,8 @@ Route::get('v1/providers/service_category', 'ServiceMappingController@get_provid
 Route::get('v1/services/category', 'ServicesController@get_service_categories');
 //Vendor Update
 Route::post('v1/vendorupdate', 'UserController@updatevendor');
+//Services Update
+Route::post('v1/serviceupdate', 'UserController@updatevendor');
 //Customer Update
 Route::put('v1/customerupdate/{id}', 'UserController@updatevendor');
 //Verification

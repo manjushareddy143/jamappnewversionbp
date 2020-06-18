@@ -258,9 +258,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
+        $user = User::with('services')->where('id', $id);
+        // $roles = Role::pluck('name','name')->all();
+        // $userRole = $user->roles->pluck('name','name')->all();
 
          return response()->json($user, 200);
     }
@@ -802,7 +802,7 @@ class UserController extends Controller
 
     public function updatevendor(Request $request) {
         $input = $request->all();
-        
+
 
         $updatedata = [];
         if(array_key_exists('first_name', $input)) {
@@ -830,10 +830,22 @@ class UserController extends Controller
         if(array_key_exists('languages', $input)) {
             $updatedata += [
                 'languages' => $input['languages'],
-
-                ];
+            ];
+        }
+        if(array_key_exists('image', $input)) {
+            $updatedata += [
+                'image' => $input['image'],
+            ];
         }
         $temp= DB::table('users')->where('id', (int)$input['id'])->update($updatedata);
+        return $temp;
+
+        if(array_key_exists('services', $input)) {
+            $updatedata += [
+                'services' => $input['services'],
+            ];
+        }
+        $temp= DB::table('provider_service_mappings')->where('id', (int)$input['user_id'])->update($updatedata);
         return $temp;
     }
 
