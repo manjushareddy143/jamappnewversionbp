@@ -37,6 +37,8 @@ Route::post('/changepassword','UserController@changepasswordform');
 
 Route::middleware(['auth'])->group(function () {
 
+    
+
     Route::get('/', function() {
         return view('welcome');
     });
@@ -44,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['middleware' => 'role:manager'], function() {
 
     });
+
+    
 
     Route::delete('users/{id}', 'UserController@destroy');
 
@@ -55,8 +59,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/index', 'UserController@index');
     Route::get('/show/{$id}', 'UserController@show');
     Route::get('/addUser', 'UserController@addUser');
-    Route::get('/edit','UserController@edit');
-    Route::get('/user/{id}/edit', 'UserController@edit');
+    // Route::get('/edit','UserController@edit');
+    
+    Route::get('/user/edit/{id}', 'UserController@edit');
     Route::post('/user/{id}/update', 'UserController@update');
 
    //customer edit & update

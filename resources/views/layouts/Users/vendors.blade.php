@@ -525,6 +525,7 @@
             //     }
             // });
         }
+
         function update_services()
         {
             var formService = new FormData();
@@ -687,9 +688,19 @@
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
                     $('#contact').val(data.contact);
-                    //for Languages
+                    
+                    var srvCount;
+                    for(srvCount = 0; srvCount< data['services'].length; srvCount++) {
+                        $("#"+ data['services'][srvCount].service_id +"").prop('checked', true);
+                    }
+                    
+                    // $("#2").prop('checked', true);
+                    
                     selectedLang = data.languages.split(",");
+
+                    
                     console.log(selectedLang);
+                    
                     if(data.languages == 'Arabic')
                     {
                         $("#lang-arabic").prop('checked', true);

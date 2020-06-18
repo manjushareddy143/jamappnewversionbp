@@ -258,7 +258,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::with('services')->where('id', $id);
+        // return response()->json($id, 200);
+        $user = User::with('services')->where('id', '=', $id)->first();
         // $roles = Role::pluck('name','name')->all();
         // $userRole = $user->roles->pluck('name','name')->all();
 
