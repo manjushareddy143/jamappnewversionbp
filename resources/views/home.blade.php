@@ -912,7 +912,11 @@
                 user_id: obj.id,
                 location: "",
             };
-            price: document.getElementsByTagName("price").value,
+
+            // $pricedata = {
+            //     price: document.getElementById("price").value,
+            // }
+            
             // console.log($addressdata)
             form.append('address', JSON.stringify($addressdata));
 
@@ -929,6 +933,8 @@
 
             // console.log(services)
             form.append('services', selectedService.toString());
+            // console.log($pricedata)
+            // form.append ('price', JSON.stringify($pricedata));
 
             form.append('doc_type', $('#doctypelist').children("option:selected").val());
             console.log($('#doctypelist').children("option:selected").val());
