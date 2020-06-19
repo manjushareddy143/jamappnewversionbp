@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Price;
 use App\Address;
 use App\Document;
 use App\FCMDevices;
@@ -981,13 +981,13 @@ class UserController extends Controller
             }
 
             //price
-            // if(array_key_exists('price', $input)) {
-            //     $price = $input['price'];
-            //     $price = json_decode($price, true);
+            if(array_key_exists('price', $input)) {
+                $price = $input['price'];
+                $price = json_decode($price, true);
 
-            //     $pricedata = Address::create($price);
-            //     $user['price'] = $pricedata;
-            // }            
+                $pricedata = Price::create($price);
+                $user['price'] = $pricedata;
+            }            
 
             return response($user, 200)
                 ->header('content-type', 'application/json');
