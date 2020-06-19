@@ -88,7 +88,7 @@ class FCMPushNotification extends Controller
                 $cancellation =  [
                     "booking_id" => $input['booking_id'],
                     "reason" => $input['reason'],
-                    "comment" => $input['comment'],
+                    "comment" => array_key_exists('comment', $input) ? $input['comment'] : "",
                 ];
 
                 BookingCancellation::create($cancellation);

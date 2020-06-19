@@ -21,7 +21,7 @@ class BookingController extends Controller
             [
                 'user_id' => 'required|exists:users,id',
                 'service_id'  => 'required|exists:services,id',
-//                'category_id' => 'required|exists:sub_categories,id',
+        //                'category_id' => 'required|exists:sub_categories,id',
                 "booking_date" => "required|date",
                 'contact' => 'required',
                 "start_time" => "required|before:end_time",
@@ -61,78 +61,78 @@ class BookingController extends Controller
 
         $user_id = $request->input('id');
 
-        //        $result = Booking::with('users')
-//            ->with('services')
-//            ->with('category')
-//            ->with('provider')
-//            ->with('address')
-//            ->with('rating')
-//            ->where('provider_id', '=', $user_id)->get();
+               $result = Booking::with('users')
+                   ->with('services')
+                   ->with('category')
+                   ->with('provider')
+                   ->with('address')
+                   ->with('rating')
+                   ->where('provider_id', '=', $user_id)->get();
 
-        $result = Booking::where('provider_id', '=', $user_id)
-            ->leftJoin('users', 'users.id', '=','bookings.provider_id')
-            ->leftJoin('services', 'services.id', '=','bookings.service_id')
-            ->leftJoin('sub_categories', 'sub_categories.id', '=','bookings.category_id')
-            ->leftJoin('experiences', 'experiences.booking_id', '=','bookings.id')
-            ->select('bookings.*',
-                'users.first_name as provider_first_name', 'users.last_name as provider_last_name',
-                'users.image as provider_image',
-                'services.name as service',
-                'sub_categories.name as category',
-                'experiences.rating as rating', 'experiences.comment as comment')
-            ->groupBy('bookings.id')
-            ->get();
+        // $result = Booking::where('provider_id', '=', $user_id)
+        //     ->leftJoin('users', 'users.id', '=','bookings.provider_id')
+        //     ->leftJoin('services', 'services.id', '=','bookings.service_id')
+        //     ->leftJoin('sub_categories', 'sub_categories.id', '=','bookings.category_id')
+        //     ->leftJoin('experiences', 'experiences.booking_id', '=','bookings.id')
+        //     ->select('bookings.*',
+        //         'users.first_name as provider_first_name', 'users.last_name as provider_last_name',
+        //         'users.image as provider_image',
+        //         'services.name as service',
+        //         'sub_categories.name as category',
+        //         'experiences.rating as rating', 'experiences.comment as comment')
+        //     ->groupBy('bookings.id')
+        //     ->get();
 
-        $response = array();
-        foreach ($result as $obj) {
-            $data = array();
-            $data = $obj;
-           // $user = User::where('id','=',$obj->user_id)->first();
-            $address = Address::where('user_id', '=', $obj->user_id)->first();
-           // $data['order_user'] = $user;
-            $data['address'] = $address;
-            array_push($response, $data);
-        }
+        // $response = array();
+        // foreach ($result as $obj) {
+        //     $data = array();
+        //     $data = $obj;
+        //    // $user = User::where('id','=',$obj->user_id)->first();
+        //     $address = Address::where('user_id', '=', $obj->user_id)->first();
+        //    // $data['order_user'] = $user;
+        //     $data['address'] = $address;
+        //     array_push($response, $data);
+        // }
 
 
-        return response()->json($response);
+        return response()->json($result);
     }
 
     public  function getorderbyuser(Request $request) {
 
         $user_id = $request->input('id');
 
-//        $result = Booking::with('users')
-//            ->with('services')
-//            ->with('category')
-//            ->with('provider')
-//            ->with('address')
-//            ->with('rating')
-//            ->where('user_id', user_id'=', $user_id)->groupBy('id')->get();
-        $result = Booking::where('user_id', '=', $user_id)
-            ->leftJoin('users', 'users.id', '=','bookings.provider_id')
-            ->leftJoin('services', 'services.id', '=','bookings.service_id')
-            ->leftJoin('sub_categories', 'sub_categories.id', '=','bookings.category_id')
-            ->leftJoin('experiences', 'experiences.booking_id', '=','bookings.id')
-            ->select('bookings.*',
-                'users.first_name as provider_first_name', 'users.last_name as provider_last_name',
-                'users.image as provider_image',
-                'services.name as service',
-                'sub_categories.name as category',
-                'experiences.rating as rating', 'experiences.comment as comment')
-            ->groupBy('bookings.id')
-            ->get();
+        $result = Booking::with('users')
+            ->with('services')
+            ->with('category')
+            ->with('provider')
+            ->with('address')
+            ->with('rating')
+            ->where('user_id','=', $user_id)->get();
+        // $result = Booking::where('user_id', '=', $user_id)
+        //     ->leftJoin('users', 'users.id', '=','bookings.provider_id')
+        //     ->leftJoin('services', 'services.id', '=','bookings.service_id')
+        //     ->leftJoin('sub_categories', 'sub_categories.id', '=','bookings.category_id')
+        //     ->leftJoin('experiences', 'experiences.booking_id', '=','bookings.id')
+        //     ->select('bookings.*',
+        //         'users.first_name as provider_first_name', 'users.last_name as provider_last_name',
+        //         'users.image as provider_image',
+        //         'services.name as service',
+        //         'sub_categories.name as category',
+        //         'experiences.rating as rating', 'experiences.comment as comment')
+        //     ->groupBy('bookings.id')
+        //     ->get();
 
-        $response = array();
-        foreach ($result as $obj) {
-            $data = array();
-            $data = $obj;
-            $address = Address::where('user_id', '=', $obj->user_id)->first();
-            $data['address'] = $address;
-            array_push($response, $data);
-        }
+        // $response = array();
+        // foreach ($result as $obj) {
+        //     $data = array();
+        //     $data = $obj;
+        //     $address = Address::where('user_id', '=', $obj->user_id)->first();
+        //     $data['address'] = $address;
+        //     array_push($response, $data);
+        // }
 
-        return response()->json($response);
+        return response()->json($result);
     }
 
     public  function getorder($id) {
