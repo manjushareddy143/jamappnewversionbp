@@ -885,7 +885,7 @@
         }
     }
 
-        function apiCall() {
+        function apiCall() {    
             var form = new FormData();
             var files = $('#imageUpload')[0].files[0];
             form.append('profile_photo', files);
@@ -913,9 +913,13 @@
                 location: "",
             };
 
-            // $pricedata = {
-            //     price: document.getElementById("price").value,
-            // }
+            alert('price');
+            $pricedata = {
+
+                price: document.getElementById("price").value,
+            };
+            console.log($pricedata)
+            form.append ('price', JSON.stringify($pricedata));
             
             // console.log($addressdata)
             form.append('address', JSON.stringify($addressdata));
@@ -933,8 +937,8 @@
 
             // console.log(services)
             form.append('services', selectedService.toString());
-            // console.log($pricedata)
-            // form.append ('price', JSON.stringify($pricedata));
+
+            
 
             form.append('doc_type', $('#doctypelist').children("option:selected").val());
             console.log($('#doctypelist').children("option:selected").val());
