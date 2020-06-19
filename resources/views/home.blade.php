@@ -105,8 +105,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Services <strong
-                                            style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <label>Services <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <p id="serviceError"></p>
                                     <ul class="tree" id="tree_box" style="overflow: auto;height: 200px;">
                                         
@@ -208,11 +207,6 @@
                                   <label for="arabic">Arabic</label>
                                 </div>
                             </div> -->
-
-
-
-
-
 
 
                         <div class="modal-footer">
@@ -450,7 +444,8 @@
                                     '" value="' + response[i].id + '">' +
                                     '<img src="' + img + '" class="square" width="50" height="40" />' +
                                     '<label style="margin: 10px;width: 260px!important;"> ' + response[i].name  + ' </label> ' +
-                                    '<input type="number" id="'+response[i].id+'price" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;"> </li>';
+                                    '<input type="number" id="'+response[i].id+'price" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;"> </li>'+
+                                    '<label id="alertmessage" style="color:red"> </label> ';
                             }
                             $('#tree_box').append(trHTML);
                         }
@@ -611,6 +606,7 @@
 
         function validateForm() {
             var isValidate = true;
+            var errormessage = "";
             var profilePhoto = $('#imageUpload')[0].files[0];
             if (!profilePhoto) {
                 isValidate = false;
@@ -633,20 +629,23 @@
                 $('#serviceError').text('Please select Services')
                 isValidate = false;
             }else{
-                alert('else');
+                // alert('else');
                     console.log("start");
                     console.log(selectedService);
-                    $.each(selectedService , function( index, value ) {
-                    alert( index + ": " + value );
-                    // alert(document.getElementById('"'+value+'price"').value)
-
-                    });
+                    // $.each(selectedService , function( index, value ) {
+                    // // alert( index + ": " + value );
+                    // // alert($("#"+value+"price").val());
+                    // });
+                    errormessage = "Please add price in  PriceBox"
+                    $("#alertmessage").text(errormessage);
                     console.log("end");
                      $('.selectedService').each(function (val) {
-                        alert('hello');
-                     if(document.getElementById('"'+value+'price"').value) {
+                        // alert('hello');
+                     if(document.getElementById('"'+value+'price"').value == "") {
 
                      $('#selectedService').text('Please select PriceBox');    
+                     }else{
+                        $('#selectedService').text('');
                      }
                     });
 
@@ -691,7 +690,7 @@
         if (document.getElementById('scheckbox').checked) {
             $("[name='someid']").prop("required", true);
         } else {
-            alert("You didn't check it! Let me check it for you.");
+            alert("You didn't check it!.");
         }
              }
 
@@ -913,6 +912,7 @@
                 user_id: obj.id,
                 location: "",
             };
+            price: document.getElementsByTagName("price").value,
             // console.log($addressdata)
             form.append('address', JSON.stringify($addressdata));
 
@@ -1020,6 +1020,7 @@
 
 
             function isNumberKey(evt){
+
                 var charCode = (evt.which) ? evt.which : event.keyCode
                 if (charCode > 31 && (charCode < 48 || charCode > 57))
                     return false;

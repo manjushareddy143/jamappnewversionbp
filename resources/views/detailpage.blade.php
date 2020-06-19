@@ -3,14 +3,6 @@
 
 @section('content')
          <div class="container-fluid" id="container-wrapper">
-          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Sub Categories</h1>
-{{--            <ol class="breadcrumb">--}}
-{{--              <li class="breadcrumb-item"><a href="/login">Home</a></li>--}}
-{{--              <li class="breadcrumb-item">Tables</li>--}}
-{{--              <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>--}}
-{{--            </ol>--}}
-          </div> -->
 
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -114,16 +106,6 @@
 
 
 
-
-{{--           @if ($message = Session::get('success'))--}}
-
-{{--              <div class="alert alert-success">--}}
-
-{{--                  <p>{{ $message }}</p>--}}
-
-{{--              </div>--}}
-
-{{--          @endif--}}
  <div class="table-responsive">
 <table class="table align-items-center table-flush">
 <thead class="thead-light">
@@ -147,7 +129,7 @@
               <td> {{ $results->name }} </td>
               <td><img src="{{ asset($results->image) }}" class="square" width="60" height="50" /></td>
               <td>{{ $results->description }}</td>
-              <td>{{ $results->price }}</td>
+              <td>&#xFDFC;{{ $results->price }}</td>
             </tr>
            @endforeach
            @endif
