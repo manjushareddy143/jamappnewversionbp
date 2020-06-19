@@ -170,7 +170,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('vendor.label_cbtn')</button>
                                     <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
-                                    <button type="button" onclick="update_vendor()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
+                                    <button type="button" onclick="update_vendor(), update_services()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
 
 
 
@@ -533,7 +533,7 @@
             $.ajax({
                     url: '/api/v1/serviceupdate',
                     type: 'POST',
-                    data: form,
+                    data: formService,
                     contentType: false,
                     processData: false,
                     success: function (response) {
