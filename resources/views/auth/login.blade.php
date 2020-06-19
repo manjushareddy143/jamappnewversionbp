@@ -32,12 +32,17 @@
 <!-- Login Content -->
 <div class="container-login">
 
+
     <div class="row justify-content-center">
         <div class="col-xl-11 col-lg-12 col-md-9">
 
-
             <div class="card shadow-sm my-5">
                 <div class="card-body p-0">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+                    aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    </div>
+                </div>
                     <div class="row">
                         <div class="col-lg-12">
 
