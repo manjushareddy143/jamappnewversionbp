@@ -803,8 +803,6 @@ class UserController extends Controller
 
     public function updatevendor(Request $request) {
         $input = $request->all();
-
-
         $updatedata = [];
         if(array_key_exists('first_name', $input)) {
             $updatedata += [
@@ -839,15 +837,25 @@ class UserController extends Controller
             ];
         }
         $temp= DB::table('users')->where('id', (int)$input['id'])->update($updatedata);
-        return $temp;
+        // return $temp;
 
         if(array_key_exists('services', $input)) {
-            $updatedata += [
-                'services' => $input['services'],
-            ];
+           
+            
+            $dlt = DB::table('provider_service_mappings')->where('user_id', $input['id'])->delete();
+            
+            // $services = $input['services'];
+            // $services =explode(',', $services);
+
+            // foreach ($services as $data) {
+            //     $obj = array();
+            //     $obj['user_id'] = $input['id'];
+            //     $obj['service_id'] = $data;
+            //     ProviderServiceMapping::create($obj);
+            // }    
+           
         }
-        $temp= DB::table('provider_service_mappings')->where('id', (int)$input['user_id'])->update($updatedata);
-        return $temp;
+            return $temp;
     }
 
 
