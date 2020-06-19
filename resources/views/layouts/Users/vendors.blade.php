@@ -479,11 +479,13 @@
             formUpdate.append('gender', selectGender);
             formUpdate.append('languages', selectedLang.toString());
 
-            if((!image).length === 0) {
-                alert("Please select Image for Profile");
-                var image = $('#image')[0].files[0];
+            var image = $('#image')[0].files[0];
+            if(image != null) {
                 formUpdate.append('profile_photo', image);
             }
+            console.log(selectedService.toString());
+            formUpdate.append('services', selectedService.toString());
+
             $.ajax({
                 url: '/api/v1/vendorupdate',
                 type: 'POST',
@@ -499,6 +501,8 @@
                     console.log(error);
                 }
             });
+
+
             //{
             //         'id' : parseInt(editUserid),
             //         'first_name' : document.getElementById("first_name").value,
@@ -526,26 +530,6 @@
             // });
         }
 
-        function update_services()
-        {
-            var formService = new FormData();
-            formService.append('services', selectedService.toString());
-            $.ajax({
-                    url: '/api/v1/serviceupdate',
-                    type: 'POST',
-                    data: formService,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        console.log("CREATE Service REPOSNE == " + response);
-                        window.top.location = window.top.location;
-                        location.reload();
-                    },
-                    fail: function (error) {
-                        console.log(error);
-                    }
-                });
-        }
         // Delete Record
 
         function deleteRecord(e){
@@ -688,19 +672,21 @@
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
                     $('#contact').val(data.contact);
-                    
+
+
                     var srvCount;
                     for(srvCount = 0; srvCount< data['services'].length; srvCount++) {
+                        selectedService.push(data['services'][srvCount].service_id);
                         $("#"+ data['services'][srvCount].service_id +"").prop('checked', true);
                     }
-                    
+
                     // $("#2").prop('checked', true);
-                    
+
                     selectedLang = data.languages.split(",");
 
-                    
+
                     console.log(selectedLang);
-                    
+
                     if(data.languages == 'Arabic')
                     {
                         $("#lang-arabic").prop('checked', true);
@@ -725,7 +711,7 @@
                     } else {
                         $("#gender-other").prop("checked", true);
                     }
-            
+
                     $('#select_country').val();
 
 

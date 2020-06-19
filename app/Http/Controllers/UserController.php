@@ -840,20 +840,20 @@ class UserController extends Controller
         // return $temp;
 
         if(array_key_exists('services', $input)) {
-           
-            
-            $dlt = DB::table('provider_service_mappings')->where('user_id', $input['id'])->delete();
-            
-            // $services = $input['services'];
-            // $services =explode(',', $services);
 
-            // foreach ($services as $data) {
-            //     $obj = array();
-            //     $obj['user_id'] = $input['id'];
-            //     $obj['service_id'] = $data;
-            //     ProviderServiceMapping::create($obj);
-            // }    
-           
+
+            $dlt = DB::table('provider_service_mappings')->where('user_id', $input['id'])->delete();
+
+            $services = $input['services'];
+            $services =explode(',', $services);
+
+            foreach ($services as $data) {
+                $obj = array();
+                $obj['user_id'] = $input['id'];
+                $obj['service_id'] = $data;
+                ProviderServiceMapping::create($obj);
+            }
+
         }
             return $temp;
     }
@@ -922,7 +922,7 @@ class UserController extends Controller
                         'profile_photo' => 'required|image',  //|max:2048
                         'identity_proof' => 'required|image',
                         'services' => 'required',
-                        
+
                     ]);
                 if ($validator_provider->fails())
                 {
@@ -995,7 +995,7 @@ class UserController extends Controller
 
             //     $pricedata = Address::create($price);
             //     $user['price'] = $pricedata;
-            // }            
+            // }
 
             return response($user, 200)
                 ->header('content-type', 'application/json');
