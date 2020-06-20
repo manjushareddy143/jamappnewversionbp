@@ -936,10 +936,13 @@ class UserController extends Controller
 
                    $services = $input['services'];
 
-
                    $services =explode(',', $services);
+                   console.log('price');
+                   $price =explode(',', $price);
+
 
                    foreach ($services as $data) {
+                    console.log('price');
                        $obj = array();
                        $obj['user_id'] = $user['id'];
                        $obj['service_id'] = $data['service_id'];
@@ -989,13 +992,6 @@ class UserController extends Controller
                 $user['address'] = $adddressdata;
             }
 
-            //price
-            if(array_key_exists('price', $input)) {
-                $price = $input['price'];
-                $price = json_decode($price, true);
-                $pricedata = Price::create($price);
-                $user['price'] = $pricedata;
-            }
 
             return response($user, 200)
                 ->header('content-type', 'application/json');

@@ -918,7 +918,7 @@
 
                 price: document.getElementById("price").value,
             };
-            console.log($pricedata)
+            console.log($pricedata);
             form.append ('price', JSON.stringify($pricedata));
             
             // console.log($addressdata)
