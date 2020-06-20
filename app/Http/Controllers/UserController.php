@@ -933,16 +933,12 @@ class UserController extends Controller
                    $user['identity_proofs'] = $id_proof;
 
                    // Service mapping
-
                    $services = $input['services'];
-
-                   $services =explode(',', $services);
-                   console.log('price');
-                   $price =explode(',', $price);
-
-
+                   
+                   $services =  json_decode($services, true); //explode(',', );
+                //    print_r($services); exit();
+                //    echo(gettype($services)); exit();
                    foreach ($services as $data) {
-                    console.log('price');
                        $obj = array();
                        $obj['user_id'] = $user['id'];
                        $obj['service_id'] = $data['service_id'];

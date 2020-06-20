@@ -915,7 +915,6 @@
 
             alert('price');
             $pricedata = {
-
                 price: document.getElementById("price").value,
             };
             console.log($pricedata);
