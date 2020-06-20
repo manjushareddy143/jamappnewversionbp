@@ -1007,11 +1007,11 @@ class UserController extends Controller
                 [
                     'id'  => 'required|exists:users,id',
                     'number_of_employee'  => 'required',
-                    'profile_photo' => 'required|image',  //|max:2048
+                    // 'profile_photo' => 'required|image',  //|max:2048
                 ]);
             if ($validator->fails())
             {
-                return response()->json(['error'=>$validator->errors()], 401);
+                return response()->json(['error'=>$validator->errors()], 406);
             }
 
              $input = $request->all();
@@ -1032,21 +1032,24 @@ class UserController extends Controller
              }
 
             // Org_Profile Image insert
-            $profileImg = $request->file('profile_photo');
-            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
-            $profileImg->move(public_path('images/profiles'), $profile_name);
-            $imagedata = [
-                    'image' => $host . "/images/profiles/" . $profile_name,
-            ];
-
-            if($this->update_user_details($imagedata, $id)) {
-
-                $user["image"] = $host . "/images/profiles/" . $profile_name;
-            } else {
-                $response['message'] = "Profile image not update";
-                return response($response, 406)
-                    ->header('content-type', 'application/json');
+            if(array_key_exists('profile_photo', $input)) {
+                $profileImg = $request->file('profile_photo');
+                $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+                $profileImg->move(public_path('images/profiles'), $profile_name);
+                $imagedata = [
+                        'image' => $host . "/images/profiles/" . $profile_name,
+                ];
+    
+                if($this->update_user_details($imagedata, $id)) {
+    
+                    $user["image"] = $host . "/images/profiles/" . $profile_name;
+                } else {
+                    $response['message'] = "Profile image not update";
+                    return response($response, 406)
+                        ->header('content-type', 'application/json');
+                }
             }
+            
 
 
             // ADDRESS

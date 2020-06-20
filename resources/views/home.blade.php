@@ -457,17 +457,19 @@
             });
         }
 
+        var loggedInUser;
         function onLoad() {
             console.log("asdasdas");
             var retrievedObject = localStorage.getItem('userObject');
-            console.log(retrievedObject)
-            var obj = JSON.parse(retrievedObject);
+            loggedInUser = JSON.parse(retrievedObject);
 
-            if (obj.address === null) {
+            console.log(loggedInUser.address.length)
+
+            if (loggedInUser.address.length == 0) {
                 addServices();
                 // getServices();
-                console.log("ADMINUSER =====" + obj.roles[0].slug);
-                if (obj.roles[0].slug == "organisation-admin") {
+                console.log("ADMINUSER =====" + loggedInUser.roles[0].slug);
+                if (loggedInUser.roles[0].slug == "organisation-admin") {
                     console.log("ADMINUSER");
                     $('#org_Modal').modal({
                         backdrop: 'static',
@@ -479,6 +481,27 @@
                         backdrop: 'static',
                         keyboard: false
                     })
+
+                    
+                    selectedLang = loggedInUser.languages.split(",");
+
+
+                    console.log(selectedLang);
+
+                    if(loggedInUser.languages == 'Arabic')
+                    {
+                        $("#lang-arabic").prop('checked', true);
+                    }
+                    else if(loggedInUser.languages == 'English')
+                    {
+                        $("#lang-english").prop('checked', true);
+                    }
+                    else
+                    {
+                        $("#lang-arabic").prop('checked', true);
+                        $("#lang-english").prop('checked', true);
+                    }
+                    // loggedInUser
                 }
             }
 
@@ -977,7 +1000,10 @@
                 var numOfEmp = document.getElementById("numofemp").selectedIndex;
             var form = new FormData();
             var files = $('#org_imageUpload')[0].files[0];
-            form.append('profile_photo', files);
+            if(files != null) {
+                form.append('profile_photo', files);
+            }
+            
             //var doc_files = $('#docupload')[0].files[0];
             //form.append('identity_proof', doc_files);
             var retrievedObject = localStorage.getItem('userObject');
