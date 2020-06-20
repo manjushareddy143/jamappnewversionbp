@@ -942,7 +942,8 @@ class UserController extends Controller
                    foreach ($services as $data) {
                        $obj = array();
                        $obj['user_id'] = $user['id'];
-                       $obj['service_id'] = $data;
+                       $obj['service_id'] = $data['service_id'];
+                       $obj['price'] = $data['price'];
                        ProviderServiceMapping::create($obj);
                    }
 
