@@ -989,7 +989,14 @@ class UserController extends Controller
             }
 
 
-            return response($user, 200)
+            $result = User::with('services')->with('address')
+            ->with('provider')
+            ->where('email', '=', $user['email'])->first();
+            $checkuser = Auth::onceUsingId($user['id']);
+            $roles = Auth::user()->roles;
+            $result["roles"] = $roles;
+
+            return response($result, 200)
                 ->header('content-type', 'application/json');
         }
         catch (\Exception $e) {
