@@ -262,7 +262,6 @@
             }
             console.log(selectedService);
         }
-
         function getAllVendors() {
 
             $.ajax({
@@ -309,7 +308,7 @@
                             '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')">'+
                             '<i class="fas fa-trash"></i></a> ' +
                             '<a href="#" class="btn btn-success" > <i class="'+ icon +'"></i></a>'
-                             + '</td></tr>';
+                            + '</td></tr>';
                     });
                     $('#tbl_id').append(trHTML);
 
@@ -318,7 +317,8 @@
                     console.log(error);
                 }
             });
-        };
+            };
+
 
         window.addEventListener ?
             window.addEventListener("load", onLoad(), false) :
@@ -328,9 +328,9 @@
         function onLoad() {
             console.log("ON LOAD  tbl_id")
             var retrievedObject = localStorage.getItem('userObject');
-            console.log(retrievedObject)
+            console.log("retrievedObject" + retrievedObject)
             currentuser = JSON.parse(retrievedObject);
-            console.log(currentuser.roles[0].name)
+            console.log(JSON.stringify(currentuser))
 
 
             if(currentuser.roles[0].name == 'Admin') {

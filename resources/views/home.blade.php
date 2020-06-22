@@ -108,7 +108,7 @@
                                     <label>Services <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <p id="serviceError"></p>
                                     <ul class="tree" id="tree_box" style="overflow: auto;height: 200px;">
-                                        
+
 
                                     </ul>
                                 </div>
@@ -445,7 +445,7 @@
                                     '<img src="' + img + '" class="square" width="50" height="40" />' +
                                     '<label style="margin: 10px;width: 260px!important;"> ' + response[i].name  + ' </label> ' +
                                     '<input type="number" id="'+response[i].id+'price" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;"> </li>'+
-                                    '<label id="alertmessage" style="color:red"> </label> ';
+                                    '<label id="alertmessage' +response[i].id+'" style="color:red"> </label> ';
                             }
                             $('#tree_box').append(trHTML);
                         }
@@ -460,10 +460,12 @@
         function onLoad() {
             console.log("asdasdas");
             var retrievedObject = localStorage.getItem('userObject');
-            console.log(retrievedObject)
-            var obj = JSON.parse(retrievedObject);
+            loggedInUser = JSON.parse(retrievedObject);
 
-            if (obj.address === null) {
+            console.log(JSON.stringify(loggedInUser))
+
+            if(loggedInUser.roles[0].name != 'Admin') {
+                if (loggedInUser.address.length == 0) {
                 addServices();
                 // getServices();
                 console.log("ADMINUSER =====" + obj.roles[0].slug);
@@ -479,8 +481,30 @@
                         backdrop: 'static',
                         keyboard: false
                     })
+
+
+                    if(loggedInUser.languages != null) {
+                        selectedLang = loggedInUser.languages.split(",");
+                        if(loggedInUser.languages == 'Arabic')
+                        {
+                            $("#lang-arabic").prop('checked', true);
+                        }
+                        else if(loggedInUser.languages == 'English')
+                        {
+                            $("#lang-english").prop('checked', true);
+                        }
+                        else
+                        {
+                            $("#lang-arabic").prop('checked', true);
+                            $("#lang-english").prop('checked', true);
+                        }
+                    }
+
+                    // loggedInUser
                 }
             }
+            }
+
 
         }
 
@@ -623,33 +647,38 @@
                 isValidate = false;
             }
 
-            if(selectedService.length <= 0) {
-                alert('if');
+            if(selectedService.length == 0) {
                 $('#serviceError').css('color', 'red');
                 $('#serviceError').text('Please select Services')
+                $("#alertmessage").text(errormessage);
                 isValidate = false;
-            }else{
-                // alert('else');
+            }
+            else
+            {
+
+                if (document.getElementById('scheckbox').checked) {
+                    $("[name='someid']").prop("required", true);
+                } else {
+                    alert("You didn't check it!.");
+                }
+
                     console.log("start");
-                    console.log(selectedService);
-                    // $.each(selectedService , function( index, value ) {
-                    // // alert( index + ": " + value );
-                    // // alert($("#"+value+"price").val());
-                    // });
-                    errormessage = "Please add price in  PriceBox"
-                    $("#alertmessage").text(errormessage);
-                    console.log("end");
-                     $('.selectedService').each(function (val) {
-                        // alert('hello');
-                     if(document.getElementById('"'+value+'price"').value == "") {
+                    // console.log(selectedService);
 
-                     $('#selectedService').text('Please select PriceBox');    
-                     }else{
-                        $('#selectedService').text('');
-                     }
-                    });
 
+                    var srvcCount;
+                    var checkVal = true;
+
+                    for(srvcCount = 0; srvcCount <selectedService.length; srvcCount++){
+                        if($("#"+selectedService[srvcCount]+"price").val() == "") {
+                            checkVal = false;
+                            $("#alertmessage"+selectedService[srvcCount]).text("Please select PriceBox");
+                        } else {
+                            $("#alertmessage"+selectedService[srvcCount]).text("");
+                        }
                     }
+                    isValidate = checkVal;
+            }
 
 
             if ($('#collapseTable').is(':visible')) {
@@ -686,13 +715,19 @@
 
         //textbox validation
 
-           function validatebox() {
-        if (document.getElementById('scheckbox').checked) {
-            $("[name='someid']").prop("required", true);
-        } else {
-            alert("You didn't check it!.");
+        function validatebox() {
+
         }
-             }
+
+        function saveProfile() {
+            // validatebox();
+        if (validateForm() == true) {
+            console.log("VALIDATE FORM");
+            apiCall();
+        } else {
+            console.log("INVALIDATE FORM");
+        }
+    }
 
         // it return true if form is validdated @please test it before proceed
         function org_validateForm()
@@ -875,31 +910,16 @@
 
 
 
-    function saveProfile() {
-            validatebox();
-        if (validateForm() == true) {
-            console.log("VALIDATE FORM");
-            apiCall();
-        } else {
-            console.log("INVALIDATE FORM");
-        }
-    }
 
-        function apiCall() {    
+
+        function apiCall() {
             var form = new FormData();
             var files = $('#imageUpload')[0].files[0];
             form.append('profile_photo', files);
             var doc_files = $('#docupload')[0].files[0];
             form.append('identity_proof', doc_files);
-            var retrievedObject = localStorage.getItem('userObject');
-            var obj = JSON.parse(retrievedObject);
-            // var languagesarray=[];
-            // console.log("IDDD==" + obj.id);
-            // $("input:checkbox[name=languages]:checked").each(function(){
-            //     languagesarray.push($(this).val());
-            //     });
-            //
-            // form.append('languages', languagesarray.toString());
+            // var retrievedObject = localStorage.getItem('userObject');
+            // var obj = JSON.parse(retrievedObject);
             form.append('languages', selectedLang.toString());
             $addressdata = {
                 name: document.getElementById("address_name").value,
@@ -909,20 +929,38 @@
                 district: document.getElementById("district").value,
                 city: document.getElementsByTagName("city").value,
                 postal_code: document.getElementsByTagName("postal_code").value,
-                user_id: obj.id,
+                user_id: loggedInUser.id,
                 location: "",
             };
 
 
-            //     var myObject = {price, service_id};
 
-            //     for(var i = 0; i < 2; i++) {
-            //        myObject.property = 'newValue';
-            //        myObject.anotherProp = [];
-            //        for(...) {
-            //            myObject.anotherProp.push('price');
-            //         }
-            //     }
+            var srvcCount;
+
+            var servicesVal = Array();
+
+            for(srvcCount = 0; srvcCount <selectedService.length; srvcCount++){
+
+                $srvcObj = {
+                    price: $("#"+selectedService[srvcCount]+"price").val(),
+                    service_id : selectedService[srvcCount]
+                };
+                // console.log($srvcObj);
+                servicesVal.push($srvcObj);
+            }
+
+
+            console.log("service ===== " + servicesVal);
+
+            // var i;
+
+            // for( var i = 0; i <=1; i++){
+            //     console.log(selectedService);
+            //    var selectedService = $('#selectedService').val();
+            //    // selectedService.push(data);
+            // }
+
+
 
             //     var json = JSON.stringify(myObject);
 
@@ -948,18 +986,18 @@
             // })
 
             // console.log(services)
-            form.append('services', selectedService.toString());
+            form.append('services', servicesVal.toString());
 
 
-            
+
 
             form.append('doc_type', $('#doctypelist').children("option:selected").val());
-            console.log($('#doctypelist').children("option:selected").val());
+            // console.log($('#doctypelist').children("option:selected").val());
 
 
             form.append('id', obj.id);
-            console.log('testprofile');
-            console.log(form)
+            // console.log('testprofile');
+            // console.log(form)
 
 
             $.ajax({
@@ -991,7 +1029,10 @@
                 var numOfEmp = document.getElementById("numofemp").selectedIndex;
             var form = new FormData();
             var files = $('#org_imageUpload')[0].files[0];
-            form.append('profile_photo', files);
+            if(files != null) {
+                form.append('profile_photo', files);
+            }
+
             //var doc_files = $('#docupload')[0].files[0];
             //form.append('identity_proof', doc_files);
             var retrievedObject = localStorage.getItem('userObject');
@@ -1048,7 +1089,7 @@
                 if (charCode > 31 && (charCode < 48 || charCode > 57))
                     return false;
                 return true;
-            }  
+            }
 
     </script>
     </body>

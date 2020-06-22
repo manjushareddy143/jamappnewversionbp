@@ -146,8 +146,8 @@ class LoginController extends Controller
             // $roles = Auth::user()->roles;
 
             if($user->type_id == 1){
-                $response['status'] = true;
-                return response($response, 200)
+                $user['status'] = true;
+                return response($user, 200)
                     ->header('content-type', 'application/json');
             }
 
