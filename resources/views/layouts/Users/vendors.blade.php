@@ -161,9 +161,7 @@
                                                     <label>@lang('vendor.label_Services')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                     <p id="serviceError"></p>
                                                     <ul class="tree" id="tree_box"
-                                                        style="overflow: auto;height: 200px;">
-                                                    </ul>
-                                                                  style="overflow: auto;height: 200px;"></ul>
+                                                        style="overflow: auto;height: 200px;"></ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -262,7 +260,17 @@
 
                 selectedService.push(id);
             }
-ATE CREATE REPOSNE == " + JSON.stringify(response));
+            console.log(selectedService);
+        }
+
+        function getAllVendors() {
+
+            $.ajax({
+                url: '/api/v1/getuser/3',
+                type: 'GET',
+                data: null,
+                success: function (response) {
+                    console.log("CREATE CREATE REPOSNE == " + JSON.stringify(response));
                     var trHTML = '';
 
                     $.each(response, function (i, item) {

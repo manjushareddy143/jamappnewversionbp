@@ -457,19 +457,17 @@
             });
         }
 
-        var loggedInUser;
         function onLoad() {
             console.log("asdasdas");
             var retrievedObject = localStorage.getItem('userObject');
-            loggedInUser = JSON.parse(retrievedObject);
+            console.log(retrievedObject)
+            var obj = JSON.parse(retrievedObject);
 
-            console.log(loggedInUser.address.length)
-
-            if (loggedInUser.address.length == 0) {
+            if (obj.address === null) {
                 addServices();
                 // getServices();
-                console.log("ADMINUSER =====" + loggedInUser.roles[0].slug);
-                if (loggedInUser.roles[0].slug == "organisation-admin") {
+                console.log("ADMINUSER =====" + obj.roles[0].slug);
+                if (obj.roles[0].slug == "organisation-admin") {
                     console.log("ADMINUSER");
                     $('#org_Modal').modal({
                         backdrop: 'static',
@@ -481,27 +479,6 @@
                         backdrop: 'static',
                         keyboard: false
                     })
-
-                    
-                    selectedLang = loggedInUser.languages.split(",");
-
-
-                    console.log(selectedLang);
-
-                    if(loggedInUser.languages == 'Arabic')
-                    {
-                        $("#lang-arabic").prop('checked', true);
-                    }
-                    else if(loggedInUser.languages == 'English')
-                    {
-                        $("#lang-english").prop('checked', true);
-                    }
-                    else
-                    {
-                        $("#lang-arabic").prop('checked', true);
-                        $("#lang-english").prop('checked', true);
-                    }
-                    // loggedInUser
                 }
             }
 
@@ -937,18 +914,24 @@
             };
 
 
-            var i;
-            
-            for( var i = 0; i <=1; i++){
-                console.log(selectedService);
-               var selectedService = $('#selectedService').val(); 
-               // selectedService.push(data);
-            }
-        
-            $selectedService = {
-                price: document.getElementById("price").value,
-            };
+            //     var myObject = {price, service_id};
 
+            //     for(var i = 0; i < 2; i++) {
+            //        myObject.property = 'newValue';
+            //        myObject.anotherProp = [];
+            //        for(...) {
+            //            myObject.anotherProp.push('price');
+            //         }
+            //     }
+
+            //     var json = JSON.stringify(myObject);
+
+                var services = {price:"50", service_id:"2"};
+                document.getElementById("price").innerHTML = "The services price is " + services.price;
+
+                // $selectedService = {
+            //     price: document.getElementById('"'+value+'price"').value,
+            // };
 
             // console.log($addressdata)
             form.append('address', JSON.stringify($addressdata));
@@ -1008,10 +991,7 @@
                 var numOfEmp = document.getElementById("numofemp").selectedIndex;
             var form = new FormData();
             var files = $('#org_imageUpload')[0].files[0];
-            if(files != null) {
-                form.append('profile_photo', files);
-            }
-            
+            form.append('profile_photo', files);
             //var doc_files = $('#docupload')[0].files[0];
             //form.append('identity_proof', doc_files);
             var retrievedObject = localStorage.getItem('userObject');
