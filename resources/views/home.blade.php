@@ -108,7 +108,7 @@
                                     <label>Services <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <p id="serviceError"></p>
                                     <ul class="tree" id="tree_box" style="overflow: auto;height: 200px;">
-                                        
+
 
                                     </ul>
                                 </div>
@@ -463,9 +463,10 @@
             var retrievedObject = localStorage.getItem('userObject');
             loggedInUser = JSON.parse(retrievedObject);
 
-            console.log(loggedInUser.address.length)
+            console.log(JSON.stringify(loggedInUser))
 
-            if (loggedInUser.address.length == 0) {
+            if(loggedInUser.roles[0].name != 'Admin') {
+                if (loggedInUser.address.length == 0) {
                 addServices();
                 // getServices();
                 console.log("ADMINUSER =====" + loggedInUser.roles[0].slug);
@@ -482,7 +483,7 @@
                         keyboard: false
                     })
 
-                    
+
                     selectedLang = loggedInUser.languages.split(",");
 
 
@@ -504,6 +505,8 @@
                     // loggedInUser
                 }
             }
+            }
+
 
         }
 
@@ -666,7 +669,7 @@
                         // alert('hello');
                      if(document.getElementById('"'+value+'price"').value == "") {
 
-                     $('#selectedService').text('Please select PriceBox');    
+                     $('#selectedService').text('Please select PriceBox');
                      }else{
                         $('#selectedService').text('');
                      }
@@ -908,7 +911,7 @@
         }
     }
 
-        function apiCall() {    
+        function apiCall() {
             var form = new FormData();
             var files = $('#imageUpload')[0].files[0];
             form.append('profile_photo', files);
@@ -938,13 +941,13 @@
 
 
             var i;
-            
+
             for( var i = 0; i <=1; i++){
                 console.log(selectedService);
-               var selectedService = $('#selectedService').val(); 
+               var selectedService = $('#selectedService').val();
                // selectedService.push(data);
             }
-        
+
             $selectedService = {
                 price: document.getElementById("price").value,
             };
@@ -968,7 +971,7 @@
             form.append('services', selectedService.toString());
 
 
-            
+
 
             form.append('doc_type', $('#doctypelist').children("option:selected").val());
             console.log($('#doctypelist').children("option:selected").val());
@@ -1011,7 +1014,7 @@
             if(files != null) {
                 form.append('profile_photo', files);
             }
-            
+
             //var doc_files = $('#docupload')[0].files[0];
             //form.append('identity_proof', doc_files);
             var retrievedObject = localStorage.getItem('userObject');
@@ -1068,7 +1071,7 @@
                 if (charCode > 31 && (charCode < 48 || charCode > 57))
                     return false;
                 return true;
-            }  
+            }
 
     </script>
     </body>

@@ -262,7 +262,16 @@
 
                 selectedService.push(id);
             }
-ATE CREATE REPOSNE == " + JSON.stringify(response));
+            console.log(selectedService);
+        }
+        function getAllVendors() {
+
+            $.ajax({
+                url: '/api/v1/getuser/3',
+                type: 'GET',
+                data: null,
+                success: function (response) {
+                    console.log("CREATE CREATE REPOSNE == " + JSON.stringify(response));
                     var trHTML = '';
 
                     $.each(response, function (i, item) {
@@ -301,7 +310,7 @@ ATE CREATE REPOSNE == " + JSON.stringify(response));
                             '<a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')">'+
                             '<i class="fas fa-trash"></i></a> ' +
                             '<a href="#" class="btn btn-success" > <i class="'+ icon +'"></i></a>'
-                             + '</td></tr>';
+                            + '</td></tr>';
                     });
                     $('#tbl_id').append(trHTML);
 
@@ -310,7 +319,8 @@ ATE CREATE REPOSNE == " + JSON.stringify(response));
                     console.log(error);
                 }
             });
-        };
+            };
+
 
         window.addEventListener ?
             window.addEventListener("load", onLoad(), false) :
@@ -320,9 +330,9 @@ ATE CREATE REPOSNE == " + JSON.stringify(response));
         function onLoad() {
             console.log("ON LOAD  tbl_id")
             var retrievedObject = localStorage.getItem('userObject');
-            console.log(retrievedObject)
+            console.log("retrievedObject" + retrievedObject)
             currentuser = JSON.parse(retrievedObject);
-            console.log(currentuser.roles[0].name)
+            console.log(JSON.stringify(currentuser))
 
 
             if(currentuser.roles[0].name == 'Admin') {

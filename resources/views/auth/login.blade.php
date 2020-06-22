@@ -39,7 +39,7 @@
             <div class="card shadow-sm my-5">
                 <div class="card-body p-0">
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                     </div>
                 </div>
@@ -403,7 +403,7 @@
         // var forconfirmvalidate = confirmPass_validate();
         console.log(forPassvalidate);
         console.log(cPass);
-        if(forPassvalidate != false) 
+        if(forPassvalidate != false)
         {
             // ajax
             if(cPass == 0) {
@@ -444,7 +444,7 @@
                         }
                     },
                 });
-                
+
             } else {
                 // change pass ajax
 
@@ -457,7 +457,7 @@
                     },
                     success: function (response) {
                         console.log("SUCCESS" + JSON.stringify(response));
-                        
+
                         // // console.log(response);
                         if (response != null) {
                             var result = response['status'];
@@ -512,7 +512,7 @@
             } else {
                 if(txtEmail != "") {
                     return "email"
-                } 
+                }
                 if(txtContact != "") {
                     return "contact"
                 }
@@ -540,7 +540,7 @@
         //     } else {
         //         if(txtPass != "") {
         //             return "password"
-        //         } 
+        //         }
         //         if(txtCpass != "") {
         //             return "Confirm Password"
         //         }
