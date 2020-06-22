@@ -913,13 +913,20 @@
                 location: "",
             };
 
-            alert('price');
-            $pricedata = {
+
+            var i;
+            
+            for( var i = 0; i <=1; i++){
+                console.log(selectedService);
+               var selectedService = $('#selectedService').val(); 
+               // selectedService.push(data);
+            }
+        
+            $selectedService = {
                 price: document.getElementById("price").value,
             };
-            console.log($pricedata);
-            form.append ('price', JSON.stringify($pricedata));
-            
+
+
             // console.log($addressdata)
             form.append('address', JSON.stringify($addressdata));
 
@@ -936,6 +943,7 @@
 
             // console.log(services)
             form.append('services', selectedService.toString());
+
 
             
 
