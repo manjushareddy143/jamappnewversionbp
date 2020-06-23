@@ -8,5 +8,7 @@ class ServiceProvider extends Model
 {
     protected $table = "service_providers";
 
-    protected $fillable = ['user_id', 'resident_country', 'proof_id'];
+    protected $fillable = ['user_id', 'resident_country', 'proof_id',
+    'service_radius', 'verified'];
+
 }

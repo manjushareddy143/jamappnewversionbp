@@ -19,4 +19,8 @@ class ProviderServiceMapping extends Model
         return $this->hasOne(services::class, 'id' , 'service_id');
     }
 
+    public function categories() {
+        return $this->hasOne(SubCategories::class, 'id' , 'category_id');
+    }
+
 }
