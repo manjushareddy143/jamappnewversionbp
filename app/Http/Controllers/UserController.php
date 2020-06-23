@@ -942,6 +942,9 @@ class UserController extends Controller
                        $obj = array();
                        $obj['user_id'] = $user['id'];
                        $obj['service_id'] = $data['service_id'];
+                       if(array_key_exists('category_id', $data)) {
+                            $obj['category_id'] = $data['category_id'];
+                       }
                        $obj['price'] = $data['price'];
                        ProviderServiceMapping::create($obj);
                    }
