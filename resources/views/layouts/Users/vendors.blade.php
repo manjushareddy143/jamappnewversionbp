@@ -7,12 +7,38 @@
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+
+    <style>
+        .bs-example{
+            margin: 20px;
+        }
+    </style>
+
+
 </head>
 
 @section('content')
     <div class="container-fluid" id="container-wrapper">
+
+
+
+
+
         <div class="row">
+
+
+
             <div class="col-lg-12 margin-tb">
+
+
+
+
+
                 <div class="card">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">@lang('vendor.label_header')</h6>
@@ -170,9 +196,7 @@
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('vendor.label_cbtn')</button>
                                     <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
                                     <button type="button" onclick="update_vendor(), update_services()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
-
-
-
+                                    <a class="btn btn-info btn-lg" id="alert-target">Click me!</a>
                                 </div>
                             </div>
                         </div>
@@ -199,6 +223,22 @@
                             <tbody></tbody>
                         </table>
                     </div>
+
+
+                    <div style="position: absolute; top: 0; right: 0; min-width: 300px;">
+                        <div class="toast fade show">
+                            <div class="toast-header">
+                                <strong class="mr-auto"><i class="fa fa-globe"></i> Hello, world!</strong>
+                                <small class="text-muted">just now</small>
+                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+                            </div>
+                            <div class="toast-body">
+                                This is a basic toast message.
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -261,6 +301,7 @@
             }
             console.log(selectedService);
         }
+
         function getAllVendors() {
 
             $.ajax({
@@ -443,6 +484,9 @@
                 $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
                 e.stopPropagation();
             });
+
+
+
 
 
         function getColumnValue(e){
