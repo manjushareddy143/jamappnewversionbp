@@ -8,7 +8,7 @@ class ProviderServiceMapping extends Model
 {
     protected $table = "provider_service_mappings";
 
-    protected $fillable = ['user_id', 'service_id', 'category_id'];
+    protected $fillable = ['user_id', 'service_id', 'category_id', 'price'];
 
     public function user() {
         return $this->hasMany(User::class, 'id' , 'user_id')->with('provider')->with('rate')

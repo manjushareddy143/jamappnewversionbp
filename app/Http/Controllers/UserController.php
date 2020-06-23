@@ -933,12 +933,11 @@ class UserController extends Controller
                    $user['identity_proofs'] = $id_proof;
 
                    // Service mapping
-
                    $services = $input['services'];
-
-
-                   $services =explode(',', $services);
-
+                   
+                   $services =  json_decode($services, true); //explode(',', );
+                //    print_r($services); exit();
+                //    echo(gettype($services)); exit();
                    foreach ($services as $data) {
                        $obj = array();
                        $obj['user_id'] = $user['id'];
@@ -989,15 +988,15 @@ class UserController extends Controller
                 $user['address'] = $adddressdata;
             }
 
-            //price
-            if(array_key_exists('price', $input)) {
-                $price = $input['price'];
-                $price = json_decode($price, true);
-                $pricedata = Price::create($price);
-                $user['price'] = $pricedata;
-            }
 
-            return response($user, 200)
+            $result = User::with('services')->with('address')
+            ->with('provider')
+            ->where('email', '=', $user['email'])->first();
+            $checkuser = Auth::onceUsingId($user['id']);
+            $roles = Auth::user()->roles;
+            $result["roles"] = $roles;
+
+            return response($result, 200)
                 ->header('content-type', 'application/json');
         }
         catch (\Exception $e) {
@@ -1015,11 +1014,11 @@ class UserController extends Controller
                 [
                     'id'  => 'required|exists:users,id',
                     'number_of_employee'  => 'required',
-                    'profile_photo' => 'required|image',  //|max:2048
+                    // 'profile_photo' => 'required|image',  //|max:2048
                 ]);
             if ($validator->fails())
             {
-                return response()->json(['error'=>$validator->errors()], 401);
+                return response()->json(['error'=>$validator->errors()], 406);
             }
 
              $input = $request->all();
@@ -1040,21 +1039,24 @@ class UserController extends Controller
              }
 
             // Org_Profile Image insert
-            $profileImg = $request->file('profile_photo');
-            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
-            $profileImg->move(public_path('images/profiles'), $profile_name);
-            $imagedata = [
-                    'image' => $host . "/images/profiles/" . $profile_name,
-            ];
-
-            if($this->update_user_details($imagedata, $id)) {
-
-                $user["image"] = $host . "/images/profiles/" . $profile_name;
-            } else {
-                $response['message'] = "Profile image not update";
-                return response($response, 406)
-                    ->header('content-type', 'application/json');
+            if(array_key_exists('profile_photo', $input)) {
+                $profileImg = $request->file('profile_photo');
+                $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+                $profileImg->move(public_path('images/profiles'), $profile_name);
+                $imagedata = [
+                        'image' => $host . "/images/profiles/" . $profile_name,
+                ];
+    
+                if($this->update_user_details($imagedata, $id)) {
+    
+                    $user["image"] = $host . "/images/profiles/" . $profile_name;
+                } else {
+                    $response['message'] = "Profile image not update";
+                    return response($response, 406)
+                        ->header('content-type', 'application/json');
+                }
             }
+            
 
 
             // ADDRESS
@@ -1667,7 +1669,7 @@ class UserController extends Controller
         //Validate input
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:users,id',
-            'password' => 'required|confirmed'
+            'password' => 'required'
         ]);
         //check if input is valid before moving on
         if ($validator->fails()) {
