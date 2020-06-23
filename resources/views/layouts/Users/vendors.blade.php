@@ -71,7 +71,7 @@
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
                                                     <label>@lang('vendor.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                                    <input type="text" class="form-control" id="contact"
+                                                    <input type="number" class="form-control" id="contact" onkeypress="return isNumberKey(event)"
                                                            placeholder="@lang('vendor.label_place_mobile')">
                                                 </div>
                                             </div>
@@ -129,7 +129,7 @@
                                             <div class="form-group">
                                                 <label for="exampleFormControlSelect1">@lang('vendor.label_Country')
                                                     <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                                <select class="form-control" id="select_country" required>
+                                                <select class="form-control" id="select_country" name="select_country"required>
                                                     <option>Select Country</option>
                                                     <option>India</option>
                                                     <option>Bangladesh</option>
@@ -207,6 +207,22 @@
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
+
+        let dropdown = $('#select-country');
+
+        // dropdown.empty();
+
+        // dropdown.append('<option selected="true" disabled>Selecte Country</option>');
+        // dropdown.prop('selectedIndex', 0);
+
+        // const url = '\public\country.json';
+        // console.log(url);
+        // Populate dropdown with list of provinces
+        // $.getJSON(url, function (data) {
+        // $.each(data, function (key, entry) {
+        //     dropdown.append($('<option></option>').attr('value', entry.code).text(entry.name));
+        // })
+        // });
 
         function getListOfService() {
             $.ajax({
@@ -326,6 +342,15 @@
 
         var currentuser;
         function onLoad() {
+        //     const url = 'country.json';
+        //     console.log(url);
+        //     $.getJSON(url, function (data) {
+        //         console.log(data);
+        // $.each(data, function (key, entry) {
+        //     dropdown.append($('<option></option>').attr('value', entry.code).text(entry.name));
+        // })
+        // });
+
             console.log("ON LOAD  tbl_id")
             var retrievedObject = localStorage.getItem('userObject');
             console.log(retrievedObject)
@@ -482,6 +507,9 @@
             var image = $('#image')[0].files[0];
             if(image != null) {
                 formUpdate.append('profile_photo', image);
+            }
+            else{
+                alert("Image is not Selected");
             }
             console.log(selectedService.toString());
             formUpdate.append('services', selectedService.toString());
@@ -885,6 +913,13 @@
 
             console.log("LANG:: "+selectedLang.toString());
             return isValidate;
+            function isNumberKey(evt){
+
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                    return false;
+                return true;
+                }
         }
 
         $("#image").change(function(){

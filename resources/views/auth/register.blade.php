@@ -75,7 +75,7 @@
 
                                                 <div class="form-group">
                                                     <label>@lang('register.label_mobile') <strong>*</strong></label>
-                                                    <input type="text" class="form-control"
+                                                    <input type="number" class="form-control" onkeypress="return isNumberKey(event)"
                                                            id="mobile" placeholder="Enter Mobile Number" required>
                                                 </div>
 
@@ -180,7 +180,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>@lang('register.label_mnumber') <strong>*</strong></label>
-                                                    <input type="text" class="form-control" id="org_mobile"
+                                                    <input type="text" class="form-control" id="org_mobile" onkeypress="return isNumberKey(event)"
                                                            placeholder="Enter Number" required>
                                                 </div>
                                                 <div class="form-group">
@@ -441,6 +441,41 @@
         //var mobilenum = $('#mobile')[0].files[0];
 
 
+        // if (document.getElementById("mobile").value == "") {
+        //     $("#mobile").focus();
+        //     $("#mobile").focus();
+        //     $("#mobile").blur(function () {
+        //         var name = $('#mobile').val();
+        //         if (name.length == 0) {
+        //             $('#mobile').next('div.red').remove();
+        //             $('#mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
+        //             isValidate = false;
+        //         } else {
+        //             if (!phone_regex.test($('#mobile').val())) {
+        //                 $('#mobile').next('div.red').remove();
+        //                 $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+        //                 isValidate = false;
+        //             } else {
+        //                 $(this).next('div.red').remove();
+        //                 isValidate = true;
+        //             }
+        //         }
+        //     });
+        // }
+        // else {
+        //     alert('mobile');
+        //     console.log("mob.error");
+        //     if (!phone_regex.test($('#mobile').val())) {
+        //         console.log("ERROR");
+        //         $('#mobile').next('div.red').remove();
+        //         $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+        //         isValidate = false;
+        //     }
+        //     else {
+        //         $(this).next('div.red').remove();
+        //         isValidate = true;
+        //     }
+        // }
         if (document.getElementById("mobile").value == "") {
             $("#mobile").focus();
             $("#mobile").focus();
@@ -452,10 +487,12 @@
                     isValidate = false;
                 } else {
                     if (!phone_regex.test($('#mobile').val())) {
+                        console.log("ERRPR");
                         $('#mobile').next('div.red').remove();
                         $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
                         isValidate = false;
                     } else {
+                        console.log("NOT WORL");
                         $(this).next('div.red').remove();
                         isValidate = true;
                     }
@@ -463,11 +500,12 @@
             });
         } else {
             if (!phone_regex.test($('#mobile').val())) {
-                console.log("ERROR");
+                console.log("ERRPR");
                 $('#mobile').next('div.red').remove();
                 $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
                 isValidate = false;
             } else {
+                console.log("NOT WORL");
                 $(this).next('div.red').remove();
                 isValidate = true;
             }
@@ -540,6 +578,13 @@
             isValidate = false;
         }
         return isValidate;
+    }
+    function isNumberKey(evt){
+
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
     }
 
     $('#terms').change(function () {
@@ -725,6 +770,13 @@
             isValidate = false;
         }
         return isValidate;
+        function isNumberKey(evt){
+
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
     }
 
     $("#org_select_country").change(function () {
