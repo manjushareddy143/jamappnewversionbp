@@ -444,7 +444,7 @@
                                     '" value="' + response[i].id + '">' +
                                     '<img src="' + img + '" class="square" width="50" height="40" />' +
                                     '<label style="margin: 10px;width: 260px!important;"> ' + response[i].name  + ' </label> ' +
-                                    '<input type="number" id="'+response[i].id+'price" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;"> </li>'+
+                                    '<input type="text" id="'+response[i].id+'price" name="someid" onkeypress="return isNumber(event)"  size="4" style="margin-left: 10px;"> </li>'+
                                     '<label id="alertmessage' +response[i].id+'" style="color:red"> </label> ';
                             }
                             $('#tree_box').append(trHTML);
@@ -1082,14 +1082,15 @@
             }
         }
 
-
-            function isNumberKey(evt){
-
-                var charCode = (evt.which) ? evt.which : event.keyCode
-                if (charCode > 31 && (charCode < 48 || charCode > 57))
-                    return false;
-                return true;
-            }
+            // This function for enter only number in services price field
+                function isNumber(evt) {
+                    evt = (evt) ? evt : window.event;
+                    var charCode = (evt.which) ? evt.which : evt.keyCode;
+                    if ((charCode < 48 || charCode > 57) && charCode != 45) {
+                evt.preventDefault();
+                    }
+                    return true;
+                        }
 
     </script>
     </body>
