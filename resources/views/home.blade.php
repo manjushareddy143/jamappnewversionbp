@@ -468,8 +468,8 @@
                 if (loggedInUser.address.length == 0) {
                 addServices();
                 // getServices();
-                console.log("ADMINUSER =====" + obj.roles[0].slug);
-                if (obj.roles[0].slug == "organisation-admin") {
+                // console.log("ADMINUSER =====" + obj.roles[0].slug);
+                if (loggedInUser.roles[0].slug == "organisation-admin") {
                     console.log("ADMINUSER");
                     $('#org_Modal').modal({
                         backdrop: 'static',
@@ -964,8 +964,8 @@
 
             //     var json = JSON.stringify(myObject);
 
-                var services = {price:"50", service_id:"2"};
-                document.getElementById("price").innerHTML = "The services price is " + services.price;
+                // var services = {price:"50", service_id:"2"};
+                // document.getElementById("price").innerHTML = "The services price is " + services.price;
 
                 // $selectedService = {
             //     price: document.getElementById('"'+value+'price"').value,

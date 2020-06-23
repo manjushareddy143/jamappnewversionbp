@@ -62,7 +62,7 @@
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
                                                     <label>@lang('customer.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                                    <input type="text" class="form-control" id="contact"
+                                                    <input type="text" class="form-control" id="contact" onkeypress="return isNumberKey(event)"
                                                            placeholder="@lang('customer.label_place_mobile')">
                                                 </div>
                                             </div>
@@ -701,7 +701,14 @@
              // $('#email').next('div.red').remove();
              // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
              // return "false";
-         }
+             function isNumberKey(evt){
+
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                    return false;
+                return true;
+                }
+        }
 
 
 
