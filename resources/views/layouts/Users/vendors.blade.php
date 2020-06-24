@@ -110,8 +110,8 @@
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-other" value="other"> Other
                                                     @if ($errors->has('gender'))
                                                         <span class="help-block">
-                                    <strong>{{ $errors->first('gender') }}</strong>
-                                    </span>
+                                                            <strong>{{ $errors->first('gender') }}</strong>
+                                                        </span>
                                                     @endif
                                                 </div>
                                                 <p id="genderError"></p>
@@ -155,12 +155,7 @@
                                                 <label for="exampleFormControlSelect1">@lang('vendor.label_Country')
                                                     <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                                 <select class="form-control" id="select_country" required>
-                                                    <option>Select Country</option>
-                                                    <option>India</option>
-                                                    <option>Bangladesh</option>
-                                                    <option>Australia</option>
-                                                    <option>USA</option>
-                                                    <option>Afghanistan</option>
+                                                    <option value="Select Country">Select Country</option>
                                                 </select>
                                                 <p id="countryError"></p>
                                             </div>
@@ -260,17 +255,53 @@
                             var i;
                             for(i = 0; i < response.length; i++)
                             {
+                                // var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
+                                // trHTML += '<li class=""> <input type="checkbox" ' +
+                                //     'onclick="clickMe(' + response[i].id + ')"' + 'id="' + response[i].id +
+                                //     '" name="' + response[i].id +
+                                //     '" value="' + response[i].id + '">' +
+                                //     '<img src="' + img + '" class="square" width="50" height="40" />' +
+                                //     '<label style="margin: 10px; width: 260px!important;"> ' + response[i].name +
+                                //     '</label> ' +  '<input type="text" ' +
+                                // 'onkeypress="return isNumber(event)"(' + response[i].id + ')"' + 'id="' + response[i].id +
+                                // '" name="' + response[i].id +
+                                // '" value="' + response[i].id + '" size="4" style="margin-left: 10px;"></li>';
+
                                 var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
-                                trHTML += '<li class=""> <input type="checkbox" ' +
-                                    'onclick="clickMe(' + response[i].id + ')"' + 'id="' + response[i].id +
-                                    '" name="' + response[i].id +
+                                trHTML += '<li class="has"> <input type="checkbox" id="service' + + response[i].id +
+                                    '" onclick="serviceClick(' + response[i].id + ')"' +
+                                    '" name="domain[]' +
                                     '" value="' + response[i].id + '">' +
                                     '<img src="' + img + '" class="square" width="50" height="40" />' +
-                                    '<label style="margin: 10px; width: 260px!important;"> ' + response[i].name +
-                                    '</label> ' +  '<input type="text" ' +
-                                'onkeypress="return isNumber(event)"(' + response[i].id + ')"' + 'id="' + response[i].id +
-                                '" name="' + response[i].id +
-                                '" value="' + response[i].id + '" size="4" style="margin-left: 10px;"></li>';
+                                    '<label> ' + response[i].name  + ' </label> ';
+                                    if(response[i]['categories'].length > 0) {
+                                        var trCatHTML = '<ul style="display: block;">';
+                                        var catCount;
+                                        for(catCount = 0; catCount < response[i]['categories'].length; catCount++)
+                                        {
+                                            // var catId  =  response[i]['categories'][catCount].id;
+                                            // console.log("catId ==== " + catId);
+                                            trCatHTML += '<li class="">' +
+                                                '<input type="checkbox" name="subdomain[]"' +'id="category' + 
+                                                response[i].id + response[i]['categories'][catCount].id
+                                                + '"value="' +
+                                                response[i]['categories'][catCount].id + '" onclick="serviceClick(' +
+                                                response[i].id + "," +  response[i]['categories'][catCount].id  + ')"'
+                                                +'>' +
+                                                '<label>'+ response[i]['categories'][catCount].name +'</label>' +
+                                                '<input type="number" id="'+ response[i]['categories'][catCount].id +
+                                                'category" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px !important">' + '</li>'
+                                                + '<label id="catemessage' +response[i]['categories'][catCount].id+'" style="color:red"></label>';
+                                        }
+                                        trCatHTML += '</ul>';
+
+                                        trHTML += trCatHTML;
+                                    } else {
+                                        trHTML += '<input type="number" id="'+response[i].id+
+                                    'price" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px !important;">';
+                                    }
+
+                                    trHTML += ' </li>' + '<label id="alertmessage' +response[i].id+'"style="color:red"></label>';
                             }
                             $('#tree_box').append(trHTML);
                         }
@@ -284,20 +315,19 @@
 
         var selectedService = [];
 
-        function clickMe(id) {
-            console.log("CLIKC ::" + id);
-
+        function serviceClick(id, cat) {
+            console.log("CLIKC ::" + id + "= Categories=" + cat);
+            var srvcObj = {
+                service_id : id,
+                category_id : cat,
+            };
             $('#serviceError').text('')
-            if(jQuery.inArray(id, selectedService) != -1) {
-                console.log("is in array");
+            if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
                 selectedService = $.grep(selectedService, function(value) {
-                    return value != id;
+                    return JSON.stringify(value) != JSON.stringify(srvcObj);
                 });
-
-            } else {
-                console.log("is NOT in array");
-
-                selectedService.push(id);
+            } else{
+                selectedService.push(srvcObj);
             }
             console.log(selectedService);
         }
@@ -623,7 +653,7 @@
         function create_user()  {
             var servicevalite = users_validate();
             if (servicevalite == true) {
-                var country = document.getElementById("select_country").selectedIndex;
+                // var country = document.getElementById("select_country").selectedIndex;
                 var form = new FormData();
                 if (currentuser.roles[0].name == 'Corporate Service Provider') {
                     form.append('org_id', currentuser.org_id);
@@ -644,13 +674,36 @@
                 form.append('contact', document.getElementById("contact").value);
                 form.append('gender', selectGender);
                 form.append('languages', selectedLang.toString());
-                form.append('resident_country', document.getElementsByTagName("option")[country].value);
+                form.append('resident_country', $( "#select_country option:selected" ).val());
                 // form.append('category', document.getElementById("category").value);
                 var image = $('#image')[0].files[0];
                 form.append('profile_photo', image);
 
                 // var checkedCheckboxes = $('#tree_box input[type="checkbox"]:checked');
-                form.append('services', selectedService.toString());
+                // form.append('services', selectedService.toString());
+                var servicesVal = Array();
+                var srvcCount;
+                for(srvcCount = 0; srvcCount <selectedService.length; srvcCount++){
+                    var srvc = selectedService[srvcCount];
+                    console.log("srvc === " + JSON.stringify(srvc));
+                    // $obj = {};
+                    if(srvc['category_id']) {
+                        $obj = {
+                            price : $("#"+srvc['category_id']+"category").val(),
+                            service_id : srvc['service_id'],
+                            category_id : srvc['category_id']
+                        };
+                    } else {
+                        $obj = {
+                            price : $("#"+srvc['service_id']+"price").val(),
+                            service_id : srvc['service_id'],
+                        };
+                    }
+                    console.log("final ==" + JSON.stringify($obj));
+                    console.log("final ==" + $obj);
+                    servicesVal.push($obj);
+                }
+                form.append('services', JSON.stringify(servicesVal));
 
 
                 $.ajax({
@@ -681,6 +734,20 @@
         function genderClick() {
             $('#genderError').text('')
         }
+
+        $(document).ready(function () {
+            $.getJSON("../../country.json", function (data) {
+                    $.each(data, function (index, value) {
+                        $('#select_country').append(`<option value="${value['country_name']}">
+                                                ${value['country_name']}
+                                            </option>`);
+                        // $('#codeLst').append(`<option value="${value['dialling_code']}">
+                        //                         ${value['dialling_code']} ${value['country_name']}
+                        //                     </option>`);
+                        
+                });
+            });
+        });
 
         $("#select_country").change(function () {
             if ($("#select_country").val() === "Select Country") {
@@ -717,10 +784,23 @@
                     $('#contact').val(data.contact);
 
 
+                    // var srvCount;
+                    // for(srvCount = 0; srvCount< data['services'].length; srvCount++) {
+                    //     selectedService.push(data['services'][srvCount].service_id);
+                    //     $("#"+ data['services'][srvCount].service_id +"").prop('checked', true);
+                    // }
                     var srvCount;
                     for(srvCount = 0; srvCount< data['services'].length; srvCount++) {
-                        selectedService.push(data['services'][srvCount].service_id);
-                        $("#"+ data['services'][srvCount].service_id +"").prop('checked', true);
+                        // console.log(loggedInUser['services'][srvCount]);
+                        var srvcObj = {
+                            service_id : data['services'][srvCount].service_id,
+                            category_id : data['services'][srvCount].category_id,
+                        };
+                        // console.log(JSON.stringify(srvcObj));
+                        selectedService.push(srvcObj);
+                        $("#service" + data['services'][srvCount].service_id).prop('checked', true);
+                        $("#category" + data['services'][srvCount].service_id + data['services'][srvCount].category_id).prop('checked', true);
+                        $("#" + data['services'][srvCount].category_id + "category").val(data['services'][srvCount].price);
                     }
 
                     // $("#2").prop('checked', true);
@@ -755,7 +835,8 @@
                         $("#gender-other").prop("checked", true);
                     }
 
-                    $('#select_country').val();
+                    console.log(data['provider'].resident_country);
+                    $('#select_country').val(data['provider'].resident_country);
 
 
                     $('#action').val('Edit');
@@ -920,10 +1001,37 @@
                 isValidate = false;
             }
 
-            if(selectedService.length <= 0) {
+            if(selectedService.length == 0) {
                 $('#serviceError').css('color', 'red');
                 $('#serviceError').text('Please select Services')
+                $("#alertmessage").text("");
                 isValidate = false;
+            }
+            else
+            {
+                var srvcCount;
+                var checkVal = true;
+
+                for(srvcCount = 0; srvcCount <selectedService.length; srvcCount++){
+                    var srvc = selectedService[srvcCount];
+                    if(srvc['category_id']) {
+                        if($("#"+srvc['category_id']+"category").val() == "") {
+                            checkVal = false;
+                            $("#catemessage"+srvc['category_id']).text("Please select PriceBox");
+                        } else {
+                            $("#catemessage"+srvc['category_id']).text("");
+                        }
+                    } else {
+                        if($("#"+srvc['service_id']+"price").val() == "") {
+                            checkVal = false;
+                            $("#alertmessage"+srvc['service_id']).text("Please select PriceBox");
+                        } else {
+                            $("#alertmessage"+srvc['service_id']).text("");
+                        }
+                    }
+
+                }
+                isValidate = checkVal;
             }
 
             console.log("LANG:: "+selectedLang.toString());
@@ -965,13 +1073,13 @@
 
                 // This function for enter only number in services price field
                         function isNumber(evt) {
-                        evt = (evt) ? evt : window.event;
-                        var pattern = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/
-                        var charCode = (evt.which) ? evt.which : evt.keyCode;
-                        if ((charCode < 48 || charCode > 57) && charCode != 45) {
-                    evt.preventDefault();
-                        }
-                        return true;
+                            evt = (evt) ? evt : window.event;
+                            var pattern = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/
+                            var charCode = (evt.which) ? evt.which : evt.keyCode;
+                            if ((charCode < 48 || charCode > 57) && charCode != 45) {
+                        evt.preventDefault();
+                            }
+                            return true;
                             }
 
         </script>
