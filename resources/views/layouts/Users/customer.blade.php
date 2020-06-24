@@ -1,4 +1,17 @@
 @extends('layouts.admin')
+<head>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+
+    <style>
+        .bs-example{
+            margin: 20px;
+        }
+    </style>
+</head>
 @section('content')
 <div class="container-fluid" id="container-wrapper">
    <div class="row">
@@ -76,8 +89,8 @@
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-other" value="other"> Other
                                                     @if ($errors->has('gender'))
                                                         <span class="help-block">
-                                    <strong>{{ $errors->first('gender') }}</strong>
-                                    </span>
+                                                            <strong>{{ $errors->first('gender') }}</strong>
+                                                        </span>
                                                     @endif
                                                 </div>
                                                 <p id="genderError"></p>
@@ -137,13 +150,28 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div style="position: absolute; top: 0; right: 0; min-width: 300px;">
+                                            <div class="toast fade show">
+                                                <div class="toast-header">
+                                                    <strong class="mr-auto"><i class="fa fa-globe"></i> Hello, world!</strong>
+                                                    <small class="text-muted">just now</small>
+                                                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="toast-body">
+                                                    This is a basic toast message.
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('customer.label_cbtn')</button>
                                     <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('customer.label_sbtn')</button>
                                     <button type="button" onclick="update_customer()" class="btn btn-primary">@lang('customer.label_ubtn')</button>
-
+                                    <a class="btn btn-info btn-lg" id="alert-target" onclick="clickme()">Click me!</a>
 
 
                                 </div>
@@ -151,8 +179,7 @@
                         </div>
                     </div>
                     <!-- Modal -->
-
-                       {{-- filter dropdown --}}
+                    {{-- filter dropdown --}}
                     <div class="col-md-1">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #46a396 !important;border: none;"  required>
                           @lang('orders.label_tab_filter')
@@ -316,6 +343,19 @@
         console.log("ON LOAD  tbl_id")
         getResult();
 
+    }
+
+    function clickme(){
+        console.log("get error");
+        $(document).ready(function() {
+            $('#alert-target').click(function() {
+                $('.toast').toast({
+                    animation: false,
+                    delay: 2000
+                });
+                $('.toast').toast('show');
+            });
+        });
     }
 
     var editUserid;

@@ -1006,26 +1006,15 @@
             }
         }
 
-<<<<<<< HEAD
             // This function for enter only number in services price field
                 function isNumber(evt) {
                     evt = (evt) ? evt : window.event;
                     var charCode = (evt.which) ? evt.which : evt.keyCode;
                     if ((charCode < 48 || charCode > 57) && charCode != 45) {
-                evt.preventDefault();
+                        evt.preventDefault();
                     }
                     return true;
                         }
-=======
-
-        function isNumberKey(evt)
-        {
-            var charCode = (evt.which) ? evt.which : event.keyCode
-            if (charCode > 31 && (charCode < 48 || charCode > 57))
-                return false;
-            return true;
-        }
->>>>>>> 8fdf4c4ab250c4e164151cf8888bf403174f78cd
 
     </script>
     </body>
