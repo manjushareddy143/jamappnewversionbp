@@ -225,7 +225,7 @@
                     </div>
 
 
-                    <div style="position: absolute; top: 0; right: 0; min-width: 300px;">
+                    {{-- <div style="position: absolute; top: 0; right: 0; min-width: 300px;">
                         <div class="toast fade show">
                             <div class="toast-header">
                                 <strong class="mr-auto"><i class="fa fa-globe"></i> Hello, world!</strong>
@@ -236,7 +236,7 @@
                                 This is a basic toast message.
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
 
                 </div>
