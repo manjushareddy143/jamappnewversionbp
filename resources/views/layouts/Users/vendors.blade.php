@@ -290,8 +290,8 @@
                                                 +'>' +
                                                 '<label>'+ response[i]['categories'][catCount].name +'</label>' +
                                                 '<input type="number" id="'+ response[i]['categories'][catCount].id +
-                                                'category" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px !important">' + '</li>'
-                                                + '<label id="catemessage' +response[i]['categories'][catCount].id+'" style="color:red"></label>';
+                                                'category" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px !important">' 
+                                                + '<label id="catemessage' +response[i]['categories'][catCount].id+'" style="color:red"></label>'+ '</li>';
                                         }
                                         trCatHTML += '</ul>';
 
@@ -301,7 +301,7 @@
                                     'price" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px !important;">';
                                     }
 
-                                    trHTML += ' </li>' + '<label id="alertmessage' +response[i].id+'"style="color:red"></label>';
+                                    trHTML += '<label id="alertmessage' +response[i].id+'"style="color:red"></label></li>';
                             }
                             $('#tree_box').append(trHTML);
                         }
@@ -315,19 +315,61 @@
 
         var selectedService = [];
 
-        function serviceClick(id, cat) {
-            console.log("CLIKC ::" + id + "= Categories=" + cat);
-            var srvcObj = {
-                service_id : id,
-                category_id : cat,
-            };
-            $('#serviceError').text('')
-            if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
-                selectedService = $.grep(selectedService, function(value) {
-                    return JSON.stringify(value) != JSON.stringify(srvcObj);
-                });
-            } else{
-                selectedService.push(srvcObj);
+        function serviceClick(id, cat)  {
+            console.log("id =" + id + " cat =" +cat);
+            if(cat == null) {
+                var categories = allServices.find(obj => obj.id === id).categories;
+                console.log(categories.length);
+                
+            }
+            if(cat == null) {
+                console.log("inside");
+                var categories = allServices.find(obj => obj.id === id).categories;
+                if(categories.length > 0) {
+                    $.each(categories, function (j, item) {
+                        var srvcObj = {
+                            service_id : id,
+                            category_id : item.id,
+                        };
+                        $('#serviceError').text('')
+                        if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                            selectedService = $.grep(selectedService, function(value) {
+                                return JSON.stringify(value) != JSON.stringify(srvcObj);
+                            });
+                        } else{
+                            selectedService.push(srvcObj);
+                        }
+                    });
+                } else {
+                    console.log("iddd")
+                    var srvcObj = {
+                        service_id : id,
+                        category_id : cat,
+                    };
+                    $('#serviceError').text('')
+                    if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                        selectedService = $.grep(selectedService, function(value) {
+                            return JSON.stringify(value) != JSON.stringify(srvcObj);
+                        });
+                    } else{
+                        selectedService.push(srvcObj);
+                    }
+                }
+                
+            } else {
+                console.log("iddd")
+                var srvcObj = {
+                    service_id : id,
+                    category_id : cat,
+                };
+                $('#serviceError').text('')
+                if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                    selectedService = $.grep(selectedService, function(value) {
+                        return JSON.stringify(value) != JSON.stringify(srvcObj);
+                    });
+                } else{
+                    selectedService.push(srvcObj);
+                }
             }
             console.log(selectedService);
         }

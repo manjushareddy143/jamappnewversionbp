@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-
+Route::get('v1/invoice', 'BookingController@printPDF');
 
 Route::get('v1/details', 'UserController@getSingupDetail');
 Route::post('v1/login', 'UserController@login');
@@ -51,7 +51,8 @@ Route::post('v1/add_vendors', 'UserController@add_vendors');
 Route::post('v1/experience', 'ExperienceController@add_experience');
 
 
-Route::get('test', '\App\Http\Controllers\Auth\RegisterController@getPermissions');
+// Route::get('test', '\App\Http\Controllers\Auth\RegisterController@getPermissions');
+Route::get('test', 'ServiceProviderController@getDistance');
 
 
 
@@ -95,6 +96,11 @@ Route::get('v1/term_agree', 'TermAgreementController@show_all');
 Route::get('/', function () {
     return [1, 2, 3];
 });
+
+
+// Invoice 
+// Route::post('v1/invoice', 'BookingController@invoice');
+
 
 // Route defines to get the services list from database
 

@@ -14,8 +14,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
-
+<div class="toast" style="margin-left: auto; margin-right: 5px; 
+margin-top: 9px; position: absolute; top: 0; right: 0;">
+    <div class="toast-header"> Error </div> 
+    <div class="toast-body"> msgStr </div>
+ </div>
 <body class="bg-gradient-login">
+
 <!-- Service Provider Sign-Up Content -->
 <div class="container-login service-provider-sign-up">
     <div class="row justify-content-center">
@@ -297,6 +302,9 @@
     <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 </body>
 </html>
 
@@ -342,7 +350,6 @@ $(document).ready(function () {
 
 
     window.onload = function () {
-
         var language = localStorage.getItem('langauge');
         if(language == null) {
             $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
@@ -610,12 +617,31 @@ $(document).ready(function () {
                     type_id: 3,
                     term_id: 2
                 }
-            }).done(function (response) {
+            }).done(function (response, xhr) {
                 $("#exampleModal").modal("hide");
                 console.log(response);
                 // Put the object into storage
                 localStorage.setItem('userObject', JSON.stringify(response));
                 window.location = '/home';
+            }).fail(function(xhr) {
+                console.log("errp = " + JSON.stringify(xhr));
+                if(xhr['status'] == 406) {
+                    var errorArray = xhr['responseJSON'];
+                    var msgStr = "";
+                    $.each(errorArray, function (i, err) {
+                        $.each(err, function (title, msg) {
+                            msgStr += msg.toString() + "\n";
+                        });
+
+                    });
+                    // var trHTML = '<div class="toast" style="margin-left: auto; margin-right: 15px; margin-top: 9px; position: absolute; top: 0; right: 0;">' +
+                    //             '<div class="toast-header">'  + 'Error' + '</div> <div class="toast-body">' +
+                    //             msgStr + '</div> </div>';
+                    $('.toast-body').text(msgStr);
+                    $('.toast').toast({delay:1000, animation:false});
+                    $('.toast').toast('show');
+                    // $('#showToast').append(trHTML);
+                }
             });
         }
     }

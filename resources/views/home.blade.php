@@ -12,13 +12,13 @@
         <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
-
-        {{--        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--}}
-        {{--        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>--}}
-        {{--        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>--}}
-
-        {{--        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">--}}
-
+    <style>
+        #map {
+            width: 100%;
+            height: 400px;
+            background-color: grey;
+        }
+    </style>
     </head>
     <body>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -30,6 +30,10 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+    
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
@@ -41,6 +45,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
+
+                
 
                 <div class="modal-body">
                     <form id="addform">
@@ -138,15 +145,17 @@
                         {{--                        ADDRESSS                        --}}
 
                         <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                           data-target="#collapseTable"
+                           data-target="#vendorCollapse"
                            aria-expanded="true"
-                           aria-controls="collapseTable">
-                            {{--                            <i class="fas fa-fw fa-table"></i>--}}
+                           aria-controls="vendorCollapse">
                             <i class="fas fa-address-card"></i>
                             <span>Address</span>
+                            <button class="btn col-md-2" onclick="displayMap()" type="button">
+                            <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                            </button>
                         </a>
 
-                        <div class="col-md-12 collapse" id="collapseTable">
+                        <div class="col-md-12 collapse" id="vendorCollapse">
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -212,6 +221,10 @@
 
 
                             </div>
+                        </div>
+                        
+                        <div id="showMap">
+                            <div id="map"></div>
                         </div>
 
                         <div class="modal-footer">
@@ -383,8 +396,81 @@
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+    
+    <script>
+        var mapShow;
+        function displayMap() {
+            console.log(mapShow);
+            console.log(mapShow);
+            if(mapShow == false) {
+                $("#showMap").show();
+                $("#vendorCollapse").hide();
+                mapShow = true;
+            } else {
+                mapShow = false;
+                $("#showMap").hide();
+                $("#vendorCollapse").show();
+            }
+        }
 
-    <script type="text/javascript">
+        
+        // Initialize and add the map
+        function initMap() {
+            if ("geolocation" in navigator){ //check geolocation available 
+                //try to get user current location using getCurrentPosition() method
+                navigator.geolocation.getCurrentPosition(function(position){ 
+                        console.log("Found your location \nLat : "+position.coords.latitude+" \nLang :"+ position.coords.longitude);
+                        latitude = position.coords.latitude;
+                        longitude = position.coords.longitude;
+                        var uluru = {lat: latitude, lng: longitude};
+                        // The map, centered at Uluru
+                        var map = new google.maps.Map(
+                            document.getElementById('map'), {zoom: 4, center: uluru});
+                        // The marker, positioned at Uluru
+                        var marker = new google.maps.Marker({position: uluru, map: map});
+                        
+                        // var geocoder = new google.maps.Geocoder;
+                        // var infowindow = new google.maps.InfoWindow;
+                        // geocodeLatLng(geocoder, map, infowindow);
+                    
+                    });
+            }else{
+                console.log("Browser doesn't support geolocation!");
+            }
+        }
+
+    //     function geocodeLatLng(geocoder, map, infowindow) {
+    //         var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+    //         geocoder.geocode({'location': latlng}, function(results, status) {
+    //         if (status === 'OK') {
+    //             if (results[0]) {
+    //             map.setZoom(11);
+    //             var marker = new google.maps.Marker({
+    //                 position: latlng,
+    //                 map: map
+    //             });
+    //             infowindow.setContent(results[0].formatted_address);
+    //             infowindow.open(map, marker);
+    //             } else {
+    //             alert('No results found');
+    //             }
+    //         } else {
+    //             alert('Geocoder failed due to: ' + status);
+    //         }
+    //         });
+    //   }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL5hZ74ZmuVnHlFMc6EWAYBQ8aDSsF4sU&callback=initMap">
+    </script>
+
+<!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script> -->
+
+    <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+
+
+    
+<script type="text/javascript">
         var numberOfDoc = [1];
         function addDocs() {
             var docCount = numberOfDoc[numberOfDoc.length-1];
@@ -429,7 +515,6 @@
 
         $(document).on('change', '.tree input[type=checkbox]',
         function (e) {
-            // console.log("yoo ==" + JSON.stringify(e));
             $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
             $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
             e.stopPropagation();
@@ -467,6 +552,7 @@
             window.addEventListener("load", onLoad(), false) :
             window.attachEvent && window.attachEvent("onload", onLoad());
 
+        var allServices;
         function addServices() {
             $.ajax({
                 url: '/api/v1/all_services',
@@ -480,6 +566,7 @@
                             var i;
                             for(i = 0; i < response.length; i++)
                             {
+                                allServices = response;
                                 var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
                                 trHTML += '<li class="has"> <input type="checkbox"'+
                                     'onclick="serviceClick(' + response[i].id + ')"' + 'id="service' + response[i].id +
@@ -503,8 +590,8 @@
                                                 +'>' +
                                                 '<label>'+ response[i]['categories'][catCount].name +'</label>' +
                                                 '<input type="number" id="'+ response[i]['categories'][catCount].id +
-                                                'category" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;">' + '</li>'
-                                                + '<label id="catemessage' +response[i]['categories'][catCount].id+'" style="color:red"></label>';
+                                                'category" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;">'
+                                                + '<label id="catemessage' +response[i]['categories'][catCount].id+'" style="color:red"></label>' + '</li>';
                                         }
                                         trCatHTML += '</ul>';
 
@@ -541,7 +628,13 @@
         }
 
         var selectedService;
+        var latitude;
+        var longitude;
+
         function onLoad() {
+            mapShow = false;
+            $("#showMap").hide();
+
             selectedService = [];
             console.log("asdasdas");
             var retrievedObject = localStorage.getItem('userObject');
@@ -642,18 +735,60 @@
 
 
         function serviceClick(id, cat)  {
-            console.log("CLIKC ::" + id + "= Categories=" + cat);
-            var srvcObj = {
-                service_id : id,
-                category_id : cat,
-            };
-            $('#serviceError').text('')
-            if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
-                selectedService = $.grep(selectedService, function(value) {
-                    return JSON.stringify(value) != JSON.stringify(srvcObj);
-                });
-            } else{
-                selectedService.push(srvcObj);
+            console.log("id =" + id + " cat =" +cat);
+            if(cat == null) {
+                var categories = allServices.find(obj => obj.id === id).categories;
+                console.log(categories.length);
+                
+            }
+            if(cat == null) {
+                console.log("inside");
+                var categories = allServices.find(obj => obj.id === id).categories;
+                if(categories.length > 0) {
+                    $.each(categories, function (j, item) {
+                        var srvcObj = {
+                            service_id : id,
+                            category_id : item.id,
+                        };
+                        $('#serviceError').text('')
+                        if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                            selectedService = $.grep(selectedService, function(value) {
+                                return JSON.stringify(value) != JSON.stringify(srvcObj);
+                            });
+                        } else{
+                            selectedService.push(srvcObj);
+                        }
+                    });
+                } else {
+                    console.log("iddd")
+                    var srvcObj = {
+                        service_id : id,
+                        category_id : cat,
+                    };
+                    $('#serviceError').text('')
+                    if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                        selectedService = $.grep(selectedService, function(value) {
+                            return JSON.stringify(value) != JSON.stringify(srvcObj);
+                        });
+                    } else{
+                        selectedService.push(srvcObj);
+                    }
+                }
+                
+            } else {
+                console.log("iddd")
+                var srvcObj = {
+                    service_id : id,
+                    category_id : cat,
+                };
+                $('#serviceError').text('')
+                if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                    selectedService = $.grep(selectedService, function(value) {
+                        return JSON.stringify(value) != JSON.stringify(srvcObj);
+                    });
+                } else{
+                    selectedService.push(srvcObj);
+                }
             }
             console.log(selectedService);
         }
@@ -733,10 +868,14 @@
 
 
             if ($('#collapseTable').is(':visible')) {
-                console.log("TOTOTO");
+            } else {
+                $('#collapseTable').modal('show');
+            }
+
+            if ($('#vendorCollapse').is(':visible')) {
             } else {
                 console.log("YPPPPP");
-                $('#collapseTable').modal('show');
+                $('#vendorCollapse').modal('show');
             }
 
             if (document.getElementById("address_name").value == "") {
@@ -1093,15 +1232,15 @@
             }
         }
 
-            // This function for enter only number in services price field
-                function isNumber(evt) {
-                    evt = (evt) ? evt : window.event;
-                    var charCode = (evt.which) ? evt.which : evt.keyCode;
-                    if ((charCode < 48 || charCode > 57) && charCode != 45) {
-                        evt.preventDefault();
-                    }
-                    return true;
-                        }
+        // This function for enter only number in services price field
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode < 48 || charCode > 57) && charCode != 45) {
+                evt.preventDefault();
+            }
+            return true;
+        }
 
     </script>
     </body>
