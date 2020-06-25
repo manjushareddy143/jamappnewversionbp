@@ -8,6 +8,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
+use PDF;
 
 class BookingController extends Controller
 {
@@ -160,5 +161,20 @@ class BookingController extends Controller
 
 
         return response()->json($booking, 200);
+    }
+
+    public function invoice(Request $request) {
+        return view('invoice.invoice');
+    }
+
+    public function printPDF()
+    {
+       // This  $data array will be passed to our PDF blade      
+        $data = [   
+                  
+            ];
+        
+        $pdf = PDF::loadView('pdf_view', $data);  
+        return $pdf->download('medium.pdf');
     }
 }
