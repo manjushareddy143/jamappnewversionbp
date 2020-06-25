@@ -58,7 +58,9 @@ class ServiceMappingController extends Controller
     }
 
     public function get_providers_by_service(Request $request) {
+
         $id = $request->input('id');
+        
         $host = url('/');
 
         $result = ProviderServiceMapping::with('user')->with('service')->where('service_id', '=', $id)->get();

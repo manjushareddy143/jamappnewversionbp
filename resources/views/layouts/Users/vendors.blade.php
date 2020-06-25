@@ -290,8 +290,8 @@
                                                 +'>' +
                                                 '<label>'+ response[i]['categories'][catCount].name +'</label>' +
                                                 '<input type="number" id="'+ response[i]['categories'][catCount].id +
-                                                'category" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px !important">' + '</li>'
-                                                + '<label id="catemessage' +response[i]['categories'][catCount].id+'" style="color:red"></label>';
+                                                'category" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px !important">' 
+                                                + '<label id="catemessage' +response[i]['categories'][catCount].id+'" style="color:red"></label>'+ '</li>';
                                         }
                                         trCatHTML += '</ul>';
 
@@ -301,7 +301,7 @@
                                     'price" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px !important;">';
                                     }
 
-                                    trHTML += ' </li>' + '<label id="alertmessage' +response[i].id+'"style="color:red"></label>';
+                                    trHTML += '<label id="alertmessage' +response[i].id+'"style="color:red"></label></li>';
                             }
                             $('#tree_box').append(trHTML);
                         }

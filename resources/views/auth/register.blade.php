@@ -610,12 +610,25 @@ $(document).ready(function () {
                     type_id: 3,
                     term_id: 2
                 }
-            }).done(function (response) {
+            }).done(function (response, xhr) {
+
+
                 $("#exampleModal").modal("hide");
                 console.log(response);
                 // Put the object into storage
                 localStorage.setItem('userObject', JSON.stringify(response));
                 window.location = '/home';
+            }).fail(function(xhr) {
+                console.log("errp = " + JSON.stringify(xhr));
+                if(xhr['status'] == 406) {
+                    var errorArray = xhr['responseJSON'];
+                    $.each(errorArray, function (i, err) {
+                        $.each(err, function (j, msg) {
+                            console.log(j);
+                            console.log(msg.toString());
+                        });
+                    });
+                }
             });
         }
     }
