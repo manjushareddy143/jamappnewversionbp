@@ -12,13 +12,6 @@
         <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
-
-        {{--        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--}}
-        {{--        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>--}}
-        {{--        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>--}}
-
-        {{--        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">--}}
-
     <style>
         #map {
             width: 100%;
@@ -39,6 +32,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 
+    
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
@@ -50,6 +45,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
+
+                
 
                 <div class="modal-body">
                     <form id="addform">
@@ -471,6 +469,7 @@
     <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
 
 
+    
 <script type="text/javascript">
         var numberOfDoc = [1];
         function addDocs() {
@@ -737,13 +736,34 @@
 
         function serviceClick(id, cat)  {
             console.log("id =" + id + " cat =" +cat);
-            
             if(cat == null) {
                 var categories = allServices.find(obj => obj.id === id).categories;
-                $.each(categories, function (j, item) {
+                console.log(categories.length);
+                
+            }
+            if(cat == null) {
+                console.log("inside");
+                var categories = allServices.find(obj => obj.id === id).categories;
+                if(categories.length > 0) {
+                    $.each(categories, function (j, item) {
+                        var srvcObj = {
+                            service_id : id,
+                            category_id : item.id,
+                        };
+                        $('#serviceError').text('')
+                        if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                            selectedService = $.grep(selectedService, function(value) {
+                                return JSON.stringify(value) != JSON.stringify(srvcObj);
+                            });
+                        } else{
+                            selectedService.push(srvcObj);
+                        }
+                    });
+                } else {
+                    console.log("iddd")
                     var srvcObj = {
                         service_id : id,
-                        category_id : item.id,
+                        category_id : cat,
                     };
                     $('#serviceError').text('')
                     if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
@@ -753,7 +773,8 @@
                     } else{
                         selectedService.push(srvcObj);
                     }
-                });
+                }
+                
             } else {
                 console.log("iddd")
                 var srvcObj = {
@@ -769,7 +790,6 @@
                     selectedService.push(srvcObj);
                 }
             }
-
             console.log(selectedService);
         }
 
@@ -1212,15 +1232,15 @@
             }
         }
 
-            // This function for enter only number in services price field
-                function isNumber(evt) {
-                    evt = (evt) ? evt : window.event;
-                    var charCode = (evt.which) ? evt.which : evt.keyCode;
-                    if ((charCode < 48 || charCode > 57) && charCode != 45) {
-                        evt.preventDefault();
-                    }
-                    return true;
-                        }
+        // This function for enter only number in services price field
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode < 48 || charCode > 57) && charCode != 45) {
+                evt.preventDefault();
+            }
+            return true;
+        }
 
     </script>
     </body>

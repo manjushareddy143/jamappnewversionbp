@@ -170,11 +170,9 @@ class BookingController extends Controller
     public function printPDF()
     {
        // This  $data array will be passed to our PDF blade      
-        $data = [   
-                  
-            ];
+        $data = [];
         
-        $pdf = PDF::loadView('pdf_view', $data);  
+        $pdf = PDF::loadView('invoice.invoice', $data);  
         return $pdf->download('medium.pdf');
     }
 }
