@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-Route::get('v1/invoice', 'BookingController@invoice');
+Route::get('v1/invoice', 'BookingController@printPDF');
 
 Route::get('v1/details', 'UserController@getSingupDetail');
 Route::post('v1/login', 'UserController@login');
