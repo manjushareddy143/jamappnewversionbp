@@ -51,7 +51,8 @@ Route::post('v1/add_vendors', 'UserController@add_vendors');
 Route::post('v1/experience', 'ExperienceController@add_experience');
 
 
-Route::get('test', '\App\Http\Controllers\Auth\RegisterController@getPermissions');
+// Route::get('test', '\App\Http\Controllers\Auth\RegisterController@getPermissions');
+Route::get('test', 'ServiceProviderController@getDistance');
 
 
 

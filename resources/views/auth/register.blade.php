@@ -12,7 +12,9 @@
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="css/ruang-admin.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
+
 <body class="bg-gradient-login">
 <!-- Service Provider Sign-Up Content -->
 <div class="container-login service-provider-sign-up">
@@ -73,10 +75,16 @@
                                                            id="last_name" placeholder="Enter Your Last Name" required>
                                                 </div>
 
-                                                <div class="form-group">
+                                                <div class="row form-group">
                                                     <label>@lang('register.label_mobile') <strong>*</strong></label>
-                                                    <input type="number" class="form-control" onkeypress="return isNumberKey(event)"
-                                                           id="mobile" placeholder="Enter Mobile Number" required>
+                                                    <div class="col-5">
+                                                        <select class="form-control" id="codeLst">
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-7">
+                                                        <input type="text" pattern="\d*" maxlength="12" minlength="7" class="form-control" onkeypress="return isNumberKey(event)"
+                                                        id="mobile" placeholder="Enter Mobile Number" required>
+                                                    </div>
                                                 </div>
 
                                                 <div class="form-group">
@@ -93,21 +101,20 @@
                                                            placeholder="Enter Your Password" required>
                                                 </div>
 
+                                                
                                                 <div class="form-group">
+
                                                     <label for="exampleFormControlSelect1">@lang('register.label_rstatus')
                                                         <strong>*</strong></label>
-                                                    <select class="form-control" id="select1">
-                                                        <option>Select Country</option>
-                                                        <option>India</option>
-                                                        <option>Bangladesh</option>
-                                                        <option>Australia</option>
-                                                        <option>USA</option>
-                                                        <option>Afghanistan</option>
+                                                    <select class="form-control" id="countryLst">
+                                                        <option value="Select Country">Select Country</option>
                                                     </select>
                                                 </div>
 
-                                                <div class="form-group register-rc-button">
-                                                    <div class="custom-control custom-checkbox">
+                                                
+
+                                                <div class="row form-group register-rc-button">
+                                                    <div class="custom-control custom-checkbox" style="left: 15px;">
                                                         <input type="checkbox" class="custom-control-input"
                                                                id="terms" name="terms" required>
                                                         <label class="custom-control-label" for="terms">
@@ -117,10 +124,11 @@
                                                                 Terms & Conditions</a>
                                                         </label>
                                                     </div>
+                                                    <p id="myError" style="color: red; margin-left: 15px;"></p>
                                                 </div>
-                                                <p id="myError"></p>
+                                                
                                                 <br>
-                                                <p id="termErr" style="color: red"></p>
+                                                
                                                 <div class="form-group">
                                                     <button type="button"
                                                             class="btn btn-primary btn-block"
@@ -287,6 +295,8 @@
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
+
+
 </body>
 </html>
 
@@ -298,17 +308,33 @@
 <!-- Add Firebase products that you want to use -->
 <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
+
+
+
 <script>
+$(document).ready(function () {
+    $.getJSON("../../country.json", function (data) {
+            $.each(data, function (index, value) {
+                $('#countryLst').append(`<option value="${value['country_name']}">
+                                        ${value['country_name']}
+                                    </option>`);
+                $('#codeLst').append(`<option value="${value['dialling_code']}">
+                                        ${value['dialling_code']} ${value['country_name']}
+                                    </option>`);
+                
+        });
+    });
+});
 
     var selectedLang;
     function langChange(lang) {
         console.log(lang);
         selectedLang = lang;
         if(lang == "en") {
-            $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}')
+            $('#langFlag').attr("src", '{{ URL::asset('/img/en.png') }}');
             localStorage.setItem('langauge', 'en');
         } else {
-            $('#langFlag').attr("src", '{{ URL::asset('/img/ar.png') }}')
+            $('#langFlag').attr("src", '{{ URL::asset('/img/ar.png') }}');
             localStorage.setItem('langauge', 'ar');
         }
     }
@@ -356,9 +382,9 @@
         console.log("mobileSignup");
         if (!form.terms.checked) {
             form.terms.focus();
-            document.getElementById("termErr").innerHTML = "Please accept terms conditions";
+            document.getElementById("myError").innerHTML = "Please accept terms conditions";
         } else {
-            document.getElementById("termErr").innerHTML = "";
+            document.getElementById("myError").innerHTML = "";
             // Phone NUMBER
             var phoneNumber = document.getElementById("mobile").value;
             var appVerifier = window.recaptchaVerifier;
@@ -389,13 +415,13 @@
         });
     }
 
-    var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
+    // var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
     var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 
-    $("#select1").change(function () {
-        if ($("#select1").val() === "Select Country") {
-            $('#select1').next('div.red').remove();
-            $('#select1').after('<div class="red" style="color:red">Country is Required</div>');
+    $("#countryLst").change(function () {
+        if ($("#countryLst").val() === "Select Country") {
+            $('#countryLst').next('div.red').remove();
+            $('#countryLst').after('<div class="red" style="color:red">Country is Required</div>');
             //return false;
         } else {
             $(this).next('div.red').remove();
@@ -438,44 +464,7 @@
                 }
             });
         }
-        //var mobilenum = $('#mobile')[0].files[0];
-
-
-        // if (document.getElementById("mobile").value == "") {
-        //     $("#mobile").focus();
-        //     $("#mobile").focus();
-        //     $("#mobile").blur(function () {
-        //         var name = $('#mobile').val();
-        //         if (name.length == 0) {
-        //             $('#mobile').next('div.red').remove();
-        //             $('#mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
-        //             isValidate = false;
-        //         } else {
-        //             if (!phone_regex.test($('#mobile').val())) {
-        //                 $('#mobile').next('div.red').remove();
-        //                 $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-        //                 isValidate = false;
-        //             } else {
-        //                 $(this).next('div.red').remove();
-        //                 isValidate = true;
-        //             }
-        //         }
-        //     });
-        // }
-        // else {
-        //     alert('mobile');
-        //     console.log("mob.error");
-        //     if (!phone_regex.test($('#mobile').val())) {
-        //         console.log("ERROR");
-        //         $('#mobile').next('div.red').remove();
-        //         $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
-        //         isValidate = false;
-        //     }
-        //     else {
-        //         $(this).next('div.red').remove();
-        //         isValidate = true;
-        //     }
-        // }
+        
         if (document.getElementById("mobile").value == "") {
             $("#mobile").focus();
             $("#mobile").focus();
@@ -486,33 +475,32 @@
                     $('#mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
                     isValidate = false;
                 } else {
-                    if (!phone_regex.test($('#mobile').val())) {
+                    if ($('#mobile').val().length > 6 && $('#mobile').val().length < 13) {
+                        console.log("NOT WORL");
+                        $(this).next('div.red').remove();
+                        isValidate = true;
+                    } else {
                         console.log("ERRPR");
                         $('#mobile').next('div.red').remove();
                         $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
                         isValidate = false;
-                    } else {
-                        console.log("NOT WORL");
-                        $(this).next('div.red').remove();
-                        isValidate = true;
                     }
                 }
             });
         } else {
-            if (!phone_regex.test($('#mobile').val())) {
+            if ($('#mobile').val().length > 6 && $('#mobile').val().length < 13) {
+                console.log("wqewe NOT WORL");
+                $('#mobile').next('div.red').remove();
+                isValidate = true;
+            } else {
                 console.log("ERRPR");
                 $('#mobile').next('div.red').remove();
                 $('#mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
                 isValidate = false;
-            } else {
-                console.log("NOT WORL");
-                $(this).next('div.red').remove();
-                isValidate = true;
             }
         }
 
         if (document.getElementById("email").value == "") {
-            // EXPAND ADDRESS FORM
             $("#email").focus();
             $("#email").focus();
             $("#email").blur(function () {
@@ -532,12 +520,16 @@
                     }
                 }
             });
-        } else {
+        } 
+        else
+        {
             if (!email_regex.test($('#email').val())) {
                 $('#email').next('div.red').remove();
                 $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
                 isValidate = false;
-            } else {
+            } 
+            else
+            {
                 $(this).next('div.red').remove();
                 isValidate = true;
             }
@@ -559,12 +551,12 @@
             });
         }
         //var Country = $('#select1')[0].files[0];
-        let optionsLength = document.getElementById("select1").length;
+        // let optionsLength = document.getElementById("countryLst").length;
 
 
-        if ($("#select1").val() === "Select Country") {
-            $('#select1').next('div.red').remove();
-            $('#select1').after('<div class="red" style="color:red">Country is Required</div>');
+        if ($("#countryLst").val() === "Select Country") {
+            $('#countryLst').next('div.red').remove();
+            $('#countryLst').after('<div class="red" style="color:red">Country is Required</div>');
             isValidate = false;
         } else {
             $(this).next('div.red').remove();
@@ -579,6 +571,7 @@
         }
         return isValidate;
     }
+    
     function isNumberKey(evt){
 
         var charCode = (evt.which) ? evt.which : event.keyCode
@@ -604,26 +597,38 @@
         console.log("individual_validate ::" + individualformvalidate);
         if (individualformvalidate == true) {
             console.log("CREATE SERVER CALL");
-            var x = document.getElementById("select1").selectedIndex;
             $.ajax({
                 type: "POST",
                 url: '/register',
                 data: {
                     first_name: document.getElementById("first_name").value,
                     last_name: document.getElementById("last_name").value,
-                    contact: document.getElementById("mobile").value,
+                    contact: $( "#codeLst option:selected" ).val()+document.getElementById("mobile").value,
                     password: document.getElementById("password").value,
                     email: document.getElementById("email").value,
-                    resident_country: document.getElementsByTagName("option")[x].value,
+                    resident_country: $( "#countryLst option:selected" ).val(),
                     type_id: 3,
                     term_id: 2
                 }
-            }).done(function (response) {
+            }).done(function (response, xhr) {
+
+
                 $("#exampleModal").modal("hide");
                 console.log(response);
                 // Put the object into storage
                 localStorage.setItem('userObject', JSON.stringify(response));
                 window.location = '/home';
+            }).fail(function(xhr) {
+                console.log("errp = " + JSON.stringify(xhr));
+                if(xhr['status'] == 406) {
+                    var errorArray = xhr['responseJSON'];
+                    $.each(errorArray, function (i, err) {
+                        $.each(err, function (j, msg) {
+                            console.log(j);
+                            console.log(msg.toString());
+                        });
+                    });
+                }
             });
         }
     }
@@ -674,28 +679,28 @@
                     $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Required</div>');
                     isValidate = false;
                 } else {
-                    if (!phone_regex.test($('#org_mobile').val())) {
+                    if ($('#org_mobile').val().length > 6 && $('#org_mobile').val().length < 13) {
+                        console.log("NOT WORL");
+                        $(this).next('div.red').remove();
+                        isValidate = true;
+                    } else {
                         console.log("ERRPR");
                         $('#org_mobile').next('div.red').remove();
                         $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
                         isValidate = false;
-                    } else {
-                        console.log("NOT WORL");
-                        $(this).next('div.red').remove();
-                        isValidate = true;
                     }
                 }
             });
         } else {
-            if (!phone_regex.test($('#org_mobile').val())) {
+            if ($('#org_mobile').val().length > 6 && $('#org_mobile').val().length < 13) {
+                console.log("NOT WORL");
+                $(this).next('div.red').remove();
+                isValidate = true;
+            } else {
                 console.log("ERRPR");
                 $('#org_mobile').next('div.red').remove();
                 $('#org_mobile').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
                 isValidate = false;
-            } else {
-                console.log("NOT WORL");
-                $(this).next('div.red').remove();
-                isValidate = true;
             }
         }
         //  var email = $('#email')[0].files[0];
@@ -806,7 +811,7 @@
         if (formvalidate == true) {
             console.log("CREATE SERVER CALL");
             //ajax call for organisation
-            var x = document.getElementById("select1").selectedIndex;
+            var x = document.getElementById("countryLst").selectedIndex;
             $.ajax({
                 type: "POST",
                 url: '/org_register',
