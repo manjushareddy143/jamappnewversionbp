@@ -315,19 +315,61 @@
 
         var selectedService = [];
 
-        function serviceClick(id, cat) {
-            console.log("CLIKC ::" + id + "= Categories=" + cat);
-            var srvcObj = {
-                service_id : id,
-                category_id : cat,
-            };
-            $('#serviceError').text('')
-            if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
-                selectedService = $.grep(selectedService, function(value) {
-                    return JSON.stringify(value) != JSON.stringify(srvcObj);
-                });
-            } else{
-                selectedService.push(srvcObj);
+        function serviceClick(id, cat)  {
+            console.log("id =" + id + " cat =" +cat);
+            if(cat == null) {
+                var categories = allServices.find(obj => obj.id === id).categories;
+                console.log(categories.length);
+                
+            }
+            if(cat == null) {
+                console.log("inside");
+                var categories = allServices.find(obj => obj.id === id).categories;
+                if(categories.length > 0) {
+                    $.each(categories, function (j, item) {
+                        var srvcObj = {
+                            service_id : id,
+                            category_id : item.id,
+                        };
+                        $('#serviceError').text('')
+                        if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                            selectedService = $.grep(selectedService, function(value) {
+                                return JSON.stringify(value) != JSON.stringify(srvcObj);
+                            });
+                        } else{
+                            selectedService.push(srvcObj);
+                        }
+                    });
+                } else {
+                    console.log("iddd")
+                    var srvcObj = {
+                        service_id : id,
+                        category_id : cat,
+                    };
+                    $('#serviceError').text('')
+                    if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                        selectedService = $.grep(selectedService, function(value) {
+                            return JSON.stringify(value) != JSON.stringify(srvcObj);
+                        });
+                    } else{
+                        selectedService.push(srvcObj);
+                    }
+                }
+                
+            } else {
+                console.log("iddd")
+                var srvcObj = {
+                    service_id : id,
+                    category_id : cat,
+                };
+                $('#serviceError').text('')
+                if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                    selectedService = $.grep(selectedService, function(value) {
+                        return JSON.stringify(value) != JSON.stringify(srvcObj);
+                    });
+                } else{
+                    selectedService.push(srvcObj);
+                }
             }
             console.log(selectedService);
         }
