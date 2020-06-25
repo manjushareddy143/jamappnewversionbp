@@ -125,4 +125,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/subcategories', 'SubCategoryController@store');
 
     Route::post('/service_mapping', 'ServiceMappingController@store');
+
+    // invoice 
+    
+    // Route::post('/invoice', 'BookingController@invoice');
+    Route::get('generate-pdf', 'BookingController@printPDF')->name('generate-pdf');
 });
