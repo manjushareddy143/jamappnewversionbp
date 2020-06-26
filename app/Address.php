@@ -10,4 +10,9 @@ class Address extends Model
 
     protected $fillable = ['name', 'address_line1', 'address_line2', 'landmark', 'district',
         'city',	'postal_code', 'location', 'user_id',	];
+
+
+    // public function checkRadius() {
+    //       return $this->hasOne(ServiceProvider::class, 'user_id', 'user_id');
+    // }
 }

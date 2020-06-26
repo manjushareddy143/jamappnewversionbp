@@ -227,8 +227,7 @@
                 };
               if(btnText == 'Accept')
               {
-                data =
-                {
+                data = {
                     status: 2,
                     booking_id: Booking_id,
                 };
@@ -236,8 +235,7 @@
                   //$('#Cancel').show();
               }
               else{
-                data =
-                {
+                data = {
                     status: 1,
                     booking_id: Booking_id,
 
@@ -286,10 +284,10 @@
                         status = "Completed";
                     }
                     $('#status').text(status)
-                    "status" = 2,
-                    "booking_id" = 1,
-                    "reason" = "Too Slow",
-                    "comment" = "Its good but too slow",
+                    // "status" = 2,
+                    // "booking_id" = 1,
+                    // "reason" = "Too Slow",
+                    // "comment" = "Its good but too slow",
 
                 },fail: function (error) {
                   console.log(error);

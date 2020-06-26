@@ -1234,6 +1234,15 @@ class UserController extends Controller
                 ];
             }
 
+            if(array_key_exists('service_radius', $input)) {
+                $providerData = [
+                    'service_radius' => $input['service_radius'],
+                ];
+                // print_r($providerData);
+                // exit();
+                $this->update_provider_details($providerData, $id);
+            }
+
             if($this->update_user_details($imagedata, $id)) {
 
                 $user = User::with('services')->with('provider')->where('id', '=', $id)->first();

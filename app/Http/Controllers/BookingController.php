@@ -13,8 +13,6 @@ use PDF;
 class BookingController extends Controller
 {
 
-
-
     public function booking(Request $request) {
 
         $response = array();
@@ -169,10 +167,10 @@ class BookingController extends Controller
 
     public function printPDF()
     {
-       // This  $data array will be passed to our PDF blade      
+       // This  $data array will be passed to our PDF blade
         $data = [];
-        
-        $pdf = PDF::loadView('invoice.invoice', $data);  
+
+        $pdf = PDF::loadView('invoice.invoice', $data);
         return $pdf->download('medium.pdf');
     }
 }
