@@ -13,6 +13,11 @@
     </style>
 </head>
 @section('content')
+<div class="toast" style="margin-left: auto; margin-right: 5px;
+margin-top: 9px; position: absolute; top: 0; right: 0;">
+    <div class="toast-header"> Error </div>
+    <div class="toast-body"> msgStr </div>
+ </div>
 <div class="container-fluid" id="container-wrapper">
    <div class="row">
       <div class="col-lg-12 margin-tb">
@@ -192,23 +197,7 @@
                                             to {bottom: 0; opacity: 0;}
                                             }
                                             </style>
-                                            {{-- <p>Snackbars are often used as a tooltips/popups to show a message at the bottom of the screen.</p>
-                                            <p>Click on the button to show the snackbar. It will disappear after 3 seconds.</p> --}}
-                                            <div id="snackbar">Some text some message..</div>
-                                        {{-- <div style="position: absolute; top: 0; right: 0; min-width: 300px;">
-                                            <div class="toast fade show">
-                                                <div class="toast-header">
-                                                    <strong class="mr-auto"><i class="fa fa-globe"></i> Hello, world!</strong>
-                                                    <small class="text-muted">just now</small>
-                                                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="toast-body">
-                                                    This is a basic toast message.
-                                                </div>
-                                            </div>
-                                        </div> --}}
+                                            <div id="snackbar">Unauthorized user</div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -381,8 +370,6 @@
         window.addEventListener("load",onLoad(),false) :
         window.attachEvent && window.attachEvent("onload",onLoad());
 
-
-
     function onLoad() {
         console.log("ON LOAD  tbl_id")
         getResult();
@@ -547,30 +534,48 @@
            form.append('gender', document.getElementById("gender").value);
            form.append('language', document.getElementById("languages").value);
 
-
            $.ajax({
                url: '/api/v1/add_customer',
                type: 'POST',
                data: form,
                contentType: false,
                processData: false,
-               success: function(response){
+               success: function(response)
+               {
                    console.log("CREATE CREATE REPOSNE == "+response);
                    window.top.location = window.top.location;
                    location.reload();
-               },
-               fail: function (error) {
-                   console.log(error);
-               }
-           });
-       }
+               },error: function (xhr){
+                    console.log("errp = " + JSON.stringify(xhr));
+                    if(xhr['status'] == 401) {
+                        var errorArray = xhr['responseJSON'];
+                        var msgStr = "";
+                        $.each(errorArray, function (i, err) {
+                            $.each(err, function (title, msg) {
+                                msgStr += msg.toString() + "\n";
+                            });
+                        });
+                        $('.toast-body').text(msgStr);
+                        $('.toast').toast({delay:10000, animation:false});
+                        $('.toast').toast('show');
+                        // $('#showToast').append(trHTML);
+                    }
+                    //    fail: function (error) {
+                    //        console.log(error);
+                    //    }
+                }
+            });
+        }
        else
        {
-           $("#alerterror").text(servicevalite);
-           $("#alerterror").show();
-           setTimeout(function() {
-               $("#alerterror").hide()
-           }, 1000);
+        var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        //    $("#alerterror").text(servicevalite);
+        //    $("#alerterror").show();
+        //    setTimeout(function() {
+        //        $("#alerterror").hide()
+        //    }, 1000);
         }
     }
 
@@ -812,8 +817,6 @@
                 return true;
                 }
         }
-
-
 
        // Gender Radiobutton
 

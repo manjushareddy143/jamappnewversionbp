@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
-<div class="toast" style="margin-left: auto; margin-right: 5px; 
+<div class="toast" style="margin-left: auto; margin-right: 5px;
 margin-top: 9px; position: absolute; top: 0; right: 0;">
-    <div class="toast-header"> Error </div> 
+    <div class="toast-header"> Error </div>
     <div class="toast-body"> msgStr </div>
  </div>
 <body class="bg-gradient-login">
@@ -106,7 +106,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                                            placeholder="Enter Your Password" required>
                                                 </div>
 
-                                                
+
                                                 <div class="form-group">
 
                                                     <label for="exampleFormControlSelect1">@lang('register.label_rstatus')
@@ -116,7 +116,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                                     </select>
                                                 </div>
 
-                                                
+
 
                                                 <div class="row form-group register-rc-button">
                                                     <div class="custom-control custom-checkbox" style="left: 15px;">
@@ -131,9 +131,9 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                                     </div>
                                                     <p id="myError" style="color: red; margin-left: 15px;"></p>
                                                 </div>
-                                                
+
                                                 <br>
-                                                
+
                                                 <div class="form-group">
                                                     <button type="button"
                                                             class="btn btn-primary btn-block"
@@ -329,7 +329,7 @@ $(document).ready(function () {
                 $('#codeLst').append(`<option value="${value['dialling_code']}">
                                         ${value['dialling_code']} ${value['country_name']}
                                     </option>`);
-                
+
         });
     });
 });
@@ -471,7 +471,7 @@ $(document).ready(function () {
                 }
             });
         }
-        
+
         if (document.getElementById("mobile").value == "") {
             $("#mobile").focus();
             $("#mobile").focus();
@@ -527,14 +527,14 @@ $(document).ready(function () {
                     }
                 }
             });
-        } 
+        }
         else
         {
             if (!email_regex.test($('#email').val())) {
                 $('#email').next('div.red').remove();
                 $('#email').after('<div class="red" style="color:red">Email Format is Wrong</div>');
                 isValidate = false;
-            } 
+            }
             else
             {
                 $(this).next('div.red').remove();
@@ -578,7 +578,7 @@ $(document).ready(function () {
         }
         return isValidate;
     }
-    
+
     function isNumberKey(evt){
 
         var charCode = (evt.which) ? evt.which : event.keyCode
@@ -638,7 +638,7 @@ $(document).ready(function () {
                     //             '<div class="toast-header">'  + 'Error' + '</div> <div class="toast-body">' +
                     //             msgStr + '</div> </div>';
                     $('.toast-body').text(msgStr);
-                    $('.toast').toast({delay:1000, animation:false});
+                    $('.toast').toast({delay:10000, animation:false});
                     $('.toast').toast('show');
                     // $('#showToast').append(trHTML);
                 }
@@ -844,6 +844,25 @@ $(document).ready(function () {
                 // Put the object into storage
                 localStorage.setItem('userObject', JSON.stringify(response));
                 window.location = '/home';
+            }).fail(function(xhr) {
+                console.log("errp = " + JSON.stringify(xhr));
+                if(xhr['status'] == 401) {
+                    var errorArray = xhr['responseJSON'];
+                    var msgStr = "";
+                    $.each(errorArray, function (i, err) {
+                        $.each(err, function (title, msg) {
+                            msgStr += msg.toString() + "\n";
+                        });
+
+                    });
+                    // var trHTML = '<div class="toast" style="margin-left: auto; margin-right: 15px; margin-top: 9px; position: absolute; top: 0; right: 0;">' +
+                    //             '<div class="toast-header">'  + 'Error' + '</div> <div class="toast-body">' +
+                    //             msgStr + '</div> </div>';
+                    $('.toast-body').text(msgStr);
+                    $('.toast').toast({delay:10000, animation:false});
+                    $('.toast').toast('show');
+                    // $('#showToast').append(trHTML);
+                }
             });
         } else {
             $("#alerterror").text(formvalidate);

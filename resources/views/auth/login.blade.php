@@ -26,7 +26,11 @@
     <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-
+<div class="toast" style="margin-left: auto; margin-right: 5px;
+margin-top: 9px; position: absolute; top: 0; right: 0;">
+    <div class="toast-header"> Error </div>
+    <div class="toast-body"> msgStr </div>
+ </div>
 <body class="bg-gradient-login">
 
 <!-- Login Content -->
@@ -663,20 +667,35 @@
                     } else {
                         alert("Invalid email or password");
                     }
-                },
-                error: function (xhr, status, err) {
-                    console.log(xhr.statusText + "xhr.statusText");
-                    if(xhr.status == 401) {
-                        $("#errormsg").text("Invalid Email or Password");
-                    } else {
-                        $("#errormsg").text(xhr.statusText);
-                    }
+                },error: function (xhr){
+                        console.log("errp = " + JSON.stringify(xhr));
+                        if(xhr['status'] == 401) {
+                            var errorArray = xhr['responseJSON'];
+                            var msgStr = "Unauthorised user";
+                            $.each(errorArray, function (i, err) {
+                                $.each(err, function (title, msg) {
+                                    msgStr += msg.toString() + "\n";
+                                });
+                            });
+                            $('.toast-body').text(msgStr);
+                            $('.toast').toast({delay:1000, animation:false});
+                            $('.toast').toast('show');
 
-                    $("#errorAlert").show();
-                    setTimeout(function () {
-                        $("#errorAlert").hide()
-                    }, 1000);
-                },
+                        }
+                    },
+                // error: function (xhr, status, err) {
+                //     console.log(xhr.statusText + "xhr.statusText");
+                //     if(xhr.status == 401) {
+                //         $("#errormsg").text("Invalid Email or Password");
+                //     } else {
+                //         $("#errormsg").text(xhr.statusText);
+                //     }
+
+                //     $("#errorAlert").show();
+                //     setTimeout(function () {
+                //         $("#errorAlert").hide()
+                //     }, 1000);
+                // },
             });
         }
     }

@@ -3,7 +3,7 @@
 
 @section('content')
          <div class="container-fluid" id="container-wrapper">
-          
+
 
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -127,17 +127,59 @@
                           </div>
 
                           <div class="col-md-6 float-l" id="cate_pridiv">
-                            <div class="form-group">
-                               <div class="input-symbol-euro">
-                                <label>@lang('services.label_cat_Pricing')</label>
-                                <input id="category_price" type="text" name="category_price" placeholder="@lang('services.label_plac_Pricing')"
-                                       class="form-control" required>
+                                <div class="form-group">
+                                <div class="input-symbol-euro">
+                                    <label>@lang('services.label_cat_Pricing')</label>
+                                    <input id="category_price" type="text" name="category_price" placeholder="@lang('services.label_plac_Pricing')"
+                                        class="form-control" required>
+                                </div>
                             </div>
-                            </div>
-                          </div>
+                        </div>
 
-                      </div>
+                    </div>
+                    <style>
+                        #snackbar {
+                            visibility: hidden;
+                            min-width: 250px;
+                            margin-left: -125px;
+                            background-color: #333;
+                            color: #fff;
+                            text-align: center;
+                            border-radius: 2px;
+                            padding: 16px;
+                            position: fixed;
+                            z-index: 1;
+                            left: 50%;
+                            bottom: 30px;
+                            font-size: 17px;
+                        }
 
+                        #snackbar.show {
+                            visibility: visible;
+                            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                        }
+                        @-webkit-keyframes fadein {
+                        from {bottom: 0; opacity: 0;}
+                        to {bottom: 30px; opacity: 1;}
+                        }
+
+                        @keyframes fadein {
+                        from {bottom: 0; opacity: 0;}
+                        to {bottom: 30px; opacity: 1;}
+                        }
+
+                        @-webkit-keyframes fadeout {
+                        from {bottom: 30px; opacity: 1;}
+                        to {bottom: 0; opacity: 0;}
+                        }
+
+                        @keyframes fadeout {
+                        from {bottom: 30px; opacity: 1;}
+                        to {bottom: 0; opacity: 0;}
+                        }
+                        </style>
+                        <div id="snackbar">Something went wrong</div>
 {{--                      BUTTONS --}}
                       <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('services.label_cbtn')</button>
@@ -322,27 +364,43 @@
                          addform.terms.focus();
                          console.log('cancel');
                          createCategories();
-                     } else {
+                        } else {
                          var category_id = $('#categorieslist').children("option:selected").val();
                          mappingService(category_id);
+                        }
+                        // window.top.location = window.top.location;
+                    },error: function (xhr){
+                    console.log("errp = " + JSON.stringify(xhr));
+                    if(xhr['status'] == 406) {
+                        var errorArray = xhr['responseJSON'];
+                        var msgStr = "";
+                        $.each(errorArray, function (i, err) {
+                            $.each(err, function (title, msg) {
+                                msgStr += msg.toString() + "\n";
+                            });
+                        });
+                        $('.toast-body').text(msgStr);
+                        $('.toast').toast({delay:10000, animation:false});
+                        $('.toast').toast('show');
+                        // $('#showToast').append(trHTML);
+                    }
 
-                     }
+                }
+                    // fail: function (error) {
+                    //  console.log(error);
 
-                     // window.top.location = window.top.location;
-
-                 },
-                 fail: function (error) {
-                     console.log(error);
-                 }
-             });
-         } else {
-             $("#alerterror").text(servicevalite);
-             $("#alerterror").show();
-             setTimeout(function() {
-                 $("#alerterror").hide()
-             }, 1000);
-         }
-     }
+                });
+            }  else {
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            //  $("#alerterror").text(servicevalite);
+            //  $("#alerterror").show();
+            //  setTimeout(function() {
+            //      $("#alerterror").hide()
+            //  }, 1000);
+            }
+        }
 
      function createCategories() {
          console.log("createCategories");

@@ -26,7 +26,11 @@
     <div class="container-fluid" id="container-wrapper">
 
 
-
+        <div class="toast" style="margin-left: auto; margin-right: 5px;
+        margin-top: 9px; position: absolute; top: 0; right: 0;">
+            <div class="toast-header"> Error </div>
+            <div class="toast-body"> msgStr </div>
+         </div>
 
 
         <div class="row">
@@ -185,6 +189,49 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <style>
+                                            #snackbar {
+                                                visibility: hidden;
+                                                min-width: 250px;
+                                                margin-left: -125px;
+                                                background-color: #333;
+                                                color: #fff;
+                                                text-align: center;
+                                                border-radius: 2px;
+                                                padding: 16px;
+                                                position: fixed;
+                                                z-index: 1;
+                                                left: 50%;
+                                                bottom: 30px;
+                                                font-size: 17px;
+                                            }
+
+                                            #snackbar.show {
+                                                visibility: visible;
+                                                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                                                animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                                            }
+                                            @-webkit-keyframes fadein {
+                                            from {bottom: 0; opacity: 0;}
+                                            to {bottom: 30px; opacity: 1;}
+                                            }
+
+                                            @keyframes fadein {
+                                            from {bottom: 0; opacity: 0;}
+                                            to {bottom: 30px; opacity: 1;}
+                                            }
+
+                                            @-webkit-keyframes fadeout {
+                                            from {bottom: 30px; opacity: 1;}
+                                            to {bottom: 0; opacity: 0;}
+                                            }
+
+                                            @keyframes fadeout {
+                                            from {bottom: 30px; opacity: 1;}
+                                            to {bottom: 0; opacity: 0;}
+                                            }
+                                            </style>
+                                            <div id="snackbar">Unauthorized user</div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -218,21 +265,6 @@
                             <tbody></tbody>
                         </table>
                     </div>
-
-
-                    {{-- <div style="position: absolute; top: 0; right: 0; min-width: 300px;">
-                        <div class="toast fade show">
-                            <div class="toast-header">
-                                <strong class="mr-auto"><i class="fa fa-globe"></i> Hello, world!</strong>
-                                <small class="text-muted">just now</small>
-                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
-                            </div>
-                            <div class="toast-body">
-                                This is a basic toast message.
-                            </div>
-                        </div>
-                    </div> --}}
-
 
                 </div>
             </div>
@@ -282,7 +314,7 @@
                                             // var catId  =  response[i]['categories'][catCount].id;
                                             // console.log("catId ==== " + catId);
                                             trCatHTML += '<li class="">' +
-                                                '<input type="checkbox" name="subdomain[]"' +'id="category' + 
+                                                '<input type="checkbox" name="subdomain[]"' +'id="category' +
                                                 response[i].id + response[i]['categories'][catCount].id
                                                 + '"value="' +
                                                 response[i]['categories'][catCount].id + '" onclick="serviceClick(' +
@@ -290,7 +322,7 @@
                                                 +'>' +
                                                 '<label>'+ response[i]['categories'][catCount].name +'</label>' +
                                                 '<input type="number" id="'+ response[i]['categories'][catCount].id +
-                                                'category" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px !important">' 
+                                                'category" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px !important">'
                                                 + '<label id="catemessage' +response[i]['categories'][catCount].id+'" style="color:red"></label>'+ '</li>';
                                         }
                                         trCatHTML += '</ul>';
@@ -320,7 +352,7 @@
             if(cat == null) {
                 var categories = allServices.find(obj => obj.id === id).categories;
                 console.log(categories.length);
-                
+
             }
             if(cat == null) {
                 console.log("inside");
@@ -355,7 +387,7 @@
                         selectedService.push(srvcObj);
                     }
                 }
-                
+
             } else {
                 console.log("iddd")
                 var srvcObj = {
@@ -759,16 +791,34 @@
                         window.top.location = window.top.location;
                         location.reload();
                     },
-                    fail: function (error) {
-                        console.log(error);
+                    // fail: function (error) {
+                    //     console.log(error);
+                    error: function (xhr){
+                        console.log("errp = " + JSON.stringify(xhr));
+                        if(xhr['status'] == 406) {
+                            var errorArray = xhr['responseJSON'];
+                            var msgStr = "";
+                            $.each(errorArray, function (i, err) {
+                                $.each(err, function (title, msg) {
+                                    msgStr += msg.toString() + "\n";
+                                });
+                            });
+                            $('.toast-body').text(msgStr);
+                            $('.toast').toast({delay:10000, animation:false});
+                            $('.toast').toast('show');
+
+                        }
                     }
                 });
             } else {
-                $("#alerterror").text(servicevalite);
-                $("#alerterror").show();
-                setTimeout(function () {
-                    $("#alerterror").hide()
-                }, 1000);
+                var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                // $("#alerterror").text(servicevalite);
+                // $("#alerterror").show();
+                // setTimeout(function () {
+                //     $("#alerterror").hide()
+                // }, 1000);
             }
 
         }
@@ -786,7 +836,7 @@
                         // $('#codeLst').append(`<option value="${value['dialling_code']}">
                         //                         ${value['dialling_code']} ${value['country_name']}
                         //                     </option>`);
-                        
+
                 });
             });
         });

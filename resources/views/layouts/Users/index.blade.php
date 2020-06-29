@@ -73,7 +73,49 @@
                        </div>
                      </div>
                </div>
+               <style>
+                #snackbar {
+                    visibility: hidden;
+                    min-width: 250px;
+                    margin-left: -125px;
+                    background-color: #333;
+                    color: #fff;
+                    text-align: center;
+                    border-radius: 2px;
+                    padding: 16px;
+                    position: fixed;
+                    z-index: 1;
+                    left: 50%;
+                    bottom: 30px;
+                    font-size: 17px;
+                }
 
+                #snackbar.show {
+                    visibility: visible;
+                    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                }
+                @-webkit-keyframes fadein {
+                from {bottom: 0; opacity: 0;}
+                to {bottom: 30px; opacity: 1;}
+                }
+
+                @keyframes fadein {
+                from {bottom: 0; opacity: 0;}
+                to {bottom: 30px; opacity: 1;}
+                }
+
+                @-webkit-keyframes fadeout {
+                from {bottom: 30px; opacity: 1;}
+                to {bottom: 0; opacity: 0;}
+                }
+
+                @keyframes fadeout {
+                from {bottom: 30px; opacity: 1;}
+                to {bottom: 0; opacity: 0;}
+                }
+                </style>
+                <div id="snackbar">Something went wrong</div>
                   <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('organisation.label_place_cbtn')</button>
                             <button type="button" onclick="create_users()" class="btn btn-primary">@lang('organisation.label_place_sbtn')</button>
@@ -155,9 +197,9 @@
                         '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id 
-                            + ')"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' 
-                            + response[i].id + ')"><i class="fas fa-trash"></i></a> ' 
+                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id
+                            + ')"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord('
+                            + response[i].id + ')"><i class="fas fa-trash"></i></a> '
                             + '</td> </tr>';
                 });
                 $('#tbl_id').append(trHTML);
@@ -191,7 +233,7 @@
     function create_users() {
         var servicevalite = users_validate();
         console.log("users_validate ::" + servicevalite);
-        if(servicevalite == null) 
+        if(servicevalite == null)
         {
             console.log("CREATE SERVER CALL");
             var form = new FormData();
@@ -217,20 +259,38 @@
                     console.log("CREATE CREATE REPOSNE == "+response);
                     window.top.location = window.top.location;
                     location.reload();
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
+                },error: function (xhr){
+                        console.log("errp = " + JSON.stringify(xhr));
+                        if(xhr['status'] == 406) {
+                            var errorArray = xhr['responseJSON'];
+                            var msgStr = "";
+                            $.each(errorArray, function (i, err) {
+                                $.each(err, function (title, msg) {
+                                    msgStr += msg.toString() + "\n";
+                                });
+                            });
+                            $('.toast-body').text(msgStr);
+                            $('.toast').toast({delay:10000, animation:false});
+                            $('.toast').toast('show');
+
+                        }
+                    }
+                // fail: function (error) {
+                //     console.log(error);
+
             });
         } else {
-            $("#alerterror").text(servicevalite);
-            $("#alerterror").show();
-            setTimeout(function() {
-                $("#alerterror").hide()
-            }, 1000);
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            // $("#alerterror").text(servicevalite);
+            // $("#alerterror").show();
+            // setTimeout(function() {
+            //     $("#alerterror").hide()
+            // }, 1000);
         }
     }
-    
+
     var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
     var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
     function users_validate() {
