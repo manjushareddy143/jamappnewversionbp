@@ -1,26 +1,28 @@
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
-      <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-      <title>Editable Invoice</title>
+      <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+      <title>INVOICE</title>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type='text/javascript'></script>
       <link rel='stylesheet' type='text/css' href='public/invoicecss/css/style.css' />
       <link rel='stylesheet' type='text/css' href='public/invoicecss/css/print.css' media="print" />
       <script type='text/javascript' src='public/invoicecss/js/jquery-1.3.2.min.js'></script>
-      <script type='text/javascript' src='public/invoicecss/js/example.js'></script>
-   </head>
-   <body>
-   <style>
+	  <script type='text/javascript' src='public/invoicecss/js/example.js'></script>
+	  
+	  <!-- font -->
+	  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en" />
+	  
+
+	  <style type="text/css">
 	* { margin: 0; padding: 0; }
-	body { font: 14px/1.4 Georgia, serif; }
+	/* body { font: 14px/1.4 georgia, serif; } */
 	#page-wrap { width: 800px; margin: 0 auto; }
-	textarea { border: 0; font: 14px Georgia, Serif; overflow: hidden; resize: none; }
+	textarea { border: 0; font: 14px georgia, serif; overflow: hidden; resize: none; }
 	table { border-collapse: collapse; }
 	table td, table th { border: 5px solid black; padding: 10px; }
-	#header { height: 15px; width: 100%; margin: 20px 0; background: #222; text-align: center; color: white; font: bold 15px Helvetica, Sans-Serif; text-decoration: uppercase; letter-spacing: 20px; padding: 8px 0px; }
+	#header { height: 15px; width: 100%; margin: 20px 0; background: #fff; text-align: center; color: white; font: bold 15px helvetica, sans-serif; text-decoration: uppercase; letter-spacing: 20px; padding: 8px 0px; }
 	#address { width: 250px; height: 150px; float: left; }
 	#customer { overflow: hidden; }
 	#logo { text-align: right; float: right; position: relative; margin-top: 25px; border: 1px solid #fff; max-width: 540px; max-height: 100px; overflow: hidden; }
@@ -50,14 +52,15 @@
 	/* #items td.balance { background: #eee; } */
 	#items td.blank { border: 0; }
 	#terms { text-align: center; margin: 20px 0 0 0; }
-	#terms h5 { text-transform: uppercase; font: 13px Helvetica, Sans-Serif; letter-spacing: 10px; border-bottom: 1px solid black; padding: 0 0 8px 0; margin: 0 0 8px 0; }
+	#terms h5 { text-transform: uppercase; font: 13px helvetica, sans-serif; letter-spacing: 10px; border-bottom: 1px solid black; padding: 0 0 8px 0; margin: 0 0 8px 0; }
 	#terms textarea { width: 100%; text-align: center;}
-	textarea:hover, textarea:focus, #items td.total-value textarea:hover, #items td.total-value textarea:focus, .delete:hover { background-color:#EEFF88; }
+	textarea:hover, textarea:focus, #items td.total-value textarea:hover, #items td.total-value textarea:focus, .delete:hover { background-color:#eeff88; }
 	.delete-wpr { position: relative; }
-	.delete { display: block; color: #000; text-decoration: none; position: absolute; background: #EEEEEE; font-weight: bold; padding: 0px 3px; border: 1px solid; top: -6px; left: -22px; font-family: Verdana; font-size: 12px; }
+	.delete { display: block; color: #000; text-decoration: none; position: absolute; background: #eeeeee; font-weight: bold; padding: 0px 3px; border: 1px solid; top: -6px; left: -22px; font-family: verdana; font-size: 12px; }
 	.isize {
 	font-size: 60px;
 	color: chocolate;
+	font-weight:200;
 	/* padding-left: 30px; */
 	}
 	.a{
@@ -74,7 +77,7 @@
 
 		.c {
 		margin-top: 70px;
-		width:132px;
+		width:118px;
 		}
 
 	.img-logo {
@@ -96,328 +99,324 @@
 			width: 53%;
 		}
 	</style>
-
-      <div id="page-wrap">
-         <div class="invoice-container">
-            <textarea id="header">INVOICE</textarea>
+   </head>
+   <body>
+      <div id="page-wrap" style="border: 1px solid;">
+         <div class="invoice-container" style="padding:39px;">
+            <!-- <textarea id="header" rows="" cols="">INVOICE</textarea> -->
             <div class="cus-invoice">
-               <div class="container-fluid">
+			<div class="container-logo">
                   <div class="row">
                      <div class="col-md-3">
-                        <lable class="isize">INVOICE</lable>
+                        <label class="isize">INVOICE</label>
                      </div>
                      <div class="col-md-9">
                         <div class="img-logo">
-                           <img src="/images/invoice/logo.png" height="100%" width="100%"/>
+                           <img src="/images/invoice/logo.png" height="100%" width="100%" alt="logo"/>
                         </div>
                      </div>
                   </div>
-               </div>
-               <div class="container-fluid">
+			   </div>
+			   
+			   <div class="container-date">
                  
                      <div class="col-md-3">
-                        <lable><b>INVOICE NUMBER</b></lable>
-                        <lable>00001</lable>
+                        <label><b>INVOICE NUMBER</b></label>
+                        <span>00001</span>
                      </div>
                      <div class="col-md-3">
-                        <lable><b>DATE OF ISSUE</b></lable>
-                        <lable>mm/dd/yyyy</lable>
+                        <label><b>DATE OF ISSUE</b></label>
+                        <span>mm/dd/yyyy</span>
                      </div>
                   
-               </div>
-               <div id="identity">
+			   </div>
+			   
+			   <div id="identity">
                </div>
                <div style="clear:both"></div>
-
-               <div class="container-fluid">
+               <div class="container-add">
                   <div class="row">
                      <div class="col-sm-3">
                         <div id="customer">
-                           <div class="c">BILLED TO:
-                              Client Name
+						<div class="c"><b>BILLED TO:</b>
+                              Client name<br>
                               Street address
                               City, State Country
-                              ZIP Code
+                              Zip Code
                            </div>
                         </div>
-                     </div>
+                     </div>	
                      <div class="col-sm-9">
                         <div class="address-custom">
-                           <div class="a">CENTRAL PROJECTS
-                              ENGINEERING SERVICES AND
-                              TRADING COMPANY
-                           </div>
+						<div class="a"><b>CENTRAL PROJECTS
+							ENGINEERING SERVICES AND
+							TRADING COMPANY</b>
+                           </div><br>
                            <div class="b">Ariane Tower, 1 st Floor, Room
-                              No.103, Near Old Mannai
-                              Round About, Al Mushereib,
-                              P O Box 6150, Doha, Qatar
-                              Ph: +974 4435 7448
-                              Fax: +974 4435 7426
-                              Em: info@ceproqatar.com
-                              Web: www.ceproqatar.com
+							No.103, Near Old Mannai
+							Round About, Al Mushereib,
+							P O Box 6150, Doha, Qatar<br>
+							Ph: +974 4435 7448<br>
+							Fax: +974 4435 7426<br>
+							Em: info@ceproqatar.com<br>
+							Web: www.ceproqatar.com
                            </div>
                         </div>
                      </div>
                   </div>
-               </div>
-               <table WIDTH="697" CELLPADDING="1" CELLSPACING="0">
-				<tbody>
-					<tr VALIGN="TOP">
-						<TD COLSPAN="2" WIDTH="412" HEIGHT="11" BGCOLOR="#ffffff" STYLE="border: 3.00pt solid #000001; padding: 0.07in">
-							<P ALIGN="CENTER"><FONT SIZE="2" STYLE="font-size: 9pt"><B>DESCRIPTION</B></FONT></P>
-						</TD>
-						<TD WIDTH="94" BGCOLOR="#ffffff" STYLE="border: 3.00pt solid #000001; padding: 0.07in">
-							<P ALIGN="CENTER"><FONT SIZE="2" STYLE="font-size: 9pt"><B>UNIT COST
-							(QAR)</B></FONT></P>
-						</TD>
-						<TD WIDTH="94" BGCOLOR="#ffffff" STYLE="border: 3.00pt solid #000001; padding: 0.07in">
-							<P ALIGN="CENTER"><FONT SIZE="2" STYLE="font-size: 9pt"><B>QTY/HR
-							RATE</B></FONT></P>
-						</TD>
-						<TD WIDTH="13" BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P ALIGN="CENTER">
-							</P>
-						</TD>
-						<TD WIDTH="74" BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
-							<P ALIGN="CENTER"><FONT SIZE="2" STYLE="font-size: 9pt"><B>AMOUNT
-							(QAR)</B></FONT></P>
-						</TD>
-					</tr>
-					<tr></tr>
-					<tr></tr>
-				</tbody>
-				<tbody>
-					<tr>
-						<TD COLSPAN="2" WIDTH="412" HEIGHT="30" BGCOLOR="#ffffff" STYLE="border: 3.00pt solid #000001; padding: 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE="2"><B>Work
-							done: </B></FONT></FONT>
-							</P>
-						</TD>
-						<TD WIDTH="94" BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"> </FONT>
-							</P>
-						</TD>
-						<TD WIDTH="94" BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
-							<P STYLE="widows: 0; orphans: 0">
-							</P>
-						</TD>
-						<TD WIDTH="13" VALIGN="TOP" BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P STYLE="widows: 0; orphans: 0">
-							</P>
-						</TD>
-						<TD WIDTH="74" BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-					</tr>
-					<tr>
-						<TD COLSPAN=2 WIDTH=412 HEIGHT=30 BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>Cost
-							of materials/spare parts</FONT></FONT></P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>0</FONT></FONT></P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>1</FONT></FONT></P>
-						</TD>
-						<TD WIDTH=13 VALIGN=TOP STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=74 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>0</FONT></FONT></P>
-						</TD>
-					</tr>
-					<tr>
-						<TD COLSPAN=2 WIDTH=412 HEIGHT=30 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>Maintenance/Service
-							charges</FONT></FONT></P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>0</FONT></FONT></P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>1</FONT></FONT></P>
-						</TD>
-						<TD WIDTH=13 VALIGN=TOP STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=74 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>0</FONT></FONT></P>
-						</TD>
-					</tr>
-					<tr>
-						<TD COLSPAN=2 WIDTH=412 HEIGHT=30 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0.07in; padding-right: 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>Additional
-							cost/charges</FONT></FONT></P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0.07in; padding-right: 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>0</FONT></FONT></P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0.07in; padding-right: 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>1</FONT></FONT></P>
-						</TD>
-						<TD WIDTH=13 VALIGN=TOP STYLE="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=74 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>0</FONT></FONT></P>
-						</TD>
-					</tr>
-					<tr></tr>
-					<tr></tr>
-				</tbody>
-				<tbody>
-					<tr>
-						<TD ROWSPAN=2 WIDTH=166 HEIGHT=20 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border: 3.00pt solid #000001; padding: 0.07in">
-							<P STYLE="margin-bottom: 0in; widows: 0; orphans: 0"><FONT COLOR="#999999"><FONT SIZE=2 STYLE="font-size: 9pt"><B>INVOICE
-							TOTAL</B></FONT></FONT></P>
-							<P><FONT COLOR="#404040"><FONT SIZE=6 STYLE="font-size: 22pt">QAR.000</FONT></FONT></P>
-						</TD>
-						<TD WIDTH=244 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
-							<P ALIGN=RIGHT STYLE="widows: 0; orphans: 0"><FONT COLOR="#000000"><FONT SIZE=2 STYLE="font-size: 9pt"><B>SUBTOTAL</B></FONT></FONT></P>
-						</TD>
-						<TD WIDTH=13 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=74 BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>0</FONT></FONT></P>
-						</TD>
-					</tr>
-					<tr>
-						<TD WIDTH=244 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
-							<P ALIGN=RIGHT STYLE="widows: 0; orphans: 0"><FONT COLOR="#000000"><FONT SIZE=2 STYLE="font-size: 9pt"><B>DISCOUNT</B></FONT></FONT></P>
-						</TD>
-						<TD WIDTH=13 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=74 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>0</FONT></FONT></P>
-						</TD>
-					</tr>
-					<tr>
-						<TD WIDTH=166 BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: none; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0in">
-							<P><BR>
-							</P>
-						</TD>
-						<TD WIDTH=244 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border: none; padding: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
-							<P ALIGN=RIGHT STYLE="widows: 0; orphans: 0"><FONT COLOR="#000000"><FONT SIZE=2 STYLE="font-size: 9pt"><B>(TAX
-							RATE)</B></FONT></FONT></P>
-						</TD>
-						<TD WIDTH=13 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=74 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>0%</FONT></FONT></P>
-						</TD>
-					</tr>
-					<tr>
-						<TD WIDTH=166 BGCOLOR="#ffffff" STYLE="border: none; padding: 0in">
-							<P><BR>
-							</P>
-						</TD>
-						<TD WIDTH=244 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border: none; padding: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0.07in; padding-right: 0.07in">
-							<P ALIGN=RIGHT STYLE="widows: 0; orphans: 0"><FONT COLOR="#000000"><FONT SIZE=2 STYLE="font-size: 9pt"><B>TAX</B></FONT></FONT></P>
-						</TD>
-						<TD WIDTH=13 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=74 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT COLOR="#404040"><FONT SIZE=2>0</FONT></FONT></P>
-						</TD>
-					</tr>
-					<tr>
-						<TD WIDTH=166 HEIGHT=5 BGCOLOR="#ffffff" STYLE="border: none; padding: 0in">
-							<P><BR>
-							</P>
-						</TD>
-						<TD WIDTH=244 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border: none; padding: 0in">
-							<P STYLE="widows: 0; orphans: 0"><A NAME="_gjdgxs"></A><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border: 3.00pt solid #000001; padding: 0.07in">
-							<P ALIGN=RIGHT STYLE="widows: 0; orphans: 0"><FONT COLOR="#000000"><FONT SIZE=3><B>TOTAL</B></FONT></FONT></P>
-						</TD>
-						<TD WIDTH=13 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=74 BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
-							<P ALIGN=CENTER STYLE="widows: 0; orphans: 0"><FONT SIZE=3>0</FONT></P>
-						</TD>
-					</tr>
-					<tr>
-						<TD COLSPAN=2 WIDTH=412 BGCOLOR="#ffffff" STYLE="border: none; padding-bottom: 60px;">
-							<P STYLE="margin-bottom: 0in"><B>(Qatari Riyal ………. Only)</B></P>
-							<P STYLE="margin-bottom: 0in"><BR>
-							</P>
-							<P STYLE="margin-bottom: 0in"><FONT COLOR="#943734"><FONT SIZE=3><U><B>TERMS</B></U></FONT></FONT></P>
-							<P STYLE="widows: 0; orphans: 0"><FONT COLOR="#943734"><FONT SIZE=3><B>E.g.
-							Please pay invoice by MM/DD/YYYY</B></FONT></FONT></P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border: none; padding: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=94 BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: none; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0in">
-							<P ALIGN=RIGHT STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=13 VALIGN=TOP BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: none; padding: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-						<TD WIDTH=74 BGCOLOR="#ffffff" STYLE="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: none; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0in">
-							<P STYLE="widows: 0; orphans: 0"><BR>
-							</P>
-						</TD>
-					</tr>
-				</tbody>
-			</table>	
+			   </div>	
 			   
+               <table width="100%" cellpadding="1" cellspacing="0" style="margin-top: 30px;">
+				<tbody>
+					<tr valign="top">
+						<td colspan="2" width="412" height="11" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
+							<p align="center"><font  size="2" style="font-size: 9pt"><b>DESCRIPTION</b></font></p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
+							<p align="center"><font  size="2" style="font-size: 9pt"><b>UNIT COST (QAR)
+							(qar)</b></font></p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
+							<p align="center"><font  size="2" style="font-size: 9pt"><b>QTY/HR RATE
+							</b></font></p>
+						</td>
+						<td width="13" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p align="center">
+							</p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
+							<p align="center"><font  size="2" style="font-size: 9pt"><b>AMOUNT
+								(QAR)</b></font></p>
+						</td>
+					</tr>			
+				</tbody>
+				<tbody>
+					<tr>
+						<td colspan="2" width="412" height="30" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
+							<p style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2"><b>Work
+							done: </b></font></font>
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0"><font  color="#404040"> </font>
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="13" valign="top" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0"></p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" width="412" height="30" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">Cost
+							of materials/spare parts</font></font></p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">1</font></font></p>
+						</td>
+						<td width="13" valign="top" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p align="center" style="widows: 0; orphans: 0"></p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font   size="2">0</font></font></p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" width="412" height="30" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
+							<p style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">Maintenance/service
+							charges</font></font></p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">0</font></font></p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">1</font></font></p>
+						</td>
+						<td width="13" valign="top" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p align="center" style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">0</font></font></p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" width="412" height="30" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0.07in; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">Additional
+							cost/charges</font></font></p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0.07in; padding-right: 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">0</font></font></p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0.07in; padding-right: 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">1</font></font></p>
+						</td>
+						<td width="13" valign="top" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p align="center" style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
+						</td>
+					</tr>
+					
+				</tbody>
+				<tbody>
+					<tr>
+						<td rowspan="2" width="166" height="20" valign="top" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
+							<p style="margin-bottom: 0in; widows: 0; orphans: 0"><font  color="#999999"><font  size="2" style="font-size: 9pt"><b>INVOICE 
+							TOTAL</b></font></font></p>
+							<p><font  color="#404040"><font  size="6" style="font-size: 22pt">QAR.000</font></font></p>
+						</td>
+						<td width="244" valign="top" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
+							<p align="right" style="widows: 0; orphans: 0"><font  color="#000000"><font  size="2" style="font-size: 9pt"><b>SUBTOTAL </b></font></font></p>
+						</td>
+						<td width="13" valign="top" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
+						</td>
+					</tr>
+					<tr>
+						<td width="244" valign="top" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
+							<p align="right" style="widows: 0; orphans: 0"><font  color="#000000"><font  size="2" style="font-size: 9pt"><b>DISCOUNT</b></font></font></p>
+						</td>
+						<td width="13" valign="top" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
+						</td>
+					</tr>
+					<tr>
+						<td width="166" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: none; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0in">
+							<p>
+							</p>
+						</td>
+						<td width="244" valign="top" bgcolor="#ffffff" style="border: none; padding: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
+							<p align="right" style="widows: 0; orphans: 0"><font  color="#000000"><font  size="2" style="font-size: 9pt"><b>(TAX RATE)</b></font></font></p>
+						</td>
+						<td width="13" valign="top" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0%</font></font></p>
+						</td>
+					</tr>
+					<tr>
+						<td width="166" bgcolor="#ffffff" style="border: none; padding: 0in">
+							<p>
+							</p>
+						</td>
+						<td width="244" valign="top" bgcolor="#ffffff" style="border: none; padding: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0.07in; padding-right: 0.07in">
+							<p align="right" style="widows: 0; orphans: 0"><font  color="#000000"><font  size="2" style="font-size: 9pt"><b>TAX</b></font></font></p>
+						</td>
+						<td width="13" valign="top" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
+						</td>
+					</tr>
+					<tr>
+						<td width="166" height="5" bgcolor="#ffffff" style="border: none; padding: 0in">
+							<p>
+							</p>
+						</td>
+						<td width="244" valign="top" bgcolor="#ffffff" style="border: none; padding: 0in">
+							<p style="widows: 0; orphans: 0"><a name="_gjdgxs"></a>
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
+							<p align="right" style="widows: 0; orphans: 0"><font  color="#000000"><font  size="3"><b>TOTAL</b></font></font></p>
+						</td>
+						<td width="13" valign="top" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
+							<p align="center" style="widows: 0; orphans: 0"><font  size="3">0</font></p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" width="412" bgcolor="#ffffff" style="border: none; padding-bottom: 60px;">
+							<p style="margin-bottom: 10px;"><b>(Qatari Riyal ………. Only)</b></p>
+							<p style="margin-bottom: 00px;">
+							</p>
+							<p style="margin-bottom: 10px;"><font  color="#943734"><font  size="3"><u><b>TERMS</b></u></font></font></p>
+							<p style="widows: 0; orphans: 0"><font  color="#943734"><font  size="3"><b>E.g. Please pay invoice by MM/DD/YYYY</b></font></font></p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border: none; padding: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: none; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0in">
+							<p align="right" style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="13" valign="top" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: none; padding: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+						<td width="74" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: none; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0in">
+							<p style="widows: 0; orphans: 0">
+							</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+            </div>			   
          </div>
       </div>
    </body>

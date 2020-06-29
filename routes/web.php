@@ -127,7 +127,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/service_mapping', 'ServiceMappingController@store');
 
     // invoice 
+    Route::get('/invoice', 'BookingController@invoice');
     
-    // Route::post('/invoice', 'BookingController@invoice');
     Route::get('generate-pdf', 'BookingController@printPDF')->name('generate-pdf');
 });
