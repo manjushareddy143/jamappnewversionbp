@@ -10,13 +10,13 @@
       <link rel='stylesheet' type='text/css' href='public/invoicecss/css/print.css' media="print" />
       <script type='text/javascript' src='public/invoicecss/js/jquery-1.3.2.min.js'></script>
 	  <script type='text/javascript' src='public/invoicecss/js/example.js'></script>
-	  
+
 	  <!-- font -->
 	  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en" />
-	  
 
-	  <style type="text/css">
-	* { margin: 0; padding: 0; }
+
+      <style type="text/css">
+      * { margin: 0; padding: 0; }
 	/* body { font: 14px/1.4 georgia, serif; } */
 	#page-wrap { width: 800px; margin: 0 auto; }
 	textarea { border: 0; font: 14px georgia, serif; overflow: hidden; resize: none; }
@@ -105,21 +105,21 @@
          <div class="invoice-container" style="padding:39px;">
             <!-- <textarea id="header" rows="" cols="">INVOICE</textarea> -->
             <div class="cus-invoice">
-			<div class="container-logo">
-                  <div class="row">
-                     <div class="col-md-3">
-                        <label class="isize">INVOICE</label>
-                     </div>
-                     <div class="col-md-9">
-                        <div class="img-logo">
-                           <img src="/images/invoice/logo.png" height="100%" width="100%" alt="logo"/>
+                <div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="isize">INVOICE</label>
                         </div>
-                     </div>
-                  </div>
-			   </div>
-			   
+                        <div class="col-md-6">
+                            <div class="img-logo">
+                                <img src="{{ public_path("/images/invoice/logo.png") }}" height="100%" width="100%" alt="logo"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 			   <div class="container-date">
-                 
+
                      <div class="col-md-3">
                         <label><b>INVOICE NUMBER</b></label>
                         <span>00001</span>
@@ -128,9 +128,9 @@
                         <label><b>DATE OF ISSUE</b></label>
                         <span>mm/dd/yyyy</span>
                      </div>
-                  
+
 			   </div>
-			   
+
 			   <div id="identity">
                </div>
                <div style="clear:both"></div>
@@ -145,7 +145,7 @@
                               Zip Code
                            </div>
                         </div>
-                     </div>	
+                     </div>
                      <div class="col-sm-9">
                         <div class="address-custom">
 						<div class="a"><b>CENTRAL PROJECTS
@@ -164,8 +164,8 @@
                         </div>
                      </div>
                   </div>
-			   </div>	
-			   
+			   </div>
+
                <table width="100%" cellpadding="1" cellspacing="0" style="margin-top: 30px;">
 				<tbody>
 					<tr valign="top">
@@ -188,7 +188,7 @@
 							<p align="center"><font  size="2" style="font-size: 9pt"><b>AMOUNT
 								(QAR)</b></font></p>
 						</td>
-					</tr>			
+					</tr>
 				</tbody>
 				<tbody>
 					<tr>
@@ -269,12 +269,12 @@
 							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
 						</td>
 					</tr>
-					
+
 				</tbody>
 				<tbody>
 					<tr>
 						<td rowspan="2" width="166" height="20" valign="top" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
-							<p style="margin-bottom: 0in; widows: 0; orphans: 0"><font  color="#999999"><font  size="2" style="font-size: 9pt"><b>INVOICE 
+							<p style="margin-bottom: 0in; widows: 0; orphans: 0"><font  color="#999999"><font  size="2" style="font-size: 9pt"><b>INVOICE
 							TOTAL</b></font></font></p>
 							<p><font  color="#404040"><font  size="6" style="font-size: 22pt">QAR.000</font></font></p>
 						</td>
@@ -416,7 +416,7 @@
 					</tr>
 				</tbody>
 			</table>
-            </div>			   
+            </div>
          </div>
       </div>
    </body>

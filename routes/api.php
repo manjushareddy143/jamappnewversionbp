@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
     return $request->user();
 });*/
 Route::get('v1/invoice', 'BookingController@printPDF');
+Route::get('v1/display', 'BookingController@invoice');
 
 Route::get('v1/details', 'UserController@getSingupDetail');
 Route::post('v1/login', 'UserController@login');
@@ -98,7 +99,7 @@ Route::get('/', function () {
 });
 
 
-// Invoice 
+// Invoice
 // Route::post('v1/invoice', 'BookingController@invoice');
 
 
