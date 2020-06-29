@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\HasRolesAndPermissions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
@@ -51,29 +52,36 @@ class User extends Authenticatable
 
     public function services() {
         // return ProviderServiceMapping::with('service')->get();
-        return $this->hasManyThrough(ProviderServiceMapping::class,services::class, 
+        return $this->hasManyThrough(ProviderServiceMapping::class,services::class,
         'id' , 'user_id', 'id')->with('service')->with('categories');
 
         // return $this->services()->with('service');
     }
 
-    // public function services() {
-    //     return $this->servicesData()->service();
-    // }
-
-
-
-
     public function orderAsCustomer() {
         return $this->hasMany(Booking::class, 'user_id' , 'id');
     }
 
-    public function orderAsProvider() {
-        return $this->hasMany(Booking::class, 'provider_id' , 'id');
+    public function orersAsProvider() {
+        return $this->hasMany(Booking::class, 'provider_id' , 'id');//->where('provider_id', 'id');
     }
+
+    public function jobs() {
+        return $this->hasMany(Booking::class, 'provider_id' , 'id');
+        // $jobsCount =  $jobs->where()
+        // return  $this->orersAsProvider()->selectRaw('COUNT(provider_id) AS jobs, provider_id');
+        // ->whereHas('orersAsProvider', function (Builder $query) {
+        //     $query->where('provider_id', '=', 'id');
+        // });
+    }
+
 
     public function experince() {
         return $this->hasMany(Experience::class, 'rate_to', 'id');
+    }
+
+    public function reviews() {
+        return $this->hasMany(Experience::class, 'rate_to', 'id')->with('rate_by');
     }
 
     public function organisation() {
@@ -94,6 +102,13 @@ class User extends Authenticatable
 
     public function address() {
         return $this->hasMany(Address::class, 'user_id', 'id');
+    }
+
+    public function addressWithServiceRadius() {
+        // $data = $this->provider();
+        // printf($data);
+
+        return $this->hasMany(Address::class, 'user_id', 'id')->with('checkRadius');
     }
 
 

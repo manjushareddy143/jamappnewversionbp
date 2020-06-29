@@ -12,19 +12,20 @@ class ServiceProviderController extends Controller
 {
 
     public function getDistance() {
-        $latitudeFrom = 21.094200;
-        $longitudeFrom = 71.756104;
 
-        
-        $latitudeTo = 21.764473;
-        $longitudeTo = 72.151932;
+        $latitudeFrom = 21.0987442;
+        $longitudeFrom = 71.7539072;
+
+
+        $latitudeTo = 21.093098271540605;
+        $longitudeTo = 71.76618821918964;
 
         $theta    = $longitudeFrom - $longitudeTo;
         $dist    = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
         $dist    = acos($dist);
         $dist    = rad2deg($dist);
         $miles    = $dist * 60 * 1.1515;
-        
+
         // Convert unit and return distance
         $unit = 'K';
         $unit = strtoupper($unit);

@@ -150,8 +150,52 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <style>
+                                            #snackbar {
+                                                visibility: hidden;
+                                                min-width: 250px;
+                                                margin-left: -125px;
+                                                background-color: #333;
+                                                color: #fff;
+                                                text-align: center;
+                                                border-radius: 2px;
+                                                padding: 16px;
+                                                position: fixed;
+                                                z-index: 1;
+                                                left: 50%;
+                                                bottom: 30px;
+                                                font-size: 17px;
+                                            }
 
-                                        <div style="position: absolute; top: 0; right: 0; min-width: 300px;">
+                                            #snackbar.show {
+                                                visibility: visible;
+                                                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                                                animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                                            }
+                                            @-webkit-keyframes fadein {
+                                            from {bottom: 0; opacity: 0;}
+                                            to {bottom: 30px; opacity: 1;}
+                                            }
+
+                                            @keyframes fadein {
+                                            from {bottom: 0; opacity: 0;}
+                                            to {bottom: 30px; opacity: 1;}
+                                            }
+
+                                            @-webkit-keyframes fadeout {
+                                            from {bottom: 30px; opacity: 1;}
+                                            to {bottom: 0; opacity: 0;}
+                                            }
+
+                                            @keyframes fadeout {
+                                            from {bottom: 30px; opacity: 1;}
+                                            to {bottom: 0; opacity: 0;}
+                                            }
+                                            </style>
+                                            {{-- <p>Snackbars are often used as a tooltips/popups to show a message at the bottom of the screen.</p>
+                                            <p>Click on the button to show the snackbar. It will disappear after 3 seconds.</p> --}}
+                                            <div id="snackbar">Some text some message..</div>
+                                        {{-- <div style="position: absolute; top: 0; right: 0; min-width: 300px;">
                                             <div class="toast fade show">
                                                 <div class="toast-header">
                                                     <strong class="mr-auto"><i class="fa fa-globe"></i> Hello, world!</strong>
@@ -164,7 +208,7 @@
                                                     This is a basic toast message.
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -347,15 +391,18 @@
 
     function clickme(){
         console.log("get error");
-        $(document).ready(function() {
-            $('#alert-target').click(function() {
-                $('.toast').toast({
-                    animation: false,
-                    delay: 2000
-                });
-                $('.toast').toast('show');
-            });
-        });
+        // $(document).ready(function() {
+        //     $('#alert-target').click(function() {
+        //         $('.toast').toast({
+        //             animation: false,
+        //             delay: 2000
+        //         });
+        //         $('.toast').toast('show');
+        //     });
+        // });
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
 
     var editUserid;
@@ -527,6 +574,22 @@
         }
     }
 
+    // var errorArray = xhr['responseJSON'];
+    // $.each(errorArray, function (i, err) {
+    //     $.each(err, function (j, msg) {
+    //         console.log(j);
+    //         console.log(msg);
+    //     });
+    // });
+    // if(xhr['status'] == 406) {
+    //     var errorArray = xhr['responseJSON'];
+    //     $.each(errorArray, function (i, err) {
+    //         $.each(err, function (j, msg) {
+    //             console.log(j);
+    //             console.log(msg.toString());
+    //         });
+    //     });
+    // }
 
     var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
     var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;

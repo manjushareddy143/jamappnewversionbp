@@ -11,8 +11,9 @@ class ProviderServiceMapping extends Model
     protected $fillable = ['user_id', 'service_id', 'category_id', 'price'];
 
     public function user() {
-        return $this->hasMany(User::class, 'id' , 'user_id')->with('provider')->with('rate')
-        ->with('organisation');
+        // return $this->hasMany(User::class, 'id' , 'user_id')->with('addressWithServiceRadius');
+       return $this->hasMany(User::class, 'id' , 'user_id')->with('provider')->with('rate')
+        ->with('organisation')->with('address')->with('reviews')->withCount('jobs');
     }
 
     public function service() {
