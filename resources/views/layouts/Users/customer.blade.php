@@ -146,7 +146,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                             </select>
                                             <p id="countryError"></p>
                                         </div>
-                                        <div class="row">
+                                        {{-- <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>@lang('customer.label_services')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
@@ -154,7 +154,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                                     <ul class="tree" id="tree_box" style="overflow: auto;height: 200px;"></ul>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <style>
                                             #snackbar {
                                                 visibility: hidden;
@@ -204,7 +204,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('customer.label_cbtn')</button>
                                     <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('customer.label_sbtn')</button>
                                     <button type="button" onclick="update_customer()" class="btn btn-primary">@lang('customer.label_ubtn')</button>
-                                    <a class="btn btn-info btn-lg" id="alert-target" onclick="clickme()">Click me!</a>
+                                    {{-- <a class="btn btn-info btn-lg" id="alert-target" onclick="clickme()">Click me!</a> --}}
 
 
                                 </div>
@@ -376,21 +376,13 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
 
     }
 
-    function clickme(){
-        console.log("get error");
-        // $(document).ready(function() {
-        //     $('#alert-target').click(function() {
-        //         $('.toast').toast({
-        //             animation: false,
-        //             delay: 2000
-        //         });
-        //         $('.toast').toast('show');
-        //     });
-        // });
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-    }
+    // function clickme(){
+    //     console.log("get error");
+
+    //     var x = document.getElementById("snackbar");
+    //     x.className = "show";
+    //     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    // }
 
     var editUserid;
     function getcustomerData(customerid)
