@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+
       <title>INVOICE</title>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type='text/javascript'></script>
@@ -86,29 +87,34 @@
 
 	.cus-sign {
 		padding-top:35px;
-		}
-		.terms {
-			padding-bottom:50px;
-		}
+	}
+	.terms {
+		padding-bottom:50px;
+	}
 
-		.col-sm-9 {
-			padding-right: 89px;
-		}
+	.col-sm-9 {
+		padding-right: 89px;
+	}
 
-		.col-md-9 {
-			width: 53%;
-		}
+	.col-md-9 {
+		width: 53%;
+	}
 
 		@page {
    size: 20in 12.25in;
    margin: 27mm 10mm 27mm 16mm;
 	}
 
-	#table td{
+  #table{
+    max-width: 2480px;
+    width:100%;
+  }
+  #table td{
     width: auto;
     overflow: hidden;
     word-wrap: break-word;
   }
+
 	</style>
    </head>
    <body>
@@ -177,7 +183,7 @@
                   </div>
 			   </div>
 
-			   
+               <div style="overflow-x:auto;">
                <table width="90%" cellpadding="0" cellspacing="0" style="margin-top: 30px;">
 				<tbody>
 					<tr valign="top">
@@ -427,7 +433,10 @@
 						</td>
 					</tr>
 				</tbody>
-			</table>
+				</table>
+               </div>
+
+
             </div>
          </div>
       </div>

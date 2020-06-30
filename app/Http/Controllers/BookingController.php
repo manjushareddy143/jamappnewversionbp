@@ -170,7 +170,12 @@ class BookingController extends Controller
        // This  $data array will be passed to our PDF blade
         $data = [];
 
-        $pdf = PDF::loadView('invoice.invoice', $data);
+
+
+        // PDF::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf')
+
+        PDF::setOptions(['dpi' => 150]);
+        $pdf = PDF::loadView('invoice.invoice', [])->setPaper('a4', 'portrait')->setWarnings(false);
         return $pdf->download('medium.pdf');
     }
 }
