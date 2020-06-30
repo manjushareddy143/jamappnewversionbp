@@ -147,7 +147,7 @@
                <div style="clear:both"></div>
                <div class="container-add">
                   <div class="row">
-                     <div class="col-sm-3">
+                     <div class="col-sm-6">
                         <div id="customer">
 						<div class="c"><b>BILLED TO:</b>
                               Client name<br>
@@ -157,11 +157,11 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-sm-9">
+                     <div class="col-sm-6">
                         <div class="address-custom">
-						<div class="a"><b>CENTRAL PROJECTS
-							ENGINEERING SERVICES AND
-							TRADING COMPANY</b>
+							<div class="a"><b>CENTRAL PROJECTS
+								ENGINEERING SERVICES AND
+								TRADING COMPANY</b>
                            </div><br><br>
                            <div class="b">Ariane Tower, 1 st Floor, Room<br>
 							No.103, Near Old Mannai<br>
