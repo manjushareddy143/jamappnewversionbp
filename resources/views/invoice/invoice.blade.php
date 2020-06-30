@@ -65,11 +65,11 @@
 	}
 	.a{
 	color: red;
-	width: 54%;
+	width: 53%;
 	float: right;
 	}
 	.b{
-		width: 54%;
+	width: 53%;
 	float: right;
 	margin-top: 15px;
 	padding-bottom: 20px;
@@ -98,12 +98,23 @@
 		.col-md-9 {
 			width: 53%;
 		}
+
+		@page {
+   size: 20in 12.25in;
+   margin: 27mm 10mm 27mm 16mm;
+	}
+
+	#table td{
+    width: auto;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
 	</style>
    </head>
    <body>
-      <div id="page-wrap" style="border: 1px solid;">
+      <div id="page-wrap" style="border 1px solid">
          <div class="invoice-container" style="padding:39px;">
-            <!-- <textarea id="header" rows="" cols="">INVOICE</textarea> -->
+
             <div class="cus-invoice">
                 <div>
                     <div class="row">
@@ -121,7 +132,7 @@
 			   <div class="container-date">
 
                      <div class="col-md-3">
-                        <label><b>INVOICE NUMBER</b></label>
+                        <label><b>INVOICE NUMBER</b></label><br>
                         <span>00001</span>
                      </div>
                      <div class="col-md-3">
@@ -151,10 +162,10 @@
 						<div class="a"><b>CENTRAL PROJECTS
 							ENGINEERING SERVICES AND
 							TRADING COMPANY</b>
-                           </div><br>
-                           <div class="b">Ariane Tower, 1 st Floor, Room
-							No.103, Near Old Mannai
-							Round About, Al Mushereib,
+                           </div><br><br>
+                           <div class="b">Ariane Tower, 1 st Floor, Room<br>
+							No.103, Near Old Mannai<br>
+							Round About, Al Mushereib,<br>
 							P O Box 6150, Doha, Qatar<br>
 							Ph: +974 4435 7448<br>
 							Fax: +974 4435 7426<br>
@@ -166,7 +177,8 @@
                   </div>
 			   </div>
 
-               <table width="100%" cellpadding="1" cellspacing="0" style="margin-top: 30px;">
+			   
+               <table width="90%" cellpadding="0" cellspacing="0" style="margin-top: 30px;">
 				<tbody>
 					<tr valign="top">
 						<td colspan="2" width="412" height="11" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
