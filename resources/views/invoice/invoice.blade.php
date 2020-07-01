@@ -139,11 +139,11 @@
 
                      <div class="col-md-3">
                         <label><b>INVOICE NUMBER</b></label><br>
-                        <span>00001</span>
+                        <span>{{ $order_id }}</span>
                      </div>
                      <div class="col-md-3">
                         <label><b>DATE OF ISSUE</b></label>
-                        <span>mm/dd/yyyy</span>
+                        <span>{{ $order_date }}</span>
                      </div>
 
 			   </div>
@@ -212,19 +212,22 @@
 					<tr>
 						<td colspan="2" width="412" height="30" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
 							<p style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2"><b>Work
-							done: </b></font></font>
+							done: {{ $service_name }} </b></font></font>
 							</p>
 						</td>
 						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
-							<p style="widows: 0; orphans: 0"><font  color="#404040"> </font>
+                            <p style="widows: 0; orphans: 0"><font  color="#404040"> </font>
+                                {{ $service_cost }}
 							</p>
 						</td>
 						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
-							<p style="widows: 0; orphans: 0">
+                            <p style="widows: 0; orphans: 0">
+                                {{ $working_hr }}
 							</p>
 						</td>
 						<td width="13" valign="top" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<p style="widows: 0; orphans: 0">
+                            <p style="widows: 0; orphans: 0">
+                                {{ $service_amount }}
 							</p>
 						</td>
 						<td width="74" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
@@ -234,19 +237,25 @@
 					<tr>
 						<td colspan="2" width="412" height="30" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
 							<p style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">Cost
-							of materials/spare parts</font></font></p>
+                            of materials/spare parts</font></font>
+
+                            {{ $material_name }}
+                        </p>
 						</td>
 						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
-							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">
+                                {{ $material_cost }} </font></font></p>
 						</td>
 						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
-							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">1</font></font></p>
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">
+                                {{ $material_qty }}</font></font></p>
 						</td>
 						<td width="13" valign="top" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
-							<p align="center" style="widows: 0; orphans: 0"></p>
+                            <p align="center" style="widows: 0; orphans: 0">
+                            </p>
 						</td>
 						<td width="74" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font   size="2">0</font></font></p>
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font   size="2">{{ $material_amout }}</font></font></p>
 						</td>
 					</tr>
 					<tr>
@@ -274,17 +283,18 @@
 							cost/charges</font></font></p>
 						</td>
 						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0.07in; padding-right: 0.07in">
-							<p align="center" style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">0</font></font></p>
+							<p align="center" style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">{{ $additional_cost }}</font></font></p>
 						</td>
 						<td width="94" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0.07in; padding-right: 0.07in">
-							<p align="center" style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">1</font></font></p>
+							<p align="center" style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">{{ $additional_hr }}</font></font></p>
 						</td>
 						<td width="13" valign="top" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
 							<p align="center" style="widows: 0; orphans: 0">
 							</p>
 						</td>
 						<td width="74" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
-							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">
+                                {{ $additional_total }}</font></font></p>
 						</td>
 					</tr>
 
@@ -294,7 +304,7 @@
 						<td rowspan="2" width="166" height="20" valign="top" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
 							<p style="margin-bottom: 0in; widows: 0; orphans: 0"><font  color="#999999"><font  size="2" style="font-size: 9pt"><b>INVOICE
 							TOTAL</b></font></font></p>
-							<p><font  color="#404040"><font  size="6" style="font-size: 22pt">QAR.000</font></font></p>
+							<p><font  color="#404040"><font  size="6" style="font-size: 22pt">QAR.{{ $total }}</font></font></p>
 						</td>
 						<td width="244" valign="top" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
 							<p style="widows: 0; orphans: 0">
@@ -312,7 +322,7 @@
 							</p>
 						</td>
 						<td width="74" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2"> {{ $sub_total }}</font></font></p>
 						</td>
 					</tr>
 					<tr>
@@ -332,7 +342,7 @@
 							</p>
 						</td>
 						<td width="74" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2"> {{ $discount }}</font></font></p>
 						</td>
 					</tr>
 					<tr>
@@ -380,7 +390,7 @@
 							</p>
 						</td>
 						<td width="74" bgcolor="#ffffff" style="border-top: none; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
-							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">0</font></font></p>
+							<p align="center" style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2"> {{ $tax }}</font></font></p>
 						</td>
 					</tr>
 					<tr>
@@ -404,7 +414,7 @@
 							</p>
 						</td>
 						<td width="74" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: 3.00pt solid #000001; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0.07in; padding-left: 0in; padding-right: 0.07in">
-							<p align="center" style="widows: 0; orphans: 0"><font  size="3">0</font></p>
+							<p align="center" style="widows: 0; orphans: 0"><font  size="3">{{ $total }}</font></p>
 						</td>
 					</tr>
 					<tr>

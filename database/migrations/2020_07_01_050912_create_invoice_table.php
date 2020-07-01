@@ -16,10 +16,10 @@ class CreateInvoiceTable extends Migration
         Schema::create('invoice', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('order_id');
-            $table->string('working_hr');
+            $table->integer('working_hr');
             $table->string('material_names');
-            $table->integer('quantity');
-            $table->integer('price');
+            $table->integer('material_quantity');
+            $table->integer('material_price');
             $table->integer('additional_charges');
             $table->integer('discount');
             $table->integer('tax');
