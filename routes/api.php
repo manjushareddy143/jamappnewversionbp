@@ -78,6 +78,8 @@ Route::get('v1/services/category', 'ServicesController@get_service_categories');
 Route::post('v1/vendorupdate', 'UserController@updatevendor');
 //Customer Update
 Route::put('v1/customerupdate/{id}', 'UserController@updatevendor');
+//Organisation Update
+Route::post('v1/org_update/{id}', 'UserController@organisationupdate');
 //Verification
 Route::post('v1/verification/{id}', 'ServiceProviderController@verification');
 // User Type Mng

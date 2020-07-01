@@ -5,6 +5,8 @@ return[
 
 'label_title'=>'إضافة منظمات',
 
+'label_etitle'=>'تحرير المنظمة',
+
 'label_header'=>'المنظمات',
 
 
@@ -18,7 +20,7 @@ return[
 
 'label_password'=>'كلمه السر',
 
-'label_image'=>'صورة',
+'label_logo'=>'شعار',
 
 
 'label_place_cname'=>'أدخل اسم شركتك',
@@ -35,7 +37,7 @@ return[
 
 'label_place_cbtn'=>'قريب',
 
-
+'label_place_ubtn'=>'تحديث‎',
 
 'label_tab_company'=>'شركة',
 'label_tab_admin'=>'مشرف',

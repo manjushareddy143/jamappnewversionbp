@@ -68,8 +68,8 @@
 
                     <div class="col-md-6 float-l">
                       <div class="form-group">
-                                <label>@lang('organisation.label_image')</label>
-                                <input id="image" type="file" name="image" class="form-control" required>
+                                <label>@lang('organisation.label_logo')</label>
+                                <input id="logo" type="file" name="logo" class="form-control" required>
                        </div>
                      </div>
                </div>
@@ -117,8 +117,9 @@
                 </style>
                 <div id="snackbar">Something went wrong</div>
                   <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('organisation.label_place_cbtn')</button>
-                            <button type="button" onclick="create_users()" class="btn btn-primary">@lang('organisation.label_place_sbtn')</button>
+                            <button type="button" id="btn_close" class="btn btn-secondary" data-dismiss="modal">@lang('organisation.label_place_cbtn')</button>
+                            <button type="button" id="btn_save" onclick="create_users()" class="btn btn-primary">@lang('organisation.label_place_sbtn')</button>
+                            <button type="button" id="btn_update" onclick="update_org()" class="btn btn-primary">@lang('organisation.label_place_ubtn')</button>
                   </div>
 
                     </form>
@@ -171,12 +172,9 @@
         window.addEventListener("load",onLoad(),false) :
         window.attachEvent && window.attachEvent("onload",onLoad());
 
-
-
     function onLoad() {
         console.log("ON LOAD  tbl_id")
         getResult();
-
     }
 
     function getResult() {
@@ -198,7 +196,7 @@
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                         '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id
-                            + ')"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord('
+                            + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getorgdata(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord('
                             + response[i].id + ')"><i class="fas fa-trash"></i></a> '
                             + '</td> </tr>';
                 });
@@ -215,6 +213,70 @@
         console.log(e);
         // alert(e);
         window.location = '/detail?id=' + e;
+    }
+
+    $(document).ready(function(){
+        $("#user_btn").click(function(){
+            $("#btn_update").hide();
+        });
+    });
+
+    var editUserid;
+    function getorgdata(orgid){
+        console.log("hello" + orgid);
+            // document.getElementById('btntext').innerHTML = 'Edit Organisation';
+            // document.getElementById('button').innerHTML = 'Update';
+            $("#lbl_pass").hide();
+            $("#password").hide();
+            $("#btn_save").hide();
+        // alert(id);
+        editUserid=orgid;
+
+        $.ajax({
+            url:"/user/"+orgid+"/edit",
+            method:'get',
+            data:{id:editUserid},
+            dataType:'JSON',
+            success:function(data)
+            {
+                console.log(data);
+                $('#org_company_name').val(data.org_company_name);
+                $('#org_name').val(data.first_name);
+                $('#contact').val(data.contact);
+                $('#email').val(data.email);
+
+                $('#action').val('Edit');
+            }
+        });
+    }
+
+    function update_org(){
+        console.log("hsdhfsdjsdjifhdjsdlcmsdlkcmdcjsdiocjsdcl");
+        var edit = 'edit_data';
+        $.ajax({
+            url: '/api/v1/org_update/' + editUserid,
+            type: 'POST',
+            data: {
+                'id' : editUserid,
+                'org_company_name' : document.getElementById("org_company_name").value,
+                'org_name' : document.getElementById("org_name").value,
+                'contact' : document.getElementById("contact").value
+                },
+
+            success: function (data) {
+                if(data == 1) {
+                    console.log("SUCCESS");
+                    window.top.location = window.top.location;
+                    location.reload();
+                } else {
+                    console.log("FAIL");
+                    // $('#btn_verify').show();
+                }
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
     }
 
     function deleteRecord(e) {
@@ -242,9 +304,9 @@
             form.append('contact', document.getElementById("contact").value);
             form.append('email', document.getElementById("email").value);
             form.append('password', document.getElementById("password").value);
-            var image = $('#image')[0].files[0];
-            if(image) {
-                form.append('profile_photo',image);
+            var logo = $('#logo')[0].files[0];
+            if(logo) {
+                form.append('profile_photo',logo);
             }
 
 
@@ -435,15 +497,15 @@
            });
          }
 
-         var image = $('#image')[0].files[0];
-         if (!image) {
-              $("#image").focus();
-           $("#image").focus();
-           $("#image").blur(function () {
-               var name = $('#image').val();
+         var logo = $('#logo')[0].files[0];
+         if (!logo) {
+              $("#logo").focus();
+           $("#logo").focus();
+           $("#logo").blur(function () {
+               var name = $('#logo').val();
                if (name.length == 0) {
-                   $('#image').next('div.red').remove();
-                   $('#image').after('<div class="red" style="color:red">Image is Required</div>');
+                   $('#logo').next('div.red').remove();
+                   $('#logo').after('<div class="red" style="color:red">logo is Required</div>');
                } else {
                    $(this).next('div.red').remove();
                    return true;

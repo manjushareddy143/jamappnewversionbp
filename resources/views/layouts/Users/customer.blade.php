@@ -202,8 +202,8 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('customer.label_cbtn')</button>
-                                    <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('customer.label_sbtn')</button>
-                                    <button type="button" onclick="update_customer()" class="btn btn-primary">@lang('customer.label_ubtn')</button>
+                                    <button type="button" id="btn_save" onclick="create_user()" value="save" class="btn btn-primary">@lang('customer.label_sbtn')</button>
+                                    <button type="button" id="btn_update" onclick="update_customer()" class="btn btn-primary">@lang('customer.label_ubtn')</button>
                                     {{-- <a class="btn btn-info btn-lg" id="alert-target" onclick="clickme()">Click me!</a> --}}
 
 
@@ -376,78 +376,77 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
 
     }
 
-    // function clickme(){
-    //     console.log("get error");
-
-    //     var x = document.getElementById("snackbar");
-    //     x.className = "show";
-    //     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-    // }
+    $(document).ready(function(){
+        $("#user_btn").click(function(){
+            $("#btn_update").hide();
+        });
+    });
 
     var editUserid;
     function getcustomerData(customerid)
-        {
-            console.log("hello" + customerid);
-             document.getElementById('btntext').innerHTML = 'Edit Customer';
-             // document.getElementById('button').innerHTML = 'Update';
-             $("#lbl_pass").hide();
-             $("#password").hide();
-            // alert(id);
-            editUserid=customerid;
+    {
+        console.log("hello" + customerid);
+            document.getElementById('btntext').innerHTML = 'Edit Customer';
+            // document.getElementById('button').innerHTML = 'Update';
+            $("#lbl_pass").hide();
+            $("#password").hide();
+            $("#btn_save").hide();
+        // alert(id);
+        editUserid=customerid;
 
-            $.ajax({
-                url:"/user/"+customerid+"/edit",
-                method:'get',
-                data:{id:editUserid},
-                dataType:'JSON',
-                success:function(data)
-                {
-                    console.log(data);
-                    $('#first_name').val(data.first_name);
-                    $('#last_name').val(data.last_name);
-                    $('#email').val(data.email);
-                    $('#contact').val(data.contact);
-                    $("#lang-arabic").prop('checked', true);
-                    $("#lang-english").prop('checked', true);
-                    $("#gender-male ").prop('checked', true);
-                    $("#gender-female ").prop('checked', true);
-                    $("#gender-other ").prop('checked', true);
+        $.ajax({
+            url:"/user/"+customerid+"/edit",
+            method:'get',
+            data:{id:editUserid},
+            dataType:'JSON',
+            success:function(data)
+            {
+                console.log(data);
+                $('#first_name').val(data.first_name);
+                $('#last_name').val(data.last_name);
+                $('#email').val(data.email);
+                $('#contact').val(data.contact);
+                $("#lang-arabic").prop('checked', true);
+                $("#lang-english").prop('checked', true);
+                $("#gender-male ").prop('checked', true);
+                $("#gender-female ").prop('checked', true);
+                $("#gender-other ").prop('checked', true);
 
-                    $('#action').val('Edit');
-                }
-            });
+                $('#action').val('Edit');
+            }
+        });
 
-        }
+    }
 
-        //update customer record
-        function update_customer() {
+    //update customer record
+    function update_customer() {
 
-            var edit = 'edit_data';
-            $.ajax({
-                url: '/api/v1/customerupdate/' + editUserid,
-                type: 'PUT',
-                data: {
-                    'id' : editUserid,
-                    'first_name' : document.getElementById("first_name").value,
-                    'last_name' : document.getElementById("last_name").value,
-                    'contact' : document.getElementById("contact").value
-                    },
-
-                success: function (data) {
-                    if(data == 1) {
-                        console.log("SUCCESS");
-                        window.top.location = window.top.location;
-                        location.reload();
-                    } else {
-                        console.log("FAIL");
-                        // $('#btn_verify').show();
-                    }
+        var edit = 'edit_data';
+        $.ajax({
+            url: '/api/v1/customerupdate/' + editUserid,
+            type: 'PUT',
+            data: {
+                'id' : editUserid,
+                'first_name' : document.getElementById("first_name").value,
+                'last_name' : document.getElementById("last_name").value,
+                'contact' : document.getElementById("contact").value
                 },
-                fail: function (error) {
-                    console.log(error);
+
+            success: function (data) {
+                if(data == 1) {
+                    console.log("SUCCESS");
+                    window.top.location = window.top.location;
+                    location.reload();
+                } else {
+                    console.log("FAIL");
+                    // $('#btn_verify').show();
                 }
-            });
-        }
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    }
 
     function getResult() {
 
@@ -466,7 +465,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
         '</td><td>' + response[i].email + '</td>' +
         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
         '</td><td>' + response[i].gender + '</td>' +
-        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getcustomerData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a>' + '</td></tr>';
+        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getcustomerData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i id="btn_edit" class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a>' + '</td></tr>';
 
                 });
                 $('#tbl_id').append(trHTML);

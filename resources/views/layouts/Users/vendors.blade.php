@@ -234,9 +234,9 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('vendor.label_cbtn')</button>
-                                    <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
-                                    <button type="button" onclick="update_vendor(), update_services()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
-                                    <a class="btn btn-info btn-lg" id="alert-target">Click me!</a>
+                                    <button type="button" id="btn_save" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
+                                    <button type="button" id="btn_update" onclick="update_vendor(), update_services()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
+                                    {{-- <a class="btn btn-info btn-lg" id="alert-target">Click me!</a> --}}
                                 </div>
                             </div>
                         </div>
@@ -271,6 +271,12 @@
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
+
+    $(document).ready(function(){
+        $("#user_btn").click(function(){
+            $("#btn_update").hide();
+        });
+    });
 
         function getListOfService() {
             $.ajax({
@@ -404,6 +410,14 @@
             console.log(selectedService);
         }
 
+        function isNumberKey(evt){
+
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
         function getAllVendors() {
 
             $.ajax({
@@ -428,13 +442,15 @@
 
                         var servicesString = "-";
 
-                        $.each(response[i]['services'], function (j, item) {
+                        $.each(response[i]['services'], function (j, item)
+                        {
                             if(servicesString == "-") {
                                 servicesString =  item['service'].name;
                             } else {
                                 servicesString += ", " + item['service'].name;
                             }
                         });
+
 
                         var org_name = (response[i]['organisation'] == null)? "Individual" : response[i]['organisation'].name;
 
@@ -857,6 +873,7 @@
              // document.getElementById('button').innerHTML = 'Update';
              $("#lbl_pass").hide();
              $("#password").hide();
+             $("#btn_save").hide();
             // alert(id);
             editUserid=vendorid;
 

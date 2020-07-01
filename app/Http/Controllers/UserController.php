@@ -797,7 +797,7 @@ class UserController extends Controller
         // }
         // Service mapping
         $services = $input['services'];
-                   
+
         $services =  json_decode($services, true); //explode(',', );
         foreach ($services as $data) {
             $obj = array();
@@ -872,6 +872,35 @@ class UserController extends Controller
             return $temp;
     }
 
+    public function organisationupdate(Request $request) {
+        $input = $request->all();
+        $updatedata = [];
+        if(array_key_exists('org_company_name', $input)) {
+            $updatedata += [
+                'name' => $input['org_company_name'],
+            ];
+
+        }
+        if(array_key_exists('org_name', $input)) {
+            $updatedata += [
+                'first_name' => $input['org_name'],
+            ];
+
+        }
+        if(array_key_exists('contact', $input)) {
+            $updatedata += [
+                'contact' => $input['contact'],
+            ];
+
+        }
+        if(array_key_exists('logo', $input)) {
+            $updatedata += [
+                'logo' => $input['logo'],
+            ];
+        }
+        // $user = User::with('services')->with('provider')->where('id', '=', $id)->first();
+        $temp= DB::table('organisation')->with('users')->where('id', (int)$input['id'])->update($updatedata);
+    }
 
     //User profile API
     /**
@@ -943,7 +972,7 @@ class UserController extends Controller
                 $this->add_document($request, $input, $id);
                    // Service mapping
                    $services = $input['services'];
-                   
+
                    $services =  json_decode($services, true); //explode(',', );
                    foreach ($services as $data) {
                        $obj = array();
@@ -1064,9 +1093,9 @@ class UserController extends Controller
                 $imagedata = [
                         'image' => $host . "/images/profiles/" . $profile_name,
                 ];
-    
+
                 if($this->update_user_details($imagedata, $id)) {
-    
+
                     $user["image"] = $host . "/images/profiles/" . $profile_name;
                 } else {
                     $response['message'] = "Profile image not update";
@@ -1074,7 +1103,7 @@ class UserController extends Controller
                         ->header('content-type', 'application/json');
                 }
             }
-            
+
 
 
             // ADDRESS
@@ -1118,7 +1147,7 @@ class UserController extends Controller
     }
 
     public function add_document($request, $input, $id) {
-        
+
         $numofids =explode(',', $input['numofids']);
         foreach ($numofids as $data) {
             $doc_file = $request->file('identity_proof' . $data);
