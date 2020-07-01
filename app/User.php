@@ -75,6 +75,11 @@ class User extends Authenticatable
         // });
     }
 
+    public function providerDetail()
+    {
+        return $this->hasMany(ProviderServiceMapping::class, 'user_id', 'id');
+    }
+
 
     public function experince() {
         return $this->hasMany(Experience::class, 'rate_to', 'id');

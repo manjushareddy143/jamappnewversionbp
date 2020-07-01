@@ -12,7 +12,7 @@ class Booking extends Model
         'end_time' ,'remark', 'booking_date', 'provider_id', 'status', 'otp'];
 
     public function users() {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id')->with('address');
     }
 
     public function address() {
@@ -20,7 +20,7 @@ class Booking extends Model
     }
 
     public function provider() {
-        return $this->hasOne(User::class, 'id', 'provider_id');
+        return $this->hasOne(User::class, 'id', 'provider_id')->with('address')->with('providerDetail');
     }
 
     public function services() {
