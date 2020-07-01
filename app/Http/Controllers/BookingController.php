@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 use PDF;
+use Symfony\Component\Console\Input\Input;
+
 
 class BookingController extends Controller
 {
@@ -162,7 +164,24 @@ class BookingController extends Controller
     }
 
     public function invoice(Request $request) {
+        
+        $initialValidator = Validator::make($request->all(),
+        [
+            'order_id' => 'required|exists:order,id',
+            'bookings_id' => 'required|exists:bookings,id',
+            'material_names' => '',
+            'discount' => '',
+            'price' => 'required',
+            'tax_rate' => 'required',
+            'tax' => 'required',
+            'quantity' => 'required',
+        ]);
+        $input = $request->all();
+        $input = User::create($input);
+
+
         return view('invoice.invoice');
+        
     }
 
     public function printPDF()
@@ -177,5 +196,9 @@ class BookingController extends Controller
         PDF::setOptions(['dpi' => 150]);
         $pdf = PDF::loadView('invoice.invoice', [])->setPaper('a4', 'portrait')->setWarnings(false);
         return $pdf->download('medium.pdf');
+
+        $result = Booking::with('users')->with('services')->with('provider')->with('bookings')->with('address')->where('id', '=', $id)->first();
+        print_r($response);
+        return response()->json($result);
     }
 }

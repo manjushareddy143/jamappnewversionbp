@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 });*/
 Route::get('v1/invoice', 'BookingController@printPDF');
 Route::get('v1/display', 'BookingController@invoice');
+Route::post('v1/create_invoice', 'BookingController@invoice');
 
 Route::get('v1/details', 'UserController@getSingupDetail');
 Route::post('v1/login', 'UserController@login');

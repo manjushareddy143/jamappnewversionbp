@@ -192,7 +192,7 @@
 						</td>
 						<td width="94" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
 							<p align="center"><font  size="2" style="font-size: 9pt"><b>UNIT COST (QAR)
-							(qar)</b></font></p>
+							</b></font></p>
 						</td>
 						<td width="94" bgcolor="#ffffff" style="border: 3.00pt solid #000001; padding: 0.07in">
 							<p align="center"><font  size="2" style="font-size: 9pt"><b>QTY/HR RATE
