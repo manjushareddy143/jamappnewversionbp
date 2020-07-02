@@ -445,7 +445,9 @@
                         $.each(response[i]['services'], function (j, item)
                         {
                             if(servicesString == "-") {
+                                console.log("helllllllllo" + JSON.stringify(item));
                                 servicesString =  item['service'].name;
+                                
                             } else {
                                 servicesString += ", " + item['service'].name;
                             }

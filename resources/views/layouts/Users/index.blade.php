@@ -18,7 +18,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">@lang('organisation.label_title')</h5>
+                  <h5 class="modal-title" id="btntext">@lang('organisation.label_title')</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -36,7 +36,7 @@
                     <div class="col-md-6 float-l">
                     <div class="form-group">
                       <label>@lang('organisation.label_aname') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                      <input type="text" class="form-control" id="org_name" placeholder="@lang('organisation.label_place_aname')" required="">
+                      <input type="text" class="form-control" id="org_aname" placeholder="@lang('organisation.label_place_aname')" required="">
                     </div>
                     </div>
                   </div>
@@ -224,7 +224,7 @@
     var editUserid;
     function getorgdata(orgid){
         console.log("hello" + orgid);
-            // document.getElementById('btntext').innerHTML = 'Edit Organisation';
+             document.getElementById('btntext').innerHTML = 'Edit Organisation';
             // document.getElementById('button').innerHTML = 'Update';
             $("#lbl_pass").hide();
             $("#password").hide();
@@ -240,8 +240,10 @@
             success:function(data)
             {
                 console.log(data);
-                $('#org_company_name').val(data.org_company_name);
-                $('#org_name').val(data.first_name);
+                console.log(JSON.stringify(data['organisation']));
+                editUser = data;
+                $('#org_company_name').val(data.organisation.name);
+                $('#org_aname').val(data.first_name);
                 $('#contact').val(data.contact);
                 $('#email').val(data.email);
 
@@ -249,33 +251,62 @@
             }
         });
     }
+    var editUser;
 
     function update_org(){
-        console.log("hsdhfsdjsdjifhdjsdlcmsdlkcmdcjsdiocjsdcl");
-        var edit = 'edit_data';
+        console.log("Update");
+        console.log(editUser.org_id);
+        console.log(document.getElementById("org_company_name").value);
+        //var edit = 'edit_data';
+
+        let formUpdate = new FormData();
+        formUpdate.append('id', editUser.org_id);
+        formUpdate.append('name', document.getElementById("org_company_name").value);
+        formUpdate.append('first_name', document.getElementById("org_aname").value);
+        formUpdate.append('contact', document.getElementById("contact").value);
+        formUpdate.append('email', document.getElementById("email").value);
+        var image = $('#logo')[0].files[0];
+            if(image != null) {
+                formUpdate.append('logo', image);
+            }
+
         $.ajax({
             url: '/api/v1/org_update/' + editUserid,
             type: 'POST',
-            data: {
-                'id' : editUserid,
-                'org_company_name' : document.getElementById("org_company_name").value,
-                'org_name' : document.getElementById("org_name").value,
-                'contact' : document.getElementById("contact").value
+                data: formUpdate,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log("CREATE UPDATE REPOSNE == " + response);
+                window.top.location = window.top.location;
+                location.reload();
                 },
-
-            success: function (data) {
-                if(data == 1) {
-                    console.log("SUCCESS");
-                    window.top.location = window.top.location;
-                    location.reload();
-                } else {
-                    console.log("FAIL");
-                    // $('#btn_verify').show();
+                fail: function (error) {
+                    console.log(error);
                 }
-            },
-            fail: function (error) {
-                console.log(error);
-            }
+            // type: 'POST',
+            // data: {
+            //     'id' : editUserid,
+            //     'org_id' : editUser.org_id,
+            //     'org_company_name' : document.getElementById("org_company_name").value,
+            //     'org_aname' : document.getElementById("org_aname").value,
+            //     //'contact' : document.getElementById("contact").value
+                
+            //     },
+            
+            // success: function (data) {
+            //     if(data == 1) {
+            //         console.log("SUCCESS");
+            //         window.top.location = window.top.location;
+            //         location.reload();
+            //     } else {
+            //         console.log("FAIL");
+            //         // $('#btn_verify').show();
+            //     }
+            // },
+            // fail: function (error) {
+            //     console.log(error);
+            // }
         });
     }
 
@@ -300,7 +331,7 @@
             console.log("CREATE SERVER CALL");
             var form = new FormData();
             form.append('company', document.getElementById("org_company_name").value);
-            form.append('first_name', document.getElementById("org_name").value);
+            form.append('first_name', document.getElementById("org_aname").value);
             form.append('contact', document.getElementById("contact").value);
             form.append('email', document.getElementById("email").value);
             form.append('password', document.getElementById("password").value);
@@ -373,15 +404,15 @@
            });
          }
 
-         if(document.getElementById("org_name").value == "" ) {
+         if(document.getElementById("org_aname").value == "" ) {
              // EXPAND ADDRESS FORM
-              $("#org_name").focus();
-           $("#org_name").focus();
-           $("#org_name").blur(function () {
-               var name = $('#org_name').val();
+              $("#org_aname").focus();
+           $("#org_aname").focus();
+           $("#org_aname").blur(function () {
+               var name = $('#org_aname').val();
                if (name.length == 0) {
-                   $('#org_name').next('div.red').remove();
-                   $('#org_name').after('<div class="red" style="color:red">Admin Name is Required</div>');
+                   $('#org_aname').next('div.red').remove();
+                   $('#org_aname').after('<div class="red" style="color:red">Admin Name is Required</div>');
                } else {
                    $(this).next('div.red').remove();
                    return true;

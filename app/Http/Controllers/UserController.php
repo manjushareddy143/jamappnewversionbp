@@ -259,7 +259,7 @@ class UserController extends Controller
     public function edit($id)
     {
         // return response()->json($id, 200);
-        $user = User::with('services')->with('provider')->where('id', '=', $id)->first();
+        $user = User::with('services')->with('provider')->with('organisation')->where('id', '=', $id)->first();
         // $roles = Role::pluck('name','name')->all();
         // $userRole = $user->roles->pluck('name','name')->all();
 
@@ -872,6 +872,8 @@ class UserController extends Controller
             return $temp;
     }
 
+
+
     public function organisationupdate(Request $request) {
         $input = $request->all();
         $updatedata = [];
@@ -881,9 +883,16 @@ class UserController extends Controller
             ];
 
         }
-        if(array_key_exists('org_name', $input)) {
+        if(array_key_exists('logo', $input)) {
             $updatedata += [
-                'first_name' => $input['org_name'],
+                'logo' => $input['logo'],
+            ];
+        }
+        return $this->update_organisation_details($updatedata, $input['org_id']);
+        
+        if(array_key_exists('org_aname', $input)) {
+            $updatedata += [
+                'first_name' => $input['org_aname'],
             ];
 
         }
@@ -893,13 +902,7 @@ class UserController extends Controller
             ];
 
         }
-        if(array_key_exists('logo', $input)) {
-            $updatedata += [
-                'logo' => $input['logo'],
-            ];
-        }
-        // $user = User::with('services')->with('provider')->where('id', '=', $id)->first();
-        $temp= DB::table('organisation')->with('users')->where('id', (int)$input['id'])->update($updatedata);
+        $temp= DB::table('users')->where('id', (int)$input['org_id'])->update($updatedata);
     }
 
     //User profile API
