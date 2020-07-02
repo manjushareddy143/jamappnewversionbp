@@ -138,11 +138,11 @@
 			   <div class="container-date">
 
                      <div class="col-md-3">
-                        <label><b>INVOICE NUMBER</b></label><br>
+                        <p><b>INVOICE NUMBER</b></p>
                         <span>{{ $order_id }}</span>
                      </div>
                      <div class="col-md-3">
-                        <label><b>DATE OF ISSUE</b></label>
+                        <p><b>DATE OF ISSUE</b></p>
                         <span>{{ $order_date }}</span>
                      </div>
 
@@ -215,23 +215,22 @@
 							done: {{ $service_name }} </b></font></font>
 							</p>
 						</td>
-						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
+						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 45%; padding-right: 0.07in">
                             <p style="widows: 0; orphans: 0"><font  color="#404040"> </font>
                                 {{ $service_cost }}
 							</p>
 						</td>
-						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
+						<td width="94" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 45%; padding-right: 0.07in">
                             <p style="widows: 0; orphans: 0">
                                 {{ $working_hr }}
 							</p>
 						</td>
-						<td width="13" valign="top" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+						<td width="13" valign="top" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 45%; padding-right: 0.07in">
                             <p style="widows: 0; orphans: 0">
-                                {{ $service_amount }}
 							</p>
 						</td>
-						<td width="74" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.07in">
-							<p style="widows: 0; orphans: 0"></p>
+						<td width="74" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: none; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 45%; padding-right: 0.07in">
+							<p style="widows: 0; orphans: 0">{{ $service_amount }}</p>
 						</td>
 					</tr>
 					<tr>
