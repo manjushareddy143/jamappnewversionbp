@@ -178,7 +178,8 @@ class BookingController extends Controller
 
         $result = Invoice::create($input);
 
-        return response()->json($result); //view('invoice.invoice');
+        // return view('invoice.invoice');
+        return response()->json($result); 
 
     }
 
