@@ -63,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/user/edit/{id}', 'UserController@edit');
     Route::post('/user/{id}/update', 'UserController@update');
+    Route::get('/service/edit/{id}', 'ServicesController@edit_services');
 
 
    //customer edit & update
