@@ -88,4 +88,12 @@ class ServicesController extends Controller
           return view('detailpage')->with('data',$results);
     }
 
+
+    public function edit_services($id)
+    {
+    $service = services::with('subcategories')->where('id', '=', (int)$id)->first();
+        return response()->json($service, 200);
+        
+    }
+
 }

@@ -162,7 +162,7 @@ class RegisterController extends Controller
         ]);
         if ($initialValidator->fails())
         {
-            return response()->json(['error'=>$initialValidator->errors()], 401);
+            return response()->json(['error'=>$initialValidator->errors()], 406);
         }
 
         $input = $request->all();
@@ -176,7 +176,7 @@ class RegisterController extends Controller
                 ]);
             if ($emailValidator->fails())
             {
-                return response()->json(['error'=>$emailValidator->errors()], 401);
+                return response()->json(['error'=>$emailValidator->errors()], 406);
             }
         }
 
@@ -188,11 +188,11 @@ class RegisterController extends Controller
         $credentials = $request->only('email', 'password');
         if( Auth::attempt($credentials)) {
 
-            $response = Auth::user();
-            $roles = Auth::user()->roles;
+            // $response = Auth::user();
+            // $roles = Auth::user()->roles;
 
-            $address = Address::where('user_id', '=', $user->id)->first();
-            $response['address'] = $address;
+            // $address = Address::where('user_id', '=', $user->id)->first();
+            // $response['address'] = $address;
 
 //            $response  = $user;
 
@@ -209,10 +209,15 @@ class RegisterController extends Controller
                 'resident_country' => $input['resident_country']
             ];
             $service_provider_detail = ServiceProvider::create($service_provider);
-            $response['resident_country'] = $service_provider_detail['resident_country'];
+            // $response['resident_country'] = $service_provider_detail['resident_country'];
+            $result = User::with('services')->with('address')
+            ->with('provider')
+            ->where('id', '=', $user->id)->first();
+            $checkuser = Auth::onceUsingId($user['id']);
+            $roles = Auth::user()->roles;
+            $result["roles"] = $roles;
 
-
-            return response()->json($response, 200);
+            return response()->json($result, 200);
         }
         return response()->json(null, 403);
     }

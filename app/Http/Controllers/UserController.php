@@ -259,7 +259,7 @@ class UserController extends Controller
     public function edit($id)
     {
         // return response()->json($id, 200);
-        $user = User::with('services')->where('id', '=', $id)->first();
+        $user = User::with('services')->with('provider')->with('organisation')->where('id', '=', $id)->first();
         // $roles = Role::pluck('name','name')->all();
         // $userRole = $user->roles->pluck('name','name')->all();
 
@@ -784,15 +784,29 @@ class UserController extends Controller
         ];
         TermAgreement::create($term_agreement);
 
+        // $services = $input['services'];
+
+        // //        $services =array_map('intval', explode(',', $services));
+        // $services =explode(',', $services); // json_decode($services, true );
+
+        // foreach ($services as $data) {
+        //     $obj = array();
+        //     $obj['user_id'] = $user['id'];
+        //     $obj['service_id'] = $data;
+        //     ProviderServiceMapping::create($obj);
+        // }
+        // Service mapping
         $services = $input['services'];
 
-        //        $services =array_map('intval', explode(',', $services));
-        $services =explode(',', $services); // json_decode($services, true );
-
+        $services =  json_decode($services, true); //explode(',', );
         foreach ($services as $data) {
             $obj = array();
             $obj['user_id'] = $user['id'];
-            $obj['service_id'] = $data;
+            $obj['service_id'] = $data['service_id'];
+            if(array_key_exists('category_id', $data)) {
+                 $obj['category_id'] = $data['category_id'];
+            }
+            $obj['price'] = $data['price'];
             ProviderServiceMapping::create($obj);
         }
 
@@ -859,6 +873,38 @@ class UserController extends Controller
     }
 
 
+
+    public function organisationupdate(Request $request) {
+        $input = $request->all();
+        $updatedata = [];
+        if(array_key_exists('org_company_name', $input)) {
+            $updatedata += [
+                'name' => $input['org_company_name'],
+            ];
+
+        }
+        if(array_key_exists('logo', $input)) {
+            $updatedata += [
+                'logo' => $input['logo'],
+            ];
+        }
+        return $this->update_organisation_details($updatedata, $input['org_id']);
+        
+        if(array_key_exists('org_aname', $input)) {
+            $updatedata += [
+                'first_name' => $input['org_aname'],
+            ];
+
+        }
+        if(array_key_exists('contact', $input)) {
+            $updatedata += [
+                'contact' => $input['contact'],
+            ];
+
+        }
+        $temp= DB::table('users')->where('id', (int)$input['org_id'])->update($updatedata);
+    }
+
     //User profile API
     /**
      * @SWG\Get(
@@ -897,8 +943,6 @@ class UserController extends Controller
     {
 
         try {
-            // print_r($request->toArray());
-            // exit();
             $response = array();
             $validator = Validator::make($request->all(),
                 [
@@ -920,7 +964,7 @@ class UserController extends Controller
                     [
                         'id'  => 'required|exists:users,id',
                         'profile_photo' => 'required|image',  //|max:2048
-                        'identity_proof' => 'required|image',
+                        // 'identity_proof' => 'required|image',
                         'services' => 'required',
 
                     ]);
@@ -928,31 +972,31 @@ class UserController extends Controller
                 {
                     return response()->json(['error'=>$validator_provider->errors()], 401);
                 }
-               $id_proof =  $this->add_document($request, $input, $id);
-               if($id_proof != null) {
-                   $user['identity_proofs'] = $id_proof;
-
+                $this->add_document($request, $input, $id);
                    // Service mapping
                    $services = $input['services'];
-                   
+
                    $services =  json_decode($services, true); //explode(',', );
-                //    print_r($services); exit();
-                //    echo(gettype($services)); exit();
                    foreach ($services as $data) {
                        $obj = array();
                        $obj['user_id'] = $user['id'];
                        $obj['service_id'] = $data['service_id'];
+                       if(array_key_exists('category_id', $data)) {
+                            $obj['category_id'] = $data['category_id'];
+                       }
                        $obj['price'] = $data['price'];
                        ProviderServiceMapping::create($obj);
                    }
+            }
 
-                   $user['services'] = $this->get_user_services($id);
-
-               } else {
-                   $response['message'] = "Id proof not inserted";
-                   return response($response, 406)
-                       ->header('content-type', 'application/json');
-               }
+            // update_provider_details
+            if(array_key_exists('service_radius', $input)) {
+                $providerData = [
+                    'service_radius' => $input['service_radius'],
+                ];
+                // print_r($providerData);
+                // exit();
+                $this->update_provider_details($providerData, $input['id']);
             }
 
             // Profile Image insert
@@ -966,6 +1010,12 @@ class UserController extends Controller
             if(array_key_exists('languages', $input)) {
                 $imagedata += [
                     'languages' => $input['languages'],
+                ];
+            }
+
+            if(array_key_exists('gender', $input)) {
+                $imagedata += [
+                    'gender' => $input['gender'],
                 ];
             }
 
@@ -989,7 +1039,14 @@ class UserController extends Controller
             }
 
 
-            return response($user, 200)
+            $result = User::with('services')->with('address')
+            ->with('provider')
+            ->where('email', '=', $user['email'])->first();
+            $checkuser = Auth::onceUsingId($user['id']);
+            $roles = Auth::user()->roles;
+            $result["roles"] = $roles;
+
+            return response($result, 200)
                 ->header('content-type', 'application/json');
         }
         catch (\Exception $e) {
@@ -1007,11 +1064,11 @@ class UserController extends Controller
                 [
                     'id'  => 'required|exists:users,id',
                     'number_of_employee'  => 'required',
-                    'profile_photo' => 'required|image',  //|max:2048
+                    // 'profile_photo' => 'required|image',  //|max:2048
                 ]);
             if ($validator->fails())
             {
-                return response()->json(['error'=>$validator->errors()], 401);
+                return response()->json(['error'=>$validator->errors()], 406);
             }
 
              $input = $request->all();
@@ -1032,21 +1089,24 @@ class UserController extends Controller
              }
 
             // Org_Profile Image insert
-            $profileImg = $request->file('profile_photo');
-            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
-            $profileImg->move(public_path('images/profiles'), $profile_name);
-            $imagedata = [
-                    'image' => $host . "/images/profiles/" . $profile_name,
-            ];
+            if(array_key_exists('profile_photo', $input)) {
+                $profileImg = $request->file('profile_photo');
+                $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+                $profileImg->move(public_path('images/profiles'), $profile_name);
+                $imagedata = [
+                        'image' => $host . "/images/profiles/" . $profile_name,
+                ];
 
-            if($this->update_user_details($imagedata, $id)) {
+                if($this->update_user_details($imagedata, $id)) {
 
-                $user["image"] = $host . "/images/profiles/" . $profile_name;
-            } else {
-                $response['message'] = "Profile image not update";
-                return response($response, 406)
-                    ->header('content-type', 'application/json');
+                    $user["image"] = $host . "/images/profiles/" . $profile_name;
+                } else {
+                    $response['message'] = "Profile image not update";
+                    return response($response, 406)
+                        ->header('content-type', 'application/json');
+                }
             }
+
 
 
             // ADDRESS
@@ -1090,28 +1150,21 @@ class UserController extends Controller
     }
 
     public function add_document($request, $input, $id) {
-        $doc_file = $request->file('identity_proof');
-        $doc_name = rand() . '.' . $doc_file->getClientOriginalExtension();
-        $doc_file->move(public_path('images/documents'), $doc_name);
 
-        $doc_type = $input['doc_type'];
-        $host = url('/');
-        $docdata = [
-            'user_id' => $id,
-            'type' => $doc_type,
-            'doc_name' => $host . "/images/documents/" . $doc_name
-        ];
-        $id_proof = Document::create($docdata);
-
-
-        $updatedata = [
-            'proof_id' => $id_proof['id'],
-        ];
-        DB::table('service_providers')
-            ->where('user_id', $id)
-            ->update($updatedata);
-
-        return $id_proof;
+        $numofids =explode(',', $input['numofids']);
+        foreach ($numofids as $data) {
+            $doc_file = $request->file('identity_proof' . $data);
+            $doc_name = rand() . '.' . $doc_file->getClientOriginalExtension();
+            $doc_file->move(public_path('images/documents'), $doc_name);
+            $doc_type = $input['doc_type' . $data];
+            $host = url('/');
+            $docdata = [
+                'user_id' => $id,
+                'type' => $doc_type,
+                'doc_name' => $host . "/images/documents/" . $doc_name
+            ];
+            $id_proof = Document::create($docdata);
+        }
     }
 
     public function update_organisation_details($dataArray, $id) {
@@ -1125,6 +1178,14 @@ class UserController extends Controller
             ->where('id', $id)
             ->update($dataArray);
     }
+
+    public function update_provider_details($dataArray, $id) {
+        return DB::table('service_providers')
+            ->where('user_id', $id)
+            ->update($dataArray);
+    }
+
+
 
     public function getSingupDetail() {
 
@@ -1203,6 +1264,15 @@ class UserController extends Controller
                 $imagedata +=  [
                     'email' => $input['email'],
                 ];
+            }
+
+            if(array_key_exists('service_radius', $input)) {
+                $providerData = [
+                    'service_radius' => $input['service_radius'],
+                ];
+                // print_r($providerData);
+                // exit();
+                $this->update_provider_details($providerData, $id);
             }
 
             if($this->update_user_details($imagedata, $id)) {

@@ -12,13 +12,13 @@
         <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
-
-        {{--        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--}}
-        {{--        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>--}}
-        {{--        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>--}}
-
-        {{--        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">--}}
-
+    <style>
+        #map {
+            width: 100%;
+            height: 400px;
+            background-color: grey;
+        }
+    </style>
     </head>
     <body>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -30,6 +30,10 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+    
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
@@ -42,6 +46,9 @@
                     </button>
                 </div>
 
+
+                
+
                 <div class="modal-body">
                     <form id="addform">
 
@@ -53,24 +60,30 @@
                                        name="profile_photo" placeholder="Photo" required="" capture>
                             </div>
                         </div>
-                        <div class="row">
-                        <div class="col-md-6 float-l" id="doctypelistdiv">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Select Document</label>
-                                <select class="form-control" id="doctypelist">
-                                    <option>Passport</option>
-                                    <option>Resident</option>
-                                    <option>Permit/Govt ID</option>
-                                </select>
-                            </div>
-                        </div>
 
-                          <div class="col-md-6 float-r">
-                            <div class="form-group">
-                                <label>Document</label>
-                                <input id="docupload" type="file" name="docupload" class="form-control ">
+                        <div class="row" id="docs">
+                            <div class="col-md-5 float-l" id="doctypelistdiv">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Document Type</label>
+                                    <select class="form-control" id="doctypelist1">
+                                        <option>Passport</option>
+                                        <option>Resident</option>
+                                        <option>Permit/Govt ID</option>
+                                    </select>
+                                </div>
                             </div>
+                            <div class="col-md-5 float-r">
+                                <div class="form-group">
+                                    <label>Upload Document</label>
+                                    <input id="docupload1" type="file" name="docupload" class="form-control ">
+                                    <p id="docError1"></p>
+                                </div>
+
                             </div>
+                            <button class="btn col-md-2" id="addDoc" onclick="addDocs()" type="button">
+                                <i id="docAddIcon1" class="fa fa-plus-circle"></i>
+                            </button>
+
                         </div>
 
                         <div class="row">
@@ -90,8 +103,8 @@
                             <div class="col-md-6 float-l" id="serviceRadiudiv">
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Select Service Radius</label>
-                                    <input id="address_line1" type="text" name=""
-                                           placeholder="Service Radius in KM"
+                                    <input id="serviceRadius" type="text" name=""
+                                           placeholder="0 KM"
                                            class="form-control" required>
                                 </div>
 
@@ -103,13 +116,26 @@
 
 
                         <div class="row">
+                            <div class="col-md-6 float-l">
+                                <div id="gender-group"
+                                        class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
+                                    <label>@lang('vendor.label_gender') <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
+                                    <input type="radio" name="gender" onclick="genderClick()" id="gender-male" value="male"> Male
+                                    <input type="radio" name="gender" onclick="genderClick()" id="gender-female" value="female"> Female
+                                    <input type="radio" name="gender" onclick="genderClick()" id="gender-other" value="other"> Other
+                                    @if ($errors->has('gender'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('gender') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <p id="genderError"></p>
+                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Services <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                                     <p id="serviceError"></p>
                                     <ul class="tree" id="tree_box" style="overflow: auto;height: 200px;">
-                                        
-
                                     </ul>
                                 </div>
                             </div>
@@ -119,15 +145,17 @@
                         {{--                        ADDRESSS                        --}}
 
                         <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                           data-target="#collapseTable"
+                           data-target="#vendorCollapse"
                            aria-expanded="true"
-                           aria-controls="collapseTable">
-                            {{--                            <i class="fas fa-fw fa-table"></i>--}}
+                           aria-controls="vendorCollapse">
                             <i class="fas fa-address-card"></i>
                             <span>Address</span>
+                            <button class="btn col-md-2" onclick="displayMap()" type="button">
+                            <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                            </button>
                         </a>
 
-                        <div class="col-md-12 collapse" id="collapseTable">
+                        <div class="col-md-12 collapse" id="vendorCollapse">
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -194,20 +222,10 @@
 
                             </div>
                         </div>
-
-
-                            <!-- <div class="col-md-12 float-l">
-                               <div class="form-group">
-                                <label>Language</label>
-                                  <input type="checkbox" id="languages" name="english" checked>
-                                  <label for="english">English</label>
-                              </div>
-                              <div class="form-group">
-                                  <input type="checkbox" id="languages" name="arabic">
-                                  <label for="arabic">Arabic</label>
-                                </div>
-                            </div> -->
-
+                        
+                        <div id="showMap">
+                            <div id="map"></div>
+                        </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -378,16 +396,129 @@
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+    
+    <script>
+        var mapShow;
+        function displayMap() {
+            console.log(mapShow);
+            console.log(mapShow);
+            if(mapShow == false) {
+                $("#showMap").show();
+                $("#vendorCollapse").hide();
+                mapShow = true;
+            } else {
+                mapShow = false;
+                $("#showMap").hide();
+                $("#vendorCollapse").show();
+            }
+        }
 
-    <script type="text/javascript">
+        
+        // Initialize and add the map
+        function initMap() {
+            if ("geolocation" in navigator){ //check geolocation available 
+                //try to get user current location using getCurrentPosition() method
+                navigator.geolocation.getCurrentPosition(function(position){ 
+                        console.log("Found your location \nLat : "+position.coords.latitude+" \nLang :"+ position.coords.longitude);
+                        latitude = position.coords.latitude;
+                        longitude = position.coords.longitude;
+                        var uluru = {lat: latitude, lng: longitude};
+                        // The map, centered at Uluru
+                        var map = new google.maps.Map(
+                            document.getElementById('map'), {zoom: 4, center: uluru});
+                        // The marker, positioned at Uluru
+                        var marker = new google.maps.Marker({position: uluru, map: map});
+                        
+                        // var geocoder = new google.maps.Geocoder;
+                        // var infowindow = new google.maps.InfoWindow;
+                        // geocodeLatLng(geocoder, map, infowindow);
+                    
+                    });
+            }else{
+                console.log("Browser doesn't support geolocation!");
+            }
+        }
 
+    //     function geocodeLatLng(geocoder, map, infowindow) {
+    //         var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+    //         geocoder.geocode({'location': latlng}, function(results, status) {
+    //         if (status === 'OK') {
+    //             if (results[0]) {
+    //             map.setZoom(11);
+    //             var marker = new google.maps.Marker({
+    //                 position: latlng,
+    //                 map: map
+    //             });
+    //             infowindow.setContent(results[0].formatted_address);
+    //             infowindow.open(map, marker);
+    //             } else {
+    //             alert('No results found');
+    //             }
+    //         } else {
+    //             alert('Geocoder failed due to: ' + status);
+    //         }
+    //         });
+    //   }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL5hZ74ZmuVnHlFMc6EWAYBQ8aDSsF4sU&callback=initMap">
+    </script>
+
+<!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script> -->
+
+    <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+
+
+    
+<script type="text/javascript">
+        var numberOfDoc = [1];
+        function addDocs() {
+            var docCount = numberOfDoc[numberOfDoc.length-1];
+            console.log("add doc ==" + numberOfDoc);
+            console.log("add doc ==" + docCount);
+            if(numberOfDoc.length < 3) {
+                // $("#addDoc").remove();
+                // $("#addDoc").prop("value", "Prop Click");
+                // $("#docAddIcon" + numberOfDoc ).addClass('fa fa-minus-circle');
+                docCount++;
+                numberOfDoc.push(docCount);
+                var htmlDoc = '<div class="col-md-5 float-l" id="doctypelistdiv'+ docCount +'"> <div class="form-group">'+
+                                '<label for="exampleFormControlSelect1">Document Type</label>' +
+                                '<select class="form-control" id="doctypelist'+ docCount +'">' +
+                                    '<option>Passport</option>' +
+                                    '<option>Resident</option>' +
+                                    '<option>Permit/Govt ID</option>' +
+                                '</select> </div> </div>' +
+                                '<div class="col-md-5 float-r" id="doctypeFilediv'+ docCount +'">' +
+                                '<div class="form-group"> <label>Upload Document</label>' +
+                                    '<input id="docupload'+ docCount +'" type="file" name="docupload" class="form-control ">' +
+                                    '<p id="docError'+ docCount +'"></p>' +
+                                '</div> </div>' +
+                                '<button class="btn col-md-2" id="addDoc'+ docCount +'" onclick="removeDoc('+ docCount +')" type="button"><i id="docAddIcon" class="fa fa-minus-circle"></i></button>';
+
+                $('#docs').append(htmlDoc);
+            }
+        }
+
+        function removeDoc(id) {
+            $("#doctypeFilediv" + id).remove();
+            $("#doctypelistdiv" + id).remove();
+            $("#addDoc" + id).remove();
+            numberOfDoc = $.grep(numberOfDoc, function(value) {
+                    return JSON.stringify(value) != id;
+            });
+        }
+
+        function genderClick() {
+            $('#genderError').text('')
+        }
 
         $(document).on('change', '.tree input[type=checkbox]',
-            function (e) {
-                $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
-                $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
-                e.stopPropagation();
-            });
+        function (e) {
+            $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
+            $(this).parentsUntil('.tree').children("input[type='checkbox']").prop('checked', this.checked);
+            e.stopPropagation();
+        });
 
         var selectedLang = [];
         $('#lang-english').change(function () {
@@ -421,13 +552,12 @@
             window.addEventListener("load", onLoad(), false) :
             window.attachEvent && window.attachEvent("onload", onLoad());
 
+        var allServices;
         function addServices() {
             $.ajax({
                 url: '/api/v1/all_services',
                 type: 'GET',
                 success: function (response, xhr) {
-                    console.log(JSON.stringify(xhr));
-                    console.log("DATA::: "+response);
                     if (xhr['status'] == 204) {
                         console.log(response);
                     } else {
@@ -436,18 +566,58 @@
                             var i;
                             for(i = 0; i < response.length; i++)
                             {
-                                console.log(response[i].name);
+                                allServices = response;
                                 var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
-                                trHTML += '<li class=""> <input type="checkbox" id="scheckbox" ' +
-                                    'onclick="serviceClick(' + response[i].id + ')"' + 'id="' + response[i].id +
-                                    '" name="' + response[i].id +
+                                trHTML += '<li class="has"> <input type="checkbox"'+
+                                    'onclick="serviceClick(' + response[i].id + ')"' + 'id="service' + response[i].id +
+                                    '" name="domain[]' +
                                     '" value="' + response[i].id + '">' +
                                     '<img src="' + img + '" class="square" width="50" height="40" />' +
-                                    '<label style="margin: 10px;width: 260px!important;"> ' + response[i].name  + ' </label> ' +
-                                    '<input type="number" id="'+response[i].id+'price" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;"> </li>'+
-                                    '<label id="alertmessage" style="color:red"> </label> ';
+                                    '<label style="margin: 10px;width: 260px!important;"> ' + response[i].name  + ' </label> ';
+                                    if(response[i]['categories'].length > 0) {
+                                        var trCatHTML = '<ul style="display: block;">';
+                                        var catCount;
+                                        for(catCount = 0; catCount < response[i]['categories'].length; catCount++)
+                                        {
+                                            // var catId  =  response[i]['categories'][catCount].id;
+                                            // console.log("catId ==== " + catId);
+                                            trCatHTML += '<li class="">' +
+                                                '<input type="checkbox" name="subdomain[]"'+ 'id="category' +
+                                                response[i].id + response[i]['categories'][catCount].id
+                                                +  '" value="' +
+                                                response[i]['categories'][catCount].id + '" onclick="serviceClick(' +
+                                                response[i].id + "," +  response[i]['categories'][catCount].id  + ')"'
+                                                +'>' +
+                                                '<label>'+ response[i]['categories'][catCount].name +'</label>' +
+                                                '<input type="number" id="'+ response[i]['categories'][catCount].id +
+                                                'category" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;">'
+                                                + '<label id="catemessage' +response[i]['categories'][catCount].id+'" style="color:red"></label>' + '</li>';
+                                        }
+                                        trCatHTML += '</ul>';
+
+                                        trHTML += trCatHTML;
+                                    } else {
+                                        trHTML += '<input type="number" id="'+response[i].id+
+                                    'price" name="someid" onkeypress="return isNumberKey(event)"  size="4" style="margin-left: 10px;">';
+                                    }
+
+                                    trHTML += ' </li>' + '<label id="alertmessage' +response[i].id+'"style="color:red"></label>';
                             }
                             $('#tree_box').append(trHTML);
+
+                            var srvCount;
+                            for(srvCount = 0; srvCount< loggedInUser['services'].length; srvCount++) {
+                                // console.log(loggedInUser['services'][srvCount]);
+                                var srvcObj = {
+                                    service_id : loggedInUser['services'][srvCount].service_id,
+                                    category_id : loggedInUser['services'][srvCount].category_id,
+                                };
+                                // console.log(JSON.stringify(srvcObj));
+                                selectedService.push(srvcObj);
+                                $("#service" + loggedInUser['services'][srvCount].service_id).prop('checked', true);
+                                $("#category" + loggedInUser['services'][srvCount].service_id + loggedInUser['services'][srvCount].category_id).prop('checked', true);
+                                $("#" + loggedInUser['services'][srvCount].category_id + "category").val(loggedInUser['services'][srvCount].price);
+                            }
                         }
                     }
                 },
@@ -457,17 +627,26 @@
             });
         }
 
+        var selectedService;
+        var latitude;
+        var longitude;
+
         function onLoad() {
+            mapShow = false;
+            $("#showMap").hide();
+
+            selectedService = [];
             console.log("asdasdas");
             var retrievedObject = localStorage.getItem('userObject');
-            console.log(retrievedObject)
-            var obj = JSON.parse(retrievedObject);
+            loggedInUser = JSON.parse(retrievedObject);
 
-            if (obj.address === null) {
+            console.log(JSON.stringify(loggedInUser))
+
+            if(loggedInUser.roles[0].name != 'Admin') {
+                if (loggedInUser.address.length == 0) {
                 addServices();
                 // getServices();
-                console.log("ADMINUSER =====" + obj.roles[0].slug);
-                if (obj.roles[0].slug == "organisation-admin") {
+                if (loggedInUser.roles[0].slug == "organisation-admin") {
                     console.log("ADMINUSER");
                     $('#org_Modal').modal({
                         backdrop: 'static',
@@ -479,8 +658,38 @@
                         backdrop: 'static',
                         keyboard: false
                     })
+                    if(loggedInUser.languages != null) {
+                        selectedLang = loggedInUser.languages.split(",");
+                        if(loggedInUser.languages == 'Arabic')
+                        {
+                            $("#lang-arabic").prop('checked', true);
+                        }
+                        else if(loggedInUser.languages == 'English')
+                        {
+                            $("#lang-english").prop('checked', true);
+                        }
+                        else
+                        {
+                            $("#lang-arabic").prop('checked', true);
+                            $("#lang-english").prop('checked', true);
+                        }
+                        selectGender = loggedInUser.gender
+                        if(loggedInUser.gender == 'Male')
+                        {
+                            $("#gender-male").prop("checked", true);
+                        } else if(loggedInUser.gender == 'Female') {
+
+                            $("#gender-female").prop("checked", true);
+                        } else {
+                            $("#gender-other").prop("checked", true);
+                        }
+                    }
+
+                    // loggedInUser
                 }
             }
+            }
+
 
         }
 
@@ -524,86 +733,67 @@
         });
 
 
-        // function getServices() {
-        //     $.ajax({
-        //         url: '/api/v1/all_services',
-        //         type: 'GET',
-        //         success: function (response, xhr) {
-        //             console.log(JSON.stringify(xhr));
-        //             console.log("DATA::: "+response);
-        //             if (xhr['status'] == 204) {
-        //                 console.log(response);
-        //             } else {
-        //                 if(response != null) {
-        //                     for (var i = 0; i < response.length; i++) {
-        //                         console.log(response[i].name);
-        //                         $('#servicelist').append(`<option value="${response[i].id}">
-        //                            ${response[i].name}
-        //                       </option>`);
-        //                     }
-        //                     var selected_id = $('#servicelist').children("option:selected").val();
-        //                     console.log(selected_id);
-        //                     setCategories(selected_id);
-        //                 }
-        //
-        //             }
-        //         },
-        //         fail: function (error) {
-        //             console.log(error);
-        //         }
-        //     });
-        // }
 
-        // $("#servicelist").change(function () {
-        //     var selected_id = $('#servicelist').children("option:selected").val();
-        //     // $('#categorylist').empty();
-        //     setCategories(selected_id);
-        // });
-        var selectedService = [];
-        function serviceClick(id) {
-            console.log("CLIKC ::" + id);
-
-            $('#serviceError').text('')
-            if(jQuery.inArray(id, selectedService) != -1) {
-                console.log("is in array");
-                selectedService = $.grep(selectedService, function(value) {
-                    return value != id;
-                });
-
+        function serviceClick(id, cat)  {
+            console.log("id =" + id + " cat =" +cat);
+            if(cat == null) {
+                var categories = allServices.find(obj => obj.id === id).categories;
+                console.log(categories.length);
+                
+            }
+            if(cat == null) {
+                console.log("inside");
+                var categories = allServices.find(obj => obj.id === id).categories;
+                if(categories.length > 0) {
+                    $.each(categories, function (j, item) {
+                        var srvcObj = {
+                            service_id : id,
+                            category_id : item.id,
+                        };
+                        $('#serviceError').text('')
+                        if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                            selectedService = $.grep(selectedService, function(value) {
+                                return JSON.stringify(value) != JSON.stringify(srvcObj);
+                            });
+                        } else{
+                            selectedService.push(srvcObj);
+                        }
+                    });
+                } else {
+                    console.log("iddd")
+                    var srvcObj = {
+                        service_id : id,
+                        category_id : cat,
+                    };
+                    $('#serviceError').text('')
+                    if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                        selectedService = $.grep(selectedService, function(value) {
+                            return JSON.stringify(value) != JSON.stringify(srvcObj);
+                        });
+                    } else{
+                        selectedService.push(srvcObj);
+                    }
+                }
+                
             } else {
-                console.log("is NOT in array");
-
-                selectedService.push(id);
+                console.log("iddd")
+                var srvcObj = {
+                    service_id : id,
+                    category_id : cat,
+                };
+                $('#serviceError').text('')
+                if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
+                    selectedService = $.grep(selectedService, function(value) {
+                        return JSON.stringify(value) != JSON.stringify(srvcObj);
+                    });
+                } else{
+                    selectedService.push(srvcObj);
+                }
             }
             console.log(selectedService);
         }
 
-
-        // function setCategories(selected_id) {
-        //     console.log(selected_id);
-        //     $.ajax({
-        //         url: '/api/v1/services/category?id=' + selected_id,
-        //         type: 'GET',
-        //         success: function (response, xhr) {
-        //             console.log(response)   ;
-        //             console.log(JSON.stringify(xhr));
-        //             if (response['status'] == 204) {
-        //                 console.log(response);
-        //             } else {
-        //                 for (var i = 0; i < response.length; i++) {
-        //                     $('#categorylist').append(`<option value="${response[i].id}">
-        //                            ${response[i].name}
-        //                       </option>`);
-        //                 }
-        //             }
-        //         },
-        //         fail: function (error) {
-        //             console.log(error);
-        //         }
-        //     });
-        // }
-
-
+        var selectGender = "";
         function validateForm() {
             var isValidate = true;
             var errormessage = "";
@@ -612,8 +802,28 @@
                 isValidate = false;
             }
 
-            var docupload = $('#docupload')[0].files[0];
-            if (!docupload) {
+            for(var docCount = 0; docCount < numberOfDoc.length; docCount++) {
+                var idVal = numberOfDoc[docCount];
+                var docupload = $('#docupload' + idVal)[0].files[0];
+                if (!docupload) {
+                    $('#docError' + idVal).css('color', 'red');
+                    $('#docError' + idVal).text('Please upload file');
+                    isValidate = false;
+                } else {
+                    $('#docError' + idVal).remove();
+                }
+            }
+
+
+            if (document.getElementById('gender-male').checked) {
+                selectGender = "Male";
+            } else if(document.getElementById('gender-female').checked) {
+                selectGender = "Female";
+            }else if(document.getElementById('gender-other').checked) {
+                selectGender = "Other";
+            } else {
+                $('#genderError').css('color', 'red');
+                $('#genderError').text('Please select Gender')
                 isValidate = false;
             }
 
@@ -623,40 +833,49 @@
                 isValidate = false;
             }
 
-            if(selectedService.length <= 0) {
-                alert('if');
+            if(selectedService.length == 0) {
                 $('#serviceError').css('color', 'red');
                 $('#serviceError').text('Please select Services')
+                $("#alertmessage").text(errormessage);
                 isValidate = false;
-            }else{
-                // alert('else');
-                    console.log("start");
-                    console.log(selectedService);
-                    // $.each(selectedService , function( index, value ) {
-                    // // alert( index + ": " + value );
-                    // // alert($("#"+value+"price").val());
-                    // });
-                    errormessage = "Please add price in  PriceBox"
-                    $("#alertmessage").text(errormessage);
-                    console.log("end");
-                     $('.selectedService').each(function (val) {
-                        // alert('hello');
-                     if(document.getElementById('"'+value+'price"').value == "") {
+            }
+            else
+            {
+                var srvcCount;
+                var checkVal = true;
 
-                     $('#selectedService').text('Please select PriceBox');    
-                     }else{
-                        $('#selectedService').text('');
-                     }
-                    });
-
+                for(srvcCount = 0; srvcCount <selectedService.length; srvcCount++){
+                    var srvc = selectedService[srvcCount];
+                    if(srvc['category_id']) {
+                        if($("#"+srvc['category_id']+"category").val() == "") {
+                            checkVal = false;
+                            $("#catemessage"+srvc['category_id']).text("Please select PriceBox");
+                        } else {
+                            $("#catemessage"+srvc['category_id']).text("");
+                        }
+                    } else {
+                        if($("#"+srvc['service_id']+"price").val() == "") {
+                            checkVal = false;
+                            $("#alertmessage"+srvc['service_id']).text("Please select PriceBox");
+                        } else {
+                            $("#alertmessage"+srvc['service_id']).text("");
+                        }
                     }
+
+                }
+                isValidate = checkVal;
+            }
 
 
             if ($('#collapseTable').is(':visible')) {
-                console.log("TOTOTO");
+            } else {
+                $('#collapseTable').modal('show');
+            }
+
+            if ($('#vendorCollapse').is(':visible')) {
             } else {
                 console.log("YPPPPP");
-                $('#collapseTable').modal('show');
+                $('#vendorCollapse').modal('show');
             }
 
             if (document.getElementById("address_name").value == "") {
@@ -686,13 +905,15 @@
 
         //textbox validation
 
-           function validatebox() {
-        if (document.getElementById('scheckbox').checked) {
-            $("[name='someid']").prop("required", true);
-        } else {
-            alert("You didn't check it!.");
+        function saveProfile()
+        {
+            if (validateForm() == true) {
+                console.log("VALIDATE FORM");
+                apiCall();
+            } else {
+                console.log("INVALIDATE FORM");
+            }
         }
-             }
 
         // it return true if form is validdated @please test it before proceed
         function org_validateForm()
@@ -873,33 +1094,22 @@
             return isValidate;
         }
 
-
-
-    function saveProfile() {
-            validatebox();
-        if (validateForm() == true) {
-            console.log("VALIDATE FORM");
-            apiCall();
-        } else {
-            console.log("INVALIDATE FORM");
-        }
-    }
-
-        function apiCall() {    
+        function apiCall()
+        {
             var form = new FormData();
             var files = $('#imageUpload')[0].files[0];
             form.append('profile_photo', files);
-            var doc_files = $('#docupload')[0].files[0];
-            form.append('identity_proof', doc_files);
-            var retrievedObject = localStorage.getItem('userObject');
-            var obj = JSON.parse(retrievedObject);
-            // var languagesarray=[];
-            // console.log("IDDD==" + obj.id);
-            // $("input:checkbox[name=languages]:checked").each(function(){
-            //     languagesarray.push($(this).val());
-            //     });
-            //
-            // form.append('languages', languagesarray.toString());
+            console.log(numberOfDoc);
+            form.append('numofids' , numberOfDoc.toString());
+            for(var docCount = 0; docCount < numberOfDoc.length; docCount++) {
+                var idVal = numberOfDoc[docCount];
+                // var docupload = $('#docupload' + idVal)[0].files[0];
+                var doc_files = $('#docupload'+ idVal)[0].files[0];
+                form.append('identity_proof' + idVal, doc_files);
+                form.append('doc_type' + idVal, $('#doctypelist' + idVal).children("option:selected").val());
+            }
+
+
             form.append('languages', selectedLang.toString());
             $addressdata = {
                 name: document.getElementById("address_name").value,
@@ -907,46 +1117,43 @@
                 address_line2: document.getElementById("address_line2").value,
                 landmark: document.getElementById("landmark").value,
                 district: document.getElementById("district").value,
-                city: document.getElementsByTagName("city").value,
-                postal_code: document.getElementsByTagName("postal_code").value,
-                user_id: obj.id,
+                city: document.getElementById("city").value,
+                postal_code: document.getElementById("postal_code").value,
+                user_id: loggedInUser.id,
                 location: "",
             };
+            form.append('gender', selectGender);
 
-            alert('price');
-            $pricedata = {
-                price: document.getElementById("price").value,
-            };
-            console.log($pricedata);
-            form.append ('price', JSON.stringify($pricedata));
-            
-            // console.log($addressdata)
+            form.append('service_radius', $("#serviceRadius").val());
+
+            var servicesVal = Array();
+            var srvcCount;
+            for(srvcCount = 0; srvcCount <selectedService.length; srvcCount++){
+                var srvc = selectedService[srvcCount];
+                console.log("srvc === " + JSON.stringify(srvc));
+                // $obj = {};
+                if(srvc['category_id']) {
+                    $obj = {
+                        price : $("#"+srvc['category_id']+"category").val(),
+                        service_id : srvc['service_id'],
+                        category_id : srvc['category_id']
+                    };
+                } else {
+                    $obj = {
+                        price : $("#"+srvc['service_id']+"price").val(),
+                        service_id : srvc['service_id'],
+                    };
+                }
+                console.log("final ==" + JSON.stringify($obj));
+                console.log("final ==" + $obj);
+                servicesVal.push($obj);
+            }
+
             form.append('address', JSON.stringify($addressdata));
 
-            // var services = [];
-            // var selected_id = $('#servicelist').children("option:selected").val();
-            // var selectedCategories = $('#categorylist').children("option:selected");
-            // selectedCategories.each(function () {
-            //     console.log($(this).val());
-            //     var data = {};
-            //     data.service_id = parseInt(selected_id),
-            //         data.category_id = parseInt($(this).val());
-            //     services.push(data);
-            // })
-
             // console.log(services)
-            form.append('services', selectedService.toString());
-
-            
-
-            form.append('doc_type', $('#doctypelist').children("option:selected").val());
-            console.log($('#doctypelist').children("option:selected").val());
-
-
-            form.append('id', obj.id);
-            console.log('testprofile');
-            console.log(form)
-
+            form.append('services', JSON.stringify(servicesVal));
+            form.append('id', loggedInUser.id);
 
             $.ajax({
                 url: '/api/v1/profile',
@@ -958,16 +1165,13 @@
                     console.log(response);
                     $('#exampleModal').modal('hide')
                     localStorage.setItem('userObject', JSON.stringify(response));
-                    // $('#mytable').data.reload();
                     window.top.location = window.top.location;
-                    // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
-                    // $('#table align-items-center table-flush').dataTable().ajax.reload();
                 },
                 fail: function (error) {
                     console.log(error);
                 }
             });
-}
+        }
 
         function org_apiCall() {
             var profilevalidate = org_validateForm();
@@ -977,12 +1181,13 @@
                 var numOfEmp = document.getElementById("numofemp").selectedIndex;
             var form = new FormData();
             var files = $('#org_imageUpload')[0].files[0];
-            form.append('profile_photo', files);
+            if(files != null) {
+                form.append('profile_photo', files);
+            }
+
             //var doc_files = $('#docupload')[0].files[0];
             //form.append('identity_proof', doc_files);
             var retrievedObject = localStorage.getItem('userObject');
-            var obj = JSON.parse(retrievedObject);
-            console.log("IDDD==" + obj.id);
             $addressdata = {
                 name: document.getElementById("org_address_name").value,
                 address_line1: document.getElementById("org_address_line1").value,
@@ -991,13 +1196,13 @@
                 district: document.getElementById("org_district").value,
                 city: document.getElementsByTagName("org_city").value,
                 postal_code: document.getElementsByTagName("org_postal_code").value,
-                user_id: obj.id,
+                user_id: loggedInUser.id,
                 location: "",
             };
             console.log($addressdata)
             form.append('address', JSON.stringify($addressdata));
             form.append('number_of_employee', document.getElementsByTagName("option")[numOfEmp].value);
-            form.append('id', obj.id);
+            form.append('id', loggedInUser.id);
 
             $.ajax({
                 url: '/api/v1/org_profile',
@@ -1027,14 +1232,15 @@
             }
         }
 
-
-            function isNumberKey(evt){
-
-                var charCode = (evt.which) ? evt.which : event.keyCode
-                if (charCode > 31 && (charCode < 48 || charCode > 57))
-                    return false;
-                return true;
-            }  
+        // This function for enter only number in services price field
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode < 48 || charCode > 57) && charCode != 45) {
+                evt.preventDefault();
+            }
+            return true;
+        }
 
     </script>
     </body>

@@ -5,6 +5,8 @@ return[
 
 'label_title'=>'Add Organisations',
 
+'label_etitle'=>'Edit Organisations',
+
 'label_header'=>'Organisations',
 
 'label_cname'=>'Company Name',
@@ -17,7 +19,7 @@ return[
 
 'label_password'=>'Password',
 
-'label_image'=>'Image',
+'label_logo'=>'Logo',
 
 'label_place_cname'=>'Enter Your Company Name',
 
@@ -34,7 +36,7 @@ return[
 'label_place_sbtn'=>'Save',
 
 'label_place_cbtn'=>'Close',
-
+'label_place_ubtn'=>'Update',
 
 'label_tab_company'=>'Company',
 'label_tab_admin'=>'Admin',

@@ -18,7 +18,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">@lang('organisation.label_title')</h5>
+                  <h5 class="modal-title" id="btntext">@lang('organisation.label_title')</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -36,7 +36,7 @@
                     <div class="col-md-6 float-l">
                     <div class="form-group">
                       <label>@lang('organisation.label_aname') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                      <input type="text" class="form-control" id="org_name" placeholder="@lang('organisation.label_place_aname')" required="">
+                      <input type="text" class="form-control" id="org_aname" placeholder="@lang('organisation.label_place_aname')" required="">
                     </div>
                     </div>
                   </div>
@@ -68,15 +68,58 @@
 
                     <div class="col-md-6 float-l">
                       <div class="form-group">
-                                <label>@lang('organisation.label_image')</label>
-                                <input id="image" type="file" name="image" class="form-control" required>
+                                <label>@lang('organisation.label_logo')</label>
+                                <input id="logo" type="file" name="logo" class="form-control" required>
                        </div>
                      </div>
                </div>
+               <style>
+                #snackbar {
+                    visibility: hidden;
+                    min-width: 250px;
+                    margin-left: -125px;
+                    background-color: #333;
+                    color: #fff;
+                    text-align: center;
+                    border-radius: 2px;
+                    padding: 16px;
+                    position: fixed;
+                    z-index: 1;
+                    left: 50%;
+                    bottom: 30px;
+                    font-size: 17px;
+                }
 
+                #snackbar.show {
+                    visibility: visible;
+                    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                }
+                @-webkit-keyframes fadein {
+                from {bottom: 0; opacity: 0;}
+                to {bottom: 30px; opacity: 1;}
+                }
+
+                @keyframes fadein {
+                from {bottom: 0; opacity: 0;}
+                to {bottom: 30px; opacity: 1;}
+                }
+
+                @-webkit-keyframes fadeout {
+                from {bottom: 30px; opacity: 1;}
+                to {bottom: 0; opacity: 0;}
+                }
+
+                @keyframes fadeout {
+                from {bottom: 30px; opacity: 1;}
+                to {bottom: 0; opacity: 0;}
+                }
+                </style>
+                <div id="snackbar">Something went wrong</div>
                   <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('organisation.label_place_cbtn')</button>
-                            <button type="button" onclick="create_users()" class="btn btn-primary">@lang('organisation.label_place_sbtn')</button>
+                            <button type="button" id="btn_close" class="btn btn-secondary" data-dismiss="modal">@lang('organisation.label_place_cbtn')</button>
+                            <button type="button" id="btn_save" onclick="create_users()" class="btn btn-primary">@lang('organisation.label_place_sbtn')</button>
+                            <button type="button" id="btn_update" onclick="update_org()" class="btn btn-primary">@lang('organisation.label_place_ubtn')</button>
                   </div>
 
                     </form>
@@ -129,12 +172,9 @@
         window.addEventListener("load",onLoad(),false) :
         window.attachEvent && window.attachEvent("onload",onLoad());
 
-
-
     function onLoad() {
         console.log("ON LOAD  tbl_id")
         getResult();
-
     }
 
     function getResult() {
@@ -155,9 +195,9 @@
                         '</td><td>' + response[i].contact  + '</td>' +
                         '</td><td>' + response[i].email  + '</td>' +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id 
-                            + ')"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-primary" ><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' 
-                            + response[i].id + ')"><i class="fas fa-trash"></i></a> ' 
+                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id
+                            + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getorgdata(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord('
+                            + response[i].id + ')"><i class="fas fa-trash"></i></a> '
                             + '</td> </tr>';
                 });
                 $('#tbl_id').append(trHTML);
@@ -173,6 +213,101 @@
         console.log(e);
         // alert(e);
         window.location = '/detail?id=' + e;
+    }
+
+    $(document).ready(function(){
+        $("#user_btn").click(function(){
+            $("#btn_update").hide();
+        });
+    });
+
+    var editUserid;
+    function getorgdata(orgid){
+        console.log("hello" + orgid);
+             document.getElementById('btntext').innerHTML = 'Edit Organisation';
+            // document.getElementById('button').innerHTML = 'Update';
+            $("#lbl_pass").hide();
+            $("#password").hide();
+            $("#btn_save").hide();
+        // alert(id);
+        editUserid=orgid;
+
+        $.ajax({
+            url:"/user/"+orgid+"/edit",
+            method:'get',
+            data:{id:editUserid},
+            dataType:'JSON',
+            success:function(data)
+            {
+                console.log(data);
+                console.log(JSON.stringify(data['organisation']));
+                editUser = data;
+                $('#org_company_name').val(data.organisation.name);
+                $('#org_aname').val(data.first_name);
+                $('#contact').val(data.contact);
+                $('#email').val(data.email);
+
+                $('#action').val('Edit');
+            }
+        });
+    }
+    var editUser;
+
+    function update_org(){
+        console.log("Update");
+        console.log(editUser.org_id);
+        console.log(document.getElementById("org_company_name").value);
+        //var edit = 'edit_data';
+
+        let formUpdate = new FormData();
+        formUpdate.append('id', editUser.org_id);
+        formUpdate.append('name', document.getElementById("org_company_name").value);
+        formUpdate.append('first_name', document.getElementById("org_aname").value);
+        formUpdate.append('contact', document.getElementById("contact").value);
+        formUpdate.append('email', document.getElementById("email").value);
+        var image = $('#logo')[0].files[0];
+            if(image != null) {
+                formUpdate.append('logo', image);
+            }
+
+        $.ajax({
+            url: '/api/v1/org_update/' + editUserid,
+            type: 'POST',
+                data: formUpdate,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log("CREATE UPDATE REPOSNE == " + response);
+                window.top.location = window.top.location;
+                location.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            // type: 'POST',
+            // data: {
+            //     'id' : editUserid,
+            //     'org_id' : editUser.org_id,
+            //     'org_company_name' : document.getElementById("org_company_name").value,
+            //     'org_aname' : document.getElementById("org_aname").value,
+            //     //'contact' : document.getElementById("contact").value
+                
+            //     },
+            
+            // success: function (data) {
+            //     if(data == 1) {
+            //         console.log("SUCCESS");
+            //         window.top.location = window.top.location;
+            //         location.reload();
+            //     } else {
+            //         console.log("FAIL");
+            //         // $('#btn_verify').show();
+            //     }
+            // },
+            // fail: function (error) {
+            //     console.log(error);
+            // }
+        });
     }
 
     function deleteRecord(e) {
@@ -191,18 +326,18 @@
     function create_users() {
         var servicevalite = users_validate();
         console.log("users_validate ::" + servicevalite);
-        if(servicevalite == null) 
+        if(servicevalite == null)
         {
             console.log("CREATE SERVER CALL");
             var form = new FormData();
             form.append('company', document.getElementById("org_company_name").value);
-            form.append('first_name', document.getElementById("org_name").value);
+            form.append('first_name', document.getElementById("org_aname").value);
             form.append('contact', document.getElementById("contact").value);
             form.append('email', document.getElementById("email").value);
             form.append('password', document.getElementById("password").value);
-            var image = $('#image')[0].files[0];
-            if(image) {
-                form.append('profile_photo',image);
+            var logo = $('#logo')[0].files[0];
+            if(logo) {
+                form.append('profile_photo',logo);
             }
 
 
@@ -217,20 +352,38 @@
                     console.log("CREATE CREATE REPOSNE == "+response);
                     window.top.location = window.top.location;
                     location.reload();
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
+                },error: function (xhr){
+                        console.log("errp = " + JSON.stringify(xhr));
+                        if(xhr['status'] == 406) {
+                            var errorArray = xhr['responseJSON'];
+                            var msgStr = "";
+                            $.each(errorArray, function (i, err) {
+                                $.each(err, function (title, msg) {
+                                    msgStr += msg.toString() + "\n";
+                                });
+                            });
+                            $('.toast-body').text(msgStr);
+                            $('.toast').toast({delay:10000, animation:false});
+                            $('.toast').toast('show');
+
+                        }
+                    }
+                // fail: function (error) {
+                //     console.log(error);
+
             });
         } else {
-            $("#alerterror").text(servicevalite);
-            $("#alerterror").show();
-            setTimeout(function() {
-                $("#alerterror").hide()
-            }, 1000);
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            // $("#alerterror").text(servicevalite);
+            // $("#alerterror").show();
+            // setTimeout(function() {
+            //     $("#alerterror").hide()
+            // }, 1000);
         }
     }
-    
+
     var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
     var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
     function users_validate() {
@@ -251,15 +404,15 @@
            });
          }
 
-         if(document.getElementById("org_name").value == "" ) {
+         if(document.getElementById("org_aname").value == "" ) {
              // EXPAND ADDRESS FORM
-              $("#org_name").focus();
-           $("#org_name").focus();
-           $("#org_name").blur(function () {
-               var name = $('#org_name').val();
+              $("#org_aname").focus();
+           $("#org_aname").focus();
+           $("#org_aname").blur(function () {
+               var name = $('#org_aname').val();
                if (name.length == 0) {
-                   $('#org_name').next('div.red').remove();
-                   $('#org_name').after('<div class="red" style="color:red">Admin Name is Required</div>');
+                   $('#org_aname').next('div.red').remove();
+                   $('#org_aname').after('<div class="red" style="color:red">Admin Name is Required</div>');
                } else {
                    $(this).next('div.red').remove();
                    return true;
@@ -375,15 +528,15 @@
            });
          }
 
-         var image = $('#image')[0].files[0];
-         if (!image) {
-              $("#image").focus();
-           $("#image").focus();
-           $("#image").blur(function () {
-               var name = $('#image').val();
+         var logo = $('#logo')[0].files[0];
+         if (!logo) {
+              $("#logo").focus();
+           $("#logo").focus();
+           $("#logo").blur(function () {
+               var name = $('#logo').val();
                if (name.length == 0) {
-                   $('#image').next('div.red').remove();
-                   $('#image').after('<div class="red" style="color:red">Image is Required</div>');
+                   $('#logo').next('div.red').remove();
+                   $('#logo').after('<div class="red" style="color:red">logo is Required</div>');
                } else {
                    $(this).next('div.red').remove();
                    return true;

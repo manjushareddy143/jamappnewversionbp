@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use App\Booking;
+use App\Invoice;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
+use PDF;
+use Symfony\Component\Console\Input\Input;
+
 
 class BookingController extends Controller
 {
-
-
 
     public function booking(Request $request) {
 
@@ -160,5 +162,91 @@ class BookingController extends Controller
 
 
         return response()->json($booking, 200);
+    }
+
+    public function invoice(Request $request) {
+
+
+        $initialValidator = Validator::make($request->all(),
+        [
+            'order_id' => 'required|exists:bookings,id',
+            'working_hr' => 'required',
+            'tax_rate' => 'required',
+            'tax' => 'required',
+        ]);
+        $input = $request->all();
+
+        $result = Invoice::create($input);
+
+        // return view('invoice.invoice');
+        return response()->json($result); 
+
+    }
+
+    public function printPDF(Request $request)
+    {
+
+        $id = $request->input('id');
+       // This  $data array will be passed to our PDF blade
+        $data = [];
+
+        // PDF::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf')
+        $result = Invoice::with('order')->where('order_id', '=', $id)->first();
+
+        $cost = 0;
+        foreach ($result->order->provider->providerDetail as $services) {
+            if($result->order->services->id == $services->service_id && $result->order->category->id == $services->category_id) {
+                $cost = $services->price;
+            }
+        }
+
+        $serviceAmount = $result->working_hr * $cost;
+
+        $meterialAmount = $result->material_quantity * $result->material_price;
+        $additional_total = $result->additional_charges * $result->working_hr;
+        $sub_total = $serviceAmount + $additional_total + $meterialAmount;
+
+        $total_discount = $sub_total * $result->discount/100;
+
+        $totalWithDiscount = $sub_total - $total_discount;
+
+        $taxCut =  $totalWithDiscount * $result->tax /100;
+
+        $total = $totalWithDiscount - $taxCut;
+
+        // print_r($totalWithDiscount); exit();
+        $data = [
+            'order_id' => $result->order_id,
+            'order_date' => $result->order->booking_date,
+            'service_name' => $result->order->services->name . " - " . $result->order->category->name,
+            'service_cost' => $cost,
+            'working_hr' => $result->working_hr,
+            'service_amount' => $serviceAmount,
+            'material_name' => $result->material_names,
+            'material_qty' => $result->material_quantity,
+            'material_cost' => $result->material_price,
+            'material_amout' => $meterialAmount,
+            'additional_cost' => $result->additional_charges,
+            'additional_hr' => 0,
+            'additional_total' => $additional_total,
+            'sub_total' => $sub_total,
+            'discount' => $result->discount,
+            'tax' => $result->tax,
+            'total' => $total
+
+        ];
+
+        // print_r($data); exit();
+        PDF::setOptions(['dpi' => 150]);
+        $pdf = PDF::loadView('invoice.invoice', $data)->setPaper('a4', 'portrait')->setWarnings(false);
+        return $pdf->download('medium.pdf');
+        // return response()->json($result);
+    }
+
+    public function downloadPDF()
+    {
+        // PDF::setOptions(['dpi' => 150]);
+        // $pdf = PDF::loadView('invoice.invoice', [])->setPaper('a4', 'portrait')->setWarnings(false);
+        // return $pdf->download('medium.pdf');
     }
 }

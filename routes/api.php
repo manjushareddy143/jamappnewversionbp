@@ -18,7 +18,9 @@ use Illuminate\Http\Request;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-
+Route::get('v1/invoice', 'BookingController@printPDF');
+// Route::get('v1/display', 'BookingController@invoice');
+Route::post('v1/invoice', 'BookingController@invoice');
 
 Route::get('v1/details', 'UserController@getSingupDetail');
 Route::post('v1/login', 'UserController@login');
@@ -40,6 +42,9 @@ Route::get('v1/booking/{id}', 'BookingController@getorder');
 Route::get('v1/organisation/vendors/{orgId}', 'ServiceProviderController@GetOrganisationVendors');
 Route::get('v1/getuser/{id}', 'UserController@getuser');
 
+// get services
+Route::get('v1/get_services/{id}', 'ServicesController@display_services');
+
 Route::get('v1/getuserbyid/{id}', 'UserController@getuserbyid');
 Route::get('v1/organisation', 'OrganisationController@getAll');
 
@@ -51,7 +56,8 @@ Route::post('v1/add_vendors', 'UserController@add_vendors');
 Route::post('v1/experience', 'ExperienceController@add_experience');
 
 
-Route::get('test', '\App\Http\Controllers\Auth\RegisterController@getPermissions');
+// Route::get('test', '\App\Http\Controllers\Auth\RegisterController@getPermissions');
+Route::get('test', 'ServiceProviderController@getDistance');
 
 
 
@@ -74,16 +80,19 @@ Route::get('v1/providers/service_category', 'ServiceMappingController@get_provid
 Route::get('v1/services/category', 'ServicesController@get_service_categories');
 //Vendor Update
 Route::post('v1/vendorupdate', 'UserController@updatevendor');
-//Services Update
-Route::post('v1/serviceupdate', 'UserController@updatevendor');
 //Customer Update
 Route::put('v1/customerupdate/{id}', 'UserController@updatevendor');
+//Organisation Update
+Route::post('v1/org_update/{id}', 'UserController@organisationupdate');
 //Verification
 Route::post('v1/verification/{id}', 'ServiceProviderController@verification');
 // User Type Mng
 Route::post('v1/usertype', 'UserTypeController@add_type');
 Route::get('v1/usertype', 'UserTypeController@show_all');
 
+// services update
+// Route::get('v1/service/{id}/edit', 'ServiceMappingController@get_services');
+// Route::post('v1/serviceupdate/{id}', 'UserController@updatevendor');
 
 // Terms & Conditions
 Route::post('v1/term', 'TermConditionController@add_term');
@@ -97,6 +106,11 @@ Route::get('v1/term_agree', 'TermAgreementController@show_all');
 Route::get('/', function () {
     return [1, 2, 3];
 });
+
+
+// Invoice
+// Route::post('v1/invoice', 'BookingController@invoice');
+
 
 // Route defines to get the services list from database
 

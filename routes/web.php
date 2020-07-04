@@ -37,7 +37,7 @@ Route::post('/changepassword','UserController@changepasswordform');
 
 Route::middleware(['auth'])->group(function () {
 
-    
+
 
     Route::get('/', function() {
         return view('welcome');
@@ -47,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
-    
+
 
     Route::delete('users/{id}', 'UserController@destroy');
 
@@ -60,9 +60,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/show/{$id}', 'UserController@show');
     Route::get('/addUser', 'UserController@addUser');
     // Route::get('/edit','UserController@edit');
-    
+
     Route::get('/user/edit/{id}', 'UserController@edit');
     Route::post('/user/{id}/update', 'UserController@update');
+    Route::get('/service/edit/{id}', 'ServicesController@edit_services');
+
 
    //customer edit & update
 //    Route::get('/user/{id}/edit', 'userController@edit');
@@ -125,4 +127,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/subcategories', 'SubCategoryController@store');
 
     Route::post('/service_mapping', 'ServiceMappingController@store');
+
+    // invoice
+    Route::get('/invoice', 'BookingController@invoice');
+
+    Route::get('generate-pdf', 'BookingController@printPDF')->name('generate-pdf');
 });

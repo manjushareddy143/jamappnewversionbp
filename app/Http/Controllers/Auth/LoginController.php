@@ -134,27 +134,34 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            $response = array();
-            $response = Auth::user();
+            $user = User::with('services')->with('address')
+            ->with('provider')
+            ->where('email', '=', $request->input('email'))->first();
+            $checkuser = Auth::onceUsingId($user['id']);
             $roles = Auth::user()->roles;
+            $user["roles"] = $roles;
 
-            if($response->type_id == 1){
-                $response['status'] = true;
-                return response($response, 200)
+            // $response = array();
+            // $response = Auth::user();
+            // $roles = Auth::user()->roles;
+
+            if($user->type_id == 1){
+                $user['status'] = true;
+                return response($user, 200)
                     ->header('content-type', 'application/json');
             }
 
-            if($response->type_id == 3)
-            {
-                $service_provider = ServiceProvider::where('user_id', '=', $response->id)->first();
-                $response['resident_country'] = $service_provider['resident_country'];
-            }
+            // if($response->type_id == 3)
+            // {
+            //     $service_provider = ServiceProvider::where('user_id', '=', $response->id)->first();
+            //     $response['resident_country'] = $service_provider['resident_country'];
+            // }
 
-            $address = Address::where('user_id', '=', $response->id)->first();
+            // $address = Address::where('user_id', '=', $response->id)->first();
 
-            $response['address'] = $address;
-            $response['status'] = true;
-            return response($response, 200)
+            // $response['address'] = $address;
+            $user['status'] = true;
+            return response($user, 200)
                 ->header('content-type', 'application/json');
         } else {
             return response()->json(['status' => false], 401);

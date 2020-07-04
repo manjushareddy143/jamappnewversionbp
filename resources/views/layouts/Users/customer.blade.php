@@ -1,5 +1,23 @@
 @extends('layouts.admin')
+<head>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+
+    <style>
+        .bs-example{
+            margin: 20px;
+        }
+    </style>
+</head>
 @section('content')
+<div class="toast" style="margin-left: auto; margin-right: 5px;
+margin-top: 9px; position: absolute; top: 0; right: 0;">
+    <div class="toast-header"> Error </div>
+    <div class="toast-body"> msgStr </div>
+ </div>
 <div class="container-fluid" id="container-wrapper">
    <div class="row">
       <div class="col-lg-12 margin-tb">
@@ -62,7 +80,7 @@
                                             <div class="col-md-6 float-l">
                                                 <div class="form-group">
                                                     <label>@lang('customer.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                                    <input type="text" class="form-control" id="contact"
+                                                    <input type="text" class="form-control" id="contact" onkeypress="return isNumberKey(event)"
                                                            placeholder="@lang('customer.label_place_mobile')">
                                                 </div>
                                             </div>
@@ -76,8 +94,8 @@
                                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-other" value="other"> Other
                                                     @if ($errors->has('gender'))
                                                         <span class="help-block">
-                                    <strong>{{ $errors->first('gender') }}</strong>
-                                    </span>
+                                                            <strong>{{ $errors->first('gender') }}</strong>
+                                                        </span>
                                                     @endif
                                                 </div>
                                                 <p id="genderError"></p>
@@ -128,7 +146,7 @@
                                             </select>
                                             <p id="countryError"></p>
                                         </div>
-                                        <div class="row">
+                                        {{-- <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>@lang('customer.label_services')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
@@ -136,14 +154,57 @@
                                                     <ul class="tree" id="tree_box" style="overflow: auto;height: 200px;"></ul>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
+                                        <style>
+                                            #snackbar {
+                                                visibility: hidden;
+                                                min-width: 250px;
+                                                margin-left: -125px;
+                                                background-color: #333;
+                                                color: #fff;
+                                                text-align: center;
+                                                border-radius: 2px;
+                                                padding: 16px;
+                                                position: fixed;
+                                                z-index: 1;
+                                                left: 50%;
+                                                bottom: 30px;
+                                                font-size: 17px;
+                                            }
+
+                                            #snackbar.show {
+                                                visibility: visible;
+                                                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                                                animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                                            }
+                                            @-webkit-keyframes fadein {
+                                            from {bottom: 0; opacity: 0;}
+                                            to {bottom: 30px; opacity: 1;}
+                                            }
+
+                                            @keyframes fadein {
+                                            from {bottom: 0; opacity: 0;}
+                                            to {bottom: 30px; opacity: 1;}
+                                            }
+
+                                            @-webkit-keyframes fadeout {
+                                            from {bottom: 30px; opacity: 1;}
+                                            to {bottom: 0; opacity: 0;}
+                                            }
+
+                                            @keyframes fadeout {
+                                            from {bottom: 30px; opacity: 1;}
+                                            to {bottom: 0; opacity: 0;}
+                                            }
+                                            </style>
+                                            <div id="snackbar">Unauthorized user</div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('customer.label_cbtn')</button>
-                                    <button type="button" id="button" onclick="create_user()" value="save" class="btn btn-primary">@lang('customer.label_sbtn')</button>
-                                    <button type="button" onclick="update_customer()" class="btn btn-primary">@lang('customer.label_ubtn')</button>
-
+                                    <button type="button" id="btn_save" onclick="create_user()" value="save" class="btn btn-primary">@lang('customer.label_sbtn')</button>
+                                    <button type="button" id="btn_update" onclick="update_customer()" class="btn btn-primary">@lang('customer.label_ubtn')</button>
+                                    {{-- <a class="btn btn-info btn-lg" id="alert-target" onclick="clickme()">Click me!</a> --}}
 
 
                                 </div>
@@ -151,8 +212,7 @@
                         </div>
                     </div>
                     <!-- Modal -->
-
-                       {{-- filter dropdown --}}
+                    {{-- filter dropdown --}}
                     <div class="col-md-1">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #46a396 !important;border: none;"  required>
                           @lang('orders.label_tab_filter')
@@ -310,78 +370,83 @@
         window.addEventListener("load",onLoad(),false) :
         window.attachEvent && window.attachEvent("onload",onLoad());
 
-
-
     function onLoad() {
         console.log("ON LOAD  tbl_id")
         getResult();
 
     }
 
+    $(document).ready(function(){
+        $("#user_btn").click(function(){
+            $("#btn_update").hide();
+        });
+    });
+
     var editUserid;
     function getcustomerData(customerid)
-        {
-            console.log("hello" + customerid);
-             document.getElementById('btntext').innerHTML = 'Edit Customer';
-             // document.getElementById('button').innerHTML = 'Update';
-             $("#lbl_pass").hide();
-             $("#password").hide();
-            // alert(id);
-            editUserid=customerid;
+    {
+        console.log("hello" + customerid);
+            document.getElementById('btntext').innerHTML = 'Edit Customer';
+            // document.getElementById('button').innerHTML = 'Update';
+            $("#lbl_pass").hide();
+            $("#password").hide();
+            $("#btn_save").hide();
+        // alert(id);
+        editUserid=customerid;
 
-            $.ajax({
-                url:"/user/"+customerid+"/edit",
-                method:'get',
-                data:{id:editUserid},
-                dataType:'JSON',
-                success:function(data)
-                {
-                    console.log(data);
-                    $('#first_name').val(data.first_name);
-                    $('#last_name').val(data.last_name);
-                    $('#email').val(data.email);
-                    $('#contact').val(data.contact);
-                    $("#lang-arabic").prop('checked', true);
-                    $("#lang-english").prop('checked', true);
-                    $("#gender-male ").prop('checked', true);
-                    $("#gender-female ").prop('checked', true);
-                    $("#gender-other ").prop('checked', true);
+        $.ajax({
+            url:"/user/"+customerid+"/edit",
+            method:'get',
+            data:{id:editUserid},
+            dataType:'JSON',
+            success:function(data)
+            {
+                console.log(data);
+                $('#first_name').val(data.first_name);
+                $('#last_name').val(data.last_name);
+                $('#email').val(data.email);
+                $('#contact').val(data.contact);
+                $("#lang-arabic").prop('checked', true);
+                $("#lang-english").prop('checked', true);
+                $("#gender-male ").prop('checked', true);
+                $("#gender-female ").prop('checked', true);
+                $("#gender-other ").prop('checked', true);
 
-                    $('#action').val('Edit');
-                }
-            });
+                $('#action').val('Edit');
+            }
+        });
 
-        }
+    }
 
-        //update customer record
-        function update_customer() {
+    //update customer record
+    function update_customer() {
 
-            var edit = 'edit_data';
-            $.ajax({
-                url: '/api/v1/customerupdate/' + editUserid,
-                type: 'PUT',
-                data: {
-                    'id' : editUserid,
-                    'first_name' : document.getElementById("first_name").value,
-                    'last_name' : document.getElementById("last_name").value,
-                    'contact' : document.getElementById("contact").value
-                    },
-
-                success: function (data) {
-                    if(data == 1) {
-                        console.log("SUCCESS");
-                        window.top.location = window.top.location;
-                        location.reload();
-                    } else {
-                        console.log("FAIL");
-                        // $('#btn_verify').show();
-                    }
+        var edit = 'edit_data';
+        $.ajax({
+            url: '/api/v1/customerupdate/' + editUserid,
+            type: 'PUT',
+            data: {
+                'id' : editUserid,
+                'first_name' : document.getElementById("first_name").value,
+                'last_name' : document.getElementById("last_name").value,
+                'contact' : document.getElementById("contact").value
                 },
-                fail: function (error) {
-                    console.log(error);
+
+            success: function (data) {
+                if(data == 1) {
+                    console.log("SUCCESS");
+                    window.top.location = window.top.location;
+                    location.reload();
+                } else {
+                    console.log("FAIL");
+                    // $('#btn_verify').show();
                 }
-            });
-        }
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    }
 
     function getResult() {
 
@@ -400,7 +465,7 @@
         '</td><td>' + response[i].email + '</td>' +
         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
         '</td><td>' + response[i].gender + '</td>' +
-        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getcustomerData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a>' + '</td></tr>';
+        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getcustomerData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i id="btn_edit" class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a>' + '</td></tr>';
 
                 });
                 $('#tbl_id').append(trHTML);
@@ -460,33 +525,67 @@
            form.append('gender', document.getElementById("gender").value);
            form.append('language', document.getElementById("languages").value);
 
-
            $.ajax({
                url: '/api/v1/add_customer',
                type: 'POST',
                data: form,
                contentType: false,
                processData: false,
-               success: function(response){
+               success: function(response)
+               {
                    console.log("CREATE CREATE REPOSNE == "+response);
                    window.top.location = window.top.location;
                    location.reload();
-               },
-               fail: function (error) {
-                   console.log(error);
-               }
-           });
-       }
+               },error: function (xhr){
+                    console.log("errp = " + JSON.stringify(xhr));
+                    if(xhr['status'] == 401) {
+                        var errorArray = xhr['responseJSON'];
+                        var msgStr = "";
+                        $.each(errorArray, function (i, err) {
+                            $.each(err, function (title, msg) {
+                                msgStr += msg.toString() + "\n";
+                            });
+                        });
+                        $('.toast-body').text(msgStr);
+                        $('.toast').toast({delay:10000, animation:false});
+                        $('.toast').toast('show');
+                        // $('#showToast').append(trHTML);
+                    }
+                    //    fail: function (error) {
+                    //        console.log(error);
+                    //    }
+                }
+            });
+        }
        else
        {
-           $("#alerterror").text(servicevalite);
-           $("#alerterror").show();
-           setTimeout(function() {
-               $("#alerterror").hide()
-           }, 1000);
+        var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        //    $("#alerterror").text(servicevalite);
+        //    $("#alerterror").show();
+        //    setTimeout(function() {
+        //        $("#alerterror").hide()
+        //    }, 1000);
         }
     }
 
+    // var errorArray = xhr['responseJSON'];
+    // $.each(errorArray, function (i, err) {
+    //     $.each(err, function (j, msg) {
+    //         console.log(j);
+    //         console.log(msg);
+    //     });
+    // });
+    // if(xhr['status'] == 406) {
+    //     var errorArray = xhr['responseJSON'];
+    //     $.each(errorArray, function (i, err) {
+    //         $.each(err, function (j, msg) {
+    //             console.log(j);
+    //             console.log(msg.toString());
+    //         });
+    //     });
+    // }
 
     var phone_regex = /^(\+\d)\d*[0-9-+](|.\d*[0-9]|,\d*[0-9])?$/
     var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
@@ -701,9 +800,14 @@
              // $('#email').next('div.red').remove();
              // $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
              // return "false";
-         }
+             function isNumberKey(evt){
 
-
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                    return false;
+                return true;
+                }
+        }
 
        // Gender Radiobutton
 

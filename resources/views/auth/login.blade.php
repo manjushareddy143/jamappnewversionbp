@@ -26,7 +26,11 @@
     <link href="{{ asset('css/ruang-admin.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-
+<div class="toast" style="margin-left: auto; margin-right: 5px;
+margin-top: 9px; position: absolute; top: 0; right: 0;">
+    <div class="toast-header"> Error </div>
+    <div class="toast-body"> msgStr </div>
+ </div>
 <body class="bg-gradient-login">
 
 <!-- Login Content -->
@@ -39,7 +43,7 @@
             <div class="card shadow-sm my-5">
                 <div class="card-body p-0">
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                     </div>
                 </div>
@@ -403,7 +407,7 @@
         // var forconfirmvalidate = confirmPass_validate();
         console.log(forPassvalidate);
         console.log(cPass);
-        if(forPassvalidate != false) 
+        if(forPassvalidate != false)
         {
             // ajax
             if(cPass == 0) {
@@ -444,7 +448,7 @@
                         }
                     },
                 });
-                
+
             } else {
                 // change pass ajax
 
@@ -457,7 +461,7 @@
                     },
                     success: function (response) {
                         console.log("SUCCESS" + JSON.stringify(response));
-                        
+
                         // // console.log(response);
                         if (response != null) {
                             var result = response['status'];
@@ -512,7 +516,7 @@
             } else {
                 if(txtEmail != "") {
                     return "email"
-                } 
+                }
                 if(txtContact != "") {
                     return "contact"
                 }
@@ -540,7 +544,7 @@
         //     } else {
         //         if(txtPass != "") {
         //             return "password"
-        //         } 
+        //         }
         //         if(txtCpass != "") {
         //             return "Confirm Password"
         //         }
@@ -663,20 +667,35 @@
                     } else {
                         alert("Invalid email or password");
                     }
-                },
-                error: function (xhr, status, err) {
-                    console.log(xhr.statusText + "xhr.statusText");
-                    if(xhr.status == 401) {
-                        $("#errormsg").text("Invalid Email or Password");
-                    } else {
-                        $("#errormsg").text(xhr.statusText);
-                    }
+                },error: function (xhr){
+                        console.log("errp = " + JSON.stringify(xhr));
+                        if(xhr['status'] == 401) {
+                            var errorArray = xhr['responseJSON'];
+                            var msgStr = "Unauthorised user";
+                            $.each(errorArray, function (i, err) {
+                                $.each(err, function (title, msg) {
+                                    msgStr += msg.toString() + "\n";
+                                });
+                            });
+                            $('.toast-body').text(msgStr);
+                            $('.toast').toast({delay:1000, animation:false});
+                            $('.toast').toast('show');
 
-                    $("#errorAlert").show();
-                    setTimeout(function () {
-                        $("#errorAlert").hide()
-                    }, 1000);
-                },
+                        }
+                    },
+                // error: function (xhr, status, err) {
+                //     console.log(xhr.statusText + "xhr.statusText");
+                //     if(xhr.status == 401) {
+                //         $("#errormsg").text("Invalid Email or Password");
+                //     } else {
+                //         $("#errormsg").text(xhr.statusText);
+                //     }
+
+                //     $("#errorAlert").show();
+                //     setTimeout(function () {
+                //         $("#errorAlert").hide()
+                //     }, 1000);
+                // },
             });
         }
     }

@@ -58,10 +58,42 @@ class ServiceMappingController extends Controller
     }
 
     public function get_providers_by_service(Request $request) {
-        $id = $request->input('id');
+
+
+        $lat = $request->input('lat');
+        $long = $request->input('long');
+        $service_id = $request->input('service_id');
+        $category_id = $request->input('category_id');
+
         $host = url('/');
 
-        $result = ProviderServiceMapping::with('user')->with('service')->where('service_id', '=', $id)->get();
+        $result = ProviderServiceMapping::with('service')->where('service_id', '=', $service_id)
+        ->where('category_id', '=', $category_id)
+        ->with('user')->get();
+
+        $users = [];
+        foreach ($result as $service) {
+            foreach ($service->user as $user) {
+                foreach ($user->address as $address) {
+                    $location = explode(",",$address->location);
+                    $distance = $this->getDistance($lat, $long, $location[0], $location[1]);
+                    // echo($distance);
+                    // echo($user->provider->service_radius);
+                    // exit();
+                    if($distance >= $user->provider->service_radius) {
+                    } else {
+                        array_push($users, $user);
+                        // $users += [$user];
+                    }
+                    // printf($user->provider->service_radius);
+                    //
+                }
+
+            }
+        }
+        // print_r($users);
+        // // echo($user->provider->service_radius);
+        // exit();
 
         // $results = ProviderServiceMapping::where('service_id', '=', $id)
         //     ->leftJoin('users', 'users.id', '=','provider_service_mappings.user_id')
@@ -76,7 +108,34 @@ class ServiceMappingController extends Controller
         //         \DB::raw('COUNT(experiences.rating) AS reviews'))
          //     ->groupBy('provider_service_mappings.user_id')
         //     ->get();
-        return response()->json($result);
+        return response()->json($users);
+    }
+
+    public function getDistance($userLat, $userLong, $vendorLat, $vendorLong) {
+
+        $latitudeFrom = $userLat;//21.0987442;
+        $longitudeFrom = $userLong;//71.7539072;
+
+
+        $latitudeTo = $vendorLat;// 21.093098271540605;
+        $longitudeTo = $vendorLong;//71.76618821918964;
+
+        $theta    = $longitudeFrom - $longitudeTo;
+        $dist    = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
+        $dist    = acos($dist);
+        $dist    = rad2deg($dist);
+        $miles    = $dist * 60 * 1.1515;
+
+        // Convert unit and return distance
+        // $unit = 'K';
+        // $unit = strtoupper($unit);
+        // if($unit == "K"){
+        return round($miles * 1.609344, 2);//.' km';
+        // }elseif($unit == "M"){
+        //     return round($miles * 1609.344, 2).' meters';
+        // }else{
+        //     return round($miles, 2).' miles';
+        // }
     }
 
     public function get_providers_by_category(Request $request) {
