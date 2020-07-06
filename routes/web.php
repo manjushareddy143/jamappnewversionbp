@@ -65,6 +65,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user/{id}/update', 'UserController@update');
     Route::get('/service/edit/{id}', 'ServicesController@edit_services');
 
+    Route::get('/subcategory/edit/{id}', 'SubCategoryController@edit_category');
+
 
    //customer edit & update
 //    Route::get('/user/{id}/edit', 'userController@edit');

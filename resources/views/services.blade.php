@@ -155,7 +155,7 @@
                               <div class="modal-footer">
                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('services.label_cbtn')</button>
                                  <button type="button" onclick="create_service()" id="save_service" class="btn btn-primary">@lang('services.label_sbtn')</button>
-                                 <button type="button" onclick="#" id="upd_service" class="btn btn-primary">Update</button>
+                                 <button type="button" onclick="getUpdateService()" id="upd_service" class="btn btn-primary">Update</button>
 
                               </div>
                            </form>
@@ -212,6 +212,13 @@
         });
     });
 
+        // page redirect
+     
+        function viewDetail(e){
+        console.log(e);
+        // alert(e);
+        window.location = '/detailpage?id=' + e;
+        }
 
 
    window.addEventListener ?
@@ -260,7 +267,7 @@
 
    
 
-    // new display service function
+    // Display service function
 
     function getListOfService() {
             $.ajax({
@@ -283,7 +290,7 @@
                         '</td><td><img src="' + bimg + '" class="square" width="60" height="50" /></td></td>' +
                         '</td><td>' + response[i].description  + '</td>' +
                         '</td><td>' + response[i].price  + '</td>' +
-                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick=""><i class="fas fa-eye"></i></a> <a href="#" onclick="getEditService(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a>'
+                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getEditService(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a>'
                             + '</td> </tr>';
                             }
                             trCatHTML += '</ul>';
@@ -332,12 +339,38 @@
 
         }
 
-        // Serivces Update
+                // Serivces Update
 
-        // function getUpdateService()
-        // {
+                function getUpdateService() {
 
-        // }
+                    console.log(document.getElementById("service_name").value);
+
+                    var edit = 'edit_data';
+                    
+                    let formUpdate = new FormData();
+                    formUpdate.append('id', editUserid);
+                    formUpdate.append('name', document.getElementById("service_name").value);
+                    formUpdate.append('description', document.getElementById("service_description").value);
+
+                    
+
+                    $.ajax({
+                        url: '/api/v1/serviceupdate',
+                        type: 'POST',
+                        data: formUpdate,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            console.log("CREATE UPDATE REPOSNE == " + response);
+                        window.top.location = window.top.location;
+                        location.reload();
+                        },
+                        fail: function (error) {
+                            console.log(error);
+                        }
+                    });
+
+                    }
    
    function service_validate() {
        console.log("service_validate");
@@ -546,6 +579,7 @@
        console.log(id);
        window.location = '/detailpage?id=' + id;
    }
+   
 </script>
 @endsection
 <style>

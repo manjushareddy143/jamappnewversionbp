@@ -3,7 +3,7 @@
 return[
 
 
-'label_header'=>'إدارة الخدمات',
+'label_header'=>'إدارة الفئة',
 
 'label_header_btn'=>'إنشاء فئة جديدة',
 

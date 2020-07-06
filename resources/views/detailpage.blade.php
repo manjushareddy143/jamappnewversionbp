@@ -21,7 +21,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">@lang('sdetailpage.label_title')</h5>
+                  <h5 class="modal-title" id="service_btn">@lang('sdetailpage.label_title')</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -83,6 +83,7 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('sdetailpage.label_cbtn')</button>
                   <button type="button" onclick="store()" class="btn btn-primary">@lang('sdetailpage.label_sbtn')</button>
+                  <button type="button" onclick="getUpdateCategory()" id="upd_service" class="btn btn-primary">Update</button>
                 </div>
 
                       <div class="alert alert-danger alert-dismissible" role="alert" id="alerterror">
@@ -107,7 +108,7 @@
 
 
  <div class="table-responsive">
-<table class="table align-items-center table-flush">
+<table class="table align-items-center table-flush" id="tbl_id">
 <thead class="thead-light">
  <tr>
    <!-- <th>id</th> -->
@@ -115,24 +116,11 @@
    <th>@lang('sdetailpage.label_tab_image')</th>
    <th>@lang('sdetailpage.label_tab_desc')</th>
    <th>@lang('sdetailpage.label_tab_price')</th>
+   <th width="280px">@lang('organisation.label_tab_action')</th>    
  </tr>
 </thead>
 
  <tbody>
-
-          @if (isset($data) && !empty($data))
-           <?php $i=0; ?>
-           @foreach ($data as $results)
-            <tr>
-
-              <!-- <td>{{ $results->id }}</td> -->
-              <td> {{ $results->name }} </td>
-              <td><img src="{{ asset($results->image) }}" class="square" width="60" height="50" /></td>
-              <td>{{ $results->description }}</td>
-              <td>&#xFDFC;{{ $results->price }}</td>
-            </tr>
-           @endforeach
-           @endif
  </tbody>
 </table>
 </div>
@@ -148,6 +136,7 @@
 
         var service_id;
         function onLoad() {
+            getListOfSubCategory();
             service_id = getUrlParameter('id');
             console.log(service_id);
             $("#categorydiv").hide();
@@ -176,6 +165,111 @@
                 $("#pricediv").hide(1000);
             }
         }
+
+        // Display subcategory list
+
+        function getListOfSubCategory() {
+            $.ajax({
+                url: '/api/v1/sub_category',
+                type: 'GET',
+                success: function (response, xhr) {
+                    if (xhr['status'] == 204) {
+                        console.log(response);
+                    } else {
+                        console.log(response);
+                        if(response != null) {
+                            var trCatHTML = '';
+                            var i;
+                            for(i = 0; i < response.length; i++)
+                            {
+                                var img = (response[i].image == null) ? '{{ URL::asset('/imges/subcategories/Cleaning.jpg') }}' : response[i].icon_image; 
+                                trCatHTML += '<tr><td>' + response[i].name +
+                        '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td></td>' +
+                        '</td><td>' + response[i].description  + '</td>' +
+                        '</td><td>' + response[i].price  + '</td>' +
+                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="#"><i class="fas fa-eye"></i></a> <a href="#" onclick="getEditCategory(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a>'
+                            + '</td> </tr>';
+                            }
+                            trCatHTML += '</ul>';
+                            $('#tbl_id').append(trCatHTML);
+
+                        }
+                    }
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        // Edit SubCategory
+
+        var editUserid;
+            function getEditCategory(catid)
+            {
+                console.log("hello" + catid);
+             document.getElementById('service_btn').innerHTML = 'Edit SubCategory';
+             
+             $("#lbl_pass").hide();
+             $("#password").hide();
+             $("#btn_save").hide();
+            console.log(catid);
+            editUserid=catid;
+
+            $.ajax({
+                url:"/subcategory/edit/"+catid+"",
+                method:'get',
+                data:{id:editUserid},
+                dataType:'JSON',
+                success:function(data)
+                {
+                    console.log(data);
+                    $('#name').val(data.name);
+                    // $('#icon_image').val(data.icon_image);
+                    // $('#banner_image').val(data.banner_image);
+                    $('#description').val(data.description);
+                    $('#price').val(data.price);
+                    
+                    // $('#action').val('Edit');    
+               
+                }
+            });
+
+        }
+
+        //  Update Category
+
+            function getUpdateCategory() {
+
+                console.log(document.getElementById("name").value);
+
+                var edit = 'edit_data';
+
+                let formUpdate = new FormData();
+                formUpdate.append('id', editUserid);
+                formUpdate.append('name', document.getElementById("name").value);
+                formUpdate.append('description', document.getElementById("description").value);
+                formUpdate.append('price', document.getElementById("price").value);
+
+
+
+                $.ajax({
+                    url: '/api/v1/categoryupdate',
+                    type: 'POST',
+                    data: formUpdate,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log("CREATE UPDATE REPOSNE == " + response);
+                    window.top.location = window.top.location;
+                    location.reload();
+                    },
+                    fail: function (error) {
+                        console.log(error);
+                    }
+                });
+
+            }
 
         function getCategories() {
             $.ajax({
@@ -290,6 +384,7 @@
                 }
             });
         }
+
 
 
     </script>
