@@ -20,6 +20,7 @@ class CreateServiceProvidersTable extends Migration
             $table->integer('proof_id');
             $table->integer('service_radius');
             $table->boolean('verified')->default(false);
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });
     }

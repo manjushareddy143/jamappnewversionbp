@@ -835,6 +835,12 @@ class UserController extends Controller
 
             ];
         }
+        if(array_key_exists('email', $input)) {
+            $updatedata += [
+                'email' => $input['email'],
+
+            ];
+        }
         if(array_key_exists('gender', $input)) {
             $updatedata += [
                 'gender' => $input['gender'],
@@ -888,7 +894,7 @@ class UserController extends Controller
                 'logo' => $input['logo'],
             ];
         }
-        return $this->update_organisation_details($updatedata, $input['org_id']);
+        return $this->update_organisation_details($updatedata, $input['id']);
         
         if(array_key_exists('org_aname', $input)) {
             $updatedata += [
@@ -902,7 +908,14 @@ class UserController extends Controller
             ];
 
         }
-        $temp= DB::table('users')->where('id', (int)$input['org_id'])->update($updatedata);
+        if(array_key_exists('email', $input)) {
+            $updatedata += [
+                'email' => $input['email'],
+            ];
+
+        }
+        return $temp= DB::table('users')->where($updatedata, (int)$input['org_id']);
+        //  $this->update_user_details($updatedata, $input['org_id']);
     }
 
     //User profile API
@@ -1751,5 +1764,18 @@ class UserController extends Controller
 
 
 
+    }
+
+    public function soft_delete($id)
+     {  
+        echo "test";
+        exit();
+        // $updatedata = [
+        //     'is_deleted' => 1,
+        // ];
+        // $temp= User::with('organisation')->with('address')
+        //     ->where($updatedata, (int)$id)->first();
+
+        // return $temp;
     }
 }

@@ -20,6 +20,7 @@ class CreateServicesTable extends Migration
             $table->string('banner_image')->nullable();
             $table->string('description')->nullable();
             $table->decimal('price',9,2);
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });
 

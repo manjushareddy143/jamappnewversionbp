@@ -19,6 +19,7 @@ class CreateOrganisationTable extends Migration
             $table->string('logo')->nullable();
             $table->string('country')->nullable();
             $table->string('number_of_employee')->nullable();
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });
     }

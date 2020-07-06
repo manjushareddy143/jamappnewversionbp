@@ -429,7 +429,8 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                 'id' : editUserid,
                 'first_name' : document.getElementById("first_name").value,
                 'last_name' : document.getElementById("last_name").value,
-                'contact' : document.getElementById("contact").value
+                'contact' : document.getElementById("contact").value,
+                'email' : document.getElementById("email").value
                 },
 
             success: function (data) {
@@ -483,7 +484,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
             $.ajax(
                 {
                     url: "/users/"+e,
-                    type: 'DELETE',
+                    type: 'POST',
                     data: null,
                     success: function (){
                         console.log("Delete");

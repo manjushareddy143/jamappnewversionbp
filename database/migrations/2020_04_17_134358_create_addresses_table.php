@@ -24,6 +24,7 @@ class CreateAddressesTable extends Migration
             $table->string('postal_code');
             $table->string('location')->nullable(true);
             $table->integer('user_id');
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });
     }
