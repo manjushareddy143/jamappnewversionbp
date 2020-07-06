@@ -894,8 +894,12 @@ class UserController extends Controller
                 'logo' => $input['logo'],
             ];
         }
-        return $this->update_organisation_details($updatedata, $input['id']);
+
+        // return $this->update_organisation_details($updatedata, $input['id']);
         
+        return $this->update_organisation_details($updatedata, $input['org_id']);
+
+
         if(array_key_exists('org_aname', $input)) {
             $updatedata += [
                 'first_name' => $input['org_aname'],
@@ -1261,6 +1265,13 @@ class UserController extends Controller
                     'last_name' => $input['last_name'],
                 ];
             }
+
+            if(array_key_exists('contact', $input)) {
+                $imagedata +=  [
+                    'contact' => $input['contact'],
+                ];
+            }
+
             if(array_key_exists('gender', $input)) {
                 $imagedata +=  [
                     'gender' => $input['gender'],
@@ -1296,8 +1307,8 @@ class UserController extends Controller
                 $roles = Auth::user()->roles;
                 $user["roles"] = $roles;
 
-//                $user = Auth::onceUsingId($id);
-//                $roles = Auth::user()->roles;
+                //                $user = Auth::onceUsingId($id);
+                //                $roles = Auth::user()->roles;
                 if(array_key_exists('profile_photo', $input)) {
                     $user["image"] = $host . "/images/profiles/" . $profile_name;
                 }
@@ -1310,12 +1321,15 @@ class UserController extends Controller
 
             if(array_key_exists('services', $input)) {
                 $services = $input['services'];
-
-                $services =explode(',', $services);
+                $services =  json_decode($services, true); //explode(',', );
                 foreach ($services as $data) {
                     $obj = array();
                     $obj['user_id'] = $user['id'];
-                    $obj['service_id'] = $data;
+                    $obj['service_id'] = $data['service_id'];
+                    if(array_key_exists('category_id', $data)) {
+                        $obj['category_id'] = $data['category_id'];
+                    }
+                    $obj['price'] = $data['price'];
                     ProviderServiceMapping::create($obj);
                 }
 ;
