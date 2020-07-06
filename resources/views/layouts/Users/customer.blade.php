@@ -133,19 +133,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                                 <p id="imageError"></p>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">@lang('customer.label_country')
-                                                <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                            <select class="form-control" id="select_country" required>
-                                                <option>Select Country</option>
-                                                <option>India</option>
-                                                <option>Bangladesh</option>
-                                                <option>Australia</option>
-                                                <option>USA</option>
-                                                <option>Afghanistan</option>
-                                            </select>
-                                            <p id="countryError"></p>
-                                        </div>
+                                        
                                         {{-- <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -547,9 +535,12 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                 msgStr += msg.toString() + "\n";
                             });
                         });
-                        $('.toast-body').text(msgStr);
-                        $('.toast').toast({delay:10000, animation:false});
-                        $('.toast').toast('show');
+                        var x = document.getElementById("snackbar");
+                        x.className = "show";
+                        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                        // $('.toast-body').text(msgStr);
+                        // $('.toast').toast({delay:10000, animation:false});
+                        // $('.toast').toast('show');
                         // $('#showToast').append(trHTML);
                     }
                     //    fail: function (error) {
@@ -560,14 +551,11 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
         }
        else
        {
-        var x = document.getElementById("snackbar");
-            x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-        //    $("#alerterror").text(servicevalite);
-        //    $("#alerterror").show();
-        //    setTimeout(function() {
-        //        $("#alerterror").hide()
-        //    }, 1000);
+           $("#alerterror").text(servicevalite);
+           $("#alerterror").show();
+           setTimeout(function() {
+               $("#alerterror").hide()
+           }, 1000);
         }
     }
 
