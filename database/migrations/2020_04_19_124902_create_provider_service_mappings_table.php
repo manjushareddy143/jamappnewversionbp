@@ -19,6 +19,7 @@ class CreateProviderServiceMappingsTable extends Migration
             $table->integer('service_id');
             $table->integer('category_id')->nullable();
             $table->decimal('price',9,2);
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });
     }

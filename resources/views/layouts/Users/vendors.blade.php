@@ -445,9 +445,9 @@
                         $.each(response[i]['services'], function (j, item)
                         {
                             if(servicesString == "-") {
+                                // servicesString =  item['service'].name;
                                 console.log("helllllllllo" + JSON.stringify(item));
-                                servicesString =  item['service'].name;
-                                
+
                             } else {
                                 servicesString += ", " + item['service'].name;
                             }
@@ -639,6 +639,7 @@
             formUpdate.append('first_name', document.getElementById("first_name").value);
             formUpdate.append('last_name', document.getElementById("last_name").value);
             formUpdate.append('contact', document.getElementById("contact").value);
+            formUpdate.append('email', document.getElementById("email").value);
             formUpdate.append('gender', selectGender);
             formUpdate.append('languages', selectedLang.toString());
 
@@ -662,6 +663,9 @@
                 },
                 fail: function (error) {
                     console.log(error);
+                    var x = document.getElementById("snackbar");
+                    x.className = "show";
+                    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
                 }
             });
 
@@ -819,22 +823,23 @@
                                     msgStr += msg.toString() + "\n";
                                 });
                             });
-                            $('.toast-body').text(msgStr);
-                            $('.toast').toast({delay:10000, animation:false});
-                            $('.toast').toast('show');
+                             var x = document.getElementById("snackbar");
+                            x.className = "show";
+                            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                            // $('.toast-body').text(msgStr);
+                            // $('.toast').toast({delay:10000, animation:false});
+                            // $('.toast').toast('show');
 
                         }
                     }
                 });
             } else {
-                var x = document.getElementById("snackbar");
-            x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-                // $("#alerterror").text(servicevalite);
-                // $("#alerterror").show();
-                // setTimeout(function () {
-                //     $("#alerterror").hide()
-                // }, 1000);
+               
+                $("#alerterror").text(servicevalite);
+                $("#alerterror").show();
+                setTimeout(function () {
+                    $("#alerterror").hide()
+                }, 1000);
             }
 
         }

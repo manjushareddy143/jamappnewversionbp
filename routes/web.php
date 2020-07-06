@@ -49,7 +49,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-    Route::delete('users/{id}', 'UserController@destroy');
+    // Route::delete('users/{id}', 'UserController@destroy');
+    Route::post('users/{id}', 'UserController@soft_delete');
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/logout', '\App\Http\Controllers\Auth\LoginController@customLogOut')->name('logout');

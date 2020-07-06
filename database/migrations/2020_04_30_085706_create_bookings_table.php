@@ -28,6 +28,7 @@ class CreateBookingsTable extends Migration
             $table->integer('provider_id');
             $table->integer('status');
             $table->integer('otp');
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });
     }

@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->integer('type_id')->unsigned();
             $table->integer('term_id')->unsigned();
             $table->integer('org_id')->nullable();
+            $table->boolean('is_deleted')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

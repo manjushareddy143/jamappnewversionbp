@@ -23,6 +23,7 @@ class CreateInvoiceTable extends Migration
             $table->integer('additional_charges');
             $table->integer('discount');
             $table->integer('tax');
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
             $table->softDeletes();
 

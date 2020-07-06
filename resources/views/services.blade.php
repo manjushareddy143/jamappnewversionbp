@@ -447,9 +447,12 @@
                               msgStr += msg.toString() + "\n";
                           });
                       });
-                      $('.toast-body').text(msgStr);
-                      $('.toast').toast({delay:10000, animation:false});
-                      $('.toast').toast('show');
+                      var x = document.getElementById("snackbar");
+                        x.className = "show";
+                        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                    //   $('.toast-body').text(msgStr);
+                    //   $('.toast').toast({delay:10000, animation:false});
+                    //   $('.toast').toast('show');
                       // $('#showToast').append(trHTML);
                   }
    
@@ -459,14 +462,12 @@
    
               });
           }  else {
-          var x = document.getElementById("snackbar");
-          x.className = "show";
-          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-          //  $("#alerterror").text(servicevalite);
-          //  $("#alerterror").show();
-          //  setTimeout(function() {
-          //      $("#alerterror").hide()
-          //  }, 1000);
+          
+           $("#alerterror").text(servicevalite);
+           $("#alerterror").show();
+           setTimeout(function() {
+               $("#alerterror").hide()
+           }, 1000);
           }
       }
    

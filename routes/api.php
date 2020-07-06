@@ -91,11 +91,16 @@ Route::post('v1/verification/{id}', 'ServiceProviderController@verification');
 Route::post('v1/usertype', 'UserTypeController@add_type');
 Route::get('v1/usertype', 'UserTypeController@show_all');
 
+
+//Soft delete
+// Route::post('v1/users','UserController@soft_delete');
+
 // services update
 Route::post('v1/serviceupdate', 'ServicesController@updateservices');
 
 //category update
 Route::post('v1/categoryupdate', 'SubCategoryController@updatecategory');
+
 
 // Terms & Conditions
 Route::post('v1/term', 'TermConditionController@add_term');

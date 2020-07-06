@@ -62,7 +62,7 @@ class UserController extends Controller
     {
         // $user = ProviderServiceMapping::with('user')->with('service')->where('service_id', '=', $id)->get();
         $user = User::with('documents')->with('address')->with('provider')
-        ->with('type')->with('services')->with('organisation')->where('type_id', '=', (int)$id)->get();
+        ->with('type')->with('services')->with('organisation')->where('type_id', '=', (int)$id)->where('is_deleted', 0)->get();
         return response()->json($user, 200);
 
         // $users=User::where('type_id', '=', (int)$id)
@@ -835,6 +835,12 @@ class UserController extends Controller
 
             ];
         }
+        if(array_key_exists('email', $input)) {
+            $updatedata += [
+                'email' => $input['email'],
+
+            ];
+        }
         if(array_key_exists('gender', $input)) {
             $updatedata += [
                 'gender' => $input['gender'],
@@ -888,8 +894,12 @@ class UserController extends Controller
                 'logo' => $input['logo'],
             ];
         }
+
+        // return $this->update_organisation_details($updatedata, $input['id']);
+
         return $this->update_organisation_details($updatedata, $input['org_id']);
-        
+
+
         if(array_key_exists('org_aname', $input)) {
             $updatedata += [
                 'first_name' => $input['org_aname'],
@@ -902,7 +912,14 @@ class UserController extends Controller
             ];
 
         }
-        $temp= DB::table('users')->where('id', (int)$input['org_id'])->update($updatedata);
+        if(array_key_exists('email', $input)) {
+            $updatedata += [
+                'email' => $input['email'],
+            ];
+
+        }
+        return $temp= DB::table('users')->where($updatedata, (int)$input['org_id']);
+        //  $this->update_user_details($updatedata, $input['org_id']);
     }
 
     //User profile API
@@ -1179,10 +1196,21 @@ class UserController extends Controller
             ->update($dataArray);
     }
 
+    public function update_address($addressData, $id, $conditionVar) {
+        echo ($conditionVar); exit();
+        return DB::table('addresses')
+            ->where($conditionVar, $id)
+            ->update($addressData);
+    }
+
     public function update_provider_details($dataArray, $id) {
         return DB::table('service_providers')
             ->where('user_id', $id)
             ->update($dataArray);
+    }
+
+    public function delete_serviceMapping($id) {
+        return DB::table('provider_service_mappings')->where('user_id', $id)->delete();
     }
 
 
@@ -1248,6 +1276,13 @@ class UserController extends Controller
                     'last_name' => $input['last_name'],
                 ];
             }
+
+            if(array_key_exists('contact', $input)) {
+                $imagedata +=  [
+                    'contact' => $input['contact'],
+                ];
+            }
+
             if(array_key_exists('gender', $input)) {
                 $imagedata +=  [
                     'gender' => $input['gender'],
@@ -1283,8 +1318,8 @@ class UserController extends Controller
                 $roles = Auth::user()->roles;
                 $user["roles"] = $roles;
 
-//                $user = Auth::onceUsingId($id);
-//                $roles = Auth::user()->roles;
+                //                $user = Auth::onceUsingId($id);
+                //                $roles = Auth::user()->roles;
                 if(array_key_exists('profile_photo', $input)) {
                     $user["image"] = $host . "/images/profiles/" . $profile_name;
                 }
@@ -1297,12 +1332,15 @@ class UserController extends Controller
 
             if(array_key_exists('services', $input)) {
                 $services = $input['services'];
-
-                $services =explode(',', $services);
+                $services =  json_decode($services, true); //explode(',', );
                 foreach ($services as $data) {
                     $obj = array();
                     $obj['user_id'] = $user['id'];
-                    $obj['service_id'] = $data;
+                    $obj['service_id'] = $data['service_id'];
+                    if(array_key_exists('category_id', $data)) {
+                        $obj['category_id'] = $data['category_id'];
+                    }
+                    $obj['price'] = $data['price'];
                     ProviderServiceMapping::create($obj);
                 }
 ;
@@ -1751,5 +1789,25 @@ class UserController extends Controller
 
 
 
+    }
+
+    public function soft_delete($id)
+     {
+        $user = User::find($id);
+        $updatedata = [
+            'is_deleted' => true,
+        ];
+        if($this->update_user_details($updatedata, $id)) {
+            $this->update_address($updatedata, $id, 'user_id');
+            if($user->type_id == 3) {
+                $this->update_provider_details($updatedata, $id);
+                $this->delete_serviceMapping($id);
+                return response(["status" => true], 200);
+            } else {
+                return response(["status" => true], 200);
+            }
+        } else {
+            return response(null, 406);
+        }
     }
 }
