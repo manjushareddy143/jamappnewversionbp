@@ -486,8 +486,8 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                     url: "/users/"+e,
                     type: 'POST',
                     data: null,
-                    success: function (){
-                        console.log("Delete");
+                    success: function (response){
+                        console.log("Delete" + response);
                         window.top.location = window.top.location;
                         location.reload();
 

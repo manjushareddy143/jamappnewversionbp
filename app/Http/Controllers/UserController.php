@@ -62,7 +62,7 @@ class UserController extends Controller
     {
         // $user = ProviderServiceMapping::with('user')->with('service')->where('service_id', '=', $id)->get();
         $user = User::with('documents')->with('address')->with('provider')
-        ->with('type')->with('services')->with('organisation')->where('type_id', '=', (int)$id)->get();
+        ->with('type')->with('services')->with('organisation')->where('type_id', '=', (int)$id)->where('is_deleted', 0)->get();
         return response()->json($user, 200);
 
         // $users=User::where('type_id', '=', (int)$id)
@@ -896,7 +896,7 @@ class UserController extends Controller
         }
 
         // return $this->update_organisation_details($updatedata, $input['id']);
-        
+
         return $this->update_organisation_details($updatedata, $input['org_id']);
 
 
@@ -1196,10 +1196,21 @@ class UserController extends Controller
             ->update($dataArray);
     }
 
+    public function update_address($addressData, $id, $conditionVar) {
+        echo ($conditionVar); exit();
+        return DB::table('addresses')
+            ->where($conditionVar, $id)
+            ->update($addressData);
+    }
+
     public function update_provider_details($dataArray, $id) {
         return DB::table('service_providers')
             ->where('user_id', $id)
             ->update($dataArray);
+    }
+
+    public function delete_serviceMapping($id) {
+        return DB::table('provider_service_mappings')->where('user_id', $id)->delete();
     }
 
 
@@ -1781,15 +1792,22 @@ class UserController extends Controller
     }
 
     public function soft_delete($id)
-     {  
-        echo "test";
-        exit();
-        // $updatedata = [
-        //     'is_deleted' => 1,
-        // ];
-        // $temp= User::with('organisation')->with('address')
-        //     ->where($updatedata, (int)$id)->first();
-
-        // return $temp;
+     {
+        $user = User::find($id);
+        $updatedata = [
+            'is_deleted' => true,
+        ];
+        if($this->update_user_details($updatedata, $id)) {
+            $this->update_address($updatedata, $id, 'user_id');
+            if($user->type_id == 3) {
+                $this->update_provider_details($updatedata, $id);
+                $this->delete_serviceMapping($id);
+                return response(["status" => true], 200);
+            } else {
+                return response(["status" => true], 200);
+            }
+        } else {
+            return response(null, 406);
+        }
     }
 }

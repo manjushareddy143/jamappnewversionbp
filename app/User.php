@@ -51,8 +51,7 @@ class User extends Authenticatable
 
 
     public function services() {
-        // return ProviderServiceMapping::with('service')->get();
-        return $this->hasManyThrough(ProviderServiceMapping::class,services::class,
+        return $this->hasManyThrough(ProviderServiceMapping::class, services::class,
         'id' , 'user_id', 'id')->with('service')->with('categories');
 
         // return $this->services()->with('service');
