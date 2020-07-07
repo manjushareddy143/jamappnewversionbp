@@ -240,9 +240,26 @@ class BookingController extends Controller
 
         $total = $totalWithDiscount - $taxCut;
 
+
+        $client_street = "";
+        $client_city_state_country = "";
+        $client_zip = "";
+
+        foreach($result->order->users->address as $address) {
+
+            $client_street = $address->address_line1 . " " .$address->address_line2;
+            $client_city_state_country = $address->district . " " . $address->city;
+            $client_zip = $address->postal_code;
+        }
+
+        // return response()->json($client_zip);
         // print_r($result); exit();
-        // return response()->json($result);
+
         $data = [
+            'client_name' => $result->order->users->first_name,
+            'client_street' => $client_street,
+            'client_city_state_country' => $client_city_state_country,
+            'client_zip' => $client_zip,
             'order_id' => $result->order_id,
             'order_date' => $result->order->booking_date,
             'service_name' => $result->order->services->name . " - " . $result->order->category->name,
@@ -262,6 +279,7 @@ class BookingController extends Controller
             'total' => $total
 
         ];
+        // return response()->json($data);
 
         // print_r($data); exit();
 
