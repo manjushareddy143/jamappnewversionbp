@@ -15,7 +15,6 @@ class services extends Model
 //    public function users() {
 //        return $this->hasMany('provider_service_mappings', 'service_id', 'id');
 //    }
-//
 
     public function subcategories() {
         return $this->hasManyThrough(SubCategories::class, ServiceMapping::class, 'service_id', 'id');

@@ -183,6 +183,32 @@ class BookingController extends Controller
 
     }
 
+    public function showInvoice()
+    {
+
+        $data = [
+            'order_id' => 1,
+            'order_date' => '',
+            'service_name' => '',
+            'service_cost' => '',
+            'working_hr' => '',
+            'service_amount' => '',
+            'material_name' => '',
+            'material_qty' => '',
+            'material_cost' => '',
+            'material_amout' => '',
+            'additional_cost' => '',
+            'additional_hr' => 0,
+            'additional_total' => '',
+            'sub_total' => '',
+            'discount' => '',
+            'tax' => '',
+            'total' => ''
+
+        ];
+        return view('invoice.invoice')->with('data', $data);
+    }
+
     public function printPDF(Request $request)
     {
 
@@ -214,7 +240,8 @@ class BookingController extends Controller
 
         $total = $totalWithDiscount - $taxCut;
 
-        // print_r($totalWithDiscount); exit();
+        // print_r($result); exit();
+        return response()->json($result);
         $data = [
             'order_id' => $result->order_id,
             'order_date' => $result->order->booking_date,
@@ -237,10 +264,12 @@ class BookingController extends Controller
         ];
 
         // print_r($data); exit();
+
         PDF::setOptions(['dpi' => 150]);
+
         $pdf = PDF::loadView('invoice.invoice', $data)->setPaper('a4', 'portrait')->setWarnings(false);
         return $pdf->download('medium.pdf');
-        // return response()->json($result);
+
     }
 
     public function downloadPDF()
