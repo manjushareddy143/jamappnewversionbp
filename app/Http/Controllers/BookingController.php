@@ -241,7 +241,7 @@ class BookingController extends Controller
         $total = $totalWithDiscount - $taxCut;
 
         // print_r($result); exit();
-        return response()->json($result);
+        // return response()->json($result);
         $data = [
             'order_id' => $result->order_id,
             'order_date' => $result->order->booking_date,
@@ -268,7 +268,7 @@ class BookingController extends Controller
         PDF::setOptions(['dpi' => 150]);
 
         $pdf = PDF::loadView('invoice.invoice', $data)->setPaper('a4', 'portrait')->setWarnings(false);
-        return $pdf->download('medium.pdf');
+        return $pdf->download('invoice.pdf');
 
     }
 
