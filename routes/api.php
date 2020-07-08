@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
+
+Route::post('v1/user/update/{id}', 'UserController@updateUserContent');
 Route::get('v1/invoice', 'BookingController@printPDF');
 Route::get('v1/display', 'BookingController@showInvoice');
 Route::post('v1/invoice', 'BookingController@invoice');
@@ -93,7 +95,7 @@ Route::get('v1/usertype', 'UserTypeController@show_all');
 
 //Update Profie of Vendor & Customer
 Route::get('v1/user/{id}/edit', 'UserController@getuser');
-Route::post('v1/vendor_profile_update/{id}', 'UserController@updateprofile');
+
 //Soft delete
 // Route::post('v1/users','UserController@soft_delete');
 

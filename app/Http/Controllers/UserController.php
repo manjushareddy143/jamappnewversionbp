@@ -922,97 +922,126 @@ class UserController extends Controller
         //  $this->update_user_details($updatedata, $input['org_id']);
     }
 
-    public function updateprofile(Request $request) {
+    public function updateUserContent(Request $request, $id) {
+        $initialValidator = Validator::make($request->all(),
+            [
+                'email' => '|unique:users,email',
+                'contact' => '|unique:users,contact',
+            ]);
+
+        if ($initialValidator->fails())
+        {
+            return response()->json(['error'=>$initialValidator->errors()], 406);
+        }
+        
+        $user = User::with('services')->where('id',$id)->first();
+        if($user == null) {
+            return response()->json(['error' => 'Unknown user'], 406);
+        }
+
         $input = $request->all();
-        // if($input['type_id'] == 3){
-             $updatedata = [];
-            if(array_key_exists('address_name', $input)) {
-                $updatedata += [
-                    'name' => $input['address_name'],
-                ];
-            }
-            if(array_key_exists('address_line1', $input)) {
-                $updatedata += [
-                    'address_line1' => $input['address_line1'],
-                ];
-            }
-            //$ad= DB::table('addresses')->where($updatedata, (int)$input['id'])->first();
-            return "test";
-
-            // if(array_key_exists('contact', $input)) {
-            //     $updatedata += [
-            //         'contact' => $input['contact'],
-
-            //     ];
-            // }
-            if(array_key_exists('email', $input)) {
+        
+        $updatedata = [];
+        if(array_key_exists('first_name', $input)) {
+            $updatedata += [
+                'first_name' => $input['first_name'],
+            ];
+        }
+        if(array_key_exists('last_name', $input)) {
+            $updatedata += [
+                'last_name' => $input['last_name'],
+            ];
+        }
+        if(array_key_exists('email', $input)) {
+            if($user['social_signin'] == "") {
                 $updatedata += [
                     'email' => $input['email'],
-
                 ];
+            } else {
+                return response()->json(['error' => 'Can not update Email'], 406);
             }
-            if(array_key_exists('languages', $input)) {
-                $updatedata += [
-                    'languages' => $input['languages'],
-                ];
-            }
-            if(array_key_exists('image', $input)) {
-                $updatedata += [
-                    'image' => $input['image'],
-                ];
-            }
-            if(array_key_exists('serviceRadius', $input)) {
-                $updatedata += [
-                    'service_radius' => $input['serviceRadius'],
-                ];
-            }
-            $temp= DB::table('users')->with('provider')->where('user_id', (int)$input['id'])->update($updatedata);
-            // return $temp;
+        }
+        if(array_key_exists('contact', $input)) {
+            $updatedata += [
+                'contact' => $input['contact'],
+            ];
+        }
+        if(array_key_exists('gender', $input)) {
+            $updatedata += [
+                'gender' => $input['gender'],
+            ];
+        }
+        if(array_key_exists('languages', $input)) {
+            $updatedata += [
+                'languages' => $input['languages'],
+            ];
+        }
+        if(array_key_exists('profile_photo', $input)) {
+            $host = url('/');
+            $profileImg = $request->file('profile_photo');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
+            $updatedata += [
+                'image' => $host . "/images/profiles/" . $profile_name,
+            ];
+        }
+        if ($updatedata) {
+            $this->update_user_details($updatedata, $id);
+        }
+        
 
-            if(array_key_exists('services', $input)) {
 
-
-                $dlt = DB::table('provider_service_mappings')->where('user_id', $input['id'])->delete();
-
-                $services = $input['services'];
-                $services =explode(',', $services);
-
-                foreach ($services as $data) {
-                    $obj = array();
-                    $obj['user_id'] = $input['id'];
-                    $obj['service_id'] = $data;
-                    ProviderServiceMapping::create($obj);
+        // Service list update
+        if(array_key_exists('services', $input)) {
+            $dlt = DB::table('provider_service_mappings')->where('user_id', $id)->delete();
+            $services = $input['services'];
+            $services =  json_decode($services, true); //explode(',', );
+            foreach ($services as $data) {
+                $obj = array();
+                $obj['user_id'] = $id;
+                $obj['service_id'] = $data['service_id'];
+                if(array_key_exists('category_id', $data)) {
+                    $obj['category_id'] = $data['category_id'];
                 }
-
+                $obj['price'] = $data['price'];
+                ProviderServiceMapping::create($obj);
             }
-            return $temp;
-        //}
-        // else{
-        //     if(array_key_exists('contact', $input)) {
-        //         $updatedata += [
-        //             'contact' => $input['contact'],
+        }
 
-        //         ];
-        //     }
-        //     if(array_key_exists('email', $input)) {
-        //         $updatedata += [
-        //             'email' => $input['email'],
 
-        //         ];
-        //     }
-        //     if(array_key_exists('languages', $input)) {
-        //         $updatedata += [
-        //             'languages' => $input['languages'],
-        //         ];
-        //     }
-        //     if(array_key_exists('image', $input)) {
-        //         $updatedata += [
-        //             'image' => $input['image'],
-        //         ];
-        //     }
-        //     $temp= DB::table('users')->where('user_id', (int)$input['id'])->update($updatedata);
-        //     return $temp;
-        // }
+        // Service Provider update
+        $updateProvider = [];
+        if(array_key_exists('service_radius', $input)) {
+            $updateProvider += [
+                'service_radius' => $input['service_radius'],
+            ];
+        }
+        if(array_key_exists('resident_country', $input)) {
+            $updateProvider += [
+                'resident_country' => $input['resident_country'],
+            ];
+        }
+        if ($updateProvider) {
+            $this->update_provider_details($updateProvider, $id);
+        }
+        
+
+
+        // Address
+        if(array_key_exists('address', $input)) {
+            $address = $input['address'];
+            $address = json_decode($address, true);
+            $this->update_address($address, $address['id'], 'id');
+        }
+
+
+        $result = User::with('services')->with('address')->with('provider')->where('id',$id)->first();
+        $checkuser = Auth::onceUsingId($user['id']);
+        $roles = Auth::user()->roles;
+        $result["roles"] = $roles;
+        
+        return response($result, 200)
+                ->header('content-type', 'application/json');
     }
     //User profile API
     /**
@@ -1289,7 +1318,6 @@ class UserController extends Controller
     }
 
     public function update_address($addressData, $id, $conditionVar) {
-        echo ($conditionVar); exit();
         return DB::table('addresses')
             ->where($conditionVar, $id)
             ->update($addressData);
