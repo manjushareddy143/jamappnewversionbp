@@ -922,6 +922,98 @@ class UserController extends Controller
         //  $this->update_user_details($updatedata, $input['org_id']);
     }
 
+    public function updateprofile(Request $request) {
+        $input = $request->all();
+        // if($input['type_id'] == 3){
+             $updatedata = [];
+            if(array_key_exists('address_name', $input)) {
+                $updatedata += [
+                    'name' => $input['address_name'],
+                ];
+            }
+            if(array_key_exists('address_line1', $input)) {
+                $updatedata += [
+                    'address_line1' => $input['address_line1'],
+                ];
+            }
+            //$ad= DB::table('addresses')->where($updatedata, (int)$input['id'])->first();
+            return "test";
+
+            // if(array_key_exists('contact', $input)) {
+            //     $updatedata += [
+            //         'contact' => $input['contact'],
+
+            //     ];
+            // }
+            if(array_key_exists('email', $input)) {
+                $updatedata += [
+                    'email' => $input['email'],
+
+                ];
+            }
+            if(array_key_exists('languages', $input)) {
+                $updatedata += [
+                    'languages' => $input['languages'],
+                ];
+            }
+            if(array_key_exists('image', $input)) {
+                $updatedata += [
+                    'image' => $input['image'],
+                ];
+            }
+            if(array_key_exists('serviceRadius', $input)) {
+                $updatedata += [
+                    'service_radius' => $input['serviceRadius'],
+                ];
+            }
+            $temp= DB::table('users')->with('provider')->where('user_id', (int)$input['id'])->update($updatedata);
+            // return $temp;
+
+            if(array_key_exists('services', $input)) {
+
+
+                $dlt = DB::table('provider_service_mappings')->where('user_id', $input['id'])->delete();
+
+                $services = $input['services'];
+                $services =explode(',', $services);
+
+                foreach ($services as $data) {
+                    $obj = array();
+                    $obj['user_id'] = $input['id'];
+                    $obj['service_id'] = $data;
+                    ProviderServiceMapping::create($obj);
+                }
+
+            }
+            return $temp;
+        //}
+        // else{
+        //     if(array_key_exists('contact', $input)) {
+        //         $updatedata += [
+        //             'contact' => $input['contact'],
+
+        //         ];
+        //     }
+        //     if(array_key_exists('email', $input)) {
+        //         $updatedata += [
+        //             'email' => $input['email'],
+
+        //         ];
+        //     }
+        //     if(array_key_exists('languages', $input)) {
+        //         $updatedata += [
+        //             'languages' => $input['languages'],
+        //         ];
+        //     }
+        //     if(array_key_exists('image', $input)) {
+        //         $updatedata += [
+        //             'image' => $input['image'],
+        //         ];
+        //     }
+        //     $temp= DB::table('users')->where('user_id', (int)$input['id'])->update($updatedata);
+        //     return $temp;
+        // }
+    }
     //User profile API
     /**
      * @SWG\Get(

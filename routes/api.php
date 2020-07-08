@@ -90,7 +90,9 @@ Route::post('v1/verification/{id}', 'ServiceProviderController@verification');
 Route::post('v1/usertype', 'UserTypeController@add_type');
 Route::get('v1/usertype', 'UserTypeController@show_all');
 
-
+//Update Profie of Vendor & Customer
+Route::get('v1/user/{id}/edit', 'UserController@getuser');
+Route::post('v1/vendor_profile_update/{id}', 'UserController@updateprofile');
 //Soft delete
 // Route::post('v1/users','UserController@soft_delete');
 
