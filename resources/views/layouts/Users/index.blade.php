@@ -215,11 +215,11 @@
         window.location = '/detail?id=' + e;
     }
 
-    $(document).ready(function(){
-        $("#user_btn").click(function(){
-            $("#btn_update").hide();
-        });
-    });
+    // $(document).ready(function(){
+    //     $("#user_btn").click(function(){
+    //         $("#btn_update").hide();
+    //     });
+    // });
 
     var editUserid;
     function getorgdata(orgid){
@@ -313,7 +313,7 @@
     function deleteRecord(e) {
         $.ajax({
             url: "/users/"+e,
-            type: 'DELETE',
+            type: 'POST',
             data: null,
             success: function () {
                 console.log("Delete");

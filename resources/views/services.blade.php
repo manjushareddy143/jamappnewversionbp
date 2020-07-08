@@ -207,7 +207,7 @@
     // Button hide/show
 
    $(document).ready(function(){
-        $("#save_service").click(function(){
+        $("#user_btn").click(function(){
             $("#upd_service").hide();
         });
     });
