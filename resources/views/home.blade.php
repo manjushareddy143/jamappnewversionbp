@@ -32,7 +32,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 
-    
+
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -47,7 +47,7 @@
                 </div>
 
 
-                
+
 
                 <div class="modal-body">
                     <form id="addform">
@@ -222,7 +222,7 @@
 
                             </div>
                         </div>
-                        
+
                         <div id="showMap">
                             <div id="map"></div>
                         </div>
@@ -396,7 +396,7 @@
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    
+
     <script>
         var mapShow;
         function displayMap() {
@@ -413,12 +413,12 @@
             }
         }
 
-        
+
         // Initialize and add the map
         function initMap() {
-            if ("geolocation" in navigator){ //check geolocation available 
+            if ("geolocation" in navigator){ //check geolocation available
                 //try to get user current location using getCurrentPosition() method
-                navigator.geolocation.getCurrentPosition(function(position){ 
+                navigator.geolocation.getCurrentPosition(function(position){
                         console.log("Found your location \nLat : "+position.coords.latitude+" \nLang :"+ position.coords.longitude);
                         latitude = position.coords.latitude;
                         longitude = position.coords.longitude;
@@ -428,11 +428,11 @@
                             document.getElementById('map'), {zoom: 4, center: uluru});
                         // The marker, positioned at Uluru
                         var marker = new google.maps.Marker({position: uluru, map: map});
-                        
+
                         // var geocoder = new google.maps.Geocoder;
                         // var infowindow = new google.maps.InfoWindow;
                         // geocodeLatLng(geocoder, map, infowindow);
-                    
+
                     });
             }else{
                 console.log("Browser doesn't support geolocation!");
@@ -469,7 +469,7 @@
     <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
 
 
-    
+
 <script type="text/javascript">
         var numberOfDoc = [1];
         function addDocs() {
@@ -739,7 +739,7 @@
             if(cat == null) {
                 var categories = allServices.find(obj => obj.id === id).categories;
                 console.log(categories.length);
-                
+
             }
             if(cat == null) {
                 console.log("inside");
@@ -774,7 +774,7 @@
                         selectedService.push(srvcObj);
                     }
                 }
-                
+
             } else {
                 console.log("iddd")
                 var srvcObj = {
@@ -1242,6 +1242,161 @@
             return true;
         }
 
+        //edit Record for profile
+        var editUserid;
+        function getVendorProfileData(vendorid)
+        {
+            console.log("vendorid:::::::::::::::"+ vendorid)
+             document.getElementById('btntext').innerHTML = 'Edit Vendors';
+             // document.getElementById('button').innerHTML = 'Update';
+             $("#lbl_pass").hide();
+             $("#password").hide();
+             $("#btn_save").hide();
+            // alert(id);
+            editUserid=vendorid;
+
+            $.ajax({
+                url:"/user/"+vendorid+"/edit",
+                method:'get',
+                data:{id:vendorid},
+                dataType:'JSON',
+                success:function(data)
+                {
+                    console.log(data);
+                    $('#email').val(data.email);
+                    $('#contact').val(data.contact);
+
+
+                    // var srvCount;
+                    // for(srvCount = 0; srvCount< data['services'].length; srvCount++) {
+                    //     selectedService.push(data['services'][srvCount].service_id);
+                    //     $("#"+ data['services'][srvCount].service_id +"").prop('checked', true);
+                    // }
+                    var srvCount;
+                    for(srvCount = 0; srvCount< data['services'].length; srvCount++) {
+                        // console.log(loggedInUser['services'][srvCount]);
+                        var srvcObj = {
+                            service_id : data['services'][srvCount].service_id,
+                            category_id : data['services'][srvCount].category_id,
+                        };
+                        // console.log(JSON.stringify(srvcObj));
+                        selectedService.push(srvcObj);
+                        $("#service" + data['services'][srvCount].service_id).prop('checked', true);
+                        $("#category" + data['services'][srvCount].service_id + data['services'][srvCount].category_id).prop('checked', true);
+                        $("#" + data['services'][srvCount].category_id + "category").val(data['services'][srvCount].price);
+                    }
+
+                    // $("#2").prop('checked', true);
+
+                    selectedLang = data.languages.split(",");
+
+
+                    console.log(selectedLang);
+
+                    if(data.languages == 'Arabic')
+                    {
+                        $("#lang-arabic").prop('checked', true);
+                    }
+                    else if(data.languages == 'English')
+                    {
+                        $("#lang-english").prop('checked', true);
+                    }
+                    else
+                    {
+                        $("#lang-arabic").prop('checked', true);
+                        $("#lang-english").prop('checked', true);
+                    }
+                    console.log(data['provider'].resident_country);
+                    $('#select_country').val(data['provider'].resident_country);
+
+
+                    $('#action').val('Edit');
+                }
+            });
+
+        }
+
+        //update vendor record
+        function update_vendor() {
+
+            var form = new FormData();
+            var files = $('#imageUpload')[0].files[0];
+            form.append('profile_photo', files);
+            console.log(numberOfDoc);
+            form.append('numofids' , numberOfDoc.toString());
+            for(var docCount = 0; docCount < numberOfDoc.length; docCount++) {
+                var idVal = numberOfDoc[docCount];
+                // var docupload = $('#docupload' + idVal)[0].files[0];
+                var doc_files = $('#docupload'+ idVal)[0].files[0];
+                form.append('identity_proof' + idVal, doc_files);
+                form.append('doc_type' + idVal, $('#doctypelist' + idVal).children("option:selected").val());
+            }
+
+            
+            form.append('languages', selectedLang.toString());
+            $addressdata = {
+                name: document.getElementById("address_name").value,
+                address_line1: document.getElementById("address_line1").value,
+                // address_line2: document.getElementById("address_line2").value,
+                // landmark: document.getElementById("landmark").value,
+                // district: document.getElementById("district").value,
+                // city: document.getElementById("city").value,
+                // postal_code: document.getElementById("postal_code").value,
+                // user_id: loggedInUser.id,
+                // location: "",
+            };
+           // form.append('gender', selectGender);
+
+            form.append('service_radius', $("#serviceRadius").val());
+
+            var servicesVal = Array();
+            var srvcCount;
+            for(srvcCount = 0; srvcCount <selectedService.length; srvcCount++){
+                var srvc = selectedService[srvcCount];
+                console.log("srvc === " + JSON.stringify(srvc));
+                // $obj = {};
+                if(srvc['category_id']) {
+                    $obj = {
+                        price : $("#"+srvc['category_id']+"category").val(),
+                        service_id : srvc['service_id'],
+                        category_id : srvc['category_id']
+                    };
+                } else {
+                    $obj = {
+                        price : $("#"+srvc['service_id']+"price").val(),
+                        service_id : srvc['service_id'],
+                    };
+                }
+                console.log("final ==" + JSON.stringify($obj));
+                console.log("final ==" + $obj);
+                servicesVal.push($obj);
+            }
+
+            form.append('address', JSON.stringify($addressdata));
+
+            // console.log(services)
+            form.append('services', JSON.stringify(servicesVal));
+            form.append('id', loggedInUser.id);
+
+            $.ajax({
+                url: '/api/v1/vendor_profile_update' + editUserid,
+                type: 'POST',
+                data: form,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log("CREATE UPDATE REPOSNE == " + response);
+                window.top.location = window.top.location;
+                location.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                    var x = document.getElementById("snackbar");
+                    x.className = "show";
+                    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                }
+            });
+        }
     </script>
     </body>
 
