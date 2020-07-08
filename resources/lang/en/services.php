@@ -2,7 +2,7 @@
 
 return[
 
-'label_header'=>'Services Management',
+'label_header'=>'Services',
 
 'label_title'=>'Add Services',
 

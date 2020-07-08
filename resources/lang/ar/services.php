@@ -2,7 +2,7 @@
 
 return[
 
-'label_header'=>'إدارة الخدمات',
+'label_header'=>'خدمات ',
 
 'label_title'=>'أضف خدمات',
 
