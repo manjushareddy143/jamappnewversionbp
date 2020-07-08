@@ -704,7 +704,7 @@
             $.ajax(
                 {
                     url: "/users/"+e,
-                    type: 'DELETE',
+                    type: 'POST',
                     data: null,
                     success: function (){
                         console.log("Delete");

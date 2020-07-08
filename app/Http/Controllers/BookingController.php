@@ -183,6 +183,32 @@ class BookingController extends Controller
 
     }
 
+    public function showInvoice()
+    {
+
+        $data = [
+            'order_id' => 1,
+            'order_date' => '',
+            'service_name' => '',
+            'service_cost' => '',
+            'working_hr' => '',
+            'service_amount' => '',
+            'material_name' => '',
+            'material_qty' => '',
+            'material_cost' => '',
+            'material_amout' => '',
+            'additional_cost' => '',
+            'additional_hr' => 0,
+            'additional_total' => '',
+            'sub_total' => '',
+            'discount' => '',
+            'tax' => '',
+            'total' => ''
+
+        ];
+        return view('invoice.invoice')->with('data', $data);
+    }
+
     public function printPDF(Request $request)
     {
 
@@ -214,8 +240,26 @@ class BookingController extends Controller
 
         $total = $totalWithDiscount - $taxCut;
 
-        // print_r($totalWithDiscount); exit();
+
+        $client_street = "";
+        $client_city_state_country = "";
+        $client_zip = "";
+
+        foreach($result->order->users->address as $address) {
+
+            $client_street = $address->address_line1 . " " .$address->address_line2;
+            $client_city_state_country = $address->district . " " . $address->city;
+            $client_zip = $address->postal_code;
+        }
+
+        // return response()->json($client_zip);
+        // print_r($result); exit();
+
         $data = [
+            'client_name' => $result->order->users->first_name,
+            'client_street' => $client_street,
+            'client_city_state_country' => $client_city_state_country,
+            'client_zip' => $client_zip,
             'order_id' => $result->order_id,
             'order_date' => $result->order->booking_date,
             'service_name' => $result->order->services->name . " - " . $result->order->category->name,
@@ -235,12 +279,15 @@ class BookingController extends Controller
             'total' => $total
 
         ];
+        // return response()->json($data);
 
         // print_r($data); exit();
+
         PDF::setOptions(['dpi' => 150]);
+
         $pdf = PDF::loadView('invoice.invoice', $data)->setPaper('a4', 'portrait')->setWarnings(false);
-        return $pdf->download('medium.pdf');
-        // return response()->json($result);
+        return $pdf->download('invoice.pdf');
+
     }
 
     public function downloadPDF()

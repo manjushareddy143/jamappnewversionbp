@@ -6,13 +6,14 @@ use App\ServiceMapping;
 use App\services;
 use Illuminate\Http\Request;
 use Validator;
+use DB;
 
 class ServicesController extends Controller
 {
 
     public function store(Request $request)
     {
-//        return response()->json($request->get('name'));
+            // return response()->json($request->get('name'));
         $validator = Validator::make($request->all(),
             [
                 'name'  => 'required',
@@ -39,7 +40,7 @@ class ServicesController extends Controller
         }
 
         $input = $request->all();
-//        $host = url('/');
+    //        $host = url('/');
         $form_data = array(
             'name'  => $input['name'],
             'icon_image' =>  "/images/category/" . $iconName,
@@ -47,7 +48,7 @@ class ServicesController extends Controller
             'description' => array_key_exists('description', $input) ? $input['description'] : "",
 
         );
-//        return response()->json($form_data);
+    //        return response()->json($form_data);
         $myResult = services::create($form_data);
         return response()->json($myResult);
         //return response()->json($myResult);
@@ -76,7 +77,7 @@ class ServicesController extends Controller
           $results = ServiceMapping::where('service_id', '=', $service_id)
               ->leftJoin('sub_categories', 'sub_categories.id', '=','service_mappings.category_id')->get();
           return response()->json($results, 200);
-//          return view('detailpage')->with('data',$results);
+    //          return view('detailpage')->with('data',$results);
       }
 
     public function category_detail(Request $request)
@@ -84,7 +85,7 @@ class ServicesController extends Controller
         $service_id = $request->input('id');
         $results = ServiceMapping::where('service_id', '=', $service_id)
             ->leftJoin('sub_categories', 'sub_categories.id', '=','service_mappings.category_id')->get()  ;
-//        return response()->json($results, 200);
+    //        return response()->json($results, 200);
           return view('detailpage')->with('data',$results);
     }
 
@@ -94,6 +95,29 @@ class ServicesController extends Controller
     $service = services::with('subcategories')->where('id', '=', (int)$id)->first();
         return response()->json($service, 200);
         
+    }
+
+    public function updateservices(Request $request)
+    {
+        
+        $input = $request->all();
+        $updatedata = [];
+        if(array_key_exists('name', $input)) {
+            $updatedata += [
+                'name' => $input['name'],
+            ];
+
+        }
+        if(array_key_exists('description', $input)) {
+            $updatedata += [
+                'description' => $input['description'],
+            ];
+
+        }
+        
+        $temp= DB::table('services')->where('id', (int)$input['id'])->update($updatedata);
+        return $temp;
+
     }
 
 }

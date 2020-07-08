@@ -2,7 +2,7 @@
 
 return[
 
-'label_header'=>'Services Management',
+'label_header'=>'Category Management',
 
 'label_header_btn'=>'Create New Category',
 

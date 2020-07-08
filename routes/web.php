@@ -51,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route::delete('users/{id}', 'UserController@destroy');
     Route::post('users/{id}', 'UserController@soft_delete');
+    
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/logout', '\App\Http\Controllers\Auth\LoginController@customLogOut')->name('logout');
@@ -65,6 +66,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/edit/{id}', 'UserController@edit');
     Route::post('/user/{id}/update', 'UserController@update');
     Route::get('/service/edit/{id}', 'ServicesController@edit_services');
+
+    Route::get('/subcategory/edit/{id}', 'SubCategoryController@edit_category');
 
 
    //customer edit & update

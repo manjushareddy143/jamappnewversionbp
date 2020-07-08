@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\SubCategories;
 use Illuminate\Http\Request;
 use Validator;
+use App\services;
+use DB;
+use App\ServiceMapping;
 
 class SubCategoryController extends Controller
 {
@@ -60,5 +63,92 @@ class SubCategoryController extends Controller
         }
     }
 
+    // public function get_category(Request $request)
+    // {
+    //     // echo 'test';
+    //     // exit();
+    //     $id = $request->input('id');
+    //     $host = url('/');
+    //     if($id) {
+    //         $sub_categories = sub_categories::find($id);
+    //         if($sub_categories) {
+    //             $sub_categories["image"] =  $host . $sub_categories['image'];
+
+    //             $listMapped = ServiceMapping::where('category_id','=',$sub_categories['id'])->get();
+    //             $category = new Collection();
+    //             foreach ($listMapped as $mapping) {
+    //                 $listCategories = SubCategories::find($mapping['category_id']);
+
+    //                 $category->push($listCategories);
+    //             }
+    //             $sub_categories["categories"] = $category;
+    //             return response()->json($sub_categories);
+    //         } else {
+    //             return response()->json(null, 204);
+    //         }
+    //     } else {
+    //         $listSubCategories = SubCategories::all();
+    //         if($listSubCategories->count() > 0) {
+    //             $result = new Collection();
+    //             foreach ($listSubCategories as $sub_categories) {
+    //                 $data = [];
+    //                 $data = $sub_categories;
+    //                 $sub_categories["image"] = $host . $sub_categories['image'];
+
+    //                 $listMapped = ServiceMapping::where('category_id','=',$sub_categories['id'])->get();
+    //                 $category = new Collection();
+    //                 foreach ($listMapped as $mapping) {
+    //                     $listCategories = SubCategories::find($mapping['category_id']);
+    //                     $listCategories["image"] = $host . $listCategories['image'];
+    //                     $category->push($listCategories);
+    //                 }
+    //                 $data["categories"] = $category;
+    //                 $result->push($data);
+    //             }
+    //             return response()->json($result);
+    //         } else {
+    //             return response()->json(null, 204);
+    //         }
+    //     }
+    // }
+
+    public function edit_category($id)
+    {
+    $category = subcategories::where('id', '=', (int)$id)->first();
+        return response()->json($category, 200);
+        
+    }
+    
+    // update category
+
+
+    public function updatecategory(Request $request)
+    {
+        
+        $input = $request->all();
+        $updatedata = [];
+        if(array_key_exists('name', $input)) {
+            $updatedata += [
+                'name' => $input['name'],
+            ];
+
+        }
+        if(array_key_exists('description', $input)) {
+            $updatedata += [
+                'description' => $input['description'],
+            ];
+
+        }
+        if(array_key_exists('price', $input)) {
+            $updatedata += [
+                'price' => $input['price'],
+            ];
+
+        }
+        
+        $temp= DB::table('sub_categories')->where('id', (int)$input['id'])->update($updatedata);
+        return $temp;
+
+    }
 
 }

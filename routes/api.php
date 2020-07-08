@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
     return $request->user();
 });*/
 Route::get('v1/invoice', 'BookingController@printPDF');
-// Route::get('v1/display', 'BookingController@invoice');
+Route::get('v1/display', 'BookingController@showInvoice');
 Route::post('v1/invoice', 'BookingController@invoice');
 
 Route::get('v1/details', 'UserController@getSingupDetail');
@@ -65,7 +65,8 @@ Route::get('test', 'ServiceProviderController@getDistance');
 Route::post('v1/service', 'ServicesController@store');
 Route::get('v1/service', 'ServicesController@show_all');
 
-
+// display subcategory
+// Route::get('v1/all_category', 'SubCategoryController@get_category');
 
 Route::post('v1/sub_category', 'SubCategoryController@store');
 Route::get('v1/sub_category', 'SubCategoryController@show_all');
@@ -97,8 +98,10 @@ Route::post('v1/vendor_profile_update/{id}', 'UserController@updateprofile');
 // Route::post('v1/users','UserController@soft_delete');
 
 // services update
-// Route::get('v1/service/{id}/edit', 'ServiceMappingController@get_services');
-// Route::post('v1/serviceupdate/{id}', 'UserController@updatevendor');
+Route::post('v1/serviceupdate', 'ServicesController@updateservices');
+
+//category update
+Route::post('v1/categoryupdate', 'SubCategoryController@updatecategory');
 
 
 // Terms & Conditions
