@@ -880,26 +880,25 @@ class UserController extends Controller
 
 
 
-    public function organisationupdate(Request $request) {
+    public function organisationupdate(Request $request,$id) {
+        //return "testing";
         $input = $request->all();
-        $updatedata = [];
+        $updateorgdata = [];
         if(array_key_exists('org_company_name', $input)) {
-            $updatedata += [
+            $updateorgdata += [
                 'name' => $input['org_company_name'],
             ];
-
         }
         if(array_key_exists('logo', $input)) {
-            $updatedata += [
+            $updateorgdata += [
                 'logo' => $input['logo'],
             ];
         }
-
         // return $this->update_organisation_details($updatedata, $input['id']);
 
-        return $this->update_organisation_details($updatedata, $input['org_id']);
-
-
+        return $this->update_organisation_details($updateorgdata, $id);
+        //update into user table
+        $updatedata = [];
         if(array_key_exists('org_aname', $input)) {
             $updatedata += [
                 'first_name' => $input['org_aname'],
@@ -918,8 +917,8 @@ class UserController extends Controller
             ];
 
         }
-        return $temp= DB::table('users')->where($updatedata, (int)$input['org_id']);
-        //  $this->update_user_details($updatedata, $input['org_id']);
+        // return $temp= DB::table('users')->where($updatedata, (int)$input['org_id']);
+        return $this->update_user_details($updatedata, $id);
     }
 
     public function updateUserContent(Request $request, $id) {
@@ -933,14 +932,14 @@ class UserController extends Controller
         {
             return response()->json(['error'=>$initialValidator->errors()], 406);
         }
-        
+
         $user = User::with('services')->where('id',$id)->first();
         if($user == null) {
             return response()->json(['error' => 'Unknown user'], 406);
         }
 
         $input = $request->all();
-        
+
         $updatedata = [];
         if(array_key_exists('first_name', $input)) {
             $updatedata += [
@@ -988,7 +987,7 @@ class UserController extends Controller
         if ($updatedata) {
             $this->update_user_details($updatedata, $id);
         }
-        
+
 
 
         // Service list update
@@ -1024,7 +1023,7 @@ class UserController extends Controller
         if ($updateProvider) {
             $this->update_provider_details($updateProvider, $id);
         }
-        
+
 
 
         // Address
@@ -1039,7 +1038,7 @@ class UserController extends Controller
         $checkuser = Auth::onceUsingId($user['id']);
         $roles = Auth::user()->roles;
         $result["roles"] = $roles;
-        
+
         return response($result, 200)
                 ->header('content-type', 'application/json');
     }

@@ -133,7 +133,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                                 <p id="imageError"></p>
                                             </div>
                                         </div>
-                                        
+
                                         {{-- <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -370,6 +370,34 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
         });
     });
 
+    var selectedLang = new Array();
+        $('#lang-english').change(function () {
+            $('#langError').text('')
+            if (this.checked) {
+                console.log('ENLISH YES')
+                selectedLang.push("English");
+
+            } else {
+                console.log('ENGLISH NOT')
+                selectedLang = $.grep(selectedLang, function (value) {
+                    return value != "English";
+                });
+            }
+        });
+
+        $('#lang-arabic').change(function () {
+            $('#langError').text('')
+            if (this.checked) {
+                selectedLang.push("Arabic");
+
+            } else {
+                console.log('ARABIC NOT')
+                selectedLang = $.grep(selectedLang, function (value) {
+                    return value != "Arabic";
+                });
+            }
+        });
+
     var editUserid;
     function getcustomerData(customerid)
     {
@@ -394,11 +422,37 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                 $('#last_name').val(data.last_name);
                 $('#email').val(data.email);
                 $('#contact').val(data.contact);
-                $("#lang-arabic").prop('checked', true);
-                $("#lang-english").prop('checked', true);
-                $("#gender-male ").prop('checked', true);
-                $("#gender-female ").prop('checked', true);
-                $("#gender-other ").prop('checked', true);
+                selectedLang = data.languages.split(",");
+                console.log(selectedLang);
+                if(data.languages == 'Arabic')
+                {
+                    $("#lang-arabic").prop('checked', true);
+                }
+                else if(data.languages == 'English')
+                {
+                    $("#lang-english").prop('checked', true);
+                }
+                else
+                {
+                    $("#lang-arabic").prop('checked', true);
+                    $("#lang-english").prop('checked', true);
+                }
+                //for Gender
+                selectGender = data.gender
+                if(data.gender == 'Male')
+                {
+                    $("#gender-male").prop("checked", true);
+                } else if(data.gender == 'Female') {
+
+                    $("#gender-female").prop("checked", true);
+                } else {
+                    $("#gender-other").prop("checked", true);
+                }
+                // $("#lang-arabic").prop('checked', true);
+                // $("#lang-english").prop('checked', true);
+                // $("#gender-male ").prop('checked', true);
+                // $("#gender-female ").prop('checked', true);
+                // $("#gender-other ").prop('checked', true);
 
                 $('#action').val('Edit');
             }
@@ -410,6 +464,14 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
     function update_customer() {
 
         var edit = 'edit_data';
+        if (document.getElementById('gender-male').checked) {
+                    selectGender = "Male";
+                } else if(document.getElementById('gender-female').checked) {
+                    selectGender = "Female";
+                }else if(document.getElementById('gender-other').checked) {
+                    selectGender = "Other";
+                }
+
         $.ajax({
             url: '/api/v1/customerupdate/' + editUserid,
             type: 'PUT',
@@ -418,8 +480,8 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                 'first_name' : document.getElementById("first_name").value,
                 'last_name' : document.getElementById("last_name").value,
                 'contact' : document.getElementById("contact").value,
-                'email' : document.getElementById("email").value
-                },
+                'email' : document.getElementById("email").value,
+            },
 
             success: function (data) {
                 if(data == 1) {

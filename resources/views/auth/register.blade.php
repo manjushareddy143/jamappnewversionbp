@@ -191,11 +191,22 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                                     <input type="text" class="form-control" id="org_name"
                                                            placeholder="Enter Your Name" required>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="row form-group">
+                                                    <label>@lang('register.label_mobile') <strong>*</strong></label>
+                                                    <div class="col-5">
+                                                        <select class="form-control" id="org_codeLst">
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-7">
+                                                        <input type="text" pattern="\d*" maxlength="12" minlength="7" class="form-control" onkeypress="return isNumberKey(event)"
+                                                        id="mobile" placeholder="Enter Mobile Number" required>
+                                                    </div>
+                                                </div>
+                                                {{-- <div class="form-group">
                                                     <label>@lang('register.label_mnumber') <strong>*</strong></label>
                                                     <input type="text" class="form-control" id="org_mobile" onkeypress="return isNumberKey(event)"
                                                            placeholder="Enter Number" required>
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group">
                                                     <label>@lang('register.label_eaddress')<strong>*</strong></label>
                                                     <input type="email" class="form-control" id="org_email"
@@ -213,11 +224,6 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                                         <strong>*</strong></label>
                                                     <select class="form-control" id="org_select_country" required>
                                                         <option>Select Country</option>
-                                                        <option>India</option>
-                                                        <option>Bangladesh</option>
-                                                        <option>Australia</option>
-                                                        <option>USA</option>
-                                                        <option>Afghanistan</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group register-rc-button">
@@ -327,6 +333,20 @@ $(document).ready(function () {
                                         ${value['country_name']}
                                     </option>`);
                 $('#codeLst').append(`<option value="${value['dialling_code']}">
+                                        ${value['dialling_code']} ${value['country_name']}
+                                    </option>`);
+
+        });
+    });
+});
+
+$(document).ready(function () {
+    $.getJSON("../../country.json", function (data) {
+            $.each(data, function (index, value) {
+                $('#org_select_country').append(`<option value="${value['country_name']}">
+                                        ${value['country_name']}
+                                    </option>`);
+                $('#org_codeLst').append(`<option value="${value['dialling_code']}">
                                         ${value['dialling_code']} ${value['country_name']}
                                     </option>`);
 

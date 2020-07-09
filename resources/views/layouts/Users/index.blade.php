@@ -61,7 +61,7 @@
               <div class="row">
               <div class="col-md-6 float-l">
                   <div class="form-group">
-                  <label>@lang('organisation.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                  <label id="lbl_pass">@lang('organisation.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
                   <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="@lang('organisation.label_place_pass')" required="">
                 </div>
               </div>
@@ -215,11 +215,11 @@
         window.location = '/detail?id=' + e;
     }
 
-    // $(document).ready(function(){
-    //     $("#user_btn").click(function(){
-    //         $("#btn_update").hide();
-    //     });
-    // });
+    $(document).ready(function(){
+        $("#user_btn").click(function(){
+            $("#btn_update").hide();
+        });
+    });
 
     var editUserid;
     function getorgdata(orgid){
@@ -229,6 +229,7 @@
             $("#lbl_pass").hide();
             $("#password").hide();
             $("#btn_save").hide();
+            $("#btn_update").show();
         // alert(id);
         editUserid=orgid;
 
@@ -291,9 +292,9 @@
             //     'org_company_name' : document.getElementById("org_company_name").value,
             //     'org_aname' : document.getElementById("org_aname").value,
             //     //'contact' : document.getElementById("contact").value
-                
+
             //     },
-            
+
             // success: function (data) {
             //     if(data == 1) {
             //         console.log("SUCCESS");
@@ -376,7 +377,7 @@
 
             });
         } else {
-            
+
             $("#alerterror").text(servicevalite);
             $("#alerterror").show();
             setTimeout(function() {

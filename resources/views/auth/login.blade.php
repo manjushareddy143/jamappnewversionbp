@@ -215,7 +215,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                      <!-- Modal -->
 
                                 <div class="text-center login-signin">
-                                    Already have an account? <a class="font-weight-bold small"
+                                    Don't have an account? <a class="font-weight-bold small"
                                                                 href="/register" style="color: #f79548;">Sign Up</a>
                                 </div>
 
