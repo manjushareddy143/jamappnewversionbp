@@ -184,7 +184,7 @@
                         </div>
                         <div class="col-md-12">
                           <div class="custom-buttons download-invoice-btn">
-                            <button type="button" class="btn btn-primary mb-1">Download Invoice</button>
+                            <button type="button" class="btn btn-primary mb-1" id="down_invoice">Download Invoice</button>
                           </div>
                         </div>
                       </div>
@@ -328,14 +328,19 @@
                     var status = "Pending";
                     if(response['status']  == 1) {
                         status = "Pending";
+                        $("#down_invoice").hide();
                     } else if(response['status']  == 2) {
                         status = "Accepted";
+                        $("#down_invoice").hide();
                     } else if(response['status']  == 3) {
                         status = "Cancel by Vendor";
+                        $("#down_invoice").hide();
                     } else if(response['status']  == 4) {
                         status = "Cancel by User";
+                        $("#down_invoice").hide();
                     } else if(response['status']  == 5) {
                         status = "Completed";
+                        $("#down_invoice").show();
                     }
                     $('#status').text(status);
                     $('#orderer_name').text(response['orderer_name']);
