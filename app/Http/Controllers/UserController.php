@@ -43,6 +43,14 @@ use PHPUnit\Util\Json;
 
 class UserController extends Controller
 {
+
+    public function soft_delete($id) {
+        DB::table('users')->where('id', $id)->delete();
+        DB::table('addresses')->where('user_id', $id)->delete();
+        DB::table('service_providers')->where('user_id', $id)->delete();
+        DB::table('provider_service_mappings')->where('user_id', $id)->delete();
+        return response()->json(true, 200);
+    }
     //CRUD Operation for Users
     /**Display a listing of the resource.
      *
@@ -83,34 +91,34 @@ class UserController extends Controller
         $user = User::with('documents')->with('address')->with('provider')
         ->with('type')->with('services')->with('organisation')->find($id);
         return response()->json($user, 200);
-//        $users=User::where('users.id', '=', (int)$id)
-//            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
-//            ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
-//            ->leftJoin('addresses', 'addresses.user_id','=', 'users.id')
-//            ->select('users.*',
-//                'user_types.type as type',
-//                'organisation.name as company',
-//                'organisation.resident_country as country',
-//                'organisation.number_of_employee as number_of_employee',
-//                'addresses.name as addressname',
-//                'addresses.address_line1 as address_line1',
-//                'addresses.address_line2 as address_line2')
-//            ->first();
-//
-//        $results = ProviderServiceMapping::where('user_id', '=', $users['id'])
-//            ->leftJoin('services', 'services.id', '=','provider_service_mappings.service_id')
-//            ->leftJoin('sub_categories', 'sub_categories.id', '=','provider_service_mappings.category_id')
-//            ->select('services.id as service_id',
-//                'services.name as service','services.icon_image as service_icon',
-//                'services.banner_image as service_banner', 'services.description as service_description' ,
-//                'sub_categories.name as category', 'sub_categories.id as category_id',
-//                'sub_categories.image as category_image', 'sub_categories.description as category_description')
-//            ->get();
-//
-//
-//        $users["services"] = $results;
-//
-//        return response()->json($users, 200);
+            //        $users=User::where('users.id', '=', (int)$id)
+            //            ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
+            //            ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
+            //            ->leftJoin('addresses', 'addresses.user_id','=', 'users.id')
+            //            ->select('users.*',
+            //                'user_types.type as type',
+            //                'organisation.name as company',
+            //                'organisation.resident_country as country',
+            //                'organisation.number_of_employee as number_of_employee',
+            //                'addresses.name as addressname',
+            //                'addresses.address_line1 as address_line1',
+            //                'addresses.address_line2 as address_line2')
+            //            ->first();
+            //
+            //        $results = ProviderServiceMapping::where('user_id', '=', $users['id'])
+            //            ->leftJoin('services', 'services.id', '=','provider_service_mappings.service_id')
+            //            ->leftJoin('sub_categories', 'sub_categories.id', '=','provider_service_mappings.category_id')
+            //            ->select('services.id as service_id',
+            //                'services.name as service','services.icon_image as service_icon',
+            //                'services.banner_image as service_banner', 'services.description as service_description' ,
+            //                'sub_categories.name as category', 'sub_categories.id as category_id',
+            //                'sub_categories.image as category_image', 'sub_categories.description as category_description')
+            //            ->get();
+            //
+            //
+            //        $users["services"] = $results;
+            //
+            //        return response()->json($users, 200);
     }
     /** Form for creating a new resource
      *
@@ -124,8 +132,8 @@ class UserController extends Controller
             ->leftJoin('user_types', 'users.type_id','=', 'user_types.id')
             ->leftJoin('organisation', 'users.org_id','=', 'organisation.id')
             ->leftJoin('addresses', 'addresses.user_id','=', 'users.id')
-//            ->leftJoin('provider_service_mappings', 'provider_service_mappings.user_id','=', 'users.id')
-//            ->leftJoin('services', 'provider_service_mappings.service_id', '=', 'services.id')
+            //            ->leftJoin('provider_service_mappings', 'provider_service_mappings.user_id','=', 'users.id')
+            //            ->leftJoin('services', 'provider_service_mappings.service_id', '=', 'services.id')
             ->select('users.*',
                 'user_types.type as type',
                 'organisation.name as company',
@@ -1032,14 +1040,11 @@ class UserController extends Controller
             $address = json_decode($address, true);
             if($address['id'] == 0) {
                 Address::create($address);
-                // return response("yo", 200)
-                // ->header('content-type', 'application/json');
             } else {
                 $this->update_address($address, $address['id'], 'id');
             }
-            
-        }
 
+        }
 
         $result = User::with('services')->with('address')->with('provider')->where('id',$id)->first();
         $checkuser = Auth::onceUsingId($user['id']);
@@ -1202,7 +1207,7 @@ class UserController extends Controller
     public function org_profile(Request $request)
     {
         try {
-//
+    //
             $response = array();
             $validator = Validator::make($request->all(),
                 [
@@ -1362,7 +1367,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(),
                 [
                     'id'  => 'required|exists:users,id',
-//                    'profile_photo' => 'required|image',  //|max:2048
+    //                    'profile_photo' => 'required|image',  //|max:2048
                     'gender' => 'required',
                     'address' => 'required'
                 ]);
@@ -1431,6 +1436,8 @@ class UserController extends Controller
                 $providerData = [
                     'service_radius' => $input['service_radius'],
                 ];
+                // print_r($providerData);
+                // exit();
                 $this->update_provider_details($providerData, $id);
             }
 
@@ -1467,7 +1474,6 @@ class UserController extends Controller
                     $obj['price'] = $data['price'];
                     ProviderServiceMapping::create($obj);
                 }
-;
                 $user['services'] = $this->get_user_services($id);
              }
             // ADDRESS
@@ -1912,47 +1918,7 @@ class UserController extends Controller
             return response(null, 406);
         }
 
-
-
     }
 
-    public function soft_delete($id)
-     {
-        //return "helllo";
-        $user = User::find($id);
-        // DB::table('users')->where('id', $id)->delete();
-        // DB::table('service_providers')->where('user_id', $id)->delete();
-        // DB::table('addresses')->where('user_id', $id)->delete();
-        // DB::table('provider_service_mappings')->where('user_id', $id)->delete();
-        $dlt=$id;
-        $dlt = DB::table('users')->where('id', $id)->delete();
-        if($dlt) {
-            $dlt = DB::table('service_providers')->where('user_id', $id)->delete();
-        }
-        // else if($dlt) {
-        //     $dlt = DB::table('addresses')->where('user_id', $id)->delete();
-        // }
-        else if($dlt) {
-            $dlt = DB::table('provider_service_mappings')->where('user_id', $id)->delete();
-        }
-        // else{}
-    
-        return $dlt;
-        // $updatedata = [
-        //     'user_id' => delete(),
-        // ];
-        // if($this->update_user_details($updatedata, $id)) {
-        //     $this->update_address($updatedata, $id, 'user_id');
-        //     if($user->type_id == 3) {
-        //         $this->update_provider_details($updatedata, $id);
-        //         $this->delete_serviceMapping($id);
-        //         return response(["status" => true], 200);
-        //     } else {
-        //         return response(["status" => true], 200);
-        //     }
-        // } 
-        // else {
-        //     return response(null, 406);
-        // }
-    }
+
 }
