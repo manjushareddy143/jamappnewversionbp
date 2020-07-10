@@ -271,7 +271,7 @@ class BookingController extends Controller
             'material_cost' => $result->material_price,
             'material_amout' => $meterialAmount,
             'additional_cost' => $result->additional_charges,
-            'additional_hr' => 0,
+            'additional_hr' => $result->working_hr,
             'additional_total' => $additional_total,
             'sub_total' => $sub_total,
             'discount' => $result->discount,
