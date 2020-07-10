@@ -256,7 +256,7 @@
     function update_org(){
         console.log("Update");
         console.log(editUser.org_id);
-        console.log(document.getElementById("org_company_name").value);
+        console.log(document.getElementById("org_company_name").value); 
         //var edit = 'edit_data';
 
         let formUpdate = new FormData();

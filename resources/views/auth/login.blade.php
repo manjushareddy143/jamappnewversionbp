@@ -28,8 +28,8 @@
 </head>
 <div class="toast" style="margin-left: auto; margin-right: 5px;
 margin-top: 9px; position: absolute; top: 0; right: 0;">
-    <div class="toast-header"> Error </div>
-    <div class="toast-body"> msgStr </div>
+    <div class="toast-header" style="color:red;"> Error </div>
+    <div class="toast-body" style="color:red;"> msgStr </div>
  </div>
 <body class="bg-gradient-login">
 
@@ -435,6 +435,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                             $("#newpass").show();
                             $("#fpmain").hide();
                             cPass = 1;
+                            
                         } else {
                             alert("Invalid email Id");
                         }
@@ -445,6 +446,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                             $("#errormsg").text("Invalid Email Id");
                         } else {
                             $("#errormsg").text("success");
+                            
                         }
                     },
                 });
@@ -475,6 +477,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                         } else {
                             alert("Invalid email Id");
                         }
+                        location.reload();
                     },
                     error: function ()
                     {
@@ -678,7 +681,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                 });
                             });
                             $('.toast-body').text(msgStr);
-                            $('.toast').toast({delay:1000, animation:false});
+                            $('.toast').toast({delay:2000, animation:false});
                             $('.toast').toast('show');
 
                         }
