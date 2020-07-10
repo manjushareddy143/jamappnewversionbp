@@ -209,15 +209,13 @@
             window.addEventListener("load",onLoad(),false) :
             window.attachEvent && window.attachEvent("onload",onLoad());
         var Booking_id;
-        var order_id;
+        
         
         function onLoad() {
-          order_id = getUrlParameter('id');
             Booking_id = getUrlParameter('id');
             console.log(Booking_id);
             // alert(user_id);
             viewDetail();
-            DownLoad_Invoice();
         }
 
         function acceptOrder() {
@@ -367,16 +365,12 @@
         var data;
        function DownLoad_Invoice(){
           $.ajax({
-                url: 'api/v1/invoice?id=' + order_id,
-                type: 'GET',
-                data: null,
-                success: function (response) {
-                    console.log(response);
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
-            });
+              url: 'api/v1/invoice?id=' + Booking_id,
+              type: 'POST',
+              success: function() {
+                  window.location = 'api/v1/invoice?id=' + Booking_id;
+              }
+          });
         }
 
 
