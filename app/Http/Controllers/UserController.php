@@ -1030,7 +1030,14 @@ class UserController extends Controller
         if(array_key_exists('address', $input)) {
             $address = $input['address'];
             $address = json_decode($address, true);
-            $this->update_address($address, $address['id'], 'id');
+            if($address['id'] == 0) {
+                Address::create($address);
+                // return response("yo", 200)
+                // ->header('content-type', 'application/json');
+            } else {
+                $this->update_address($address, $address['id'], 'id');
+            }
+            
         }
 
 
@@ -1424,8 +1431,6 @@ class UserController extends Controller
                 $providerData = [
                     'service_radius' => $input['service_radius'],
                 ];
-                // print_r($providerData);
-                // exit();
                 $this->update_provider_details($providerData, $id);
             }
 
@@ -1849,7 +1854,8 @@ class UserController extends Controller
 
     // Forgot Password function
 
-    public function resetPasswordform(Request $request) {
+    public function resetPasswordform(Request $request)
+    {
         $response = array();
         $input = $request->all();
 
