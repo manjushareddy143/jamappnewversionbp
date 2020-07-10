@@ -97,7 +97,7 @@ Route::get('v1/usertype', 'UserTypeController@show_all');
 Route::get('v1/user/{id}/edit', 'UserController@getuser');
 
 //Soft delete
-// Route::post('v1/users','UserController@soft_delete');
+Route::delete('v1/users/{id}','UserController@soft_delete');
 
 // services update
 Route::post('v1/serviceupdate', 'ServicesController@updateservices');

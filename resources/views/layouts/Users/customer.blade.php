@@ -534,7 +534,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
             $.ajax(
                 {
                     url: "/users/"+e,
-                    type: 'POST',
+                    type: 'DELETE',
                     data: null,
                     success: function (response){
                         console.log("Delete" + response);
