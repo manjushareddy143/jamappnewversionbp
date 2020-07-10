@@ -13,7 +13,9 @@ use Validator;
 
 class FCMPushNotification extends Controller
 {
+    
     public function orderAccept(Request $request) {
+
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [
