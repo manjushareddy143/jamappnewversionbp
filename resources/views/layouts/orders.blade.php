@@ -151,6 +151,8 @@
                             status = "Cancel by Vendor"
                         } else if(response[i].status == 4) {
                             status = "Cancel by User"
+                        } else if(response[i].status  == 5) {
+                            status = "Completed";
                         }
                         trHTML += '<tr><td>' + response[i].orderer_name +
                             '</td><td>' + response[i].services.name  + '</td>' +

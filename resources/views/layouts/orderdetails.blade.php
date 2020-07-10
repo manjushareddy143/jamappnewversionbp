@@ -184,7 +184,7 @@
                         </div>
                         <div class="col-md-12">
                           <div class="custom-buttons download-invoice-btn">
-                            <button type="button" class="btn btn-primary mb-1" id="down_invoice">Download Invoice</button>
+                            <button type="button" onclick="DownLoad_Invoice()" class="btn btn-primary mb-1" id="down_invoice">Download Invoice</button>
                           </div>
                         </div>
                       </div>
@@ -209,12 +209,15 @@
             window.addEventListener("load",onLoad(),false) :
             window.attachEvent && window.attachEvent("onload",onLoad());
         var Booking_id;
-
+        var order_id;
+        
         function onLoad() {
+          order_id = getUrlParameter('id');
             Booking_id = getUrlParameter('id');
             console.log(Booking_id);
             // alert(user_id);
             viewDetail();
+            DownLoad_Invoice();
         }
 
         function acceptOrder() {
@@ -354,6 +357,21 @@
                     $('#address_line1').text(response['address_line1']);
                     $('#address_line2').text(response['address_line2']);
 
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        var data;
+       function DownLoad_Invoice(){
+          $.ajax({
+                url: 'api/v1/invoice?id=' + order_id,
+                type: 'GET',
+                data: null,
+                success: function (response) {
+                    console.log(response);
                 },
                 fail: function (error) {
                     console.log(error);
