@@ -60,6 +60,7 @@ class ServiceMappingController extends Controller
     public function get_providers_by_service(Request $request) {
 
 
+
         $lat = $request->input('lat');
         $long = $request->input('long');
         $service_id = $request->input('service_id');
@@ -71,8 +72,10 @@ class ServiceMappingController extends Controller
         ->where('category_id', '=', $category_id)
         ->with('user')->get();
 
+
         $users = [];
         foreach ($result as $service) {
+
             foreach ($service->user as $user) {
                 foreach ($user->address as $address) {
                     $location = explode(",",$address->location);
@@ -82,6 +85,7 @@ class ServiceMappingController extends Controller
                     // exit();
                     if($distance >= $user->provider->service_radius) {
                     } else {
+                        $user['price'] = $service->price;
                         array_push($users, $user);
                         // $users += [$user];
                     }
