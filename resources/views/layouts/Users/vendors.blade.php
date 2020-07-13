@@ -274,28 +274,29 @@
 
     $(document).ready(function(){
         $("#user_addbtn").click(function(){
+            ClearInputField();
             $("#btn_update").hide();
-            
+            $("#btn_save").show();
         });
     });
 
-                function ClearInputField() {
-                    document.getElementsByName('first_name').val("");
-                    document.getElementsByName('last_name').val("");
-                    document.getElementsByName('email').val("");
-                    document.getElementsByName('password').val("");
-                    document.getElementsByName('contact').val("");
-                    document.getElementsByName('gender-male').val("");
-                    document.getElementsByName('gender-female').val("");
-                    document.getElementsByName('gender-other').val("");
-                    document.getElementsByName('lang-arabic').val("");
-                    document.getElementsByName('lang-english').val("");
-                    document.getElementsByName('image').val("");
-                    document.getElementsByName('select-country').val("");
-                    document.getElementsByName('orglist').val("");
-                    document.getElementsByName('tree-box').val("");
-                }
-    
+    function ClearInputField() {
+        $('#first_name').val("");
+        $('#last_name').val("");
+        $('#email').val("");
+        $('#password').val("");
+        $('#contact').val("");
+        $("#lbl_pass").show();
+        $("#password").show();
+        $("#btn_save").show();
+        $('#gender-male').prop("checked", false);
+        $("#gender-female").prop("checked", false);
+        $('#gender-other').prop("checked", false);
+        $('#lang-arabic').prop("checked", false);
+        $('#lang-english').prop("checked", false);
+        $('#select_country').val('Select Country');
+    }
+
         function getListOfService() {
             $.ajax({
                 url: '/api/v1/all_services',
@@ -309,18 +310,6 @@
                             var i;
                             for(i = 0; i < response.length; i++)
                             {
-                                // var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
-                                // trHTML += '<li class=""> <input type="checkbox" ' +
-                                //     'onclick="clickMe(' + response[i].id + ')"' + 'id="' + response[i].id +
-                                //     '" name="' + response[i].id +
-                                //     '" value="' + response[i].id + '">' +
-                                //     '<img src="' + img + '" class="square" width="50" height="40" />' +
-                                //     '<label style="margin: 10px; width: 260px!important;"> ' + response[i].name +
-                                //     '</label> ' +  '<input type="text" ' +
-                                // 'onkeypress="return isNumber(event)"(' + response[i].id + ')"' + 'id="' + response[i].id +
-                                // '" name="' + response[i].id +
-                                // '" value="' + response[i].id + '" size="4" style="margin-left: 10px;"></li>';
-
                                 var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
                                 trHTML += '<li class="has"> <input type="checkbox" id="service' + + response[i].id +
                                     '" onclick="serviceClick(' + response[i].id + ')"' +
@@ -333,8 +322,6 @@
                                         var catCount;
                                         for(catCount = 0; catCount < response[i]['categories'].length; catCount++)
                                         {
-                                            // var catId  =  response[i]['categories'][catCount].id;
-                                            // console.log("catId ==== " + catId);
                                             trCatHTML += '<li class="">' +
                                                 '<input type="checkbox" name="subdomain[]"' +'id="category' +
                                                 response[i].id + response[i]['categories'][catCount].id
@@ -902,6 +889,8 @@
              $("#lbl_pass").hide();
              $("#password").hide();
              $("#btn_save").hide();
+             $("#btn_update").show();
+
             // alert(id);
             editUserid=vendorid;
 
@@ -935,8 +924,16 @@
                         selectedService.push(srvcObj);
                         $("#service" + data['services'][srvCount].service_id).prop('checked', true);
                         $("#category" + data['services'][srvCount].service_id + data['services'][srvCount].category_id).prop('checked', true);
-                        $("#" + data['services'][srvCount].category_id + "category").val(data['services'][srvCount].price);
+                        if(data['services'][srvCount].category_id != 0) {
+                            $("#" + data['services'][srvCount].category_id + "category").val(data['services'][srvCount].price);
+                        } else {
+                            $("#" + data['services'][srvCount].service_id + "price").val(data['services'][srvCount].price);
+                        }
+
+                        // console.log("PRICE ===" + JSON.stringify(data['services'][srvCount]));
                     }
+
+
 
                     // $("#2").prop('checked', true);
 

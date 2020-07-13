@@ -398,11 +398,6 @@
                                 if(response['address'][i].postal_code != "") {
                                     addressline += ", " + response['address'][i].postal_code;
                                 }
-
-
-
-
-
                                 trHTML += '<div class="col-md-6">' +
                                 ' <label>' + response['address'][i].name +'</label>'+
                                 '<span> ' + addressline +'</span></div><br />';
@@ -458,28 +453,43 @@
                             var subCategoriesName = "";
                             for( i=0; i<service.length; i++ ) {
 
+                                // if(servicesString == "-") {
+                                //     servicesString =  item.service.name;
+                                // } else {
+                                //     if(servicesString.indexOf(item.service.name) == -1){
+                                //         servicesString += ", " + item.service.name;
+                                //     }
+                                // }
+
+
                                 if(serviceName == "") {
                                     serviceName = service[i]['service'].name;
                                 } else {
-                                    serviceName += ',' +service[i]['service'].name;
-                                }
-
-                                if(service[i].subcategories == undefined) {
-
-                                } else {
-                                    if(service[i].subcategories.length == 0) {
-
-                                    } else {
-                                        var j = 0;
-                                        for(j = 0; j<service[i].subcategories; j++ ) {
-                                            if(subCategoriesName == "") {
-                                                subCategoriesName = service[i].subcategories.name;
-                                            } else {
-                                                subCategoriesName += ',' +service[i].subcategories.name;
-                                            }
-                                        }
+                                    if(serviceName.indexOf(service[i]['service'].name) == -1){
+                                        serviceName += ',' +service[i]['service'].name;
                                     }
                                 }
+                                if(service[i].categories != null) {
+                                    // subCategoriesName += "\n - " + service[i].categories.name;
+                                    if(subCategoriesName == "") {
+                                        subCategoriesName = service[i].categories.name;
+                                    } else {
+                                        subCategoriesName += ',' +service[i].categories.name;
+                                    }
+                                }
+
+                                // if(service[i].subcategories == undefined) {
+
+                                // } else {
+                                //     if(service[i].subcategories.length == 0) {
+
+                                //     } else {
+                                //         var j = 0;
+                                //         for(j = 0; j<service[i].subcategories; j++ ) {
+
+                                //         }
+                                //     }
+                                // }
                             }
 
                             if(subCategoriesName == "") {
@@ -499,14 +509,14 @@
                         $('#org_contatDiv').hide();
                         $('#org_emailDiv').hide();
                     } else {
-                        
+
                         $('#org_name').text(response['organisation']['name']);
                         $('#org_contatDiv').hide();
                         $('#org_emailDiv').hide();
                         // $('#org_email').text(response['organisation']['name']);
                         // $('#contact').text(response['organisation']['name']);
-                        
-                        
+
+
                     }
 
 

@@ -70,7 +70,7 @@ class UserController extends Controller
     {
         // $user = ProviderServiceMapping::with('user')->with('service')->where('service_id', '=', $id)->get();
         $user = User::with('documents')->with('address')->with('provider')
-        ->with('type')->with('services')->with('organisation')->where('type_id', '=', (int)$id)->where('is_deleted', 0)->get();
+        ->with('type')->with('services')->with('organisation')->where('type_id', '=', (int)$id)->get();
         return response()->json($user, 200);
 
         // $users=User::where('type_id', '=', (int)$id)
