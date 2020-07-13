@@ -235,7 +235,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('vendor.label_cbtn')</button>
                                     <button type="button" id="btn_save" onclick="create_user()" value="save" class="btn btn-primary">@lang('vendor.label_sbtn')</button>
-                                    <button type="button" id="btn_update" onclick="update_vendor(), update_services()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
+                                    <button type="button" id="btn_update" onclick="update_vendor()" class="btn btn-primary">@lang('vendor.label_ubtn')</button>
                                     {{-- <a class="btn btn-info btn-lg" id="alert-target">Click me!</a> --}}
                                 </div>
                             </div>
@@ -465,6 +465,7 @@
                         var org_name = (response[i]['organisation'] == null)? "Individual" : response[i]['organisation'].name;
 
 
+
                         trHTML += '<tr><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                         '   </td><td>' + org_name +
                             '</td><td>' + response[i].first_name + " " + last_name + '</td>' +
@@ -655,8 +656,17 @@
             if(image != null) {
                 formUpdate.append('profile_photo', image);
             }
-            console.log(selectedService.toString());
-            formUpdate.append('services', selectedService.toString());
+
+            if (currentuser.roles[0].name == 'Corporate Service Provider') {
+                formUpdate.append('org_id', currentuser.org_id);
+            }
+
+            var org_id_select = $('#orglist').children("option:selected").val();
+            if(org_id_select != 'select_org') {
+                formUpdate.append('org_id', org_id_select);
+            }
+            formUpdate.append('services', JSON.stringify(selectedService));
+            console.log(JSON.stringify(selectedService));
 
             $.ajax({
                 url: '/api/v1/vendorupdate',
@@ -676,33 +686,6 @@
                     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
                 }
             });
-
-
-            //{
-            //         'id' : parseInt(editUserid),
-            //         'first_name' : document.getElementById("first_name").value,
-            //         'last_name' : document.getElementById("last_name").value,
-            //         'contact' : document.getElementById("contact").value,
-            //         'gender' : selectGender,
-            //         'languages': selectedLang.toString(),
-
-            //     },
-
-            //     success: function (data) {
-            //         console.log(data);
-            //         if(data == 1) {
-            //             console.log("SUCCESS");
-            //             window.top.location = window.top.location;
-            //             location.reload();
-            //         } else {
-            //             console.log("FAIL");
-            //             // $('#btn_verify').show();
-            //         }
-            //     },
-            //     fail: function (error) {
-            //         console.log(error);
-            //     }
-            // });
         }
 
         // Delete Record
@@ -919,6 +902,7 @@
                         var srvcObj = {
                             service_id : data['services'][srvCount].service_id,
                             category_id : data['services'][srvCount].category_id,
+                            price : data['services'][srvCount].price
                         };
                         // console.log(JSON.stringify(srvcObj));
                         selectedService.push(srvcObj);

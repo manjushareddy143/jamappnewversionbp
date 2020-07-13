@@ -509,13 +509,19 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                 console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
                 var trHTML = '';
 
+                
+
                 $.each(response, function (i, item) {
-                    var img = (response[i].image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].image;
-                    trHTML += '<tr><td>' + response[i].first_name +
-                    '</td><td>' + response[i].last_name + '</td>' +
-        '</td><td>' + response[i].email + '</td>' +
+                    var firstName = (item.first_name == null || item.first_name == "")? "-" : item.first_name;
+                    var lastName = (item.last_name == null || item.last_name == "")? "-" : item.last_name;
+                    var email = (item.email == null || item.email == "")? "-" : item.email;
+                    var img = (item.image == null) ? '{{ URL::asset('/img/boy.png') }}' : item.image;
+                    var gender = (item.gender == null || item.gender == "")? "-" : item.gender;
+                    trHTML += '<tr><td>' + firstName +
+                    '</td><td>' + lastName + '</td>' +
+        '</td><td>' + email + '</td>' +
         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
-        '</td><td>' + response[i].gender + '</td>' +
+        '</td><td>' + gender + '</td>' +
         '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getcustomerData(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i id="btn_edit" class="fas fa-edit"></i></a> <a href="#" class="btn btn-danger" onclick="deleteRecord(' + response[i].id + ')"><i class="fas fa-trash"></i></a>' + '</td></tr>';
 
                 });

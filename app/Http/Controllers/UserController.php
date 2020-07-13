@@ -823,6 +823,9 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
+
+    
+
     public function updatevendor(Request $request) {
         $input = $request->all();
         $updatedata = [];
@@ -864,24 +867,31 @@ class UserController extends Controller
                 'image' => $input['image'],
             ];
         }
+        if(array_key_exists('org_id', $input)) {
+            $updatedata += [
+                'org_id' => $input['org_id'],
+            ];
+        }
         $temp= DB::table('users')->where('id', (int)$input['id'])->update($updatedata);
         // return $temp;
 
+
+
         if(array_key_exists('services', $input)) {
 
-
-            $dlt = DB::table('provider_service_mappings')->where('user_id', $input['id'])->delete();
-
+            $dlt = DB::table('provider_service_mappings')->where('user_id', (int)$input['id'])->delete();
             $services = $input['services'];
-            $services =explode(',', $services);
-
+            $services =  json_decode($services, true); //explode(',', );
             foreach ($services as $data) {
                 $obj = array();
                 $obj['user_id'] = $input['id'];
-                $obj['service_id'] = $data;
+                $obj['service_id'] = $data['service_id'];
+                if(array_key_exists('category_id', $data)) {
+                    $obj['category_id'] = $data['category_id'];
+                }
+                $obj['price'] = $data['price'];
                 ProviderServiceMapping::create($obj);
             }
-
         }
             return $temp;
     }
@@ -1489,9 +1499,7 @@ class UserController extends Controller
 
 
                 $adddressdata = Address::create($address);
-//
                 $addressRes = Address::where('user_id', '=', $id)->get();
-//                return response($addressRes, 403);
                 $user['address'] = $addressRes;
             }
             return response($user, 200)
@@ -1502,6 +1510,15 @@ class UserController extends Controller
             return response($response, 400)
                 ->header('content-type', 'application/json');
         }
+    }
+
+    public function addNewAddress(Request $request) {
+        $input = $request->all();
+        
+        $adddressdata = Address::create($input);
+        $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
+
+        return response()->json($addressRes, 200);
     }
 
     public function add_organisation(Request $request) {
