@@ -440,19 +440,18 @@
 
                         var last_name = (response[i].last_name == null)? "-" : response[i].last_name;
 
-                        var servicesString = "-";
-                        
-                        $.each(response[i]['services'], function (j, item)
-                        {
-                            console.log("SERvicessssssssssssss");
-                            if(servicesString == "-") {
-                                console.log("helllllllllo" + JSON.stringify(item));
-                                servicesString =  item['service'].name;
-                            } else {
-                                servicesString += ", " + item['service'].name;
-                            }
-                        });
-
+                        // var servicesString = "-";
+                        // console.log("11111111111");
+                        // $.each(response[i]['services'], function (j, item)
+                        // {
+                        //     console.log("SERvicessssssssssssss");
+                        //     if(servicesString == "-") {
+                        //  //       console.log("helllllllllo" + JSON.stringify(item));
+                        //         servicesString =  item['service'].name;
+                        //     } else {
+                        //         servicesString += ", " + item['service'].name;
+                        //     }
+                        // });
 
                         var org_name = (response[i]['organisation'] == null)? "Individual" : response[i]['organisation'].name;
 

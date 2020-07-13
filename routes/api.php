@@ -19,6 +19,9 @@ use Illuminate\Http\Request;
     return $request->user();
 });*/
 
+//Soft delete
+
+
 Route::post('v1/user/update/{id}', 'UserController@updateUserContent');
 Route::get('v1/invoice', 'BookingController@printPDF');
 Route::get('v1/display', 'BookingController@showInvoice');
@@ -96,7 +99,6 @@ Route::get('v1/usertype', 'UserTypeController@show_all');
 //Update Profie of Vendor & Customer
 Route::get('v1/user/{id}/edit', 'UserController@getuser');
 
-//Soft delete
 Route::delete('v1/users/{id}','UserController@soft_delete');
 
 // services update
