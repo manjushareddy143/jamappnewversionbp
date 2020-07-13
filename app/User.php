@@ -115,6 +115,10 @@ class User extends Authenticatable
         return $this->hasMany(Address::class, 'user_id', 'id')->with('checkRadius');
     }
 
+    public function servicePrice() {
+        return $this->hasOne(ProviderServiceMapping::class, 'user_id', 'id');
+    }
+
 
 
     public function provider() {

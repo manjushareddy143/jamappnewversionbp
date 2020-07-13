@@ -463,11 +463,14 @@
                         $.each(response[i]['services'], function (j, item)
                         {
                             if(servicesString == "-") {
-                                // servicesString =  item['service'].name;
-                                console.log("helllllllllo" + JSON.stringify(item));
-
+                                servicesString =  item.service.name;
                             } else {
-                                servicesString += ", " + item['service'].name;
+                                if(servicesString.indexOf(item.service.name) == -1){
+                                    servicesString += ", " + item.service.name;
+                                }
+                            }
+                            if(item.categories != null) {
+                                servicesString += "\n - " + item.categories.name;
                             }
                         });
 

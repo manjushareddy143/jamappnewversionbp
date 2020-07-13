@@ -1920,5 +1920,4 @@ class UserController extends Controller
 
     }
 
-
 }

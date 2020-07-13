@@ -13,7 +13,7 @@ class ProviderServiceMapping extends Model
     public function user() {
         // return $this->hasMany(User::class, 'id' , 'user_id')->with('addressWithServiceRadius');
        return $this->hasMany(User::class, 'id' , 'user_id')->with('provider')->with('rate')
-        ->with('organisation')->with('address')->with('reviews')->withCount('jobs');
+        ->with('organisation')->with('address')->with('reviews')->withCount('jobs')->with('services');
     }
 
     public function service() {
