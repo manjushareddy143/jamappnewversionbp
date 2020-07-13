@@ -27,7 +27,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
 
                     <div style="padding-left: 68%;">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                        id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('customer.label_title')</button>
+                        id="user_addbtn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('customer.label_title')</button>
                     </div>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -365,7 +365,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
     }
 
     $(document).ready(function(){
-        $("#user_btn").click(function(){
+        $("#user_addbtn").click(function(){
             $("#btn_update").hide();
         });
     });

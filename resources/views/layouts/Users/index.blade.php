@@ -8,7 +8,7 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">@lang('organisation.label_header')</h6>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('organisation.label_title')</button>
+                    id="user_addbtn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('organisation.label_title')</button>
                 </div>
 
 
@@ -172,6 +172,13 @@
         window.addEventListener("load",onLoad(),false) :
         window.attachEvent && window.attachEvent("onload",onLoad());
 
+
+        $(document).ready(function(){
+        $("#user_addbtn").click(function(){
+            $("#btn_update").hide();
+        });
+        });
+
     function onLoad() {
         console.log("ON LOAD  tbl_id")
         getResult();
@@ -215,11 +222,6 @@
         window.location = '/detail?id=' + e;
     }
 
-    $(document).ready(function(){
-        $("#user_btn").click(function(){
-            $("#btn_update").hide();
-        });
-    });
 
     var editUserid;
     function getorgdata(orgid){
