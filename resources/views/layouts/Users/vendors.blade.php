@@ -274,6 +274,7 @@
 
     $(document).ready(function(){
         $("#user_btn").click(function(){
+            // $("#btn_save").show();
             $("#btn_update").hide();
         });
     });
