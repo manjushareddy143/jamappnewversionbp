@@ -1918,35 +1918,20 @@ class UserController extends Controller
         // DB::table('service_providers')->where('user_id', $id)->delete();
         // DB::table('addresses')->where('user_id', $id)->delete();
         // DB::table('provider_service_mappings')->where('user_id', $id)->delete();
-        $dlt=$id;
+        $dlt="";
         $dlt = DB::table('users')->where('id', $id)->delete();
         if($dlt) {
             $dlt = DB::table('service_providers')->where('user_id', $id)->delete();
         }
-        // else if($dlt) {
+        // if($dlt) {
         //     $dlt = DB::table('addresses')->where('user_id', $id)->delete();
         // }
-        else if($dlt) {
+        if($dlt) {
             $dlt = DB::table('provider_service_mappings')->where('user_id', $id)->delete();
         }
         // else{}
     
         return $dlt;
-        // $updatedata = [
-        //     'user_id' => delete(),
-        // ];
-        // if($this->update_user_details($updatedata, $id)) {
-        //     $this->update_address($updatedata, $id, 'user_id');
-        //     if($user->type_id == 3) {
-        //         $this->update_provider_details($updatedata, $id);
-        //         $this->delete_serviceMapping($id);
-        //         return response(["status" => true], 200);
-        //     } else {
-        //         return response(["status" => true], 200);
-        //     }
-        // } 
-        // else {
-        //     return response(null, 406);
-        // }
+        
     }
 }
