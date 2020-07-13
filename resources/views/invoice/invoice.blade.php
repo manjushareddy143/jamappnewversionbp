@@ -143,7 +143,7 @@
 
 
                     <div class="col-sm-6 float-right">
-                        <img src="{{ public_path("/images/invoice/logo.png") }}" height="35%" width="35%" alt="logo" style="margin-left: 20%;"/>
+                        <img src="{{ public_path("/img/logo/logo.png") }}" height="35%" width="35%" alt="logo" style="margin-left: 20%;"/>
                     </div>
                 </div>
 
@@ -247,8 +247,6 @@
                             <td colspan="2" bgcolor="#ffffff" style="border-top: 3.00pt solid #000001; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding-top: 0.07in; padding-bottom: 0in; padding-left: 0.07in; padding-right: 0.07in">
                                 <p style="widows: 0; orphans: 0"><font  color="#404040"><font  size="2">Cost
                                 of materials/spare parts</font></font>
-
-                                {{ $material_name ?? ''}}
                             </p>
                             </td>
                             <td bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
@@ -269,7 +267,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
-                                <p style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">Maintenance/service
+                                <p style="widows: 0; orphans: 0"><font   color="#404040"><font   size="2">Maintenance/service/Labor
                                 charges</font></font></p>
                             </td>
                             <td bgcolor="#ffffff" style="border-top: none; border-bottom: none; border-left: 3.00pt solid #000001; border-right: 3.00pt solid #000001; padding: 0in 0.07in">
