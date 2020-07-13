@@ -175,9 +175,20 @@
 
         $(document).ready(function(){
         $("#user_addbtn").click(function(){
+            document.getElementById('btntext').innerHTML = 'Add Organisation';
+            ClearInputField();
             $("#btn_update").hide();
+            $("#btn_save").show();
         });
-        });
+    });
+
+    function ClearInputField() {
+        $('#org_company_name').val("");
+        $('#org_aname').val("");
+        $('#contact').val("");
+        $('#email').val("");
+        $('#password').val("");
+    }
 
     function onLoad() {
         console.log("ON LOAD  tbl_id")

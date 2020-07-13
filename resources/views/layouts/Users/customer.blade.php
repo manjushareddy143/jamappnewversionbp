@@ -366,9 +366,29 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
 
     $(document).ready(function(){
         $("#user_addbtn").click(function(){
+            document.getElementById('btntext').innerHTML = 'Add Customer';
+            ClearInputField();
             $("#btn_update").hide();
+            $("#btn_save").show();
         });
     });
+
+    function ClearInputField() {
+
+        $('#first_name').val("");
+        $('#last_name').val("");
+        $('#email').val("");
+        $('#password').val("");
+        $('#contact').val("");
+        $("#lbl_pass").show();
+        $("#password").show();
+        $("#btn_save").show();
+        $('#gender-male').prop("checked", false);
+        $("#gender-female").prop("checked", false);
+        $('#gender-other').prop("checked", false);
+        $('#lang-arabic').prop("checked", false);
+        $('#lang-english').prop("checked", false);
+    }
 
     var selectedLang = new Array();
         $('#lang-english').change(function () {
@@ -407,6 +427,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
             $("#lbl_pass").hide();
             $("#password").hide();
             $("#btn_save").hide();
+            $("#btn_update").show();
         // alert(id);
         editUserid=customerid;
 

@@ -274,6 +274,7 @@
 
     $(document).ready(function(){
         $("#user_addbtn").click(function(){
+            document.getElementById('btntext').innerHTML = 'Add Vendors';
             ClearInputField();
             $("#btn_update").hide();
             $("#btn_save").show();
@@ -295,6 +296,11 @@
         $('#lang-arabic').prop("checked", false);
         $('#lang-english').prop("checked", false);
         $('#select_country').val('Select Country');
+        $('#tree_box').val("");
+        $('#service').val("");
+
+        
+        
     }
 
         function getListOfService() {

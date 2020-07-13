@@ -207,10 +207,19 @@
     // Button hide/show
 
    $(document).ready(function(){
-        $("#user_btn").click(function(){
+        $("#service_btn").click(function(){
+            ClearInputField()
+            document.getElementById('btntext').innerHTML = 'Add Services';
             $("#upd_service").hide();
+            $("#save_service").show();
         });
     });
+
+    function ClearInputField() {
+        $('#service_name').val("");
+        $('#service_description').val("");
+        
+    }
 
         // page redirect
      
@@ -315,7 +324,8 @@
              // document.getElementById('button').innerHTML = 'Update';
              $("#lbl_pass").hide();
              $("#password").hide();
-             $("#btn_save").hide();
+             $("#save_service").hide();
+             $("#upd_service").show();
             console.log(serviceid);
             editUserid=serviceid;
 
