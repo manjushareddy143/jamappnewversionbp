@@ -3,18 +3,21 @@
 
 @section('content')
          <div class="container-fluid" id="container-wrapper">
-
+         
 <div class="row">
+                       
+                        <div class="custom-buttons" style="margin-left: 93%;">
+                           <button type="button" id="back_btn" class="btn btn-secondary mb-1">Back</button>
+                        </div>            
     <div class="col-lg-12 margin-tb">
+    
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">@lang('sdetailpage.label_header')</h6>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                     id="category_btn"> <i class="fa fa-plus" aria-hidden="true"></i> @lang('sdetailpage.label_header_btn')</button>
 
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    id="category_btn"> <i class="fa fa-plus" aria-hidden="true"></i> @lang('sdetailpage.label_header_btn')</button>
-
-
-
+                
           <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -182,7 +185,7 @@
                             var i;
                             for(i = 0; i < response.length; i++)
                             {
-                                var img = (response[i].image == null) ? '{{ URL::asset('/imges/subcategories/Cleaning.jpg') }}' : response[i].icon_image; 
+                                var img = (response[i].image == null) ? '{{ URL::asset('/imges/subcategories/Repair.jpg') }}' : response[i].image; 
                                 trCatHTML += '<tr><td>' + response[i].name +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td></td>' +
                         '</td><td>' + response[i].description  + '</td>' +
@@ -385,6 +388,10 @@
             });
         }
 
+        // Back Button
+        $("#back_btn").click(function (){
+           window.history.back();
+        });
 
 
     </script>
