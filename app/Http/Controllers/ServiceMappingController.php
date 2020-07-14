@@ -81,9 +81,6 @@ class ServiceMappingController extends Controller
                         $location = explode(",",$address->location);
 
                         $distance = $this->getDistance($lat, $long, $location[0], $location[1]);
-                        // echo($distance);
-                        // echo($user->provider->service_radius);
-                        // exit();
                         if($distance >= $user->provider->service_radius) {
                         } else {
                             if(array_search($user->id, array_column($users, 'id'))) {
