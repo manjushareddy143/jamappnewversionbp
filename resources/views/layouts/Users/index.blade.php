@@ -268,6 +268,7 @@
     var editUser;
 
     function update_org(){
+        // alert("hello");
         console.log("Update");
         console.log(editUser.org_id);
         console.log(document.getElementById("org_company_name").value); 

@@ -899,7 +899,7 @@ class UserController extends Controller
 
 
     public function organisationupdate(Request $request,$id) {
-        //return "testing";
+        // print_r ($input);
         $input = $request->all();
         $updateorgdata = [];
         if(array_key_exists('org_company_name', $input)) {
@@ -916,9 +916,9 @@ class UserController extends Controller
         return $this->update_organisation_details($updateorgdata, $id);
         //update into user table
         $updatedata = [];
-        if(array_key_exists('org_aname', $input)) {
+        if(array_key_exists('first_name', $input)) {
             $updatedata += [
-                'first_name' => $input['org_aname'],
+                'first_name' => $input['first_name'],
             ];
 
         }
