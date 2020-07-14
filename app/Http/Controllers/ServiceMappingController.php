@@ -85,7 +85,6 @@ class ServiceMappingController extends Controller
                     if($distance >= $user->provider->service_radius) {
                     } else {
                         if(array_search($user->id, array_column($users, 'id'))) {
-
                         } else {
                             $user['price'] = $service->price;
                             array_push($users, $user);
