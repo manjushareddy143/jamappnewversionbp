@@ -77,17 +77,20 @@ class ServiceMappingController extends Controller
         foreach ($result as $service) {
             foreach ($service->user as $user) {
                 foreach ($user->address as $address) {
-                    $location = explode(",",$address->location);
-                    $distance = $this->getDistance($lat, $long, $location[0], $location[1]);
-                    // echo($distance);
-                    // echo($user->provider->service_radius);
-                    // exit();
-                    if($distance >= $user->provider->service_radius) {
-                    } else {
-                        if(array_search($user->id, array_column($users, 'id'))) {
+                    if($address->location != "") {
+                        $location = explode(",",$address->location);
+
+                        $distance = $this->getDistance($lat, $long, $location[0], $location[1]);
+                        // echo($distance);
+                        // echo($user->provider->service_radius);
+                        // exit();
+                        if($distance >= $user->provider->service_radius) {
                         } else {
-                            $user['price'] = $service->price;
-                            array_push($users, $user);
+                            if(array_search($user->id, array_column($users, 'id'))) {
+                            } else {
+                                $user['price'] = $service->price;
+                                array_push($users, $user);
+                            }
                         }
                     }
                 }
