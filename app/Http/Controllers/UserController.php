@@ -824,7 +824,7 @@ class UserController extends Controller
     }
 
 
-    
+
 
     public function updatevendor(Request $request) {
         $input = $request->all();
@@ -913,7 +913,6 @@ class UserController extends Controller
             ];
         }
         // return $this->update_organisation_details($updatedata, $input['id']);
-
         return $this->update_organisation_details($updateorgdata, $id);
         //update into user table
         $updatedata = [];
@@ -1514,7 +1513,7 @@ class UserController extends Controller
 
     public function addNewAddress(Request $request) {
         $input = $request->all();
-        
+
         $adddressdata = Address::create($input);
         $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
 
