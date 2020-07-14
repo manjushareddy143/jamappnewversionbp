@@ -68,14 +68,13 @@ class ServiceMappingController extends Controller
 
         $host = url('/');
 
-        $result = ProviderServiceMapping::with('service')->where('service_id', '=', $service_id)
-        ->where('category_id', '=', $category_id)
-        ->with('user')->get();
+        $result = ProviderServiceMapping::with('service')->with('user')->where('service_id', '=', $service_id)
+        ->where('category_id', '=', $category_id)->groupBy('user_id')->get();
 
 
+        // return $result;
         $users = [];
         foreach ($result as $service) {
-
             foreach ($service->user as $user) {
                 foreach ($user->address as $address) {
                     $location = explode(",",$address->location);
@@ -85,12 +84,13 @@ class ServiceMappingController extends Controller
                     // exit();
                     if($distance >= $user->provider->service_radius) {
                     } else {
-                        $user['price'] = $service->price;
-                        array_push($users, $user);
-                        // $users += [$user];
+                        if(array_search($user->id, array_column($users, 'id'))) {
+
+                        } else {
+                            $user['price'] = $service->price;
+                            array_push($users, $user);
+                        }
                     }
-                    // printf($user->provider->service_radius);
-                    //
                 }
 
             }
