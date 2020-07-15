@@ -637,7 +637,7 @@
 
         //update vendor record
         function update_vendor() {
-
+            
             console.log("UPDATE CLICK");
 
             var edit = 'edit_data';

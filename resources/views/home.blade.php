@@ -907,6 +907,7 @@
 
         function saveProfile()
         {
+            var profilevalidate = vendor_validateForm();
             if (validateForm() == true) {
                 console.log("VALIDATE FORM");
                 apiCall();
@@ -1020,7 +1021,7 @@
                     if (name.length == 0)
                     {
                         $('#org_landmark').next('div.red').remove();
-                        $('#org_landmark').after('<div class="red" style="color:red">Address line2 is Required</div>');
+                        $('#org_landmark').after('<div class="red" style="color:red">Landmark is Required</div>');
                         isValidate = false;
                     }
                     else
@@ -1094,8 +1095,160 @@
             return isValidate;
         }
 
+
+            // Vendor profile validation function
+            function vendor_validateForm()
+        {
+            var isValidate = false;
+            console.log("organisation_validate");
+            
+            if (document.getElementById("address_name").value == "") {
+                $("#address_name").focus();
+                $("#address_name").focus();
+                $("#address_name").blur(function ()
+                {
+                    var name = $('#address_name').val();
+                    if (name.length == 0)
+                    {
+                        $('#address_name').next('div.red').remove();
+                        $('#address_name').after('<div class="red" style="color:red">Address Name is Required</div>');
+                        isValidate = false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        isValidate = true;
+                    }
+                });
+            }
+
+            if (document.getElementById("address_line1").value == "") {
+                $("#address_line1").focus();
+                $("#address_line1").focus();
+                $("#address_line1").blur(function ()
+                {
+                    var name = $('#address_line1').val();
+                    if (name.length == 0)
+                    {
+                        $('#address_line1').next('div.red').remove();
+                        $('#address_line1').after('<div class="red" style="color:red">Address line1 is Required</div>');
+                        isValidate = false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        isValidate = true;
+                    }
+                });
+            }
+
+            if (document.getElementById("address_line2").value == "") {
+                $("#address_line2").focus();
+                $("#address_line2").focus();
+                $("#address_line2").blur(function ()
+                {
+                    var name = $('#address_line2').val();
+                    if (name.length == 0)
+                    {
+                        $('#address_line2').next('div.red').remove();
+                        $('#address_line2').after('<div class="red" style="color:red">Address line2 is Required</div>');
+                        isValidate = false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        isValidate = true;
+                    }
+                });
+            }
+
+            if (document.getElementById("landmark").value == "") {
+                $("#landmark").focus();
+                $("#landmark").focus();
+                $("#landmark").blur(function ()
+                {
+                    var name = $('#landmark').val();
+                    if (name.length == 0)
+                    {
+                        $('#landmark').next('div.red').remove();
+                        $('#landmark').after('<div class="red" style="color:red">Landmark is Required</div>');
+                        isValidate = false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        isValidate = true;
+                    }
+                });
+
+            }
+            if (document.getElementById("district").value == "") {
+                $("#district").focus();
+                $("#district").focus();
+                $("#district").blur(function ()
+                {
+                    var name = $('#district').val();
+                    if (name.length == 0)
+                    {
+                        $('#district').next('div.red').remove();
+                        $('#district').after('<div class="red" style="color:red">District is Required</div>');
+                        isValidate = false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        isValidate = true;
+                    }
+                });
+
+            }
+            if (document.getElementById("city").value == "") {
+                $("#city").focus();
+                $("#city").focus();
+                $("#city").blur(function ()
+                {
+                    var name = $('#city').val();
+                    if (name.length == 0)
+                    {
+                        $('#city').next('div.red').remove();
+                        $('#city').after('<div class="red" style="color:red">City is Required</div>');
+                        isValidate = false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        isValidate = true;
+                    }
+                });
+
+            }
+            if (document.getElementById("postal_code").value == "") {
+                $("#postal_code").focus();
+                $("#postal_code").focus();
+                $("#postal_code").blur(function ()
+                {
+                    var name = $('#postal_code').val();
+                    if (name.length == 0)
+                    {
+                        $('#postal_code').next('div.red').remove();
+                        $('#postal_code').after('<div class="red" style="color:red">Postal Code is Required</div>');
+                        isValidate = false;
+                    }
+                    else
+                    {
+                        $(this).next('div.red').remove();
+                        isValidate = true;
+                    }
+                });
+            }
+
+            return isValidate;
+        }
+
+
         function apiCall()
         {
+            
             var form = new FormData();
             var files = $('#imageUpload')[0].files[0];
             form.append('profile_photo', files);

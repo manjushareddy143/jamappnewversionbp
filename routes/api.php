@@ -90,7 +90,7 @@ Route::post('v1/vendorupdate', 'UserController@updatevendor');
 
 
 //Customer Update
-Route::put('v1/customerupdate/{id}', 'UserController@updatevendor');
+Route::post('v1/customerupdate', 'UserController@updatecustomer');
 //Organisation Update
 Route::post('v1/org_update/{id}', 'UserController@organisationupdate');
 //Verification

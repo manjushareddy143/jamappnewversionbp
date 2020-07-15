@@ -134,15 +134,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                             </div>
                                         </div>
 
-                                        {{-- <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>@lang('customer.label_services')  <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                                    <p id="serviceError"></p>
-                                                    <ul class="tree" id="tree_box" style="overflow: auto;height: 200px;"></ul>
-                                                </div>
-                                            </div>
-                                        </div> --}}
+                                        
                                         <style>
                                             #snackbar {
                                                 visibility: hidden;
@@ -188,14 +180,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                                             <div id="snackbar">Unauthorized user</div>
                                     </form>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('customer.label_cbtn')</button>
-                                    <button type="button" id="btn_save" onclick="create_user()" value="save" class="btn btn-primary">@lang('customer.label_sbtn')</button>
-                                    <button type="button" id="btn_update" onclick="update_customer()" class="btn btn-primary">@lang('customer.label_ubtn')</button>
-                                    {{-- <a class="btn btn-info btn-lg" id="alert-target" onclick="clickme()">Click me!</a> --}}
-
-
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -214,118 +199,9 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                             </ul>
                         </button>
                     </div>
-                    {{-- filter dropdown --}}
-                    {{-- <div class="col-md-6">
-                        <button class="btn btn-primary" type="button"> Filter
-                        <select class="form-control" id="filter_option" style="background-color: #46a396 !important;border: none;" onclick="Filters()" required>
-                        <option>Rating</option>
-                        <option>Price</option>
-                        <option>Distance</option>
-                        <option>Availability</option>
-                        </select>
-                        </button>
-                    </div> --}}
+                    
                 </div>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-               aria-hidden="true">
-               <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">@lang('customer.label_title')</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                     </div>
-                     <div class="modal-body">
-                        <form id="usr_crt">
-                           <div class="row">
-                              <div class="col-md-6 float-l">
-                                 <div class="form-group">
-                                    <label>@lang('customer.label_fname') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input type="text" class="form-control" id="first_name" placeholder="@lang('customer.label_place_fname')" required>
-                                 </div>
-                              </div>
-                              <div class="col-md-6 float-l">
-                                 <div class="form-group">
-                                    <label>@lang('customer.label_lname') </label>
-                                    <input type="text" class="form-control"id="last_name" placeholder="@lang('customer.label_place_lname')" required>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="row">
-                              <div class="col-md-6 float-l">
-                                 <div class="form-group">
-                                    <label>@lang('customer.label_email') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input type="email" class="form-control" id="email"  placeholder="@lang('customer.label_place_email')" required>
-                                 </div>
-                              </div>
-                              <div class="col-md-6 float-l">
-                                 <div class="form-group">
-                                    <label>@lang('customer.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="@lang('customer.label_place_pass')" required="">
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="row">
-                              <div class="col-md-6 float-l">
-                                 <div class="form-group">
-                                    <label>@lang('customer.label_Image') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input id="image" type="file" name="image" class="form-control" required>
-                                 </div>
-                              </div>
-                              <div class="col-md-6 float-l">
-                                 <div class="form-group">
-                                    <label>@lang('customer.label_mobile') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <input type="text" class="form-control" id="contact" placeholder="@lang('customer.label_place_mobile')" required>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="row">
-                              <!--radiobutton -->
-                              <div class="col-md-6 float-l">
-                                 <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                    <label>@lang('customer.label_gender') <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
-                                    <input type="radio" name="gender" id="gender" value="male"> Male
-                                    <input type="radio" name="gender" id="gender" value="female"> Female
-                                    <input type="radio" name="gender" id="gender" value="other"> Other
-                                    @if ($errors->has('gender'))
-                                    <span class="help-block">
-                                    <strong>{{ $errors->first('gender') }}</strong>
-                                    </span>
-                                    @endif
-                                 </div>
-                              </div>
-                              <div class="col-md-6 float-l">
-                                 <div class="form-group">
-                                    <label for="language">@lang('customer.label_language') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                    <div class="checkbox">
-                                       <label>
-                                       <input type="checkbox" name="arabic" id="languages" value="arabic"> Arabic
-                                       </label>
-                                       <label>
-                                       <input type="checkbox" name="english" id="languages" value="english"> English
-                                       </label>
-                                       @error('language')
-                                       <span class="invalid-feedback" role="alert">
-                                       <strong>{{ $message }}</strong>
-                                       </span>
-                                       @enderror
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('customer.label_cbtn')</button>
-                              <button type="button" onclick="create_user()" class="btn btn-primary">@lang('customer.label_sbtn')</button>
-                              {{-- <button type="button" onclick="update_customer()" class="btn btn-primary">@lang('customer.label_ubtn')</button> --}}
-                           </div>
-                        </form>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <!-- Modal -->
+
             <div class="table-responsive">
                <table class="table align-items-center table-flush" id="tbl_id">
                   <thead class="thead-light">
@@ -434,7 +310,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
         $.ajax({
             url:"/user/"+customerid+"/edit",
             method:'get',
-            data:{id:editUserid},
+            data:{id:customerid},
             dataType:'JSON',
             success:function(data)
             {
@@ -443,8 +319,12 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                 $('#last_name').val(data.last_name);
                 $('#email').val(data.email);
                 $('#contact').val(data.contact);
+                
                 selectedLang = data.languages.split(",");
+
+
                 console.log(selectedLang);
+
                 if(data.languages == 'Arabic')
                 {
                     $("#lang-arabic").prop('checked', true);
@@ -469,6 +349,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                 } else {
                     $("#gender-other").prop("checked", true);
                 }
+
                 // $("#lang-arabic").prop('checked', true);
                 // $("#lang-english").prop('checked', true);
                 // $("#gender-male ").prop('checked', true);
@@ -481,11 +362,13 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
 
     }
 
-    //update customer record
-    function update_customer() {
+            //update customer record
 
-        var edit = 'edit_data';
-        if (document.getElementById('gender-male').checked) {
+                function update_customer() {     
+
+                console.log("UPDATE CLICK"); 
+                var edit = 'edit_data';
+                if (document.getElementById('gender-male').checked) {
                     selectGender = "Male";
                 } else if(document.getElementById('gender-female').checked) {
                     selectGender = "Female";
@@ -493,30 +376,37 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                     selectGender = "Other";
                 }
 
-        $.ajax({
-            url: '/api/v1/customerupdate/' + editUserid,
-            type: 'PUT',
-            data: {
-                'id' : editUserid,
-                'first_name' : document.getElementById("first_name").value,
-                'last_name' : document.getElementById("last_name").value,
-                'contact' : document.getElementById("contact").value,
-                'email' : document.getElementById("email").value,
-            },
+                let formUpdate = new FormData();
+                formUpdate.append('id', editUserid);
+                formUpdate.append('first_name', document.getElementById("first_name").value);
+                formUpdate.append('last_name', document.getElementById("last_name").value);
+                formUpdate.append('contact', document.getElementById("contact").value);
+                formUpdate.append('email', document.getElementById("email").value);
+                formUpdate.append('gender', selectGender);
+                formUpdate.append('languages', selectedLang.toString());
 
-            success: function (data) {
-                if(data == 1) {
-                    console.log("SUCCESS");
-                    window.top.location = window.top.location;
-                    location.reload();
-                } else {
-                    console.log("FAIL");
-                    // $('#btn_verify').show();
+                var image = $('#image')[0].files[0];
+                if(image != null) {
+                    formUpdate.append('image', image);
                 }
-            },
-            fail: function (error) {
-                console.log(error);
-            }
+
+        $.ajax({
+            url: '/api/v1/customerupdate',
+            type: 'POST',
+            data: formUpdate,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                    console.log("CREATE UPDATE REPOSNE == " + response);
+                window.top.location = window.top.location;
+                location.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                    var x = document.getElementById("snackbar");
+                    x.className = "show";
+                    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                }
         });
     }
 
@@ -554,6 +444,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
         });
     };
 
+            // Delete record
 
         function deleteRecord(e){
             console.log(e);
@@ -571,6 +462,34 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                     }
                 });
         }
+
+        var selectedLang = new Array();
+        $('#lang-english').change(function () {
+            $('#langError').text('')
+            if (this.checked) {
+                console.log('ENLISH YES')
+                selectedLang.push("English");
+
+            } else {
+                console.log('ENGLISH NOT')
+                selectedLang = $.grep(selectedLang, function (value) {
+                    return value != "English";
+                });
+            }
+        });
+
+        $('#lang-arabic').change(function () {
+            $('#langError').text('')
+            if (this.checked) {
+                selectedLang.push("Arabic");
+
+            } else {
+                console.log('ARABIC NOT')
+                selectedLang = $.grep(selectedLang, function (value) {
+                    return value != "Arabic";
+                });
+            }
+        });
 
         function genderClick() {
             $('#genderError').text('')
@@ -590,6 +509,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
        console.log("users_validate ::" + servicevalite);
        if(servicevalite == null)
        {
+
            console.log("CREATE SERVER CALL");
 
            var form = new FormData();
@@ -678,7 +598,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                var name = $('#first_name').val();
                if (name.length == 0) {
                    $('#first_name').next('div.red').remove();
-                   $('#first_name').after('<div class="red" style="color:red">First Name is Required</div>');
+                   $('#first_name').after('<div class="red" style="color:red">First name is required</div>');
                } else {
                    $(this).next('div.red').remove();
                    return true;
@@ -695,7 +615,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                var name = $('#last_name').val();
                if (name.length == 0) {
                    $('#last_name').next('div.red').remove();
-                   $('#last_name').after('<div class="red" style="color:red">Last Name is Required</div>');
+                   $('#last_name').after('<div class="red" style="color:red">Last name is required</div>');
                } else {
                    $(this).next('div.red').remove();
                    return true;
@@ -713,7 +633,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                 {
                         console.log("ERRPR");
                         $('#email').next('div.red').remove();
-                        $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                        $('#email').after('<div class="red" style="color:red">Email is required</div>');
                         //return "false";
                 }
                 else
@@ -722,7 +642,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                     {
                         console.log("ERROR");
                         $('#email').next('div.red').remove();
-                        $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                        $('#email').after('<div class="red" style="color:red">Email is invalid</div>');
                         //return "false";
                     } else {
                         console.log("NOT WORL");
@@ -736,7 +656,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
              {
                  console.log("ERROR");
                  $('#email').next('div.red').remove();
-                 $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                 $('#email').after('<div class="red" style="color:red">Email is invalid</div>');
                  //return "false";
              } else {
                  console.log("NOT WORL");
@@ -759,7 +679,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                var name = $('#password').val();
                if (name.length == 0) {
                    $('#password').next('div.red').remove();
-                   $('#password').after('<div class="red" style="color:red">Password is Required</div>');
+                   $('#password').after('<div class="red" style="color:red">Password is required</div>');
                } else {
                    $(this).next('div.red').remove();
                    return true;
@@ -779,7 +699,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                var name = $('#image').val();
                if (name.length == 0) {
                    $('#image').next('div.red').remove();
-                   $('#image').after('<div class="red" style="color:red">Image is Required</div>');
+                   $('#image').after('<div class="red" style="color:red">Image is required</div>');
                } else {
                    $(this).next('div.red').remove();
                    return true;
@@ -800,7 +720,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                 if (name.length == 0)
                 {
                     $('#contact').next('div.red').remove();
-                    $('#contact').after('<div class="red" style="color:red">Mobile number is Required</div>');
+                    $('#contact').after('<div class="red" style="color:red">Mobile number is required</div>');
                     return false;
                 }
                 else
@@ -809,7 +729,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                     {
                         console.log("ERRPR");
                         $('#contact').next('div.red').remove();
-                        $('#contact').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                        $('#contact').after('<div class="red" style="color:red">Mobile number is invalid</div>');
                         return "false";
                     } else {
                         console.log("NOT WORL");
@@ -823,7 +743,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
              {
                  console.log("ERRPR");
                  $('#contact').next('div.red').remove();
-                 $('#contact').after('<div class="red" style="color:red">Mobile number is Invalid</div>');
+                 $('#contact').after('<div class="red" style="color:red">Mobile number is invalid</div>');
                  return "false";
              } else {
                  console.log("NOT WORL");
@@ -832,6 +752,25 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
              }
          }
 
+            //Gender validation
+         if (document.getElementById('gender-male').checked) {
+                selectGender = "Male";
+            } else if(document.getElementById('gender-female').checked) {
+                selectGender = "Female";
+            }else if(document.getElementById('gender-other').checked) {
+                selectGender = "Other";
+            } else {
+                $('#genderError').css('color', 'red');
+                $('#genderError').text('Please select gender')
+                isValidate = false;
+            }
+
+                //Language validation
+            if(selectedLang.length <= 0) {
+                $('#langError').css('color', 'red');
+                $('#langError').text('Please select language')
+                isValidate = false;
+            }
 
 
          if(document.getElementById("email").value == "") {
@@ -844,7 +783,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                 {
                         console.log("ERRPR");
                         $('#email').next('div.red').remove();
-                        $('#email').after('<div class="red" style="color:red">Email is Required</div>');
+                        $('#email').after('<div class="red" style="color:red">Email is required</div>');
                         //return "false";
                 }
                 else
@@ -853,7 +792,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                     {
                         console.log("ERROR");
                         $('#email').next('div.red').remove();
-                        $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                        $('#email').after('<div class="red" style="color:red">Email is invalid</div>');
                         //return "false";
                     } else {
                         console.log("NOT WORL");
@@ -867,7 +806,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
              {
                  console.log("ERROR");
                  $('#email').next('div.red').remove();
-                 $('#email').after('<div class="red" style="color:red">Email is Invalid</div>');
+                 $('#email').after('<div class="red" style="color:red">Email is invalid</div>');
                  //return "false";
              } else {
                  console.log("NOT WORL");

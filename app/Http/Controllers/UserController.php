@@ -875,8 +875,6 @@ class UserController extends Controller
         $temp= DB::table('users')->where('id', (int)$input['id'])->update($updatedata);
         // return $temp;
 
-
-
         if(array_key_exists('services', $input)) {
 
             $dlt = DB::table('provider_service_mappings')->where('user_id', (int)$input['id'])->delete();
@@ -895,6 +893,65 @@ class UserController extends Controller
         }
             return $temp;
     }
+
+        // Update Customer detail
+
+    public function updatecustomer(Request $request) {
+        $input = $request->all();
+        $updatedata = [];
+        if(array_key_exists('first_name', $input)) {
+            $updatedata += [
+                'first_name' => $input['first_name'],
+            ];
+
+        }
+        if(array_key_exists('last_name', $input)) {
+            $updatedata += [
+                'last_name' => $input['last_name'],
+            ];
+        }
+        if(array_key_exists('email', $input)) {
+            $updatedata += [
+                'email' => $input['email'],
+
+            ];
+        }
+        if(array_key_exists('contact', $input)) {
+            $updatedata += [
+                'contact' => $input['contact'],
+
+            ];
+        }
+        
+        if(array_key_exists('gender', $input)) {
+            $updatedata += [
+                'gender' => $input['gender'],
+            ];
+        }
+        if(array_key_exists('languages', $input)) {
+            $updatedata += [
+                'languages' => $input['languages'],
+            ];
+        }
+        if(array_key_exists('image', $input)) {
+            $host = url('/');
+            $profileImg = $request->file('image');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
+            $updatedata += [
+                'image' => $host . "/images/profiles/" . $profile_name,
+            ];
+        }
+        // if(array_key_exists('org_id', $input)) {
+        //     $updatedata += [ 
+        //         'org_id' => $input['org_id'],
+        //     ];
+        // }
+        $temp= DB::table('users')->where('id', (int)$input['id'])->update($updatedata);
+        // return $temp;
+    }
+
+
 
 
 
@@ -1527,7 +1584,8 @@ class UserController extends Controller
                 'first_name' => 'required',
                 'email' => 'required|unique:users,email',
                 'password' => 'required',
-                'contact' => 'required|unique:users,contact'
+                'contact' => 'required|unique:users,contact',
+                // 'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg'            
             ]);
 
         if ($initialValidator->fails())

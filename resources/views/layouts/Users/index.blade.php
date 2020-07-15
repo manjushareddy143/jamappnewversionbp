@@ -62,14 +62,14 @@
               <div class="col-md-6 float-l">
                   <div class="form-group">
                   <label id="lbl_pass">@lang('organisation.label_password') <strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                  <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="@lang('organisation.label_place_pass')" required="">
+                  <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="@lang('organisation.label_place_pass')" required>
                 </div>
               </div>
 
                     <div class="col-md-6 float-l">
                       <div class="form-group">
                                 <label>@lang('organisation.label_logo')</label>
-                                <input id="logo" type="file" name="logo" class="form-control" required>
+                                <input id="logo" type="file" onchange="fileupload()" name="logo" class="form-control" required>
                        </div>
                      </div>
                </div>
@@ -168,6 +168,7 @@
 
 
 <script>
+    
     window.addEventListener ?
         window.addEventListener("load",onLoad(),false) :
         window.attachEvent && window.attachEvent("onload",onLoad());
@@ -181,6 +182,11 @@
             $("#btn_save").show();
         });
     });
+
+    function fileupload(){
+        $('#logo').next('div.red').remove();
+    }
+
 
     function ClearInputField() {
         $('#org_company_name').val("");
@@ -341,7 +347,7 @@
     function create_users() {
         var servicevalite = users_validate();
         console.log("users_validate ::" + servicevalite);
-        if(servicevalite == null)
+        if(servicevalite == true)
         {
             console.log("CREATE SERVER CALL");
             var form = new FormData();
@@ -552,12 +558,30 @@
                var name = $('#logo').val();
                if (name.length == 0) {
                    $('#logo').next('div.red').remove();
-                   $('#logo').after('<div class="red" style="color:red">logo is Required</div>');
+                   $('#logo').after('<div class="red" style="color:red">Logo is Required</div>');
                } else {
                    $(this).next('div.red').remove();
                    return true;
                }
            });
+         }else{
+
+             var fileInput = document.getElementById('logo');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    if(!allowedExtensions.exec(filePath)){
+         // alert('Please select a valid image file');
+         console.log("ERROR");
+                 $('#logo').next('div.red').remove();
+                 $('#logo').after('<div class="red" style="color:red">Please select a valid image file</div>');
+                document.getElementById("logo").value = '';
+                return false;
+    }
+         else {
+                console.log("NOT WORL");
+                $(this).next('div.red').remove();
+                return true;
+            }
          }
 
     }
