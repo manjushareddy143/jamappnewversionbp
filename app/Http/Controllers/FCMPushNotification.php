@@ -13,7 +13,7 @@ use Validator;
 
 class FCMPushNotification extends Controller
 {
-    
+
     public function orderAccept(Request $request) {
 
         $response = array();
@@ -29,9 +29,6 @@ class FCMPushNotification extends Controller
             return response()->json(['error'=>$initialValidator->errors()], 401);
         }
         $input = $request->all();
-
-
-
 
         $booking = Booking::where('id', '=', $input['booking_id'])->first();
         if($input['status'] == 5) {
@@ -55,7 +52,6 @@ class FCMPushNotification extends Controller
 
         $isUpdate = DB::table('bookings')->where('id', $input['booking_id'])->update($orderStatus);
 
-//        dd($isUpdate);
         if ($isUpdate) {
             // send notification
             if ($input['status'] == 2) {
