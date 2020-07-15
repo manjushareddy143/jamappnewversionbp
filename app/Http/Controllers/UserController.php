@@ -824,7 +824,7 @@ class UserController extends Controller
     }
 
 
-    
+
 
     public function updatevendor(Request $request) {
         $input = $request->all();
@@ -1514,7 +1514,7 @@ class UserController extends Controller
 
     public function addNewAddress(Request $request) {
         $input = $request->all();
-        
+
         $adddressdata = Address::create($input);
         $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
 
@@ -1635,7 +1635,7 @@ class UserController extends Controller
 
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $customer_role = Role::where('slug','=', 'provider')->first();
+        $customer_role = Role::where('slug','=', 'customer')->first();
         $user->roles()->attach($customer_role);
 
         $now = now()->utc();
