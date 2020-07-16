@@ -1655,7 +1655,7 @@ class UserController extends Controller
                 'password' => 'required',
                 'contact' => 'required|unique:users,contact',
                 'gender' => 'required',
-                'language' => 'required',
+                'languages' => 'required',
             ]);
 
         if ($initialValidator->fails())

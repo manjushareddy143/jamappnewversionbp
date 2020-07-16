@@ -340,19 +340,20 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
-    $.getJSON("../../country.json", function (data) {
-            $.each(data, function (index, value) {
-                $('#org_select_country').append(`<option value="${value['country_name']}">
-                                        ${value['country_name']}
-                                    </option>`);
-                $('#org_codeLst').append(`<option value="${value['dialling_code']}">
-                                        ${value['dialling_code']} ${value['country_name']}
-                                    </option>`);
+                            // country function
+                $(document).ready(function () {
+                    $.getJSON("../../country.json", function (data) {
+                            $.each(data, function (index, value) {
+                                $('#org_select_country').append(`<option value="${value['country_name']}">
+                                                        ${value['country_name']}
+                                                    </option>`);
+                                $('#org_codeLst').append(`<option value="${value['dialling_code']}">
+                                                        ${value['dialling_code']} ${value['country_name']}
+                                                    </option>`);
 
-        });
-    });
-});
+                        });
+                    });
+                });
 
     var selectedLang;
     function langChange(lang) {
