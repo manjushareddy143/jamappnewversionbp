@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use App\Booking;
+use App\FCMDevices;
 use App\Invoice;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 use PDF;
 use Symfony\Component\Console\Input\Input;
@@ -51,6 +53,24 @@ class BookingController extends Controller
 
         $booking = Booking::create($input);
 
+
+        //////// BOOKING
+        $notification =  [
+            "title" => 'JAM',
+            "body" => "Booking Placed",
+        ];
+
+
+        $dataPayload = [
+        ];
+
+
+        $fcm_customer = FCMDevices::where('user_id', '=', $input['provider_id'])->get();
+        foreach ($fcm_customer as $fcm) {
+            $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+        }
+        ////////////
+
         return response($booking, 200)
             ->header('content-type', 'application/json');
 
@@ -63,7 +83,7 @@ class BookingController extends Controller
 
         $user_id = $request->input('id');
 
-               $result = Booking::with('users')
+               $result = Booking::with('invoice')->with('users')
                    ->with('services')
                    ->with('category')
                    ->with('provider')
@@ -104,7 +124,7 @@ class BookingController extends Controller
 
         $user_id = $request->input('id');
 
-        $result = Booking::with('users')
+        $result = Booking::with('invoice')->with('users')
             ->with('services')
             ->with('category')
             ->with('provider')
@@ -144,7 +164,8 @@ class BookingController extends Controller
 
     public function getallbooking(Request $request) {
 
-        $result = Booking::with('users')->with('services')->with('category')->with('provider')->get();
+        $result = Booking::with('invoice')->with('users')->with('services')->with('category')
+        ->with('provider')->get();
         return response()->json($result);
     }
 
@@ -174,13 +195,67 @@ class BookingController extends Controller
             'tax_rate' => 'required',
             'tax' => 'required',
         ]);
-        $input = $request->all();
 
+        if ($initialValidator->fails())
+        {
+            return response()->json(['error'=>$initialValidator->errors()], 406);
+        }
+
+        $input = $request->all();
         $result = Invoice::create($input);
 
-        // return view('invoice.invoice');
-        return response()->json($result);
+        $booking = Booking::where('id', '=', $input['order_id'])->first();
+        $notification =  [
+            "title" => 'JAM',
+            "body" => "Check Total Cost",
+        ];
 
+        $result = Invoice::where('order_id', '=', $input['order_id'])->first();
+        $dataPayload = [
+            "order" => $booking['id'],
+            "status" => "6",
+            "invoice" => $result
+        ];
+
+        $orderStatus = [
+            'status' => "6",
+        ];
+
+        $isUpdate = DB::table('bookings')->where('id', $input['order_id'])->update($orderStatus);
+
+        $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+        foreach ($fcm_customer as $fcm) {
+            $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+        }
+
+        return response()->json($result);
+    }
+
+    public function sendPush(string $token, array $notification, array $data_payload)
+    {
+
+        $data = [
+            "to" => $token,
+            "notification" => $notification,
+            "data" => $data_payload
+        ];
+        $dataString = json_encode($data);
+
+        //'AIzaSyAByZ6mHqPhd1Pl3KHcUiXJSQ-8EGOW-6s',
+        $headers = [
+            'Authorization: key=' . config('app.firebase_server_key'),
+            'Content-Type: application/json',
+        ];
+
+        $ch = \curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+        curl_exec($ch);
     }
 
     public function showInvoice()
@@ -288,6 +363,21 @@ class BookingController extends Controller
         $pdf = PDF::loadView('invoice.invoice', $data)->setPaper('a4', 'portrait')->setWarnings(false);
         return $pdf->download('invoice.pdf');
 
+    }
+
+    public function getInvoice(Request $request) {
+        $initialValidator = Validator::make($request->all(),
+        [
+            'order' => 'required|exists:bookings,id',
+        ]);
+
+        if ($initialValidator->fails())
+        {
+            return response()->json(['error'=>$initialValidator->errors()], 406);
+        }
+        $id = $request->input('order');
+        $result = Invoice::where('order_id', $id)->first();
+        return response()->json($result);
     }
 
     public function downloadPDF()

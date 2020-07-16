@@ -71,8 +71,6 @@ class ServiceMappingController extends Controller
         $result = ProviderServiceMapping::with('service')->with('user')->where('service_id', '=', $service_id)
         ->where('category_id', '=', $category_id)->groupBy('user_id')->get();
 
-
-        // return $result;
         $users = [];
         foreach ($result as $service) {
             foreach ($service->user as $user) {
