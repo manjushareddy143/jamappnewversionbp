@@ -504,7 +504,7 @@
         function DownLoad_Invoice(){
           $.ajax({
             url: 'api/v1/invoice?id=' + Booking_id,
-              type: 'POST',
+              type: 'GET',
               success: function() {
                   window.location = 'api/v1/invoice?id=' + Booking_id;
               }

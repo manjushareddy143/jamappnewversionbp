@@ -102,7 +102,7 @@
                                                     <input type="text" class="form-control" id="contact" onkeypress="return isNumber(event)" placeholder="@lang('vendor.label_place_mobile')" maxlength="20">
                                                 </div>
                                             </div>
-                                            <!--radiobutton -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                            <!--radiobutton -->
                                             <div class="col-md-6 float-l">
                                                 <div id="gender-group"
                                                      class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
@@ -299,8 +299,8 @@
         $('#tree_box').val("");
         $('#service').val("");
 
-        
-        
+
+
     }
 
         function getListOfService() {
@@ -637,7 +637,7 @@
 
         //update vendor record
         function update_vendor() {
-            
+
             console.log("UPDATE CLICK");
 
             var edit = 'edit_data';

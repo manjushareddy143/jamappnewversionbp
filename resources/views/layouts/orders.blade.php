@@ -155,13 +155,13 @@
             currentuser = JSON.parse(retrievedObject);
             console.log(currentuser.roles[0].name)
             if(currentuser.roles[0].name == 'Admin') {
+                console.log("CALL");
                 getAllOrders();
             } else if (currentuser.roles[0].name == 'Individual Service Provider') {
                 placedorder();
             } else if (currentuser.roles[0].slug = "organisation-admin") {
                 console.log("ORG ADMIN");
                 getOrgOrders();
-                //
             }
             // getResult(obj.id);
 
@@ -179,7 +179,7 @@
                     var trHTML = '';
 
                     $.each(response, function (i, item) {
-                        var category = (response[i].category == null) ? "" : response[i].category.name;
+
                         var status = "";
 
                         if(response[i].status == 1) {
@@ -197,6 +197,7 @@
                         }
                         console.log(status);
                         var serviceName = response[i].services.name;
+                        var category = (response[i].category == null) ? "" : response[i].category.name;
                         if(category != null) {
                             serviceName += " ("+ category +")";
                         }
@@ -220,28 +221,40 @@
         }
 
         function getAllOrders() {
+            console.log("MAYUR");
             $.ajax({
                 url: '/api/v1/booking/getallbooking',
                 type: 'GET',
                 data: null,
                 success: function(response){
-                    console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
+                    // console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
                     var trHTML = '';
 
                     $.each(response, function (i, item) {
                         var category = (response[i].category == null) ? "" : response[i].category.name;
-                        var status = "";
+                        var status = "yo";
                         if(response[i].status == 1) {
-                            status = "Pending"
+                            status = "Pending";
                         } else if(response[i].status == 2) {
-                            status = "Accept"
+                            status = "Accept";
                         } else if(response[i].status == 3) {
-                            status = "Cancel by Vendor"
+                            status = "Cancel by Vendor";
                         } else if(response[i].status == 4) {
-                            status = "Cancel by User"
+                            status = "Cancel by User";
+                        } else if(response[i].status == 5) {
+                            status = "Completed";
+                        } else if(response[i].status == 6) {
+                            status = "Invoice Submitted";
                         }
+
+                        var serviceName = response[i].services.name;
+                        var category = (response[i].category == null) ? "" : response[i].category.name;
+                        if(category != null) {
+                            serviceName += " ("+ category +")";
+                        }
+
                         trHTML += '<tr><td>' + response[i].orderer_name +
-                            '</td><td>' + response[i].services.name  + '</td>' +
+                            '</td><td>' + serviceName  + '</td>' +
                             '</td><td>' + response[i].provider.first_name  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
                             '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
@@ -266,7 +279,7 @@
                 type: 'GET',
                 data: null,
                 success: function(response){
-                    console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
+                    // console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
                     var trHTML = '';
 
                     $.each(response, function (i, item) {
