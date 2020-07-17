@@ -26,7 +26,7 @@ class FCMPushNotification extends Controller
 
         if ($initialValidator->fails())
         {
-            return response()->json(['error'=>$initialValidator->errors()], 401);
+            return response()->json(['error'=>$initialValidator->errors()], 406);
         }
         $input = $request->all();
 
@@ -39,11 +39,11 @@ class FCMPushNotification extends Controller
 
             if ($validator->fails())
             {
-                return response()->json(['error'=>$validator->errors()], 401);
+                return response()->json(['error'=>$validator->errors()], 406);
             }
 
             if($booking['otp'] != $input['otp']) {
-                return response()->json(['error'=>"Invalid OTP"], 401);
+                return response()->json(['error'=>"Invalid OTP"], 406);
             }
         }
         $orderStatus = [

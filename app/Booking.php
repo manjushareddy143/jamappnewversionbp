@@ -27,6 +27,11 @@ class Booking extends Model
         return $this->hasOne(User::class, 'id', 'provider_id')->with('address')->with('servicePrice');
     }
 
+    // public function orgProvider() {
+    //     return $this->hasOne(User::class, 'id', 'provider_id')->with('address')
+    //     ->with('servicePrice')->where('org_id', '=', );
+    // }
+
     public function services() {
         return $this->hasOne(services::class, 'id', 'service_id');
     }

@@ -45,6 +45,7 @@ Route::post('v1/booking', 'BookingController@booking');
 Route::get('v1/booking', 'BookingController@getorderbyuser');
 Route::get('v1/booking/provider', 'BookingController@getOrderByProvider');
 Route::get('v1/booking/getallbooking', 'BookingController@getallbooking');
+Route::get('v1/booking/get_org_bookings', 'BookingController@getOrganisationOrders');
 Route::get('v1/booking/{id}', 'BookingController@getorder');
 
 Route::get('v1/organisation/vendors/{orgId}', 'ServiceProviderController@GetOrganisationVendors');

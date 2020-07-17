@@ -17,7 +17,7 @@
                       <h1 class="h3 mb-0 text-gray-800">Order Details</h1>
                       <div class="custom-buttons">
                            <button type="button" id="back_btn" class="btn btn-secondary mb-1">Back</button>
-                        </div>   
+                        </div>
                         @if (Auth::user()->roles[0]->slug == 'provider')
                             <div class="custom-buttons">
                                 <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
@@ -142,10 +142,16 @@
                           <div class="card mb-4">
                             <div class="card-body">
                               <div class="order-info">
-                                <i class="fas fa-user"></i>
                                 <div class="order-info-block">
-                                  <span>Orderer Name</span>
-                                  <p class="orderername" id="orderer_name">Afrar Sheikh</p>
+                                    <i class="fas fa-user"></i>
+                                    <span>Orderer Name</span>
+                                    <p class="orderername" id="orderer_name">Afrar Sheikh</p>
+                                </div>
+                              </div>
+                              <div class="order-info">
+                                <div class="order-info-block">
+                                  <span>Service</span>
+                                  <p id="serviceName">Home Cleaning and Home Maids</p>
                                 </div>
                               </div>
                               <div class="order-info">
@@ -162,28 +168,113 @@
                           <div class="card mb-4">
                             <div class="card-body">
                               <div class="order-info">
-                                <i class="fas fa-address-book"></i>
                                 <div class="order-info-block">
+                                <i class="fas fa-address-book"></i>
+
                                   <span>Address</span>
                                   <p id="addressname">11th/B Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet</p>
                                 </div>
                               </div>
                               <div class="order-info">
-                                <i class="fas fa-envelope"></i>
                                 <div class="order-info-block">
-                                  <span>Email</span>
-                                  <p id="email">info@partservice.com</p>
+                                    <i class="fas fa-envelope"></i>
+                                    <span>Email</span>
+                                    <p id="email">info@partservice.com</p>
                                 </div>
                               </div>
                               <div class="order-info">
-                                <i class="fas fa-phone"></i>
                                 <div class="order-info-block">
-                                  <span>Number</span>
-                                  <p id="contact">+91 1234567890</p>
+                                    <i class="fas fa-phone"></i>
+                                    <span>Number</span>
+                                    <p id="contact">+91 1234567890</p>
                                 </div>
                               </div>
                             </div>
                           </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 order-details-block" id="invoice_detail">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                  <div class="order-info">
+                                    <div class="order-info-block">
+
+                                        <span style="font-size: large;">
+                                            <i class="fas fa-file-invoice-dollar"></i>
+                                            Invoice Details</span>
+
+
+                                        {{-- <span class="float-right" style="font-size: large;">
+                                            <i class="fas fa-file-invoice-dollar"></i>
+                                            Invoice Details</span> --}}
+                                    </div>
+                                  </div>
+                                  <br>
+
+
+                                    <div class="row order-info" style="padding-left: 15px;">
+                                        <div class="col-4 order-info-block">
+                                          <span>
+                                            <i class="fas fa-hourglass-half"></i>
+                                              Working Hours</span>
+                                          <p style="padding-left: 15px;" id="work_hr">5</p>
+                                        </div>
+
+                                        <div class="col-4 order-info-block">
+                                            <span>
+                                                <i class="fas fa-balance-scale"></i>
+                                                Material Quantity
+                                            </span>
+                                            <p style="padding-left: 15px;" id="mate_qty"> 5 </p>
+                                        </div>
+
+                                        <div class="col-4 order-info-block">
+                                            <span>
+                                                <i class="far fa-money-bill-alt"></i>
+                                                Material Cost
+                                            </span>
+                                            <p style="padding-left: 15px;" id="mate_cost"> 5 </p>
+                                        </div>
+
+                                        <div class="col-4 order-info-block">
+                                            <span>
+                                                <i class="fas fa-hand-holding-usd"></i>
+                                                Discount
+                                            </span>
+                                            <p style="padding-left: 15px;" id="discount"> 5 </p>
+                                        </div>
+
+                                        <div class="col-4 order-info-block">
+                                            <span>
+                                                <i class="fas fa-tenge"></i>
+                                                TAX
+                                            </span>
+                                            <p style="padding-left: 15px;" id="tax"> 5 </p>
+                                        </div>
+
+
+                                        <div class="col-4 order-info-block">
+                                            <span>
+                                                <i class="far fa-money-bill-alt"></i>
+                                                Additional Charge
+                                            </span>
+                                            <p style="padding-left: 15px;" id="add_charg"> 5 </p>
+                                        </div>
+
+                                      </div>
+
+                                      <div class="d-flex justify-content-center">
+                                        <div class="order-info-block">
+
+                                            <span style="font-size: large;">
+                                                <i class="fas fa-dollar-sign"></i>
+                                                Total Cost</span>
+
+                                                <p style="padding-left: 15px;" id="total_cost"> 5 </p>
+                                        </div>
+                                      </div>
+
+                                </div>
+                              </div>
                         </div>
                         <div class="col-md-12">
                           <div class="custom-buttons download-invoice-btn">
@@ -325,6 +416,7 @@
                 success: function (response) {
 
                     console.log(response);
+
                     $('#Booking_id').text(response['id']);
                     $('#booking_date').text(response['booking_date']);
                     $('#start_time').text(response['start_time']);
@@ -332,19 +424,36 @@
                     if(response['status']  == 1) {
                         status = "Pending";
                         $("#down_invoice").hide();
+                        $("#invoice_detail").hide();
+
                     } else if(response['status']  == 2) {
                         status = "Accepted";
                         $("#down_invoice").hide();
+                        $("#invoice_detail").hide();
                     } else if(response['status']  == 3) {
                         status = "Cancel by Vendor";
                         $("#down_invoice").hide();
+                        $("#invoice_detail").hide();
                     } else if(response['status']  == 4) {
                         status = "Cancel by User";
                         $("#down_invoice").hide();
+                        $("#invoice_detail").hide();
                     } else if(response['status']  == 5) {
                         status = "Completed";
                         $("#down_invoice").show();
+                        $("#invoice_detail").show();
+                        setInvoiceDetail(response);
+                    } else if(response['status']  == 6) {
+                        status = "Invoice Submitted";
+                        $("#down_invoice").hide();
+                        $("#invoice_detail").show();
+                        setInvoiceDetail(response);
+
+
+
+                        //
                     }
+
                     $('#status').text(status);
                     $('#orderer_name').text(response['orderer_name']);
                     $('#serviceName').text(response['services']['name']);
@@ -362,6 +471,34 @@
                     console.log(error);
                 }
             });
+        }
+
+
+        function setInvoiceDetail(response) {
+            $('#work_hr').text(response.invoice.working_hr);
+                        $('#mate_qty').text(response.invoice.material_quantity);
+                        $('#mate_cost').text(response.invoice.material_price);
+                        $('#discount').text(response.invoice.discount);
+                        $('#tax').text(response.invoice.tax);
+                        $('#add_charg').text(response.invoice.additional_charges);
+
+
+                        var cost = response.provider.service_price.price;
+
+                        var serviceAmount = response.invoice.working_hr * cost;
+
+                        var meterialAmount = response.invoice.material_quantity * response.invoice.material_price;
+                        var additional_total = response.invoice.additional_charges * response.invoice.working_hr;
+                        var sub_total = serviceAmount + additional_total + meterialAmount;
+
+                        var total_discount = sub_total * response.invoice.discount/100;
+
+                        var totalWithDiscount = sub_total - total_discount;
+
+                        var taxCut =  totalWithDiscount * response.invoice.tax /100;
+
+                        var total = totalWithDiscount - taxCut;
+                        $('#total_cost').text(total + "  QAR");
         }
 
 

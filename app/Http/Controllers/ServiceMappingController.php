@@ -6,6 +6,7 @@ use App\ProviderServiceMapping;
 use App\ServiceMapping;
 use App\services;
 use App\SubCategories;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Validator;
@@ -70,10 +71,14 @@ class ServiceMappingController extends Controller
 
         $result = ProviderServiceMapping::with('service')->with('user')->where('service_id', '=', $service_id)
         ->where('category_id', '=', $category_id)->groupBy('user_id')->get();
-
         $users = [];
         foreach ($result as $service) {
             foreach ($service->user as $user) {
+                if($user->org_id != null) {
+                    $org_admin = User::where('org_id', $user->org_id)->where('type_id', 2)->first();
+                    $user['organisation']['admin'] = $org_admin;
+                    // echo($user); exit();
+                }
                 foreach ($user->address as $address) {
                     if($address->location != "") {
                         $location = explode(",",$address->location);

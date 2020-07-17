@@ -78,6 +78,20 @@ class BookingController extends Controller
     }
 
 
+    public function getOrganisationOrders(Request $request) {
+
+        $org_id = $request->input('id');
+        $result = Booking::with('invoice')->with('users')
+                   ->with('services')
+                   ->with('category')
+                   ->with('provider')
+                   ->whereHas('provider', function($q) use($org_id){
+                    $q->where('org_id', '=', $org_id);
+                })->with('address')->with('rating')->get();
+
+                return response()->json($result);
+    }
+
 
     public function getOrderByProvider(Request $request) {
 
@@ -158,7 +172,7 @@ class BookingController extends Controller
     }
 
     public  function getorder($id) {
-        $result = Booking::with('users')->with('services')->with('category')->with('provider')->with('address')->with('rating')->where('id', '=', $id)->first();
+        $result = Booking::with('invoice')->with('users')->with('services')->with('category')->with('provider')->with('address')->with('rating')->where('id', '=', $id)->first();
         return response()->json($result);
     }
 

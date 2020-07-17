@@ -51,7 +51,6 @@
                                 <th>Booking Date</th>
                                 <th>Time</th>
                                 <th>Status</th>
-{{--                                <th>End</th>--}}
                                 <th width="280px">Action
                                 </th>
                             </tr>
@@ -90,7 +89,43 @@
                                 <th>@lang('orders.label_tab_bdate')</th>
                                 <th>@lang('orders.label_tab_time')</th>
                                 <th>@lang('orders.label_tab_status')</th>
-{{--                                <th>End</th>--}}
+                                <th width="280px">@lang('orders.label_tab_action')</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @elseif (Auth::user()->roles[0]->slug == 'organisation-admin')
+
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">@lang('orders.label_tab_title')</h6>
+                        {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                            id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button> --}}
+
+                               {{-- filter dropdown --}}
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> @lang('orders.label_tab_filter')
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <input class="form-control" id="myInput" type="text" placeholder="Search..">
+                                <li><a href="#" style="padding-left: 20%;">Rating</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Price</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Availability</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Distance</a></li>
+                            </ul>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush" id="tbl_id">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>@lang('orders.label_tab_buser')</th>
+                                <th>@lang('orders.label_tab_services')</th>
+                                <th>@lang('orders.label_tab_provider')</th>
+                                <th>@lang('orders.label_tab_bdate')</th>
+                                <th>@lang('orders.label_tab_time')</th>
+                                <th>@lang('orders.label_tab_status')</th>
                                 <th width="280px">@lang('orders.label_tab_action')</th>
                             </tr>
                             </thead>
@@ -123,6 +158,10 @@
                 getAllOrders();
             } else if (currentuser.roles[0].name == 'Individual Service Provider') {
                 placedorder();
+            } else if (currentuser.roles[0].slug = "organisation-admin") {
+                console.log("ORG ADMIN");
+                getOrgOrders();
+                //
             }
             // getResult(obj.id);
 
@@ -130,6 +169,55 @@
 
 
 
+        function getOrgOrders() {
+            $.ajax({
+                url: '/api/v1/booking/get_org_bookings?id=' + currentuser.org_id,
+                type: 'GET',
+                data: null,
+                success: function(response){
+                    console.log("CREA = "+ JSON.stringify(response));
+                    var trHTML = '';
+
+                    $.each(response, function (i, item) {
+                        var category = (response[i].category == null) ? "" : response[i].category.name;
+                        var status = "";
+
+                        if(response[i].status == 1) {
+                            status = "Pending";
+                        } else if(response[i].status == 2) {
+                            status = "Accept";
+                        } else if(response[i].status == 3) {
+                            status = "Cancel by Vendor";
+                        } else if(response[i].status == 4) {
+                            status = "Cancel by User";
+                        } else if(response[i].status == 5) {
+                            status = "Completed";
+                        } else if(response[i].status == 6) {
+                            status = "Invoice Submitted";
+                        }
+                        console.log(status);
+                        var serviceName = response[i].services.name;
+                        if(category != null) {
+                            serviceName += " ("+ category +")";
+                        }
+                        trHTML += '<tr><td>' + response[i].orderer_name +
+                            '</td><td>' +  serviceName + '</td>' +
+                            '</td><td>' + response[i].provider.first_name  + '</td>' +
+                            '</td><td>' + response[i].booking_date  + '</td>' +
+                            '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
+                            '</td><td>' + status +
+                            '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
+
+                            '</td></tr>';
+
+                    });
+                    $('#tbl_id').append(trHTML);
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
         function getAllOrders() {
             $.ajax({
@@ -173,7 +261,6 @@
         }
 
         function getResult(id) {
-
             $.ajax({
                 url: '/api/v1/booking/provider?id='+id,
                 type: 'GET',
