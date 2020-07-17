@@ -24,7 +24,7 @@ class Booking extends Model
     }
 
     public function provider() {
-        return $this->hasOne(User::class, 'id', 'provider_id')->with('address')->with('servicePrice');
+        return $this->hasOne(User::class, 'id', 'provider_id')->with('address')->with('servicePrice')->with('organisation');
     }
 
     // public function orgProvider() {

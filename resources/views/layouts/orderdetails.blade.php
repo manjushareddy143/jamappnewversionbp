@@ -278,7 +278,7 @@
                         </div>
                         <div class="col-md-12">
                           <div class="custom-buttons download-invoice-btn">
-                            <button type="button" class="btn btn-primary mb-1" id="down_invoice">Download Invoice</button>
+                            <button type="button" class="btn btn-primary mb-1" id="down_invoice" onclick="DownLoad_Invoice()">Download Invoice</button>
                           </div>
                         </div>
                       </div>
@@ -499,6 +499,16 @@
 
                         var total = totalWithDiscount - taxCut;
                         $('#total_cost').text(total + "  QAR");
+        }
+
+        function DownLoad_Invoice(){
+          $.ajax({
+            url: 'api/v1/invoice?id=' + Booking_id,
+              type: 'POST',
+              success: function() {
+                  window.location = 'api/v1/invoice?id=' + Booking_id;
+              }
+          });
         }
 
 
