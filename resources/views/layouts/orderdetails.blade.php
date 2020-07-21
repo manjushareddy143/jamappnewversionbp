@@ -532,7 +532,7 @@
                         $("#invoice_detail").show();
                         $("#invoice_id").show();
                         setInvoiceDetail(response);
-                        
+
                     }
 
                     $('#status').text(status);
@@ -609,32 +609,39 @@
 
         function Update_InvoiceDetail(){
         // console.log(document.getElementById("work_hrs").value);
-        
-        let formUpdate = new FormData();
-        formUpdate.append('id', invoiceDetail.order_id);
-        formUpdate.append('working_hr', document.getElementById("work_hrs").value);
-        formUpdate.append('material_quantity', document.getElementById("mat_quantity").value);
-        formUpdate.append('material_price', document.getElementById("mat_cost").value);
-        formUpdate.append('discount', document.getElementById("mat_dis").value);
-        formUpdate.append('tax', document.getElementById("mat_tax").value);
-        formUpdate.append('additional_charges', document.getElementById("add_charge").value);
+
+        var data = {
+            order_id : invoiceDetail.order_id,
+            working_hr : document.getElementById("work_hrs").value,
+            material_quantity : document.getElementById("mat_quantity").value,
+            material_price : document.getElementById("mat_cost").value,
+            discount : document.getElementById("mat_dis").value,
+            tax : document.getElementById("mat_tax").value,
+            additional_charges : document.getElementById("add_charge").value,
+        };
+        console.log(data);
+        // let formUpdate = new FormData();
+        // formUpdate.append('id', invoiceDetail.order_id);
+        // formUpdate.append('working_hr', document.getElementById("work_hrs").value);
+        // formUpdate.append('material_quantity', document.getElementById("mat_quantity").value);
+        // formUpdate.append('material_price', document.getElementById("mat_cost").value);
+        // formUpdate.append('discount', document.getElementById("mat_dis").value);
+        // formUpdate.append('tax', document.getElementById("mat_tax").value);
+        // formUpdate.append('additional_charges', document.getElementById("add_charge").value);
 
         // invoiceDetail=order_id;
-        $.ajax({
-            url: '/api/v1/inv_update',
-            type: 'POST',
-                data: formUpdate,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    // console.log("CREATE UPDATE REPOSNE == " + response);
-                window.top.location = window.top.location;
-                location.reload();
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
-        });
+            $.ajax({
+                url: '/api/v1/inv_update',
+                type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        window.top.location = window.top.location;
+                        location.reload();
+                    },
+                    fail: function (error) {
+                        console.log(error);
+                    }
+            });
         }
 
 

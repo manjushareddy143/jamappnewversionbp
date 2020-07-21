@@ -369,9 +369,7 @@ class BookingController extends Controller
             'total' => $total
 
         ];
-        // return response()->json($data);
 
-        // print_r($data); exit();
 
         PDF::setOptions(['dpi' => 150]);
 
@@ -402,17 +400,24 @@ class BookingController extends Controller
         // return $pdf->download('medium.pdf');
     }
 
-    
+
     public function updateinvoicedetail(Request $request)
     {
 
+
         $input = $request->all();
+
         $updatedata = [];
+        if(array_key_exists('order_id', $input)) {
+            $updatedata += [
+                'order_id' => $input['order_id'],
+            ];
+        }
+
         if(array_key_exists('working_hr', $input)) {
             $updatedata += [
                 'working_hr' => $input['working_hr'],
             ];
-
         }
         if(array_key_exists('material_quantity', $input)) {
             $updatedata += [
@@ -442,14 +447,34 @@ class BookingController extends Controller
             $updatedata += [
                 'additional_charges' => $input['additional_charges'],
             ];
-
         }
-        
-        $user= DB::table('invoice')->where('order_id', (int)$input['order_id'])->update($updatedata);
-        return response()->json($user, 200);
 
-            // $invoice = Invoice::where('invoice.id', '=', $id)->first();
-            // return response()->json($user, 200);
+        $isUpdate = DB::table('invoice')->where('order_id', (int)$input['order_id'])->update($updatedata);
+        if($isUpdate) {
+
+            $dataPayload = [
+                "order" => $input['order_id'],
+                "status" => "6",
+                "invoice" => $updatedata
+            ];
+
+            $notification =  [
+                "title" => 'JAM',
+                "body" => "Check Total Cost",
+            ];
+
+            $booking = Booking::where('id', '=', $input['order_id'])->first();
+            $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+            foreach ($fcm_customer as $fcm) {
+                $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+            }
+
+            $fcm_customer = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
+            foreach ($fcm_customer as $fcm) {
+                $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+            }
+        }
+        return response()->json($isUpdate, 200);
     }
-    
+
 }
