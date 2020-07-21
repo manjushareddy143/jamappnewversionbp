@@ -213,7 +213,7 @@
                                             Invoice Details</span> --}}
                                     </div>
                                   </div>
-                                  
+
                                   <br>
                                     <div class="row order-info" style="padding-left: 15px;">
                                         <div class="col-4 order-info-block">
@@ -323,7 +323,7 @@
                                       <input type="number" id="mat_quantity" name="quantity" min="1" max="500"value="0">
                                       </div>
                                       </div>
-                                    </div> 
+                                    </div>
                                     <div class="row">
                                       <div class="col-md-6 float-l">
                                       <div class="form-group">
@@ -337,7 +337,7 @@
                                       <input type="number" id="mat_dis" name="quantity" min="1" max="500" value="0">
                                       </div>
                                       </div>
-                                    </div> 
+                                    </div>
                                     <div class="row">
                                       <div class="col-md-6 float-l">
                                       <div class="form-group">
@@ -351,10 +351,10 @@
                                       <input type="number" id="add_charge" name="quantity" min="1" max="500" value="0">
                                       </div>
                                       </div>
-                                    </div> 
+                                    </div>
 
                               </form>
-                                  
+
                               </div>
                               <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -485,6 +485,7 @@
             }
         }
 
+        var invoiceDetail;
         function viewDetail() {
             console.log("helo");
             $.ajax({
@@ -526,10 +527,6 @@
                         $("#down_invoice").hide();
                         $("#invoice_detail").show();
                         setInvoiceDetail(response);
-
-
-
-                        //
                     }
 
                     $('#status').text(status);
@@ -553,6 +550,7 @@
 
 
         function setInvoiceDetail(response) {
+            invoiceDetail = response.invoice;
             $('#work_hr').text(response.invoice.working_hr);
                         $('#mate_qty').text(response.invoice.material_quantity);
                         $('#mate_cost').text(response.invoice.material_price);
@@ -588,32 +586,14 @@
               }
           });
         }
-
-// Edit Invoice detail
-        var invoiceid;
-        function Edit_InvoiceDetail(invid){
-          console.log("hello" + invid);
-        // alert(id);
-        invoiceid=invid;
-
-        $.ajax({
-            url:"/user/"+invid+"/edit",
-            method:'get',
-            data:{id:invid},
-            dataType:'JSON',
-            success:function(data)
-            {
-                console.log(data);
-                editUser = data;
-                $('#work_hrs').val(data.working_hr);
-                // $('#org_aname').val(data.first_name);
-                // $('#contact').val(data.contact);
-                // $('#email').val(data.email);
-
-                // $('#action').val('Edit');
-            }
-        });          
-
+        function Edit_InvoiceDetail()
+        {
+            $('#work_hrs').val(invoiceDetail.working_hr);
+            $('#mat_quantity').val(invoiceDetail.material_quantity);
+            $('#mat_cost').val(invoiceDetail.material_price);
+            $('#mat_dis').val(invoiceDetail.discount);
+            $('#mat_tax').val(invoiceDetail.tax);
+            $('#add_charge').val(invoiceDetail.additional_charges);
         }
 
 
