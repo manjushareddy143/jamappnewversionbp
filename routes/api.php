@@ -105,8 +105,8 @@ Route::get('v1/usertype', 'UserTypeController@show_all');
 //Update Profile of Vendor & Customer
 Route::get('v1/user/{id}/edit', 'UserController@getuser');
 
-// Edit Invoice Detail
-Route::get('v1/user/{id}/edit', 'BookingController@getinvoicedetail');
+// Update Invoice Detail
+Route::post('v1/inv_update', 'BookingController@updateinvoicedetail');
 
 
 Route::delete('v1/users/{id}','UserController@soft_delete');

@@ -204,7 +204,7 @@
 
                                 <!-- edit button -->
                                   <span style="float: right;">
-                                  <a href="#" onclick="Edit_InvoiceDetail()" class="btn btn-primary" data-toggle="modal" data-target="#InvoiceModalLabel" id="edit_invoiceModal">
+                                  <a href="#" onclick="Edit_InvoiceDetail()" class="btn btn-primary" data-toggle="modal" data-target="#InvoiceModalLabel" id="invoice_id">
                                   <i class="fas fa-edit"></i></a>
                                   </span>
 
@@ -314,7 +314,7 @@
                                       <div class="col-md-6 float-l">
                                       <div class="form-group">
                                       <label for="quantity">Working Hours:</label><br>
-                                      <input type="number" id="work_hrs" name="quantity" min="1" max="500"value="0">
+                                      <input type="number" id="work_hrs" name="hours" min="1" max="500"value="0">
                                       </div>
                                       </div>
                                       <div class="col-md-6 float-l">
@@ -328,13 +328,13 @@
                                       <div class="col-md-6 float-l">
                                       <div class="form-group">
                                       <label for="quantity">Material Cost:</label><br>
-                                      <input type="number" id="mat_cost" name="quantity" min="1" max="500" value="0">
+                                      <input type="number" id="mat_cost" name="cost" min="1" max="500" value="0">
                                       </div>
                                       </div>
                                       <div class="col-md-6 float-l">
                                       <div class="form-group">
                                       <label for="quantity">Discount:</label><br>
-                                      <input type="number" id="mat_dis" name="quantity" min="1" max="500" value="0">
+                                      <input type="number" id="mat_dis" name="discount" min="1" max="500" value="0">
                                       </div>
                                       </div>
                                     </div>
@@ -342,13 +342,13 @@
                                       <div class="col-md-6 float-l">
                                       <div class="form-group">
                                       <label for="quantity">TAX:</label><br>
-                                      <input type="number" id="mat_tax" name="quantity" min="1" max="500"value="0">
+                                      <input type="number" id="mat_tax" name="tax" min="1" max="500"value="0">
                                       </div>
                                       </div>
                                       <div class="col-md-6 float-l">
                                       <div class="form-group">
                                       <label for="quantity">Additional Charge:</label><br>
-                                      <input type="number" id="add_charge" name="quantity" min="1" max="500" value="0">
+                                      <input type="number" id="add_charge" name="charge" min="1" max="500" value="0">
                                       </div>
                                       </div>
                                     </div>
@@ -358,7 +358,7 @@
                               </div>
                               <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                  <button type="button" onclick="#" class="btn btn-primary">Update</button>
+                                  <button type="button" onclick="Update_InvoiceDetail()" class="btn btn-primary">Update</button>
 
                               </div>
                           </div>
@@ -504,29 +504,35 @@
                         status = "Pending";
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
-
+                        $("#invoice_id").hide();
                     } else if(response['status']  == 2) {
                         status = "Accepted";
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
+                        $("#invoice_id").hide();
                     } else if(response['status']  == 3) {
                         status = "Cancel by Vendor";
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
+                        $("#invoice_id").hide();
                     } else if(response['status']  == 4) {
                         status = "Cancel by User";
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
+                        $("#invoice_id").hide();
                     } else if(response['status']  == 5) {
                         status = "Completed";
                         $("#down_invoice").show();
                         $("#invoice_detail").show();
+                        $("#invoice_id").hide();
                         setInvoiceDetail(response);
                     } else if(response['status']  == 6) {
                         status = "Invoice Submitted";
                         $("#down_invoice").hide();
                         $("#invoice_detail").show();
+                        $("#invoice_id").show();
                         setInvoiceDetail(response);
+                        
                     }
 
                     $('#status').text(status);
@@ -586,6 +592,7 @@
               }
           });
         }
+
         function Edit_InvoiceDetail()
         {
             $('#work_hrs').val(invoiceDetail.working_hr);
@@ -594,6 +601,40 @@
             $('#mat_dis').val(invoiceDetail.discount);
             $('#mat_tax').val(invoiceDetail.tax);
             $('#add_charge').val(invoiceDetail.additional_charges);
+        }
+
+
+//  Update invoice detail
+          // var invoiceDetail;
+
+        function Update_InvoiceDetail(){
+        // console.log(document.getElementById("work_hrs").value);
+        
+        let formUpdate = new FormData();
+        formUpdate.append('id', invoiceDetail.order_id);
+        formUpdate.append('working_hr', document.getElementById("work_hrs").value);
+        formUpdate.append('material_quantity', document.getElementById("mat_quantity").value);
+        formUpdate.append('material_price', document.getElementById("mat_cost").value);
+        formUpdate.append('discount', document.getElementById("mat_dis").value);
+        formUpdate.append('tax', document.getElementById("mat_tax").value);
+        formUpdate.append('additional_charges', document.getElementById("add_charge").value);
+
+        // invoiceDetail=order_id;
+        $.ajax({
+            url: '/api/v1/inv_update',
+            type: 'POST',
+                data: formUpdate,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    // console.log("CREATE UPDATE REPOSNE == " + response);
+                window.top.location = window.top.location;
+                location.reload();
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+        });
         }
 
 

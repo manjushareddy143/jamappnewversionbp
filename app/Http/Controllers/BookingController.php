@@ -403,11 +403,53 @@ class BookingController extends Controller
     }
 
     
-    public function getinvoicedetail($id)
+    public function updateinvoicedetail(Request $request)
     {
-            
-            $invoice = Invoice::where('invoice.id', '=', $id)->first();
-            return response()->json($user, 200);
+
+        $input = $request->all();
+        $updatedata = [];
+        if(array_key_exists('working_hr', $input)) {
+            $updatedata += [
+                'working_hr' => $input['working_hr'],
+            ];
+
+        }
+        if(array_key_exists('material_quantity', $input)) {
+            $updatedata += [
+                'material_quantity' => $input['material_quantity'],
+            ];
+
+        }
+        if(array_key_exists('material_price', $input)) {
+            $updatedata += [
+                'material_price' => $input['material_price'],
+            ];
+
+        }
+        if(array_key_exists('discount', $input)) {
+            $updatedata += [
+                'discount' => $input['discount'],
+            ];
+
+        }
+        if(array_key_exists('tax', $input)) {
+            $updatedata += [
+                'tax' => $input['tax'],
+            ];
+
+        }
+        if(array_key_exists('additional_charges', $input)) {
+            $updatedata += [
+                'additional_charges' => $input['additional_charges'],
+            ];
+
+        }
+        
+        $user= DB::table('invoice')->where('order_id', (int)$input['order_id'])->update($updatedata);
+        return response()->json($user, 200);
+
+            // $invoice = Invoice::where('invoice.id', '=', $id)->first();
+            // return response()->json($user, 200);
     }
     
 }
