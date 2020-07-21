@@ -202,15 +202,19 @@
                                             <i class="fas fa-file-invoice-dollar"></i>
                                             Invoice Details</span>
 
+                                <!-- edit button -->
+                                  <span style="float: right;">
+                                  <a href="#" onclick="Edit_InvoiceDetail()" class="btn btn-primary" data-toggle="modal" data-target="#InvoiceModalLabel" id="edit_invoiceModal">
+                                  <i class="fas fa-edit"></i></a>
+                                  </span>
 
                                         {{-- <span class="float-right" style="font-size: large;">
                                             <i class="fas fa-file-invoice-dollar"></i>
                                             Invoice Details</span> --}}
                                     </div>
                                   </div>
+                                  
                                   <br>
-
-
                                     <div class="row order-info" style="padding-left: 15px;">
                                         <div class="col-4 order-info-block">
                                           <span>
@@ -289,6 +293,80 @@
               </div>
             </div>
             <!-- Scroll to top -->
+
+                               <!-- modal  -->
+
+                      <div class="card">
+                      <div class="modal fade" id="InvoiceModalLabel" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalLabel"
+                      aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="#InvoiceModalLabel">Edit Invoice</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+                              <div class="modal-body">
+                              <form>
+                                      <div class="row">
+                                      <div class="col-md-6 float-l">
+                                      <div class="form-group">
+                                      <label for="quantity">Working Hours:</label><br>
+                                      <input type="number" id="work_hrs" name="quantity" min="1" max="500"value="0">
+                                      </div>
+                                      </div>
+                                      <div class="col-md-6 float-l">
+                                      <div class="form-group">
+                                      <label for="quantity">Material Quantity:</label><br>
+                                      <input type="number" id="mat_quantity" name="quantity" min="1" max="500"value="0">
+                                      </div>
+                                      </div>
+                                    </div> 
+                                    <div class="row">
+                                      <div class="col-md-6 float-l">
+                                      <div class="form-group">
+                                      <label for="quantity">Material Cost:</label><br>
+                                      <input type="number" id="mat_cost" name="quantity" min="1" max="500" value="0">
+                                      </div>
+                                      </div>
+                                      <div class="col-md-6 float-l">
+                                      <div class="form-group">
+                                      <label for="quantity">Discount:</label><br>
+                                      <input type="number" id="mat_dis" name="quantity" min="1" max="500" value="0">
+                                      </div>
+                                      </div>
+                                    </div> 
+                                    <div class="row">
+                                      <div class="col-md-6 float-l">
+                                      <div class="form-group">
+                                      <label for="quantity">TAX:</label><br>
+                                      <input type="number" id="mat_tax" name="quantity" min="1" max="500"value="0">
+                                      </div>
+                                      </div>
+                                      <div class="col-md-6 float-l">
+                                      <div class="form-group">
+                                      <label for="quantity">Additional Charge:</label><br>
+                                      <input type="number" id="add_charge" name="quantity" min="1" max="500" value="0">
+                                      </div>
+                                      </div>
+                                    </div> 
+
+                              </form>
+                                  
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="button" onclick="#" class="btn btn-primary">Update</button>
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                    <!-- model -->
+
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
         </a>
@@ -509,6 +587,33 @@
                   window.location = 'api/v1/invoice?id=' + Booking_id;
               }
           });
+        }
+
+// Edit Invoice detail
+        var invoiceid;
+        function Edit_InvoiceDetail(invid){
+          console.log("hello" + invid);
+        // alert(id);
+        invoiceid=invid;
+
+        $.ajax({
+            url:"/user/"+invid+"/edit",
+            method:'get',
+            data:{id:invid},
+            dataType:'JSON',
+            success:function(data)
+            {
+                console.log(data);
+                editUser = data;
+                $('#work_hrs').val(data.working_hr);
+                // $('#org_aname').val(data.first_name);
+                // $('#contact').val(data.contact);
+                // $('#email').val(data.email);
+
+                // $('#action').val('Edit');
+            }
+        });          
+
         }
 
 

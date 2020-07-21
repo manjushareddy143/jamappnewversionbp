@@ -401,4 +401,13 @@ class BookingController extends Controller
         // $pdf = PDF::loadView('invoice.invoice', [])->setPaper('a4', 'portrait')->setWarnings(false);
         // return $pdf->download('medium.pdf');
     }
+
+    
+    public function getinvoicedetail($id)
+    {
+            
+            $invoice = Invoice::where('invoice.id', '=', $id)->first();
+            return response()->json($user, 200);
+    }
+    
 }
