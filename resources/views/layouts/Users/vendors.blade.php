@@ -976,11 +976,38 @@
             var isValidate = true;
 
             var image = $('#image')[0].files[0];
-            if (!image) {
-                $('#imageError').css('color', 'red');
-                $('#imageError').text('Please select Image')
-                isValidate = false;
+         if (!image) {
+              $("#image").focus();
+           $("#image").focus();
+           $("#image").blur(function () {
+               var name = $('#image').val();
+               if (name.length == 0) {
+                   $('#image').next('div.red').remove();
+                   $('#image').after('<div class="red" style="color:red">Image is Required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+         }else{
+
+             var fileInput = document.getElementById('image');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
+    if(!allowedExtensions.exec(filePath)){
+         // alert('Please select a valid image file');
+         console.log("ERROR");
+                 $('#image').next('div.red').remove();
+                 $('#image').after('<div class="red" style="color:red">Please select a valid image file</div>');
+                document.getElementById("image").value = '';
+                return false;
+    }
+         else {
+                console.log("NOT WORL");
+                $(this).next('div.red').remove();
+                return true;
             }
+         }
 
             if ($('#select_country').val() === "Select Country") {
                 $('#select_country').next('div.red').remove();

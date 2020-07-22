@@ -207,18 +207,20 @@
     // Button hide/show
 
    $(document).ready(function(){
-        $("#service_btn").click(function(){
+        $("#add_btn").click(function(){
             ClearInputField()
             document.getElementById('btntext').innerHTML = 'Add Services';
-            $("#upd_service").hide();
             $("#save_service").show();
+            $("#upd_service").hide();
+            
         });
     });
 
     function ClearInputField() {
         $('#service_name').val("");
         $('#service_description').val("");
-        
+        $('#icon_image').val("");
+        $('#banner_image').val(""); 
     }
 
         // page redirect

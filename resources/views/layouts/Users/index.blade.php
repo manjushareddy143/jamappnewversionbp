@@ -568,7 +568,7 @@
 
              var fileInput = document.getElementById('logo');
     var filePath = fileInput.value;
-    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
     if(!allowedExtensions.exec(filePath)){
          // alert('Please select a valid image file');
          console.log("ERROR");
