@@ -386,18 +386,109 @@
    
    function service_validate() {
        console.log("service_validate");
-       if(document.getElementById("service_name").value == "" ) {
+
+       if (document.getElementById("service_name").value == "") {
            // EXPAND ADDRESS FORM
-           return "Missing Service Name";
-       }
-       var icon_image = $('#icon_image')[0].files[0];
-       if (!icon_image) {
-           return "Missing Service Icon";
-       }
-       var banner_image = $('#banner_image')[0].files[0];
-       if (!banner_image) {
-           return "Missing Service Banner";
-       }
+           $("#service_name").focus();
+           $("#service_name").focus();
+           $("#service_name").blur(function () {
+               var name = $('#service_name').val();
+               if (name.length == 0) {
+                   $('#service_name').next('div.red').remove();
+                   $('#service_name').after('<div class="red" style="color:red">Services name is required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+
+        }
+
+         //Image
+
+         var image = $('#icon_image')[0].files[0];
+         if (!image) {
+              $("#icon_image").focus();
+           $("#icon_image").focus();
+           $("#icon_image").blur(function () {
+               var name = $('#icon_image').val();
+               if (name.length == 0) {
+                   $('#icon_image').next('div.red').remove();
+                   $('#icon_image').after('<div class="red" style="color:red">Icon image is required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+         }else{
+
+             var fileInput = document.getElementById('icon_image');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
+    if(!allowedExtensions.exec(filePath)){
+         // alert('Please select a valid image file');
+         console.log("ERROR");
+                 $('#icon_image').next('div.red').remove();
+                 $('#icon_image').after('<div class="red" style="color:red">Please select a valid image file</div>');
+                document.getElementById("icon_image").value = '';
+                return false;
+    }
+         else {
+                console.log("NOT WORL");
+                $(this).next('div.red').remove();
+                return true;
+            }
+         }
+
+
+         //Image
+
+         var image = $('#banner_image')[0].files[0];
+         if (!image) {
+              $("#banner_image").focus();
+           $("#banner_image").focus();
+           $("#banner_image").blur(function () {
+               var name = $('#banner_image').val();
+               if (name.length == 0) {
+                   $('#banner_image').next('div.red').remove();
+                   $('#banner_image').after('<div class="red" style="color:red">Banner image is required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+         }else{
+
+             var fileInput = document.getElementById('banner_image');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
+    if(!allowedExtensions.exec(filePath)){
+         // alert('Please select a valid image file');
+         console.log("ERROR");
+                 $('#banner_image').next('div.red').remove();
+                 $('#banner_image').after('<div class="red" style="color:red">Please select a valid image file</div>');
+                document.getElementById("banner_image").value = '';
+                return false;
+    }
+         else {
+                console.log("NOT WORL");
+                $(this).next('div.red').remove();
+                return true;
+            }
+         }
+
+    //    if(document.getElementById("service_name").value == "" ) {
+    //        // EXPAND ADDRESS FORM
+    //        return "Missing Service Name";
+    //    }
+    //    var icon_image = $('#icon_image')[0].files[0];
+    //    if (!icon_image) {
+    //        return "Missing Service Icon";
+    //    }
+    //    var banner_image = $('#banner_image')[0].files[0];
+    //    if (!banner_image) {
+    //        return "Missing Service Banner";
+    //    }
    
        if(!addform.terms.checked) {
            addform.terms.focus();

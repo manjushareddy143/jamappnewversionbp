@@ -44,7 +44,7 @@
 
                   <div class="col-md-12" id="namediv">
                     <div class="form-group">
-                      <label>@lang('sdetailpage.label_name')</label>
+                      <label>@lang('sdetailpage.label_name')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                           <input id="name" type="text" name="name"  class="form-control"
                                  placeholder="@lang('sdetailpage.label_plac_name')" required>
                     </div>
@@ -60,7 +60,7 @@
 
                   <div class="col-md-12" id="imagediv">
                     <div class="form-group">
-                        <label>@lang('sdetailpage.label_image')</label>
+                        <label>@lang('sdetailpage.label_image')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                         <input id="image" type="file" name="image" class="form-control ">
 
                      </div>
@@ -76,7 +76,7 @@
 
                     <div class="col-md-12" id="pricediv">
                       <div class="form-group">
-                      <label>@lang('sdetailpage.label_price')</label>
+                      <label>@lang('sdetailpage.label_price')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
                       <div class="input-symbol-euro">
                      <input id="price" type="text" name="price" placeholder="@lang('sdetailpage.label_plac_price')"  class="form-control" required>
                       </div>
@@ -85,7 +85,7 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('sdetailpage.label_cbtn')</button>
-                  <button type="button" onclick="store()" class="btn btn-primary">@lang('sdetailpage.label_sbtn')</button>
+                  <button type="button" onclick="store()" id="save_service" class="btn btn-primary">@lang('sdetailpage.label_sbtn')</button>
                   <button type="button" onclick="getUpdateCategory()" id="upd_service" class="btn btn-primary">Update</button>
                 </div>
 
@@ -148,6 +148,16 @@
             getCategories();
         };
 
+        $(document).ready(function(){
+        $("#category_btn").click(function(){
+            ClearInputField()
+            document.getElementById('service_btn').innerHTML = 'Add Services';
+            $("#save_service").show();
+            $("#upd_service").hide();
+            
+        });
+            });
+
         function checkClick() {
             if(!addform.terms.checked) {
                 addform.terms.focus();
@@ -168,6 +178,91 @@
                 $("#pricediv").hide(1000);
             }
         }
+
+
+        function ClearInputField() {
+        $('#name').val("");
+        $('#description').val("");
+        $('#image').val("");
+        $('#price').val(""); 
+    }
+
+        function service_validate() {
+       console.log("service_validate");
+
+       if (document.getElementById("name").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#name").focus();
+           $("#name").focus();
+           $("#name").blur(function () {
+               var name = $('#name').val();
+               if (name.length == 0) {
+                   $('#name').next('div.red').remove();
+                   $('#name').after('<div class="red" style="color:red">Category name is required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+
+        }
+
+        if (document.getElementById("price").value == "") {
+           // EXPAND ADDRESS FORM
+           $("#price").focus();
+           $("#price").focus();
+           $("#price").blur(function () {
+               var name = $('#price').val();
+               if (name.length == 0) {
+                   $('#price').next('div.red').remove();
+                   $('#price').after('<div class="red" style="color:red">Price is required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+
+        }
+
+         //Image
+
+         var image = $('#image')[0].files[0];
+         if (!image) {
+              $("#image").focus();
+           $("#image").focus();
+           $("#image").blur(function () {
+               var name = $('#image').val();
+               if (name.length == 0) {
+                   $('#image').next('div.red').remove();
+                   $('#image').after('<div class="red" style="color:red">Category image is required</div>');
+               } else {
+                   $(this).next('div.red').remove();
+                   return true;
+               }
+           });
+         }else{
+
+             var fileInput = document.getElementById('image');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
+    if(!allowedExtensions.exec(filePath)){
+         // alert('Please select a valid image file');
+         console.log("ERROR");
+                 $('#image').next('div.red').remove();
+                 $('#image').after('<div class="red" style="color:red">Please select a valid image file</div>');
+                document.getElementById("image").value = '';
+                return false;
+    }
+         else {
+                console.log("NOT WORL");
+                $(this).next('div.red').remove();
+                return true;
+            }
+         }
+
+   
+       return null;
+   }
 
         // Display subcategory list
 
@@ -216,6 +311,8 @@
              $("#lbl_pass").hide();
              $("#password").hide();
              $("#btn_save").hide();
+             $("#save_service").hide();
+             $("#upd_service").show();
             console.log(catid);
             editUserid=catid;
 
@@ -324,6 +421,7 @@
         }
 
         function store() {
+            var servicevalite = service_validate()
             var selected_id = $('#categorieslist').children("option:selected").val();
             console.log(selected_id);
             if(!addform.terms.checked) {

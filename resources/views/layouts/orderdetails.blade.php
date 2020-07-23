@@ -15,11 +15,9 @@
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                       <h1 class="h3 mb-0 text-gray-800">Order Details</h1>
-                      <div class="custom-buttons">
-                           <button type="button" id="back_btn" class="btn btn-secondary mb-1">Back</button>
-                        </div>
+                      
                         @if (Auth::user()->roles[0]->slug == 'provider')
-                            <div class="custom-buttons">
+                            <div class="custom-buttons" style="padding-left: 60%;">
                                 <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
 
                                 <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#exampleModal"
@@ -27,6 +25,9 @@
                     </button>
                             </div>
                         @endif
+                        <div class="custom-buttons">
+                           <button type="button" id="back_btn" class="btn btn-secondary mb-1">Back</button>
+                        </div>
                     </div>
 
 
