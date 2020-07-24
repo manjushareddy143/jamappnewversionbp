@@ -299,8 +299,8 @@
                 processData: false,
                 success: function (response) {
                     console.log("CREATE UPDATE REPOSNE == " + response);
-                window.top.location = window.top.location;
-                location.reload();
+                // window.top.location = window.top.location;
+                // location.reload();
                 },
                 fail: function (error) {
                     console.log(error);

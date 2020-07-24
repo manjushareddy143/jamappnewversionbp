@@ -922,7 +922,7 @@ class UserController extends Controller
 
             ];
         }
-        
+
         if(array_key_exists('gender', $input)) {
             $updatedata += [
                 'gender' => $input['gender'],
@@ -943,7 +943,7 @@ class UserController extends Controller
             ];
         }
         // if(array_key_exists('org_id', $input)) {
-        //     $updatedata += [ 
+        //     $updatedata += [
         //         'org_id' => $input['org_id'],
         //     ];
         // }
@@ -959,9 +959,9 @@ class UserController extends Controller
         // print_r ($input);
         $input = $request->all();
         $updateorgdata = [];
-        if(array_key_exists('org_company_name', $input)) {
+        if(array_key_exists('name', $input)) {
             $updateorgdata += [
-                'name' => $input['org_company_name'],
+                'name' => $input['name'],
             ];
         }
         if(array_key_exists('logo', $input)) {
@@ -969,8 +969,11 @@ class UserController extends Controller
                 'logo' => $input['logo'],
             ];
         }
-        // return $this->update_organisation_details($updatedata, $input['id']);
-        return $this->update_organisation_details($updateorgdata, $id);
+
+        if($updateorgdata != null) {
+            
+            $this->update_organisation_details($updateorgdata, $id);
+        }
         //update into user table
         $updatedata = [];
         if(array_key_exists('first_name', $input)) {
@@ -1585,7 +1588,7 @@ class UserController extends Controller
                 'email' => 'required|unique:users,email',
                 'password' => 'required',
                 'contact' => 'required|unique:users,contact',
-                // 'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg'            
+                // 'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg'
             ]);
 
         if ($initialValidator->fails())
