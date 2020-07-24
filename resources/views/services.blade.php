@@ -63,8 +63,24 @@
                                     <input id="service_description" type="text" name="description" placeholder="@lang('services.label_plac_Descriptions')" class="form-control">
                                  </div>
                               </div>
+                              <div class="col-md-12" id="price_div">
+                                    <div class="form-group">
+                                          <label>Pricing</label>
+                                          <input id="service_price" type="text" name="price" placeholder="Enter Pricing" class="form-control" required="">
+                                    </div>
+                                 </div>
+                                    <!-- new -->
+                                 <div class="col-md-12">
+                                 <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input" id="ser_price" name="ser_price" onclick="checkClickprice()">
+                                       <label class="custom-control-label" for="ser_price">Do you want to add category</label>
+                                    </div>
+                                 </div>
+                              </div>
+
                               <!-- SUB CATEGORIES -->
-                              <div class="col-md-12">
+                              <div class="col-md-12" id="check_box_div">
                                  <div class="form-group">
                                     <div class="custom-control custom-checkbox">
                                        <input type="checkbox" class="custom-control-input" id="terms" name="terms" onclick="checkClick()">
@@ -242,6 +258,13 @@
        console.log("ONLOAD");
        $("#categorydiv").hide();
        $("#alerterror").hide();
+        $("#cate_disdiv").hide();
+        $("#cate_imgdiv").hide();
+        $("#cate_namediv").hide();
+        $("#cate_pridiv").hide();
+        $("#check_box_div").hide();
+        
+        
    
        getCategories();
        getListOfService();
@@ -539,6 +562,15 @@
                        var category_id = $('#categorieslist').children("option:selected").val();
                        mappingService(category_id);
                       }
+                      if(!addform.ser_price.checked) {
+                        addform.ser_price.focus();
+                       console.log('cancel');
+                    //    createCategories();
+                      } else {
+                    //    var category_id = $('#categorieslist').children("option:selected").val();
+                    //    mappingService(category_id);
+                      }
+
                       // window.top.location = window.top.location;
                   },error: function (xhr){
                   console.log("errp = " + JSON.stringify(xhr));
@@ -659,6 +691,34 @@
            $("#cate_imgdiv").hide(1000);
            $("#cate_namediv").hide(1000);
            $("#cate_pridiv").hide(1000);
+       }
+   }
+
+   function checkClickprice() {
+       if(!addform.ser_price.checked) {
+           addform.ser_price.focus();
+           console.log('cancel');
+        //    $("#categorydiv").hide(1000);
+           $("#price_div").show();
+           $("#cate_disdiv").hide();
+            $("#cate_imgdiv").hide();
+            $("#cate_namediv").hide();
+            $("#cate_pridiv").hide();
+            $("#check_box_div").hide();
+   
+   
+       } else {
+           console.log('click');
+        //    $("#categorydiv").show(1000);
+              $("#price_div").hide(1000);
+              $("#cate_disdiv").show();
+            $("#cate_imgdiv").show();
+            $("#cate_namediv").show();
+            $("#cate_pridiv").show();
+            $("#check_box_div").show();
+        //    $("#cate_imgdiv").hide(1000);
+        //    $("#cate_namediv").hide(1000);
+        //    $("#cate_pridiv").hide(1000);
        }
    }
    

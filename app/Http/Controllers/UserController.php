@@ -956,7 +956,7 @@ class UserController extends Controller
 
 
     public function organisationupdate(Request $request,$id) {
-        // print_r ($input);
+        
         $input = $request->all();
         $updateorgdata = [];
         if(array_key_exists('name', $input)) {
@@ -964,11 +964,31 @@ class UserController extends Controller
                 'name' => $input['name'],
             ];
         }
+        // if(array_key_exists('logo', $input)) {
+        //     $updateorgdata += [
+        //         'logo' => $input['logo'],
+        //     ];
+        // }
         if(array_key_exists('logo', $input)) {
+            $host = url('/');
+            $profileImg = $request->file('logo');
+            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg->move(public_path('images/profiles'), $profile_name);
             $updateorgdata += [
-                'logo' => $input['logo'],
+                'logo' => $host . "/images/profiles/" . $profile_name,
             ];
+
+            if($this->update_organisation_details($updateorgdata, $id)) {
+
+                $user["image"] = $host . "/images/profiles/" . $profile_name;
+            } else {
+                $response['message'] = "Profile image not update";
+                return response($response, 406)
+                    ->header('content-type', 'application/json');
+            }
+            
         }
+
 
         if($updateorgdata != null) {
             

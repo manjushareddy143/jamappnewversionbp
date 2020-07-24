@@ -252,7 +252,7 @@
                         if(category != null) {
                             serviceName += " ("+ category +")";
                         }
-
+                        
                         trHTML += '<tr><td>' + response[i].orderer_name +
                             '</td><td>' + serviceName  + '</td>' +
                             '</td><td>' + response[i].provider.first_name  + '</td>' +
@@ -285,7 +285,7 @@
                     $.each(response, function (i, item) {
                         trHTML += '<tr><td>' + response[i].order_user.first_name +
                             '</td><td>' + response[i].service  + '</td>' +
-                            '</td><td>' + response[i].provider_first_name  + '</td>' +
+                            '</td><td>' + response[i].provider.first_name  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
                             '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
                             '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> ' +
@@ -328,10 +328,16 @@
                         } else if(response[i].status == 4) {
                             status = "Cancel by User"
                         }
+
+                        var serviceName = response[i].services.name;
+                        var category = (response[i].category == null) ? "" : response[i].category.name;
+                        if(category != null) {
+                            serviceName += " ("+ category +")";
+                        }
                         console.log("1");
                         trHTML += '<tr id="r1"><td>' + response[i].orderer_name +
-                            '</td><td>' + response[i].service  + '</td>' +
-                            '</td><td>' + response[i].provider_first_name  + '</td>' +
+                            '</td><td style="width: 29%;">' + serviceName  + '</td>' +
+                            '</td><td>' + response[i].provider.first_name  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
                             '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
                             '</td><td>' + status +
@@ -374,9 +380,15 @@
                             status = "Cancel by User"
                         }
                         console.log("1");
+                        var serviceName = response[i].services.name;
+                        var category = (response[i].category == null) ? "" : response[i].category.name;
+                        if(category != null) {
+                            serviceName += " ("+ category +")";
+                        }
+
                         trHTML += '<tr id="r1"><td>' + response[i].orderer_name +
-                            '</td><td>' + response[i].service  + '</td>' +
-                            '</td><td>' + response[i].provider_first_name  + '</td>' +
+                            '</td><td style="width: 22%;">' + serviceName  + '</td>' +
+                            '</td><td>' + response[i].provider.first_name  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
                             '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
                             '</td><td>' + status +

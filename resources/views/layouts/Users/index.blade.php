@@ -274,9 +274,9 @@
     var editUser;
 
     function update_org(){
-        // alert("hello");
-        console.log("Update");
-        console.log(editUser.org_id);
+        
+        // console.log("Update");
+        // console.log(editUser.org_id);
         console.log(document.getElementById("org_company_name").value); 
         //var edit = 'edit_data';
 
@@ -299,8 +299,8 @@
                 processData: false,
                 success: function (response) {
                     console.log("CREATE UPDATE REPOSNE == " + response);
-                // window.top.location = window.top.location;
-                // location.reload();
+                window.top.location = window.top.location;
+                location.reload();
                 },
                 fail: function (error) {
                     console.log(error);
