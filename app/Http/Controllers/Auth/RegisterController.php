@@ -94,7 +94,7 @@ class RegisterController extends Controller
                 'contact' => 'required|unique:users,contact',
                 'type_id' => 'required|exists:user_types,id',
                 'term_id' => 'required|exists:term_conditions,id',
-                'resident_country' => 'required',
+                'country' => 'required',
             ]);
         if ($initialValidator->fails())
         {
@@ -104,7 +104,7 @@ class RegisterController extends Controller
         $input = $request->all();
         $company= [
             'name' => $input['company'],
-            'resident_country' => $input['resident_country'],
+            'country' => $input['country'],
         ];
         $org = organisation::create($company);
 

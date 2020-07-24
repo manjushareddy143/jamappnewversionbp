@@ -1347,8 +1347,8 @@
                 address_line2: document.getElementById("org_address_line2").value,
                 landmark: document.getElementById("org_landmark").value,
                 district: document.getElementById("org_district").value,
-                city: document.getElementsByTagName("org_city").value,
-                postal_code: document.getElementsByTagName("org_postal_code").value,
+                city: document.getElementById("org_city").value,
+                postal_code: document.getElementById("org_postal_code").value,
                 user_id: loggedInUser.id,
                 location: "",
             };

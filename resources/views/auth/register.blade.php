@@ -855,7 +855,7 @@ $(document).ready(function () {
                     contact: document.getElementById("org_mobile").value,
                     password: document.getElementById("org_password").value,
                     email: document.getElementById("org_email").value,
-                    resident_country: document.getElementsByTagName("option")[x].value,
+                    country: $( "#org_select_country option:selected" ).val(),
                     type_id: 2,
                     term_id: 3
                 }
