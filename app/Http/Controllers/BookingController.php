@@ -353,7 +353,6 @@ class BookingController extends Controller
 
         $id = $request->input('id');
        // This  $data array will be passed to our PDF blade
-        $data = [];
 
         // PDF::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf')
         $result = Invoice::with('order')->where('order_id', '=', $id)->first();
