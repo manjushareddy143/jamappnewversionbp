@@ -252,10 +252,10 @@
                         if(category != null) {
                             serviceName += " ("+ category +")";
                         }
-                        
+
                         trHTML += '<tr><td>' + response[i].orderer_name +
                             '</td><td>' + serviceName  + '</td>' +
-                            '</td><td>' + response[i].provider.first_name  + '</td>' +
+                            '</td><td>' + (response[i].provider == null) ? "" : response[i].provider.first_name  + '</td>' +
                             '</td><td>' + response[i].booking_date  + '</td>' +
                             '</td><td>' + response[i].start_time + " to " +  response[i].end_time +
                             '</td><td>' + status +
