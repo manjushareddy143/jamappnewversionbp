@@ -89,7 +89,13 @@ class ServiceMappingController extends Controller
                             if(array_search($user->id, array_column($users, 'id'))) {
                             } else {
                                 $user['price'] = $service->price;
-                                array_push($users, $user);
+
+                                if (in_array($user, $users))
+                                {
+                                } else {
+                                    array_push($users, $user);
+                                }
+
                             }
                         }
                     }
