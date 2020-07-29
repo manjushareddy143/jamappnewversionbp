@@ -162,7 +162,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <b class="mb-3">BILLED TO:</b>
-                        <div id="clientAddress" style="font-family: 'Amiri', serif;">
+                        <div id="clientAddress">
                             <div>{{ $client_name ?? 'client_name' }}</div>
                             <div>{{ $client_street ?? 'client_street' }}</div>
                             <div>{{ $client_city_state_country ?? 'client_city_state_country' }}</div>
