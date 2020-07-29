@@ -320,10 +320,10 @@ class BookingController extends Controller
         // print_r($result); exit();
 
         $data = [
-            'client_name' => $result->order->users->first_name,
-            'client_street' => $client_street,
-            'client_city_state_country' => $client_city_state_country,
-            'client_zip' => $client_zip,
+            'client_name' => "JACKOB",
+            'client_street' => "Ceprotec",
+            'client_city_state_country' => "Qatar مشيربالدوحة6150",
+            'client_zip' => "Qatar مشيربالدوحة6150",
             'order_id' => $result->order_id,
             'order_date' => $result->order->booking_date,
             'service_name' => $result->order->services->name . " - " . $result->order->category->name,
