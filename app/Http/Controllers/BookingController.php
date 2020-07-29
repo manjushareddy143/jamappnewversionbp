@@ -282,7 +282,7 @@ class BookingController extends Controller
 
         // PDF::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf')
         $result = Invoice::with('order')->where('order_id', '=', 7)->first();
-        // return $result;
+        return $result;
         $cost = 0;
         foreach ($result->order->provider->providerDetail as $services) {
             if($result->order->services->id == $services->service_id && $result->order->category->id == $services->category_id) {
