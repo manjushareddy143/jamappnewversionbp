@@ -15,7 +15,7 @@
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                       <h1 class="h3 mb-0 text-gray-800">Order Details</h1>
-                      
+
                         @if (Auth::user()->roles[0]->slug == 'provider')
                             <div class="custom-buttons" style="padding-left: 60%;">
                                 <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
@@ -574,13 +574,13 @@
                         var additional_total = response.invoice.additional_charges * response.invoice.working_hr;
                         var sub_total = serviceAmount + additional_total + meterialAmount;
 
-                        var total_discount = sub_total * response.invoice.discount/100;
+                        var total_discount = sub_total * response.invoice.discount; ///100;
 
-                        var totalWithDiscount = sub_total - total_discount;
+                        // var totalWithDiscount = sub_total - total_discount;
 
-                        var taxCut =  totalWithDiscount * response.invoice.tax /100;
+                        var taxCut =  total_discount * response.invoice.tax /100;
 
-                        var total = totalWithDiscount - taxCut;
+                        var total = total_discount - taxCut;
                         $('#total_cost').text(total + "  QAR");
         }
 

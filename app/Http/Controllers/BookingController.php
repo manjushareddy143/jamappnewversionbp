@@ -322,13 +322,13 @@ class BookingController extends Controller
         $additional_total = $result->additional_charges * $result->working_hr;
         $sub_total = $serviceAmount + $additional_total + $meterialAmount;
 
-        $total_discount = $sub_total * $result->discount/100;
+        $total_discount = $sub_total - $result->discount; ///100;
 
-        $totalWithDiscount = $sub_total - $total_discount;
+        // $totalWithDiscount = $sub_total - $total_discount;
 
-        $taxCut =  $totalWithDiscount * $result->tax /100;
+        $taxCut =  $total_discount * $result->tax /100;
 
-        $total = $totalWithDiscount - $taxCut;
+        $total = $total_discount - $taxCut;
 
 
         $client_street = "";
