@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ar" >
    <head>
-      <meta http-equiv='content-type' content='text/html; charset=utf-8' charset="utf-8" />
+      <meta http-equiv='content-type' content='text/html; charset=utf-8" />
 
       <title>INVOICE</title>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
