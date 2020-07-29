@@ -276,26 +276,75 @@ class BookingController extends Controller
     public function showInvoice()
     {
 
+
+       // This  $data array will be passed to our PDF blade
+        $data = [];
+
+        // PDF::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf')
+        $result = Invoice::with('order')->where('order_id', '=', 7)->first();
+        // return $result;
+        $cost = 0;
+        foreach ($result->order->provider->providerDetail as $services) {
+            if($result->order->services->id == $services->service_id && $result->order->category->id == $services->category_id) {
+                $cost = $services->price;
+            }
+        }
+
+        $serviceAmount = $result->working_hr * $cost;
+
+        $meterialAmount = $result->material_quantity * $result->material_price;
+        $additional_total = $result->additional_charges * $result->working_hr;
+        $sub_total = $serviceAmount + $additional_total + $meterialAmount;
+
+        $total_discount = $sub_total - $result->discount; ///100;
+
+        // $totalWithDiscount = $sub_total - $total_discount;
+
+        $taxCut =  $total_discount * $result->tax /100;
+
+        $total = $total_discount - $taxCut;
+
+
+        $client_street = "";
+        $client_city_state_country = "";
+        $client_zip = "";
+
+        foreach($result->order->users->address as $address) {
+
+            $client_street = $address->address_line1 . " " .$address->address_line2;
+            $client_city_state_country = $address->district . " " . $address->city;
+            $client_zip = $address->postal_code;
+        }
+
+        // return response()->json($client_zip);
+        // print_r($result); exit();
+
         $data = [
-            'order_id' => 1,
-            'order_date' => '',
-            'service_name' => '',
-            'service_cost' => '',
-            'working_hr' => '',
-            'service_amount' => '',
-            'material_name' => '',
-            'material_qty' => '',
-            'material_cost' => '',
-            'material_amout' => '',
-            'additional_cost' => '',
-            'additional_hr' => 0,
-            'additional_total' => '',
-            'sub_total' => '',
-            'discount' => '',
-            'tax' => '',
-            'total' => ''
+            'client_name' => $result->order->users->first_name,
+            'client_street' => $client_street,
+            'client_city_state_country' => $client_city_state_country,
+            'client_zip' => $client_zip,
+            'order_id' => $result->order_id,
+            'order_date' => $result->order->booking_date,
+            'service_name' => $result->order->services->name . " - " . $result->order->category->name,
+            'service_cost' => $cost,
+            'working_hr' => $result->working_hr,
+            'service_amount' => $serviceAmount,
+            'material_name' => $result->material_names,
+            'material_qty' => $result->material_quantity,
+            'material_cost' => $result->material_price,
+            'material_amout' => $meterialAmount,
+            'additional_cost' => $result->additional_charges,
+            'additional_hr' => $result->working_hr,
+            'additional_total' => $additional_total,
+            'sub_total' => $sub_total,
+            'discount' => $result->discount,
+            'tax' => $result->tax,
+            'total' => $total
 
         ];
+
+
         return view('invoice.invoice')->with('data', $data);
     }
 
