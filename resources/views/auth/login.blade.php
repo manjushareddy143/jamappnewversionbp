@@ -42,11 +42,11 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
 
             <div class="card shadow-sm my-5">
                 <div class="card-body p-0">
-                <div class="progress">
+                <!--div class="progress">
                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                     </div>
-                </div>
+                </div-->
                     <div class="row">
                         <div class="col-lg-12">
 
@@ -435,7 +435,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                             $("#newpass").show();
                             $("#fpmain").hide();
                             cPass = 1;
-                            
+
                         } else {
                             alert("Invalid email Id");
                         }
@@ -446,7 +446,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                             $("#errormsg").text("Invalid Email Id");
                         } else {
                             $("#errormsg").text("success");
-                            
+
                         }
                     },
                 });

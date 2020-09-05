@@ -1511,7 +1511,7 @@
      padding-top: 10px;
 }
  .customer-message:hover {
-     background-color: #F8F9FC 
+     background-color: #F8F9FC
 }
  .customer-message a .message-title {
      padding-right: 1.3rem;
@@ -1561,13 +1561,13 @@
      color: #04bfac !important;
 }
  .btn-primary {
-     background-color: #04bfac;
-     border-color: #04bfac;
+     background-color: #FB6907;
+     border-color: #FB6907;
 }
  .btn-primary:hover {
      color: #fff;
-     background-color: #0aa698;
-     border-color: #0aa698;
+     background-color: #FB6907;
+     border-color: #FB6907;
 }
  a {
      color: #f79548;
@@ -1579,7 +1579,7 @@
      width: 90px;
 }
  .bg-gradient-login {
-     background-color: #FAFDFB;
+     background-color: #FB6907;
      background-size: inherit;
      background-image: url(../img/logo/loginbg.jpg);
      background-repeat: repeat;
@@ -2247,4 +2247,3 @@
          font-size: 13px;
     }
 }
- 
