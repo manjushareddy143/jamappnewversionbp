@@ -19,11 +19,11 @@
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home">
-            <div class="sidebar-brand-icon">
+            <!--div class="sidebar-brand-icon">
                 <img src="{{ asset('img/logo/logo2.png') }}">
-            </div>
+            </div-->
             <div class="sidebar-brand-text mx-3">
-                <img src="{{ asset('img/logo/jam-logo.png') }}">
+                <img src="{{ asset('img/logo/newlogo.png') }}">
             </div>
         </a>
         <hr class="sidebar-divider my-0">
@@ -260,7 +260,7 @@
 <style>
 
     .dropbtn {
-        background-color: #0aa698;;
+        background-color: #5C5857;;
         color: white;
         padding: 4px;
         font-size: 16px;
@@ -300,6 +300,6 @@
     }
 
     .dropdown:hover .dropbtn {
-        background-color: #3e8e41;
+        background-color: #5C5857;
     }
 </style>

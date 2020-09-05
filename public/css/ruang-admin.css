@@ -525,7 +525,7 @@
      color: #858796;
 }
  .bg-navbar {
-     background-color: #04bfac;
+     background-color: #5C5857;
 }
  .sidebar {
      min-height: 100vh;
@@ -926,7 +926,7 @@
 }
  .sidebar-light .sidebar-brand {
      color: #fafafa;
-     background-color: #0aa698;
+     background-color: #5C5857;
 }
  .sidebar-light hr.sidebar-divider {
      border-top: 1px solid #eaecf4;
@@ -1558,7 +1558,7 @@
 }
 /*custom css*/
  .text-primary {
-     color: #04bfac !important;
+     color: #FB6907 !important;
 }
  .btn-primary {
      background-color: #FB6907;
@@ -1599,7 +1599,7 @@
      text-transform: uppercase;
 }
  .form-control:focus {
-     border: 1px solid #04bfac;
+     border: 1px solid #FB6907;
 }
  .form-control {
      font-family: 'Manrope3-Regular';
