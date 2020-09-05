@@ -956,7 +956,7 @@ class UserController extends Controller
 
 
     public function organisationupdate(Request $request,$id) {
-        
+
         $input = $request->all();
         $updateorgdata = [];
         if(array_key_exists('name', $input)) {
@@ -986,12 +986,12 @@ class UserController extends Controller
                 return response($response, 406)
                     ->header('content-type', 'application/json');
             }
-            
+
         }
 
 
         if($updateorgdata != null) {
-            
+
             $this->update_organisation_details($updateorgdata, $id);
         }
         //update into user table
@@ -1472,6 +1472,8 @@ class UserController extends Controller
             $type_id = $user['type_id'];
             $host = url('/');
 
+            $user = User::with('services')->with('provider')->where('id', '=', $id)->first();
+
             // Profile Image insert
             $imagedata =  [];
             $profile_name  = "";
@@ -1531,19 +1533,11 @@ class UserController extends Controller
             }
 
             if($this->update_user_details($imagedata, $id)) {
-
-                $user = User::with('services')->with('provider')->where('id', '=', $id)->first();
-
-                $checkuser = Auth::onceUsingId($id);
-                $roles = Auth::user()->roles;
-                $user["roles"] = $roles;
-
                 //                $user = Auth::onceUsingId($id);
                 //                $roles = Auth::user()->roles;
                 if(array_key_exists('profile_photo', $input)) {
                     $user["image"] = $host . "/images/profiles/" . $profile_name;
                 }
-
             } else {
                 $response['message'] = "Profile image not update";
                 return response($response, 406)
@@ -1581,6 +1575,13 @@ class UserController extends Controller
                 $addressRes = Address::where('user_id', '=', $id)->get();
                 $user['address'] = $addressRes;
             }
+
+            $user = User::with('services')->with('provider')->where('id', '=', $id)->first();
+            $checkuser = Auth::onceUsingId($id);
+            $roles = Auth::user()->roles;
+            $user["roles"] = $roles;
+
+
             return response($user, 200)
                 ->header('content-type', 'application/json');
         } catch (\Exception $e) {
