@@ -1546,7 +1546,14 @@ class UserController extends Controller
 
             if(array_key_exists('services', $input)) {
                 $services = $input['services'];
+
                 $services =  json_decode($services, true); //explode(',', );
+                
+                if(count($services) > 0) {
+                    DB::table('provider_service_mappings')->where('user_id', $user['id'])->delete();
+                }
+                
+                
                 foreach ($services as $data) {
                     $obj = array();
                     $obj['user_id'] = $user['id'];
