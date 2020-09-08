@@ -203,9 +203,10 @@ class BookingController extends Controller
     public function invoice(Request $request) {
 
 
+
         $initialValidator = Validator::make($request->all(),
         [
-            'order_id' => 'required|exists:bookings,id',
+            'id' => 'required|exists:bookings,id',
             'working_hr' => 'required',
             'tax_rate' => 'required',
             'tax' => 'required',
@@ -351,16 +352,29 @@ class BookingController extends Controller
     public function printPDF(Request $request)
     {
 
+
+
         $id = $request->input('id');
        // This  $data array will be passed to our PDF blade
 
         // PDF::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf')
         $result = Invoice::with('order')->where('order_id', '=', $id)->first();
 
+
         $cost = 0;
+        // return $result->order;
         foreach ($result->order->provider->providerDetail as $services) {
-            if($result->order->services->id == $services->service_id && $result->order->category->id == $services->category_id) {
-                $cost = $services->price;
+
+            if($result->order->category != null) {
+
+                if($result->order->services->id == $services->service_id && $result->order->category->id == $services->category_id) {
+                    $cost = $services->price;
+                }
+
+            } else {
+                if($result->order->services->id == $services->service_id) {
+                    $cost = $services->price;
+                }
             }
         }
 
@@ -393,6 +407,9 @@ class BookingController extends Controller
         // return response()->json($client_zip);
         // print_r($result); exit();
 
+        $name = $result->order->services->name;
+        $name = ($result->order->category != null) ? $name. " - " . $result->order->category->name : $name;
+
         $data = [
             'client_name' => $result->order->users->first_name,
             'client_street' => $client_street,
@@ -400,7 +417,7 @@ class BookingController extends Controller
             'client_zip' => $client_zip,
             'order_id' => $result->order_id,
             'order_date' => $result->order->booking_date,
-            'service_name' => $result->order->services->name . " - " . $result->order->category->name,
+            'service_name' =>  $name ,
             'service_cost' => $cost,
             'working_hr' => $result->working_hr,
             'service_amount' => $serviceAmount,
