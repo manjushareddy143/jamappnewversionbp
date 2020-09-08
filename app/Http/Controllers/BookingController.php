@@ -206,7 +206,7 @@ class BookingController extends Controller
 
         $initialValidator = Validator::make($request->all(),
         [
-            'id' => 'required|exists:bookings,id',
+            'order_id' => 'required|exists:bookings,id',
             'working_hr' => 'required',
             'tax_rate' => 'required',
             'tax' => 'required',
