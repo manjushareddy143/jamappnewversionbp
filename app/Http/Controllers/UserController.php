@@ -1583,7 +1583,10 @@ class UserController extends Controller
                 $user['address'] = $addressRes;
             }
 
-            $user = User::with('services')->with('provider')->where('id', '=', $id)->first();
+            $user = User::with('services')->with('provider')
+            ->with('address')
+            ->with('organisation')
+            ->where('id', '=', $id)->first();
             $checkuser = Auth::onceUsingId($id);
             $roles = Auth::user()->roles;
             $user["roles"] = $roles;
