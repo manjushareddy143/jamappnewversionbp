@@ -63,6 +63,7 @@ class BookingController extends Controller
 
         $dataPayload = [
             "order" => $booking['id'],
+            "status" => "1",
         ];
 
 
