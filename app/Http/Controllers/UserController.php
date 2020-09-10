@@ -944,7 +944,7 @@ class UserController extends Controller
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
             $updatedata += [
-                'image' => $host . "/images/profiles/" . $profile_name,
+                'image' => "/images/profiles/" . $profile_name,
             ];
         }
         // if(array_key_exists('org_id', $input)) {
@@ -980,12 +980,12 @@ class UserController extends Controller
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
             $updateorgdata += [
-                'logo' => $host . "/images/profiles/" . $profile_name,
+                'logo' => "/images/profiles/" . $profile_name,
             ];
 
             if($this->update_organisation_details($updateorgdata, $id)) {
 
-                $user["image"] = $host . "/images/profiles/" . $profile_name;
+                $user["image"] = "/images/profiles/" . $profile_name;
             } else {
                 $response['message'] = "Profile image not update";
                 return response($response, 406)
@@ -1083,7 +1083,7 @@ class UserController extends Controller
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
             $updatedata += [
-                'image' => $host . "/images/profiles/" . $profile_name,
+                'image' => "/images/profiles/" . $profile_name,
             ];
         }
         if ($updatedata) {
@@ -1247,7 +1247,7 @@ class UserController extends Controller
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
             $imagedata = [
-                'image' => $host . "/images/profiles/" . $profile_name,
+                'image' => "/images/profiles/" . $profile_name,
             ];
 
             if(array_key_exists('languages', $input)) {
@@ -1264,7 +1264,7 @@ class UserController extends Controller
 
 
             if($this->update_user_details($imagedata, $id)) {
-                $user["image"] = $host . "/images/profiles/" . $profile_name;
+                $user["image"] = "/images/profiles/" . $profile_name;
             } else {
                 $response['message'] = "Profile image not update";
                 return response($response, 406)
@@ -1337,12 +1337,12 @@ class UserController extends Controller
                 $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
                 $profileImg->move(public_path('images/profiles'), $profile_name);
                 $imagedata = [
-                        'image' => $host . "/images/profiles/" . $profile_name,
+                        'image' => "/images/profiles/" . $profile_name,
                 ];
 
                 if($this->update_user_details($imagedata, $id)) {
 
-                    $user["image"] = $host . "/images/profiles/" . $profile_name;
+                    $user["image"] = "/images/profiles/" . $profile_name;
                 } else {
                     $response['message'] = "Profile image not update";
                     return response($response, 406)
@@ -1404,7 +1404,7 @@ class UserController extends Controller
             $docdata = [
                 'user_id' => $id,
                 'type' => $doc_type,
-                'doc_name' => $host . "/images/documents/" . $doc_name
+                'doc_name' => "/images/documents/" . $doc_name
             ];
             $id_proof = Document::create($docdata);
         }
@@ -1489,7 +1489,7 @@ class UserController extends Controller
                 $requestdata = array();
 
                 $imagedata =  [
-                    'image' => $host . "/images/profiles/" . $profile_name,
+                    'image' => "/images/profiles/" . $profile_name,
                 ];
             }
 
@@ -1542,7 +1542,7 @@ class UserController extends Controller
             //     //                $user = Auth::onceUsingId($id);
             //     //                $roles = Auth::user()->roles;
             //     if(array_key_exists('profile_photo', $input)) {
-            //         $user["image"] = $host . "/images/profiles/" . $profile_name;
+            //         $user["image"] = "/images/profiles/" . $profile_name;
             //     }
             // } else {
             //     $response['message'] = "Profile image not update";
@@ -1654,7 +1654,7 @@ class UserController extends Controller
             $host = url('/');
             unset($input["profile_photo"]);
             $company +=  [
-                'logo' => $host . "/images/profiles/" . $profile_name,
+                'logo' => "/images/profiles/" . $profile_name,
             ];
         }
 
@@ -1723,7 +1723,7 @@ class UserController extends Controller
             $host = url('/');
             unset($input["profile_photo"]);
             $input +=  [
-                'image' => $host . "/images/profiles/" . $profile_name,
+                'image' => "/images/profiles/" . $profile_name,
             ];
         }
 
