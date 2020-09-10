@@ -67,17 +67,23 @@ class FCMPushNotification extends Controller
                 ];
 
 
-                $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+                // $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+                // foreach ($fcm_customer as $fcm) {
+                // // $pushnotification = [
+                // // "f_c_m_device_id" => $fcm->id,
+                // // "title" =>$notification['title'],
+                // // "message" =>$notixfication['body '],
+                // // "data" => $dataPayload->toString(),
+                // // ];
+                // // FCMPushNotification::create($pushnotification);
+                //     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+                // }
+
+                $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->where('user_id', '=', $booking['provider_id'])->get();
                 foreach ($fcm_customer as $fcm) {
-                // $pushnotification = [
-                // "f_c_m_device_id" => $fcm->id,
-                // "title" =>$notification['title'],
-                // "message" =>$notixfication['body '],
-                // "data" => $dataPayload->toString(),
-                // ];
-                // FCMPushNotification::create($pushnotification);
                     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
                 }
+
                 return response($fcm_customer, 200)
                     ->header('content-type', 'application/json');
 
@@ -102,7 +108,11 @@ class FCMPushNotification extends Controller
                     "order" => $booking['id'],
                     "status" => "3",
                 ];
-                $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+                // $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+                // foreach ($fcm_customer as $fcm) {
+                //     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+                // }
+                $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->where('user_id', '=', $booking['provider_id'])->get();
                 foreach ($fcm_customer as $fcm) {
                     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
                 }
@@ -120,8 +130,12 @@ class FCMPushNotification extends Controller
                     "order" => $booking['id'],
                     "status" => "4",
                 ];
-                $fcm_provider = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
-                foreach ($fcm_provider as $fcm) {
+                // $fcm_provider = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
+                // foreach ($fcm_provider as $fcm) {
+                //     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+                // }
+                $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->where('user_id', '=', $booking['provider_id'])->get();
+                foreach ($fcm_customer as $fcm) {
                     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
                 }
                 return response($fcm_provider, 200)
@@ -156,7 +170,11 @@ class FCMPushNotification extends Controller
                     "status" => "6",
                 ];
 
-                $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+                // $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+                // foreach ($fcm_customer as $fcm) {
+                //     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+                // }
+                $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->where('user_id', '=', $booking['provider_id'])->get();
                 foreach ($fcm_customer as $fcm) {
                     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
                 }

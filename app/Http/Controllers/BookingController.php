@@ -240,15 +240,15 @@ class BookingController extends Controller
 
         $isUpdate = DB::table('bookings')->where('id', $input['order_id'])->update($orderStatus);
 
-        $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+        $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->where('user_id', '=', $booking['provider_id'])->get();
         foreach ($fcm_customer as $fcm) {
             $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
         }
 
-        $fcm_customer = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
-        foreach ($fcm_customer as $fcm) {
-            $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
-        }
+        // $fcm_customer = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
+        // foreach ($fcm_customer as $fcm) {
+        //     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+        // }
 
         return response()->json($result);
     }
@@ -535,15 +535,19 @@ class BookingController extends Controller
             ];
 
             $booking = Booking::where('id', '=', $input['order_id'])->first();
-            $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+            $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->where('user_id', '=', $booking['provider_id'])->get();
             foreach ($fcm_customer as $fcm) {
                 $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
             }
+            // $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+            // foreach ($fcm_customer as $fcm) {
+            //     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+            // }
 
-            $fcm_customer = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
-            foreach ($fcm_customer as $fcm) {
-                $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
-            }
+            // $fcm_customer = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
+            // foreach ($fcm_customer as $fcm) {
+            //     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+            // }
         }
         return response()->json($isUpdate, 200);
     }
