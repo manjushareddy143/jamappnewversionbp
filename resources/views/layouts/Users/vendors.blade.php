@@ -152,7 +152,10 @@
                                         </div>
 
                                         <div class="row">
-                                         <div class="col-md-6 float-l">
+
+
+                                         @if (Auth::user()->roles[0]->slug == 'organisation-admin')
+                                         <div class="col-md-12 float-l">
                                             <div class="form-group">
                                                 <label for="exampleFormControlSelect1">@lang('vendor.label_Country')
                                                     <strong style="font-size: 14px;color: #e60606;">*</strong></label>
@@ -162,15 +165,28 @@
                                                 <p id="countryError"></p>
                                             </div>
                                          </div>
-
-                                         <div class="col-md-6 float-l">
+                                        @else
+                                        <div class="col-md-6 float-l">
                                             <div class="form-group">
-                                                <label for="exampleFormControlSelect1">@lang('vendor.label_organisation')</label>
-                                                <select class="form-control" id="orglist" required>
-                                                    <option value="select_org">Select Organisation</option>
+                                                <label for="exampleFormControlSelect1">@lang('vendor.label_Country')
+                                                    <strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                                <select class="form-control" id="select_country" required>
+                                                    <option value="Select Country">Select Country</option>
                                                 </select>
+                                                <p id="countryError"></p>
                                             </div>
-                                        </div>
+                                         </div>
+                                            <div class="col-md-6 float-l" id="org_selectId">
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlSelect1">@lang('vendor.label_organisation')</label>
+                                                    <select class="form-control" id="orglist" required>
+                                                        <option value="select_org">Select Organisation</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        @endif
+
+
 
                                         </div>
 
@@ -743,26 +759,33 @@
 
         function create_user()  {
             var servicevalite = users_validate();
+            //
             if (servicevalite == true) {
                 // var country = document.getElementById("select_country").selectedIndex;
                 var form = new FormData();
                 if (currentuser.roles[0].name == 'Corporate Service Provider') {
                     form.append('org_id', currentuser.org_id);
+                } else {
+                    var org_id_select = $('#orglist').children("option:selected").val();
+                    console.log("category_id = " + org_id_select);
+                    if(org_id_select != 'select_org') {
+                        form.append('org_id', org_id_select);
+                    }
                 }
-
-                var org_id_select = $('#orglist').children("option:selected").val();
-                console.log("category_id = " + org_id_select);
-                if(org_id_select != 'select_org') {
-                    form.append('org_id', org_id_select);
-                }
-
-
 
                 form.append('first_name', document.getElementById("first_name").value);
                 form.append('last_name', document.getElementById("last_name").value);
                 form.append('email', document.getElementById("email").value);
                 form.append('password', document.getElementById("password").value);
                 form.append('contact', document.getElementById("contact").value);
+                if (document.getElementById('gender-male').checked) {
+                    selectGender = "Male";
+                } else if(document.getElementById('gender-female').checked) {
+                    selectGender = "Female";
+                }else if(document.getElementById('gender-other').checked) {
+                    selectGender = "Other";
+                }
+
                 form.append('gender', selectGender);
                 form.append('languages', selectedLang.toString());
                 form.append('resident_country', $( "#select_country option:selected" ).val());
@@ -808,8 +831,6 @@
                         window.top.location = window.top.location;
                         location.reload();
                     },
-                    // fail: function (error) {
-                    //     console.log(error);
                     error: function (xhr){
                         console.log("errp = " + JSON.stringify(xhr));
                         if(xhr['status'] == 406) {

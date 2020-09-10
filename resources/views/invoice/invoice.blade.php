@@ -143,7 +143,7 @@
 
 
                     <div class="col-sm-6 float-right">
-                        <img src="{{ public_path("/img/logo/logo.png") }}" height="35%" width="35%" alt="logo" style="margin-left: 20%;"/>
+                        <img src="{{ public_path("/img/logo/logoNewJAM.png") }}" height="35%" width="35%" alt="logo" style="margin-left: 20%;"/>
                     </div>
                 </div>
 

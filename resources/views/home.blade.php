@@ -1012,26 +1012,26 @@
                 });
             }
 
-            if (document.getElementById("org_landmark").value == "") {
-                $("#org_landmark").focus();
-                $("#org_landmark").focus();
-                $("#org_landmark").blur(function ()
-                {
-                    var name = $('#org_landmark').val();
-                    if (name.length == 0)
-                    {
-                        $('#org_landmark').next('div.red').remove();
-                        $('#org_landmark').after('<div class="red" style="color:red">Landmark is Required</div>');
-                        isValidate = false;
-                    }
-                    else
-                    {
-                        $(this).next('div.red').remove();
-                        isValidate = true;
-                    }
-                });
+            // if (document.getElementById("org_landmark").value == "") {
+            //     $("#org_landmark").focus();
+            //     $("#org_landmark").focus();
+            //     $("#org_landmark").blur(function ()
+            //     {
+            //         var name = $('#org_landmark').val();
+            //         if (name.length == 0)
+            //         {
+            //             $('#org_landmark').next('div.red').remove();
+            //             $('#org_landmark').after('<div class="red" style="color:red">Landmark is Required</div>');
+            //             isValidate = false;
+            //         }
+            //         else
+            //         {
+            //             $(this).next('div.red').remove();
+            //             isValidate = true;
+            //         }
+            //     });
 
-            }
+            // }
             if (document.getElementById("org_district").value == "") {
                 $("#org_district").focus();
                 $("#org_district").focus();
@@ -1101,7 +1101,7 @@
         {
             var isValidate = false;
             console.log("organisation_validate");
-            
+
             if (document.getElementById("address_name").value == "") {
                 $("#address_name").focus();
                 $("#address_name").focus();
@@ -1248,7 +1248,7 @@
 
         function apiCall()
         {
-            
+
             var form = new FormData();
             var files = $('#imageUpload')[0].files[0];
             form.append('profile_photo', files);
@@ -1485,7 +1485,7 @@
                 form.append('doc_type' + idVal, $('#doctypelist' + idVal).children("option:selected").val());
             }
 
-            
+
             form.append('languages', selectedLang.toString());
             $addressdata = {
                 name: document.getElementById("address_name").value,
