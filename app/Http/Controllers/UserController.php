@@ -417,6 +417,7 @@ class UserController extends Controller
                         }
                         else
                         {
+                            // $fcm_response = FCMDevices::update($fcm_data);
                             $fcm_response = $fcm_user;
                         }
                         $user['fcm'] = $fcm_response;
