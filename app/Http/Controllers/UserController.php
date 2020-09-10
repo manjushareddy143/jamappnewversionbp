@@ -421,10 +421,10 @@ class UserController extends Controller
                         }
                         $user['fcm'] = $fcm_response;
                     }
-                    if($user->social_signin == "") {
-                        $user->image = $request->getSchemeAndHttpHost() . $user->image;
+                    // if($user->social_signin == "") {
+                    //     $user->image = $request->getSchemeAndHttpHost() . $user->image;
                         
-                    } 
+                    // } 
                     return response($user, 200);
                     
                 }
@@ -1537,17 +1537,18 @@ class UserController extends Controller
                 $this->update_provider_details($providerData, $id);
             }
 
-            if($this->update_user_details($imagedata, $id)) {
-                //                $user = Auth::onceUsingId($id);
-                //                $roles = Auth::user()->roles;
-                if(array_key_exists('profile_photo', $input)) {
-                    $user["image"] = $host . "/images/profiles/" . $profile_name;
-                }
-            } else {
-                $response['message'] = "Profile image not update";
-                return response($response, 406)
-                    ->header('content-type', 'application/json');
-            }
+            $this->update_user_details($imagedata, $id);
+            // if() {
+            //     //                $user = Auth::onceUsingId($id);
+            //     //                $roles = Auth::user()->roles;
+            //     if(array_key_exists('profile_photo', $input)) {
+            //         $user["image"] = $host . "/images/profiles/" . $profile_name;
+            //     }
+            // } else {
+            //     $response['message'] = "Profile image not update";
+            //     return response($response, 406)
+            //         ->header('content-type', 'application/json');
+            // }
 
             if(array_key_exists('services', $input)) {
                 $services = $input['services'];
