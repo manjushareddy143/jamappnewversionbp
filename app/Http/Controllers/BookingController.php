@@ -245,6 +245,11 @@ class BookingController extends Controller
             $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
         }
 
+        $fcm_customer = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
+        foreach ($fcm_customer as $fcm) {
+            $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+        }
+
         return response()->json($result);
     }
 

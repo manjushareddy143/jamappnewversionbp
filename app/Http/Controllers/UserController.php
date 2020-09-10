@@ -421,7 +421,12 @@ class UserController extends Controller
                         }
                         $user['fcm'] = $fcm_response;
                     }
+                    if($user->social_signin == "") {
+                        $user->image = $request->getSchemeAndHttpHost() . $user->image;
+                        
+                    } 
                     return response($user, 200);
+                    
                 }
                 else
                 {
