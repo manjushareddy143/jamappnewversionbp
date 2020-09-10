@@ -572,13 +572,15 @@
 
                         var meterialAmount = response.invoice.material_quantity * response.invoice.material_price;
                         var additional_total = response.invoice.additional_charges * response.invoice.working_hr;
+
+
                         var sub_total = serviceAmount + additional_total + meterialAmount;
 
-                        var total_discount = sub_total * response.invoice.discount; ///100;
+                        var total_discount = sub_total - response.invoice.discount; ///100;
 
                         // var totalWithDiscount = sub_total - total_discount;
 
-                        var taxCut =  total_discount * response.invoice.tax /100;
+                        var taxCut =  total_discount * response.invoice.tax/100;
 
                         var total = total_discount - taxCut;
                         $('#total_cost').text(total + "  QAR");
