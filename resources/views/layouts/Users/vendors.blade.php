@@ -680,12 +680,12 @@
             }
 
             if (currentuser.roles[0].name == 'Corporate Service Provider') {
-                    form.append('org_id', currentuser.org_id);
+                formUpdate.append('org_id', currentuser.org_id);
             } else {
                 var org_id_select = $('#orglist').children("option:selected").val();
                 console.log("category_id = " + org_id_select);
                 if(org_id_select != 'select_org') {
-                    form.append('org_id', org_id_select);
+                    formUpdate.append('org_id', org_id_select);
                 }
             }
 

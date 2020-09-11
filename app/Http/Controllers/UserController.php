@@ -970,6 +970,7 @@ class UserController extends Controller
                 'name' => $input['name'],
             ];
         }
+        
         // if(array_key_exists('logo', $input)) {
         //     $updateorgdata += [
         //         'logo' => $input['logo'],
@@ -984,7 +985,7 @@ class UserController extends Controller
                 'logo' => "/images/profiles/" . $profile_name,
             ];
 
-            if($this->update_organisation_details($updateorgdata, $id)) {
+            if($this->update_organisation_details($updateorgdata, $input['id'])) {
 
                 $user["image"] = "/images/profiles/" . $profile_name;
             } else {
@@ -995,10 +996,10 @@ class UserController extends Controller
 
         }
 
-
+        
         if($updateorgdata != null) {
-
-            $this->update_organisation_details($updateorgdata, $id);
+            // return $input['id'];
+            $this->update_organisation_details($updateorgdata, $input['id']);
         }
         //update into user table
         $updatedata = [];

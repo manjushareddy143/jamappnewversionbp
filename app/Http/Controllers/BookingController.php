@@ -396,7 +396,7 @@ class BookingController extends Controller
 
         $taxCut =  $total_discount * $result->tax /100;
 
-        $total = $total_discount - $taxCut;
+        $total = $total_discount + $taxCut;
 
 
         $client_street = "";

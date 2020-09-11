@@ -7,7 +7,7 @@
       <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">@lang('organisation.label_header')</h6>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="addOrg()"
                     id="user_addbtn"><i class="fa fa-plus" aria-hidden="true"></i> @lang('organisation.label_title')</button>
                 </div>
 
@@ -73,48 +73,48 @@
                        </div>
                      </div>
                </div>
-               <style>
-                #snackbar {
-                    visibility: hidden;
-                    min-width: 250px;
-                    margin-left: -125px;
-                    background-color: #333;
-                    color: #fff;
-                    text-align: center;
-                    border-radius: 2px;
-                    padding: 16px;
-                    position: fixed;
-                    z-index: 1;
-                    left: 50%;
-                    bottom: 30px;
-                    font-size: 17px;
-                }
+                <style>
+                        #snackbar {
+                            visibility: hidden;
+                            min-width: 250px;
+                            margin-left: -125px;
+                            background-color: #333;
+                            color: #fff;
+                            text-align: center;
+                            border-radius: 2px;
+                            padding: 16px;
+                            position: fixed;
+                            z-index: 1;
+                            left: 50%;
+                            bottom: 30px;
+                            font-size: 17px;
+                        }
 
-                #snackbar.show {
-                    visibility: visible;
-                    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-                    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-                }
-                @-webkit-keyframes fadein {
-                from {bottom: 0; opacity: 0;}
-                to {bottom: 30px; opacity: 1;}
-                }
+                        #snackbar.show {
+                            visibility: visible;
+                            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                        }
+                        @-webkit-keyframes fadein {
+                        from {bottom: 0; opacity: 0;}
+                        to {bottom: 30px; opacity: 1;}
+                        }
 
-                @keyframes fadein {
-                from {bottom: 0; opacity: 0;}
-                to {bottom: 30px; opacity: 1;}
-                }
+                        @keyframes fadein {
+                        from {bottom: 0; opacity: 0;}
+                        to {bottom: 30px; opacity: 1;}
+                        }
 
-                @-webkit-keyframes fadeout {
-                from {bottom: 30px; opacity: 1;}
-                to {bottom: 0; opacity: 0;}
-                }
+                        @-webkit-keyframes fadeout {
+                        from {bottom: 30px; opacity: 1;}
+                        to {bottom: 0; opacity: 0;}
+                        }
 
-                @keyframes fadeout {
-                from {bottom: 30px; opacity: 1;}
-                to {bottom: 0; opacity: 0;}
-                }
-                </style>
+                        @keyframes fadeout {
+                        from {bottom: 30px; opacity: 1;}
+                        to {bottom: 0; opacity: 0;}
+                        }
+                    </style>
                 <div id="snackbar">Something went wrong</div>
                   <div class="modal-footer">
                             <button type="button" id="btn_close" class="btn btn-secondary" data-dismiss="modal">@lang('organisation.label_place_cbtn')</button>
@@ -168,7 +168,7 @@
 
 
 <script>
-    
+
     window.addEventListener ?
         window.addEventListener("load",onLoad(),false) :
         window.attachEvent && window.attachEvent("onload",onLoad());
@@ -199,6 +199,14 @@
     function onLoad() {
         console.log("ON LOAD  tbl_id")
         getResult();
+    }
+
+    function addOrg() {
+        console.log("ADD");
+        $("#lbl_pass").show();
+            $("#password").show();
+            $("#btn_save").show();
+            // $("#btn_update").show();
     }
 
     function getResult() {
@@ -274,10 +282,8 @@
     var editUser;
 
     function update_org(){
-        
-        // console.log("Update");
         // console.log(editUser.org_id);
-        console.log(document.getElementById("org_company_name").value); 
+        console.log(document.getElementById("org_company_name").value);
         //var edit = 'edit_data';
 
         let formUpdate = new FormData();
@@ -299,8 +305,8 @@
                 processData: false,
                 success: function (response) {
                     console.log("CREATE UPDATE REPOSNE == " + response);
-                window.top.location = window.top.location;
-                location.reload();
+                    window.top.location = window.top.location;
+                    location.reload();
                 },
                 fail: function (error) {
                     console.log(error);
@@ -567,51 +573,51 @@
          }else{
 
              var fileInput = document.getElementById('logo');
-    var filePath = fileInput.value;
-    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
-    if(!allowedExtensions.exec(filePath)){
-         // alert('Please select a valid image file');
-         console.log("ERROR");
-                 $('#logo').next('div.red').remove();
-                 $('#logo').after('<div class="red" style="color:red">Please select a valid image file</div>');
-                document.getElementById("logo").value = '';
-                return false;
-    }
-         else {
+            var filePath = fileInput.value;
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
+            if(!allowedExtensions.exec(filePath)){
+                // alert('Please select a valid image file');
+                console.log("ERROR");
+                        $('#logo').next('div.red').remove();
+                        $('#logo').after('<div class="red" style="color:red">Please select a valid image file</div>');
+                        document.getElementById("logo").value = '';
+                        return false;
+            }
+            else {
                 console.log("NOT WORL");
                 $(this).next('div.red').remove();
                 return true;
             }
-         }
+        }
 
     }
 
 
     $(function(){
 
-    // handle delete button click
-    $('body').on('click', '.todo-delete-btn', function(e) {
-        e.preventDefault();
+        // handle delete button click
+        $('body').on('click', '.todo-delete-btn', function(e) {
+            e.preventDefault();
 
-        // get the id of the todo task
-        var id = $(this).attr('id');
+            // get the id of the todo task
+            var id = $(this).attr('id');
 
-        // get csrf token value
-        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            // get csrf token value
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
 
-        // now make the ajax request
-        $.ajax({
-        'url': '/user/destroy/' + id,
-        'type': 'POST',
-        headers: { 'X-CSRF-TOKEN': csrf_token }
-        }).done(function() {
-        console.log('User  deleted: ' + id);
-        window.location = window.location.href;
-        }).fail(function() {
-        alert('something went wrong!');
+            // now make the ajax request
+            $.ajax({
+            'url': '/user/destroy/' + id,
+            'type': 'POST',
+            headers: { 'X-CSRF-TOKEN': csrf_token }
+            }).done(function() {
+            console.log('User  deleted: ' + id);
+            window.location = window.location.href;
+            }).fail(function() {
+            alert('something went wrong!');
+            });
+
         });
-
-    });
 
     });
 
