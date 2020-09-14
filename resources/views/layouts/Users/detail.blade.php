@@ -113,7 +113,9 @@
 {{--                        <div class="custom-buttons">--}}
 
 {{--                            <button type="button" class="btn btn-primary mb-1">Create</button>--}}
-                           <button type="button" id="back_btn" class="btn btn-secondary mb-1">Back</button>
+<button type="button" id="btn_verify" class="btn btn-primary" onclick="verify()">Verify</button>
+<button type="button" id="back_btn" class="btn btn-secondary mb-1">Back</button>
+
                        </div>
                     </div>
                     <div class="row sectionrow">
@@ -207,9 +209,9 @@
                                             <div class="col-md-10 float-l spe-padding" id="documentDiv">
                                                 <div class="form-group">
                                                     <label>@lang('details.label_proof')</label>
-                                                    <div class="col-md-1" style="float: right;">
+                                                    <!--div class="col-md-1" style="float: right;">
                                                         <button type="button" id="btn_verify" class="btn btn-primary" onclick="verify()">Verify</button>
-                                                    </div>
+                                                    </div-->
                                                     <div class="user-documents-container float-l" id="doc">
                                                         {{-- doc html --}}
                                                     </div>

@@ -70,7 +70,7 @@ class ServiceMappingController extends Controller
         $host = url('/');
 
         $result = ProviderServiceMapping::with('service')->with('user')->where('service_id', '=', $service_id)
-        ->where('category_id', '=', $category_id)->groupBy('user_id')->get();
+        ->where('category_id', '=', $category_id)->where('user_id', '=' ,'3')->groupBy('user_id')->get();
         $users = [];
         foreach ($result as $service) {
             foreach ($service->user as $user) {
