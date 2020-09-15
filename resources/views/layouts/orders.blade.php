@@ -7,7 +7,7 @@
             <div class="col-lg-12 margin-tb">
                 <div class="card">
 
-                    @if (Auth::user()->roles[0]->slug == 'provider')
+                @if (Auth::user()->roles[0]->slug == 'provider')
                     <div class="order-listing">
                         <ul class="nav nav-tabs" id="myTab" role="tablist" style="border: 0px!important">
                             <li class="nav-item first-tab">
@@ -30,15 +30,15 @@
                             id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button> --}}
 
                                {{-- filter dropdown --}}
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> @lang('cus_orders.label_filter')
+                        <!--button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> @lang('cus_orders.label_filter')
                             <span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <input class="form-control" id="myInput" type="text" placeholder="Search..">
-                                <li><a href="#" style="padding-left: 20%;">Rating</a></li>
-                                <li><a href="#" style="padding-left: 20%;">Price</a></li>
+                                <li><a style="padding-left: 20%;">Rating</a></li>
+                                <li><a style="padding-left: 20%;">Price</a></li>
                                 <li><a href="#" style="padding-left: 20%;">Availability</a></li>
                                 <li><a href="#" style="padding-left: 20%;">Distance</a></li>
-                            </ul>
+                            </ul-->
                     </div>
 
                     <div class="table-responsive">
@@ -60,7 +60,7 @@
                         </table>
                     </div>
 
-                    @elseif (Auth::user()->roles[0]->slug == 'admin-admin')
+                @elseif (Auth::user()->roles[0]->slug == 'admin-admin')
 
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">@lang('orders.label_tab_title')</h6>
@@ -68,14 +68,17 @@
                             id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button> --}}
 
                                {{-- filter dropdown --}}
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> @lang('orders.label_tab_filter')
+                        <button class="btn btn-primary dropdown-toggle" onclick="openFilter()" type="button" data-toggle="dropdown"> @lang('orders.label_tab_filter')
                             <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" id="dropdown-filter">
                                 <input class="form-control" id="myInput" type="text" placeholder="Search..">
-                                <li><a href="#" style="padding-left: 20%;">Rating</a></li>
-                                <li><a href="#" style="padding-left: 20%;">Price</a></li>
-                                <li><a href="#" style="padding-left: 20%;">Availability</a></li>
-                                <li><a href="#" style="padding-left: 20%;">Distance</a></li>
+                                <li><a href="#" style="padding-left: 20%;">All</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Pending</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Accepted</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Invoice Submitted</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Cancel by Vendor</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Cancel by User</a></li>
+                                <li><a href="#" style="padding-left: 20%;">Completed</a></li>
                             </ul>
                     </div>
 
@@ -97,7 +100,7 @@
                         </table>
                     </div>
 
-                    @elseif (Auth::user()->roles[0]->slug == 'organisation-admin')
+                @elseif (Auth::user()->roles[0]->slug == 'organisation-admin')
 
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">@lang('orders.label_tab_title')</h6>
@@ -105,7 +108,7 @@
                             id="user_btn"><i class="fa fa-plus" aria-hidden="true"></i> Add Customer</button> --}}
 
                                {{-- filter dropdown --}}
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> @lang('orders.label_tab_filter')
+                        <!--button class="btn btn-primary dropdown-toggle" onclick="openFilter()" type="button" data-toggle="dropdown"> @lang('orders.label_tab_filter')
                             <span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <input class="form-control" id="myInput" type="text" placeholder="Search..">
@@ -113,7 +116,7 @@
                                 <li><a href="#" style="padding-left: 20%;">Price</a></li>
                                 <li><a href="#" style="padding-left: 20%;">Availability</a></li>
                                 <li><a href="#" style="padding-left: 20%;">Distance</a></li>
-                            </ul>
+                            </ul-->
                     </div>
 
                     <div class="table-responsive">
@@ -139,8 +142,11 @@
         </div>
     </div>
 
+
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+
 
     <script>
         window.addEventListener ?
@@ -154,24 +160,29 @@
             console.log(retrievedObject)
             currentuser = JSON.parse(retrievedObject);
             console.log(currentuser.roles[0].name)
+            // createExcelFromGrid("YO");
             if(currentuser.roles[0].name == 'Admin') {
                 console.log("CALL");
-                getAllOrders();
+                getAllOrders('/api/v1/booking/getallbooking');
             } else if (currentuser.roles[0].name == 'Individual Service Provider') {
                 placedorder();
             } else if (currentuser.roles[0].slug = "organisation-admin") {
                 console.log("ORG ADMIN");
-                getOrgOrders();
+                getOrgOrders('/api/v1/booking/get_org_bookings?id=' + currentuser.org_id);
             }
             // getResult(obj.id);
 
         }
 
 
+        function openFilter() {
+            console.log("SHOW");
+            $('#dropdown-filter').toggle();
+        }
 
-        function getOrgOrders() {
+        function getOrgOrders(Url) {
             $.ajax({
-                url: '/api/v1/booking/get_org_bookings?id=' + currentuser.org_id,
+                url: Url,
                 type: 'GET',
                 data: null,
                 success: function(response){
@@ -220,19 +231,22 @@
             });
         }
 
-        function getAllOrders() {
-            console.log("MAYUR");
+
+
+        function getAllOrders(Url) {
             $.ajax({
-                url: '/api/v1/booking/getallbooking',
+                url: Url,
                 type: 'GET',
                 data: null,
                 success: function(response){
+                    $('#tbl_id').empty();
                     // console.log("CREATE CREATE REPOSNE == "+ JSON.stringify(response));
                     var trHTML = '';
 
+
                     $.each(response, function (i, item) {
                         var category = (response[i].category == null) ? "" : response[i].category.name;
-                        var status = "yo";
+                        var status = "";
                         if(response[i].status == 1) {
                             status = "Pending";
                         } else if(response[i].status == 2) {
@@ -418,10 +432,107 @@
             window.location = '/orderdetails?id=' + e;
         }
 
+
+
         function showText(element)
         {
-            console.log(element.innerText);
+            $('#dropdown-filter').hide();
+            console.log("test ==== ",element.innerText);
+            switch (element.innerText) {
+                case 'Pending':
+                getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 1);
+                    break;
+
+                case 'Accepted' :
+                getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 2);
+                    break;
+
+                case 'Invoice Submitted' :
+                getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 6);
+                    break;
+                case 'Cancel by Vendor' :
+                getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 3);
+
+                    break;
+                case 'Cancel by User' :
+                getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 4);
+                    break;
+                case 'Completed' :
+                getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 5);
+                    break;
+                case 'All' :
+                getAllOrders('/api/v1/booking/getallbooking');
+                    break;
+
+
+                default:
+                    break;
+            }
+            // if(element.innerText == ) {
+
+            // } else if(element.innerText == ) {
+
+            // } else if(element.innerText == '') {
+
+            // } else if(element.innerText == '') {
+
+            // }
+
+
+            //
+            // location.reload();
         }
         document.querySelectorAll("li").forEach(li => li.addEventListener("click", () => showText(li)));
+
+
+
+        function createExcelFromGrid (filename) {
+            console.log("EXPORT");
+            var html = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
+            html = html + '<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>';
+
+            html = html + '<x:Name>Warranty Inventory</x:Name>';
+
+            html = html + '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>';
+            html = html + '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>';
+
+            html = html + "<table border='1px'>";
+            var colnames = ["test", "test2"]; //$("#" + gridid).jqGrid('getGridParam', 'colNames');
+            var headerow = "<thead><tr>";
+            $.each(colnames, function (index, value) {
+                // if (index == 0)
+                //     value = "ItmId";
+                headerow = headerow + "<th>" + value + "</th>";
+            });
+            headerow = headerow + "</tr></thead>";
+            html = html + headerow;
+            // html = html + $('#' + gridid).html();
+
+            /*VALUES*/
+            var datarow = "<tbody><tr>";
+            var dataVal = ["test4", "test5"];
+            $.each(dataVal, function (index, value) {
+                // if (index == 0)
+                //     value = "ItmId";
+                datarow = datarow + "<td>" + value + "</td>";
+            });
+            datarow = datarow + "</tr></tbody>";
+            html = html + datarow;
+
+
+
+
+            html = html + '</table></body></html>';
+            html = html.replace(/'/g, '&apos;');
+            console.log(html);
+            var a = document.createElement('a');
+            a.id = 'ExcelDL';
+            a.href = 'data:application/vnd.ms-excel,' + encodeURIComponent(html);
+            a.download = filename ? filename + ".xls" : 'Warranty Inventory.xls';
+            document.body.appendChild(a);
+            a.click(); // Downloads the excel document
+            document.getElementById('ExcelDL').remove();
+        }
+
     </script>
 @endsection

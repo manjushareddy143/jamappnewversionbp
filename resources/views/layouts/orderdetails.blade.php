@@ -21,12 +21,23 @@
                                 <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
 
                                 <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#exampleModal"
-                            id="user_btn"> Cancel
-                    </button>
+                                id="cancel_btn"> Cancel
+                                </button>
                             </div>
                         @endif
                         <div class="custom-buttons">
+
+
+                            <button type="button" class="btn btn-primary mb-1" id="down_invoice" onclick="DownLoad_Invoice()">Download Invoice</button>
+
+                            <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
+                            <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#exampleModal"
+                                id="cancel_btn"> Cancel
+                                </button>
                            <button type="button" id="back_btn" class="btn btn-secondary mb-1">Back</button>
+
+
+
                         </div>
                     </div>
 
@@ -34,6 +45,59 @@
                    <!-- modal  -->
 
                     <div class="card">
+
+                        <div class="modal fade" id="otpModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Complete Order</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <style>
+                                            #partitioned {
+                                                    padding-left: 15px;
+                                                    letter-spacing: 42px;
+                                                    border: 0;
+                                                    background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+                                                    background-position: bottom;
+                                                    background-size: 50px 1px;
+                                                    background-repeat: repeat-x;
+                                                    background-position-x: 35px;
+                                                    width: 220px;
+                                                    }
+                                            </style>
+
+                                        <div class="form-group">
+                                            <div>
+                                                <label>Enter OTP</label>
+                                            </div>
+                                            <input id="partitioned" type="text" maxlength="4" minlength="4"/>
+                                            <div>
+                                                <label id="otpError" style="color: red"></label>
+                                            </div>
+                                        </div>
+                                        <!--div class="form-group">
+
+                                            <textarea class="form-control" id="exampleFormControlTextarea3" rows="7" style="height: 100px;"></textarea>
+                                        </div-->
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" onclick="submitOTP()" class="btn btn-primary">Save</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
 
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel"
@@ -49,7 +113,6 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <select class="form-control" id="reasons" required>
-                                            <option>Select Reason for Cancel </option>
                                             <option>Too far</option>
                                             <option>Busy</option>
                                             <option>Not Available at that time</option>
@@ -282,9 +345,7 @@
                               </div>
                         </div>
                         <div class="col-md-12">
-                          <div class="custom-buttons download-invoice-btn">
-                            <button type="button" class="btn btn-primary mb-1" id="down_invoice" onclick="DownLoad_Invoice()">Download Invoice</button>
-                          </div>
+
                         </div>
                       </div>
                     </div>
@@ -298,79 +359,80 @@
                                <!-- modal  -->
 
                       <div class="card">
-                      <div class="modal fade" id="InvoiceModalLabel" tabindex="-1" role="dialog"
-                      aria-labelledby="exampleModalLabel"
-                      aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <h5 class="modal-title" id="#InvoiceModalLabel">Edit Invoice</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                  </button>
-                              </div>
-                              <div class="modal-body">
-                              <form>
-                                      <div class="row">
-                                      <div class="col-md-6 float-l">
-                                      <div class="form-group">
-                                      <label for="quantity">Working Hours:</label><br>
-                                      <input type="number" id="work_hrs" name="hours" min="1" max="500"value="0">
-                                      </div>
-                                      </div>
-                                      <div class="col-md-6 float-l">
-                                      <div class="form-group">
-                                      <label for="quantity">Material Quantity:</label><br>
-                                      <input type="number" id="mat_quantity" name="quantity" min="1" max="500"value="0">
-                                      </div>
-                                      </div>
+                        <div class="modal fade" id="InvoiceModalLabel" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="InvoiceModalText">Edit Invoice</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                    <div class="row">
-                                      <div class="col-md-6 float-l">
-                                      <div class="form-group">
-                                      <label for="quantity">Material Cost:</label><br>
-                                      <input type="number" id="mat_cost" name="cost" min="1" max="500" value="0">
-                                      </div>
-                                      </div>
-                                      <div class="col-md-6 float-l">
-                                      <div class="form-group">
-                                      <label for="quantity">Discount:</label><br>
-                                      <input type="number" id="mat_dis" name="discount" min="1" max="500" value="0">
-                                      </div>
-                                      </div>
+                                    <div class="modal-body">
+                                    <form>
+                                            <div class="row">
+                                            <div class="col-md-6 float-l">
+                                            <div class="form-group">
+                                            <label for="quantity">Working Hours:</label><br>
+                                            <input type="number" id="work_hrs" name="hours" min="1" max="500"value="0">
+                                            </div>
+                                            </div>
+                                            <div class="col-md-6 float-l">
+                                            <div class="form-group">
+                                            <label for="quantity">Material Quantity:</label><br>
+                                            <input type="number" id="mat_quantity" name="quantity" min="1" max="500"value="0">
+                                            </div>
+                                            </div>
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-md-6 float-l">
+                                            <div class="form-group">
+                                            <label for="quantity">Material Cost:</label><br>
+                                            <input type="number" id="mat_cost" name="cost" min="1" max="500" value="0">
+                                            </div>
+                                            </div>
+                                            <div class="col-md-6 float-l">
+                                            <div class="form-group">
+                                            <label for="quantity">Discount:</label><br>
+                                            <input type="number" id="mat_dis" name="discount" min="1" max="500" value="0">
+                                            </div>
+                                            </div>
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-md-6 float-l">
+                                            <div class="form-group">
+                                            <label for="quantity">TAX:</label><br>
+                                            <input type="number" id="mat_tax" name="tax" min="1" max="500"value="0">
+                                            </div>
+                                            </div>
+                                            <div class="col-md-6 float-l">
+                                            <div class="form-group">
+                                            <label for="quantity">Additional Charge:</label><br>
+                                            <input type="number" id="add_charge" name="charge" min="1" max="500" value="0">
+                                            </div>
+                                            </div>
+                                            </div>
+
+                                    </form>
+
                                     </div>
-                                    <div class="row">
-                                      <div class="col-md-6 float-l">
-                                      <div class="form-group">
-                                      <label for="quantity">TAX:</label><br>
-                                      <input type="number" id="mat_tax" name="tax" min="1" max="500"value="0">
-                                      </div>
-                                      </div>
-                                      <div class="col-md-6 float-l">
-                                      <div class="form-group">
-                                      <label for="quantity">Additional Charge:</label><br>
-                                      <input type="number" id="add_charge" name="charge" min="1" max="500" value="0">
-                                      </div>
-                                      </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button id="btnUpdateInvoice" type="button" onclick="Update_InvoiceDetail()" class="btn btn-primary">Update</button>
+                                        <button id="btnAddInvoice" type="button" onclick="Update_InvoiceDetail()" class="btn btn-primary">Submit</button>
+
                                     </div>
-
-                              </form>
-
-                              </div>
-                              <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                  <button type="button" onclick="Update_InvoiceDetail()" class="btn btn-primary">Update</button>
-
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+                                </div>
+                            </div>
+                        </div>
 
                     <!-- model -->
 
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-        </a>
+                    <a class="scroll-to-top rounded" href="#page-top">
+                        <i class="fas fa-angle-up"></i>
+                        </a>
 
 
         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
@@ -381,33 +443,93 @@
         window.addEventListener ?
             window.addEventListener("load",onLoad(),false) :
             window.attachEvent && window.attachEvent("onload",onLoad());
+
         var Booking_id;
 
         function onLoad() {
             Booking_id = getUrlParameter('id');
-            console.log(Booking_id);
-            // alert(user_id);
             viewDetail();
+        }
+
+        function submitOTP() {
+
+            if($("#partitioned").val().length < 4) {
+                $("#otpError").text("Please enter OTP");
+            } else {
+                $("#otpError").text("");
+                data = {
+                    status: 5,
+                    booking_id: Booking_id,
+                    otp: $("#partitioned").val(),
+                };
+
+                $.ajax({
+                    url: '/api/v1/booking_status',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                        window.top.location = window.top.location;
+                        location.reload();
+                        $('#accept').text('Completed');
+
+                    },
+                    error: function (error) {
+                        console.log(error.responseJSON.error);
+                        var msgStr = "";
+                        $.each(error.responseJSON.error, function (i, err) {
+                            $.each(err, function (title, msg) {
+                                msgStr += msg.toString() + "\n";
+                            });
+                            $("#otpError").text(msgStr);
+
+                        });
+                    }
+                });
+            }
         }
 
         function acceptOrder() {
             console.log("accept" + document.getElementById('accept').innerHTML);
             var btnText = document.getElementById('accept').innerHTML;//$('#accept').text();
-            var data =
-                {
-                    status: 2,
-                    booking_id: Booking_id,
-                };
+            var data = {};
               if(btnText == 'Accept')
               {
                 data = {
                     status: 2,
                     booking_id: Booking_id,
                 };
-                  $('#accept').text('Complete');
+                $.ajax({
+                    url: '/api/v1/booking_status',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                        $('#accept').text('Submit Invoice');
+                    },
+                    fail: function (error) {
+                        console.log(error);
+                    }
+                });
+
                   //$('#Cancel').show();
-              }
-              else{
+              } else if(btnText == 'Submit Invoice') {
+                data = {
+                    status: 6,
+                    booking_id: Booking_id,
+                };
+                $('#btnUpdateInvoice').hide();
+                $('#InvoiceModalLabel').modal();
+                $('#InvoiceModalText').text("Add Invoice");
+              } else if(btnText == 'Complete') {
+
+                $('#otpModal').modal();
+
+                console.log("data ===", data);
+
+                //   $('#accept').text('Finished');
+                  //$('#Cancel').show();
+              } else{
                 data = {
                     status: 1,
                     booking_id: Booking_id,
@@ -415,33 +537,34 @@
                 };
                 $('#accept').text('Pending');
               }
-            // var data =
-            //     {
-            //         status: 2,
-            //         booking_id: Booking_id,
-            //     };
-            $.ajax({
-                url: '/api/v1/booking_status',
-                type: 'POST',
-                data: data,
-                success: function (response) {
-                    console.log(response);
-                    $('#status').text("Accepted");
 
-                },
-                fail: function (error) {
-                    console.log(error);
-                }
-            });
+              console.log("data ===", data);
+
+
         }
 
         function cancelorder() {
 
-            console.log("are sure to cancel?");
+            data = {
+                status: 3,
+                booking_id: Booking_id,
+                reason: $('#reasons').children("option:selected").val(),
+
+            };
+
+
+            if(($('#exampleFormControlTextarea3').val() != "")) {
+                data = {
+                    status: 3,
+                    booking_id: Booking_id,
+                    reason: $('#reasons').children("option:selected").val(),
+                    comment : $('#exampleFormControlTextarea3').val()
+                };
+            }
             $.ajax({
                 url: '/api/v1/booking_status',
                 type: 'POST',
-                data:Booking_id,
+                data:data,
                 success: function(response) {
                     console.log(Booking_id);
                     var status = "Pending";
@@ -456,11 +579,8 @@
                     } else if(response['status']  == 5) {
                         status = "Completed";
                     }
-                    $('#status').text(status)
-                    // "status" = 2,
-                    // "booking_id" = 1,
-                    // "reason" = "Too Slow",
-                    // "comment" = "Its good but too slow",
+                    window.top.location = window.top.location;
+                    location.reload();
 
                 },fail: function (error) {
                   console.log(error);
@@ -468,8 +588,7 @@
             });
         }
 
-        function getUrlParameter(sParam)
-        {
+        function getUrlParameter(sParam) {
             var sPageURL = window.location.search.substring(1),
             sURLVariables = sPageURL.split('&'),
                 sParameterName,
@@ -503,40 +622,54 @@
                     var status = "Pending";
                     if(response['status']  == 1) {
                         status = "Pending";
+                        $('#accept').text("Accept");
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
                         $("#invoice_id").hide();
                     } else if(response['status']  == 2) {
                         status = "Accepted";
+                        $('#accept').text("Submit Invoice");
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
                         $("#invoice_id").hide();
                     } else if(response['status']  == 3) {
                         status = "Cancel by Vendor";
+                        $('#accept').hide();
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
                         $("#invoice_id").hide();
+                        $("#cancel_btn").hide();
                     } else if(response['status']  == 4) {
                         status = "Cancel by User";
+                        $('#accept').hide();
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
                         $("#invoice_id").hide();
+                        $("#cancel_btn").hide();
                     } else if(response['status']  == 5) {
                         status = "Completed";
+                        $('#accept').hide();
                         $("#down_invoice").show();
                         $("#invoice_detail").show();
                         $("#invoice_id").hide();
+                        $("#cancel_btn").hide();
                         setInvoiceDetail(response);
                     } else if(response['status']  == 6) {
                         status = "Invoice Submitted";
+                        btnStatus = "Complete";
                         $("#down_invoice").hide();
                         $("#invoice_detail").show();
                         $("#invoice_id").show();
+                        $("#cancel_btn").hide();
+
                         setInvoiceDetail(response);
+                        $('#accept').text(btnStatus);
 
                     }
-
                     $('#status').text(status);
+
+
+
                     $('#orderer_name').text(response['orderer_name']);
                     $('#serviceName').text(response['services']['name']);
                     $('#contact').text(response['contact']);
@@ -555,89 +688,78 @@
             });
         }
 
-
         function setInvoiceDetail(response) {
+
             invoiceDetail = response.invoice;
             $('#work_hr').text(response.invoice.working_hr);
-                        $('#mate_qty').text(response.invoice.material_quantity);
-                        $('#mate_cost').text(response.invoice.material_price);
-                        $('#discount').text(response.invoice.discount);
-                        $('#tax').text(response.invoice.tax);
-                        $('#add_charg').text(response.invoice.additional_charges);
+            $('#mate_qty').text(response.invoice.material_quantity);
+            $('#mate_cost').text(response.invoice.material_price);
+            $('#discount').text(response.invoice.discount);
+            $('#tax').text(response.invoice.tax);
+            $('#add_charg').text(response.invoice.additional_charges);
 
+            var cost = response.provider.service_price.price;
 
-                        var cost = response.provider.service_price.price;
+            var serviceAmount = response.invoice.working_hr * cost; // 5
 
-                        var serviceAmount = response.invoice.working_hr * cost;
+            var meterialAmount = response.invoice.material_quantity * response.invoice.material_price; // 10
 
-                        var meterialAmount = response.invoice.material_quantity * response.invoice.material_price;
-                        var additional_total = response.invoice.additional_charges * response.invoice.working_hr;
+            var additional_total = response.invoice.additional_charges * response.invoice.working_hr; // 10
 
+            var sub_total = serviceAmount + additional_total + meterialAmount;  // 70
 
-                        var sub_total = serviceAmount + additional_total + meterialAmount;
+            var total_discount = sub_total - ((response.invoice.discount * 100 )/100); // 60
 
-                        var total_discount = sub_total - response.invoice.discount; ///100;
+            var taxCut =  (total_discount * response.invoice.tax)/100;
 
-                        // var totalWithDiscount = sub_total - total_discount;
+            var total = total_discount + taxCut;
 
-                        var taxCut =  total_discount * response.invoice.tax/100;
-
-                        var total = total_discount - taxCut;
-                        $('#total_cost').text(total + "  QAR");
+            $('#total_cost').text(total + "  QAR");
         }
 
-        function DownLoad_Invoice(){
-          $.ajax({
-            url: 'api/v1/invoice?id=' + Booking_id,
-              type: 'GET',
-              success: function() {
-                  window.location = 'api/v1/invoice?id=' + Booking_id;
-              }
-          });
+        function DownLoad_Invoice() {
+            window.location = 'api/v1/invoice_download?id=' + Booking_id;
         }
 
-        function Edit_InvoiceDetail()
-        {
+        function Edit_InvoiceDetail() {
             $('#work_hrs').val(invoiceDetail.working_hr);
             $('#mat_quantity').val(invoiceDetail.material_quantity);
             $('#mat_cost').val(invoiceDetail.material_price);
             $('#mat_dis').val(invoiceDetail.discount);
             $('#mat_tax').val(invoiceDetail.tax);
             $('#add_charge').val(invoiceDetail.additional_charges);
+            $('#btnAddInvoice').hide();
         }
 
+        function Update_InvoiceDetail() {
+            // console.log(document.getElementById("work_hrs").value);
 
-//  Update invoice detail
-          // var invoiceDetail;
+            var data = {
+                order_id : Booking_id,
+                working_hr : document.getElementById("work_hrs").value,
+                material_quantity : document.getElementById("mat_quantity").value,
+                material_price : document.getElementById("mat_cost").value,
+                discount : document.getElementById("mat_dis").value,
+                tax : document.getElementById("mat_tax").value,
+                additional_charges : document.getElementById("add_charge").value,
+            };
+            console.log(data);
+            // let formUpdate = new FormData();
+            // formUpdate.append('id', invoiceDetail.order_id);
+            // formUpdate.append('working_hr', document.getElementById("work_hrs").value);
+            // formUpdate.append('material_quantity', document.getElementById("mat_quantity").value);
+            // formUpdate.append('material_price', document.getElementById("mat_cost").value);
+            // formUpdate.append('discount', document.getElementById("mat_dis").value);
+            // formUpdate.append('tax', document.getElementById("mat_tax").value);
+            // formUpdate.append('additional_charges', document.getElementById("add_charge").value);
 
-        function Update_InvoiceDetail(){
-        // console.log(document.getElementById("work_hrs").value);
-
-        var data = {
-            order_id : invoiceDetail.order_id,
-            working_hr : document.getElementById("work_hrs").value,
-            material_quantity : document.getElementById("mat_quantity").value,
-            material_price : document.getElementById("mat_cost").value,
-            discount : document.getElementById("mat_dis").value,
-            tax : document.getElementById("mat_tax").value,
-            additional_charges : document.getElementById("add_charge").value,
-        };
-        console.log(data);
-        // let formUpdate = new FormData();
-        // formUpdate.append('id', invoiceDetail.order_id);
-        // formUpdate.append('working_hr', document.getElementById("work_hrs").value);
-        // formUpdate.append('material_quantity', document.getElementById("mat_quantity").value);
-        // formUpdate.append('material_price', document.getElementById("mat_cost").value);
-        // formUpdate.append('discount', document.getElementById("mat_dis").value);
-        // formUpdate.append('tax', document.getElementById("mat_tax").value);
-        // formUpdate.append('additional_charges', document.getElementById("add_charge").value);
-
-        // invoiceDetail=order_id;
+            // invoiceDetail=order_id;
             $.ajax({
                 url: '/api/v1/inv_update',
                 type: 'POST',
                     data: data,
                     success: function (response) {
+                        console.log("response ==", response);
                         window.top.location = window.top.location;
                         location.reload();
                     },
@@ -647,9 +769,7 @@
             });
         }
 
-
-        // Back Button
-        $("#back_btn").click(function (){
+        $("#back_btn").click(function () {
            window.history.back();
         });
 

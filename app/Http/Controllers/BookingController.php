@@ -94,6 +94,19 @@ class BookingController extends Controller
                 return response()->json($result);
     }
 
+    public function getOrderByFilter(Request $request) {
+        $status = $request->input('status');
+        // return $status;
+        $result = Booking::with('invoice')->with('users')
+                   ->with('services')
+                   ->with('category')
+                   ->with('provider')
+                   ->with('address')->with('rating')
+                   ->where('status' , '=' ,$status)->get();
+                   return response()->json($result);
+
+    }
+
 
     public function getOrderByProvider(Request $request) {
 
@@ -202,14 +215,11 @@ class BookingController extends Controller
     }
 
     public function invoice(Request $request) {
-
-
-
         $initialValidator = Validator::make($request->all(),
         [
             'order_id' => 'required|exists:bookings,id',
             'working_hr' => 'required',
-            'tax_rate' => 'required',
+            // 'tax_rate' => 'required',
             'tax' => 'required',
         ]);
 
@@ -357,14 +367,19 @@ class BookingController extends Controller
 
     public function printPDF(Request $request)
     {
-
-
-
         $id = $request->input('id');
        // This  $data array will be passed to our PDF blade
 
         // PDF::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf')
         $result = Invoice::with('order')->where('order_id', '=', $id)->first();
+        // $result = Booking::with('invoice')->with('users')
+        //     ->with('services')
+        //     ->with('category')
+        //     ->with('provider')
+        //     ->with('address')
+        //     ->with('rating')
+        //     ->where('id','=', $id)->get();
+
 
 
         $cost = 0;
@@ -384,17 +399,19 @@ class BookingController extends Controller
             }
         }
 
+        // $cost = response.provider.service_price.price
+
         $serviceAmount = $result->working_hr * $cost;
 
         $meterialAmount = $result->material_quantity * $result->material_price;
         $additional_total = $result->additional_charges * $result->working_hr;
         $sub_total = $serviceAmount + $additional_total + $meterialAmount;
 
-        $total_discount = $sub_total - $result->discount; ///100;
+        $total_discount = $sub_total - (($result->discount * 100 )/100); ///100;
 
         // $totalWithDiscount = $sub_total - $total_discount;
 
-        $taxCut =  $total_discount * $result->tax /100;
+        $taxCut =  ($total_discount * $result->tax) /100;
 
         $total = $total_discount + $taxCut;
 
@@ -464,14 +481,6 @@ class BookingController extends Controller
         return response()->json($result);
     }
 
-    public function downloadPDF()
-    {
-        // PDF::setOptions(['dpi' => 150]);
-        // $pdf = PDF::loadView('invoice.invoice', [])->setPaper('a4', 'portrait')->setWarnings(false);
-        // return $pdf->download('medium.pdf');
-    }
-
-
     public function updateinvoicedetail(Request $request)
     {
 
@@ -490,60 +499,71 @@ class BookingController extends Controller
                 'working_hr' => $input['working_hr'],
             ];
         }
+
         if(array_key_exists('material_quantity', $input)) {
             $updatedata += [
                 'material_quantity' => $input['material_quantity'],
             ];
 
         }
+
         if(array_key_exists('material_price', $input)) {
             $updatedata += [
                 'material_price' => $input['material_price'],
             ];
-
         }
+
         if(array_key_exists('discount', $input)) {
             $updatedata += [
                 'discount' => $input['discount'],
             ];
 
         }
+
         if(array_key_exists('tax', $input)) {
             $updatedata += [
                 'tax' => $input['tax'],
             ];
 
         }
+
         if(array_key_exists('additional_charges', $input)) {
             $updatedata += [
                 'additional_charges' => $input['additional_charges'],
             ];
         }
 
-        $isUpdate = DB::table('invoice')->where('order_id', (int)$input['order_id'])->update($updatedata);
-        if($isUpdate) {
+        $inv = DB::table('invoice')->where('order_id', (int)$input['order_id'])->first();
+        if($inv != null) {
+            $isUpdate = DB::table('invoice')->where('order_id', (int)$input['order_id'])->update($updatedata);
+            if($isUpdate) {
 
-            $dataPayload = [
-                "order" => $input['order_id'],
-                "status" => "6",
-                "invoice" => $updatedata
-            ];
+                $dataPayload = [
+                    "order" => $input['order_id'],
+                    "status" => "6",
+                    "invoice" => $updatedata
+                ];
 
-            $notification =  [
-                "title" => 'JAM',
-                "body" => "Check Total Cost",
-            ];
+                $notification =  [
+                    "title" => 'JAM',
+                    "body" => "Check Total Cost",
+                ];
 
-            $booking = Booking::where('id', '=', $input['order_id'])->first();
-            $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
-            foreach ($fcm_customer as $fcm) {
-                $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+                $booking = Booking::where('id', '=', $input['order_id'])->first();
+                $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+                foreach ($fcm_customer as $fcm) {
+                    $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+                }
+
+                $fcm_customer = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
+                foreach ($fcm_customer as $fcm) {
+                    $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
+                }
             }
-
-            $fcm_customer = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
-            foreach ($fcm_customer as $fcm) {
-                $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
-            }
+        } else {
+            $isUpdate = $this->invoice($request);
+            return $isUpdate;
+            // $isUpdate = Invoice::create($input);
         }
         return response()->json($isUpdate, 200);
     }
