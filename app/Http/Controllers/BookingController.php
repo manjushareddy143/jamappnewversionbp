@@ -382,24 +382,24 @@ class BookingController extends Controller
 
 
 
-        $cost = 0;
-        // return $result->order;
-        foreach ($result->order->provider->providerDetail as $services) {
+        $cost = $result->order->provider->servicePrice->price;
+        // return ;
+        // foreach ($result->order->provider->providerDetail as $services) {
 
-            if($result->order->category != null) {
+        //     if($result->order->category != null) {
 
-                if($result->order->services->id == $services->service_id && $result->order->category->id == $services->category_id) {
-                    $cost = $services->price;
-                }
+        //         if($result->order->services->id == $services->service_id && $result->order->category->id == $services->category_id) {
+        //             $cost = $services->price;
+        //         }
 
-            } else {
-                if($result->order->services->id == $services->service_id) {
-                    $cost = $services->price;
-                }
-            }
-        }
+        //     } else {
+        //         if($result->order->services->id == $services->service_id) {
+        //             $cost = $services->price;
+        //         }
+        //     }
+        // }
 
-        // $cost = response.provider.service_price.price
+
 
         $serviceAmount = $result->working_hr * $cost;
 
