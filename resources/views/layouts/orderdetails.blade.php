@@ -218,10 +218,10 @@
                                   <p id="serviceName">Home Cleaning and Home Maids</p>
                                 </div>
                               </div>
-                              <div class="order-info">
+                              <div class="order-info" id="cateId">
                                 <div class="order-info-block">
-                                  <span>Service</span>
-                                  <p id="serviceName">Home Cleaning and Home Maids</p>
+                                  <span>Category</span>
+                                  <p id="categoryName">Home Cleaning and Home Maids</p>
                                 </div>
                               </div>
 
@@ -672,6 +672,15 @@
 
                     $('#orderer_name').text(response['orderer_name']);
                     $('#serviceName').text(response['services']['name']);
+                    if(response['category'] == null) {
+
+                        $('#cateId').hide();
+
+
+                    } else {
+                        $('#categoryName').text(response['category']['name']);
+                    }
+
                     $('#contact').text(response['contact']);
                     $('#email').text(response['email']);
                     var addressLine = response['address']['name'] +response['address']['address_line1'] + " " +

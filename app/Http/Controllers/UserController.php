@@ -424,10 +424,10 @@ class UserController extends Controller
                     }
                     // if($user->social_signin == "") {
                     //     $user->image = $request->getSchemeAndHttpHost() . $user->image;
-                        
-                    // } 
+
+                    // }
                     return response($user, 200);
-                    
+
                 }
                 else
                 {
@@ -970,7 +970,7 @@ class UserController extends Controller
                 'name' => $input['name'],
             ];
         }
-        
+
         // if(array_key_exists('logo', $input)) {
         //     $updateorgdata += [
         //         'logo' => $input['logo'],
@@ -996,7 +996,7 @@ class UserController extends Controller
 
         }
 
-        
+
         if($updateorgdata != null) {
             // return $input['id'];
             $this->update_organisation_details($updateorgdata, $input['id']);
@@ -1556,12 +1556,12 @@ class UserController extends Controller
                 $services = $input['services'];
 
                 $services =  json_decode($services, true); //explode(',', );
-                
+
                 if(count($services) > 0) {
                     DB::table('provider_service_mappings')->where('user_id', $user['id'])->delete();
                 }
-                
-                
+
+
                 foreach ($services as $data) {
                     $obj = array();
                     $obj['user_id'] = $user['id'];
@@ -1618,6 +1618,30 @@ class UserController extends Controller
 
         return response()->json($addressRes, 200);
     }
+    public function deleteAddress(Request $request) {
+
+        $input = $request->all();
+
+        DB::table('addresses')->where('id', $input['id'])->delete();
+
+        // $address = Address::where('user_id', '=', $input['user_id'])->first();
+        
+        $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
+
+        return response()->json($addressRes, 200);
+    }
+
+    public function editAddress(Request $request) {
+        $input = $request->all();
+
+        $adddressdata = Address::find($input['id']);
+        $adddressdata->update($input);
+
+        $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
+
+        return response()->json($addressRes, 200);
+    }
+
 
     public function add_organisation(Request $request) {
         $initialValidator = Validator::make($request->all(),

@@ -22,6 +22,8 @@ use Illuminate\Http\Request;
 
 
 Route::post('v1/addAddress', 'UserController@addNewAddress');
+Route::post('v1/editAddress', 'UserController@editAddress');
+Route::post('v1/deleteAddress', 'UserController@deleteAddress');
 
 Route::post('v1/user/update/{id}', 'UserController@updateUserContent');
 Route::get('v1/invoice_download', 'BookingController@printPDF');
