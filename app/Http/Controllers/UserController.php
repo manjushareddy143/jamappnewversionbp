@@ -1613,6 +1613,19 @@ class UserController extends Controller
     public function addNewAddress(Request $request) {
         $input = $request->all();
 
+        if(array_key_exists('default_address', $input)) {
+            
+            if($input['default_address'] == "1") {
+                $default_address =  [
+                    'default_address' => "0",
+                ];
+                DB::table('addresses')->where('default_address', '=', '1')
+                ->where('user_id', '=', $input['user_id'])
+                ->update($default_address);
+            }
+        }
+        
+
         $adddressdata = Address::create($input);
         $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
 
@@ -1633,6 +1646,20 @@ class UserController extends Controller
 
     public function editAddress(Request $request) {
         $input = $request->all();
+        
+        if(array_key_exists('default_address', $input)) {
+
+            if($input['default_address'] == "1") {
+                $default_address =  [
+                    'default_address' => "0",
+                ];
+
+                DB::table('addresses')->where('default_address', '=', '1')
+                ->where('user_id', '=', $input['user_id'])
+                ->update($default_address);
+            }
+            
+        }
 
         $adddressdata = Address::find($input['id']);
         $adddressdata->update($input);
