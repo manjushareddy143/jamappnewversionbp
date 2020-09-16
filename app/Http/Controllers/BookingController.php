@@ -421,10 +421,11 @@ class BookingController extends Controller
         $client_zip = "";
 
         foreach($result->order->users->address as $address) {
-
-            $client_street = $address->address_line1 . " " .$address->address_line2;
-            $client_city_state_country = $address->district . " " . $address->city;
-            $client_zip = $address->postal_code;
+            if($address->default_address == 1) {
+                $client_street = $address->address_line1 . " " .$address->address_line2;
+                $client_city_state_country = $address->district . " " . $address->city;
+                $client_zip = $address->postal_code;
+            }
         }
 
         // return response()->json($client_zip);
