@@ -322,6 +322,24 @@ class UserController extends Controller
     }
 
 
+    public function logout(Request $request) {
+
+        
+
+        try {
+            $response = array();
+            $input = $request->all();
+            $token = $request->input('token');
+            $user_id = $request->input('user_id');
+
+            $dlt = DB::table('f_c_m_devices')->where('fcm_device_token', $token)->delete();
+            return response($dlt, 200);
+        } catch (\Exception $e) {
+            $response['code'] = 400;
+            $response['message'] = "There is some error";
+        }
+
+    }
 
     // User Login API
     /**
@@ -417,14 +435,22 @@ class UserController extends Controller
                         }
                         else
                         {
-                            // $fcm_response = FCMDevices::update($fcm_data);
-                            $fcm_response = $fcm_user;
+                            // $fcm_response = $fcm_user;
+                            $fcm_data = [
+                                "user_id" => $user['id'],
+                                "fcm_device_token" => $input['token'],
+                                "device_type" => $input['device']
+                            ];
+
+                            DB::table('f_c_m_devices')->where('user_id', '=', $user['id'])
+                            ->update($fcm_data);
+                            $fcm_response = FCMDevices::where('user_id', '=', $user['id'])->get();
+
                         }
                         $user['fcm'] = $fcm_response;
                     }
                     // if($user->social_signin == "") {
                     //     $user->image = $request->getSchemeAndHttpHost() . $user->image;
-
                     // }
                     return response($user, 200);
 
@@ -546,7 +572,16 @@ class UserController extends Controller
                 ];
                 $fcm_response = FCMDevices::create($fcm_data);
             } else {
-                $fcm_response = $fcm_user;
+                // $fcm_response = $fcm_user;
+                $fcm_data = [
+                    "user_id" => $user['id'],
+                    "fcm_device_token" => $input['token'],
+                    "device_type" => $input['device']
+                ];
+
+                DB::table('f_c_m_devices')->where('user_id', '=', $user['id'])
+                ->update($fcm_data);
+                $fcm_response = FCMDevices::where('user_id', '=', $user['id'])->get();
             }
 
             $response['fcm'] = $fcm_response;
@@ -625,7 +660,16 @@ class UserController extends Controller
                         ];
                         $fcm_response = FCMDevices::create($fcm_data);
                     } else {
-                        $fcm_response = $fcm_user;
+                        // $fcm_response = $fcm_user;
+                        $fcm_data = [
+                            "user_id" => $user['id'],
+                            "fcm_device_token" => $input['token'],
+                            "device_type" => $input['device']
+                        ];
+
+                        DB::table('f_c_m_devices')->where('user_id', '=', $user['id'])
+                        ->update($fcm_data);
+                        $fcm_response = FCMDevices::where('user_id', '=', $user['id'])->get();
                     }
                     $user['fcm'] = $fcm_response;
                 }
@@ -1612,9 +1656,10 @@ class UserController extends Controller
 
     public function addNewAddress(Request $request) {
         $input = $request->all();
+        // return "default";
 
         if(array_key_exists('default_address', $input)) {
-            
+
             if($input['default_address'] == "1") {
                 $default_address =  [
                     'default_address' => "0",
@@ -1624,9 +1669,29 @@ class UserController extends Controller
                 ->update($default_address);
             }
         }
-        
+
 
         $adddressdata = Address::create($input);
+
+        $default = Address::where('default_address', '=', '1')
+        ->where('user_id', '=', $input['user_id'])->get();
+        
+
+        if(isset($default)) {
+
+            // $adddressdata->default_address = 1;
+            // $adddressdata->update($adddressdata);
+            $default_address =  [
+                'default_address' => "1",
+            ];
+
+            DB::table('addresses')->where('id', '=', $adddressdata['id'])
+            ->update($default_address);
+
+            // return $adddressdata;
+        }
+
+
         $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
 
         return response()->json($addressRes, 200);
@@ -1638,7 +1703,7 @@ class UserController extends Controller
         DB::table('addresses')->where('id', $input['id'])->delete();
 
         // $address = Address::where('user_id', '=', $input['user_id'])->first();
-        
+
         $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
 
         return response()->json($addressRes, 200);
@@ -1646,7 +1711,7 @@ class UserController extends Controller
 
     public function editAddress(Request $request) {
         $input = $request->all();
-        
+
         if(array_key_exists('default_address', $input)) {
 
             if($input['default_address'] == "1") {
@@ -1658,11 +1723,34 @@ class UserController extends Controller
                 ->where('user_id', '=', $input['user_id'])
                 ->update($default_address);
             }
-            
+
         }
 
         $adddressdata = Address::find($input['id']);
+
         $adddressdata->update($input);
+
+        $default = Address::where('default_address', '=', '1')
+        ->where('user_id', '=', $input['user_id'])->get();
+        
+
+        if(isset($default)) {
+
+            // $adddressdata->default_address = 1;
+            // $adddressdata->update($adddressdata);
+            $default_address =  [
+                'default_address' => "1",
+            ];
+
+            DB::table('addresses')->where('id', '=', $adddressdata['id'])
+            ->update($default_address);
+
+            // return $adddressdata;
+        }
+
+        
+
+        
 
         $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
 

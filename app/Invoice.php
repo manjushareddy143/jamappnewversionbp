@@ -12,7 +12,7 @@ class Invoice extends Model
      'material_price', 'additional_charges', 'discount', 'tax'];
 
      public function order() {
-        return $this->hasOne(Booking::class, 'id', 'order_id')->with('users')
+        return $this->hasOne(Booking::class, 'id', 'order_id')->with('address')->with('users')
         ->with('provider')->with('services')->with('category');
     }
 }

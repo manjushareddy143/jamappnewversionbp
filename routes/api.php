@@ -34,6 +34,7 @@ Route::post('v1/invoice', 'BookingController@invoice');
 
 Route::get('v1/details', 'UserController@getSingupDetail');
 Route::post('v1/login', 'UserController@login');
+Route::post('v1/logout', 'UserController@logout');
 Route::post('v1/sendPush', 'FCMPushNotification@sendPush');
 Route::post('v1/booking_status', 'FCMPushNotification@orderAccept');
 Route::post('v1/register', 'UserController@register');

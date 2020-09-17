@@ -20,6 +20,8 @@ class BookingController extends Controller
 
     public function booking(Request $request) {
 
+        
+
         $response = array();
         $validator = Validator::make($request->all(),
             [
@@ -40,6 +42,7 @@ class BookingController extends Controller
 
 
         $input = $request->all();
+        
 
         $startTime = new \DateTime($input['booking_date']);
         $dd = $startTime->format('d-m-Y');
@@ -49,9 +52,12 @@ class BookingController extends Controller
         $input['booking_date'] = $dateTime;
         $input['status'] = 1;
         $input['otp'] = rand(1000,9999);
+        // $input['address_id'] = 1;
+        // return $input;
 
 
         $booking = Booking::create($input);
+        // return $booking;
 
 
         //////// BOOKING
@@ -420,16 +426,15 @@ class BookingController extends Controller
         $client_city_state_country = "";
         $client_zip = "";
 
-        foreach($result->order->users->address as $address) {
-            if($address->default_address == 1) {
-                $client_street = $address->address_line1 . " " .$address->address_line2;
-                $client_city_state_country = $address->district . " " . $address->city;
-                $client_zip = $address->postal_code;
-            }
-        }
+        // return $result;
 
-        // return response()->json($client_zip);
-        // print_r($result); exit();
+
+        if($result->order->address != null) {
+            $client_street = $result->order->address->address_line1 . " " .$result->order->address->address_line2;
+            $client_city_state_country = $result->order->address->district . " " . $result->order->address->city;
+            $client_zip = $result->order->address->postal_code;
+        }
+        
 
         $name = $result->order->services->name;
         $name = ($result->order->category != null) ? $name. " - " . $result->order->category->name : $name;

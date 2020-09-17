@@ -8,11 +8,11 @@ class Booking extends Model
 {
     protected $table = "bookings";
 
-    protected $fillable = ['user_id', 'service_id', 'category_id', 'orderer_name'	,'email', 'contact', 'start_time',
-        'end_time' ,'remark', 'booking_date', 'provider_id', 'status', 'otp'];
+    protected $fillable = ['user_id', 'address_id', 'service_id', 'category_id', 'orderer_name'	,'email', 'contact', 'start_time',
+        'end_time' ,'remark', 'booking_date', 'provider_id', 'status', 'otp' ];
 
     public function users() {
-        return $this->hasOne(User::class, 'id', 'user_id')->with('address');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
     public function invoice() {
@@ -20,7 +20,7 @@ class Booking extends Model
     }
 
     public function address() {
-        return $this->hasOne(Address::class, 'user_id', 'user_id');
+        return $this->hasOne(Address::class, 'id' , 'address_id' );
     }
 
     public function provider() {
