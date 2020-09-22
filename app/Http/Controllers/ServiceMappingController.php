@@ -211,7 +211,7 @@ class ServiceMappingController extends Controller
                     $category->push($listCategories);
                 }
                 $service["categories"] = $category;
-                return response()->json($service);
+                return response()->json($service, 200, [], JSON_UNESCAPED_UNICODE);
             } else {
                 return response()->json(null, 204);
             }
@@ -236,7 +236,7 @@ class ServiceMappingController extends Controller
                     $data["categories"] = $category;
                     $result->push($data);
                 }
-                return response()->json($result);
+                return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE);
             } else {
                 return response()->json(null, 204);
             }

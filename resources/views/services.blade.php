@@ -45,6 +45,15 @@
                                     <input id="service_name" type="text" name="name" placeholder="@lang('services.label_plac_name')" class="form-control" required>
                                  </div>
                               </div>
+
+                              <div class="col-md-12" >
+                                <div class="form-group">
+                                   <label>Arabic Name<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                   <input id="service_name" type="text" name="name" placeholder="@lang('services.label_plac_name')" class="form-control" required>
+                                </div>
+                             </div>
+
+
                               <div class="col-md-12">
                                  <div class="form-group">
                                     <label>@lang('services.label_Icon')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
@@ -228,7 +237,7 @@
             document.getElementById('btntext').innerHTML = 'Add Services';
             $("#save_service").show();
             $("#upd_service").hide();
-            
+
         });
     });
 
@@ -236,11 +245,11 @@
         $('#service_name').val("");
         $('#service_description').val("");
         $('#icon_image').val("");
-        $('#banner_image').val(""); 
+        $('#banner_image').val("");
     }
 
         // page redirect
-     
+
         function viewDetail(e){
         console.log(e);
         // alert(e);
@@ -251,9 +260,9 @@
    window.addEventListener ?
        window.addEventListener("load",onLoad(),false) :
    window.attachEvent && window.attachEvent("onload",onLoad());
-   
+
    function onLoad() {
-   
+
        // service_id = getUrlParameter('id');
        console.log("ONLOAD");
        $("#categorydiv").hide();
@@ -263,13 +272,13 @@
         $("#cate_namediv").hide();
         $("#cate_pridiv").hide();
         $("#check_box_div").hide();
-        
-        
-   
+
+
+
        getCategories();
        getListOfService();
    };
-   
+
    function getCategories() {
        $.ajax({
            url: '/subcategories',
@@ -285,8 +294,8 @@
                                      ${response[i].name}
                                 </option>`);
                    }
-   
-   
+
+
                }
                // $('#mytable').data.reload();
                // window.top.location = window.top.location;
@@ -299,7 +308,7 @@
        });
    }
 
-   
+
 
     // Display service function
 
@@ -317,7 +326,7 @@
                             var i;
                             for(i = 0; i < response.length; i++)
                             {
-                                var img = (response[i].icon_image == null) ? '{{ URL::asset('/imges/category/ac-repair.png') }}' : response[i].icon_image; 
+                                var img = (response[i].icon_image == null) ? '{{ URL::asset('/imges/category/ac-repair.png') }}' : response[i].icon_image;
                                 var bimg = (response[i].banner_image == null) ? '{{ URL::asset('/imges/category/ac-repair.png') }}' : response[i].banner_image;
                                 trCatHTML += '<tr><td>' + response[i].name +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td></td>' +
@@ -338,8 +347,8 @@
                 }
             });
         }
-          
-          
+
+
         // Edit services
             var editUserid;
             function getEditService(serviceid)
@@ -366,9 +375,9 @@
                     // $('#icon_image').val(data.icon_image);
                     // $('#banner_image').val(data.banner_image);
                     $('#service_description').val(data.description);
-                    
-                    // $('#action').val('Edit');    
-               
+
+                    // $('#action').val('Edit');
+
                 }
             });
 
@@ -381,13 +390,13 @@
                     console.log(document.getElementById("service_name").value);
 
                     var edit = 'edit_data';
-                    
+
                     let formUpdate = new FormData();
                     formUpdate.append('id', editUserid);
                     formUpdate.append('name', document.getElementById("service_name").value);
                     formUpdate.append('description', document.getElementById("service_description").value);
 
-                    
+
 
                     $.ajax({
                         url: '/api/v1/serviceupdate',
@@ -406,7 +415,7 @@
                     });
 
                     }
-   
+
    function service_validate() {
        console.log("service_validate");
 
@@ -512,7 +521,7 @@
     //    if (!banner_image) {
     //        return "Missing Service Banner";
     //    }
-   
+
        if(!addform.terms.checked) {
            addform.terms.focus();
            console.log('cancel');
@@ -527,7 +536,7 @@
        }
        return null;
    }
-   
+
    var create_service_id;
    function create_service() {
        console.log("create_service");
@@ -544,7 +553,7 @@
            if(document.getElementById("service_description").value != "") {
                form.append('description', document.getElementById("service_description").value);
            }
-   
+
            $.ajax({
                url: '/services',
                type: 'POST',
@@ -590,14 +599,14 @@
                     //   $('.toast').toast('show');
                       // $('#showToast').append(trHTML);
                   }
-   
+
               }
                   // fail: function (error) {
                   //  console.log(error);
-   
+
               });
           }  else {
-          
+
            $("#alerterror").text(servicevalite);
            $("#alerterror").show();
            setTimeout(function() {
@@ -605,7 +614,7 @@
            }, 1000);
           }
       }
-   
+
    function createCategories() {
        console.log("createCategories");
        var form = new FormData();
@@ -616,7 +625,7 @@
            form.append('description', document.getElementById("category_description").value);
        }
        form.append('price', document.getElementById("category_price").value);
-   
+
        $.ajax({
            url: '/subcategories',
            type: 'POST',
@@ -637,7 +646,7 @@
            }
        });
    }
-   
+
    function mappingService(category_id) {
        console.log("mappingService" + category_id);
        $.ajax({
@@ -647,7 +656,7 @@
                service_id: create_service_id,
                category_id: category_id, //document.getElementById("last_name").value,
            },
-   
+
            success: function(response){
                console.log(response);
                // $('#mytable').data.reload();
@@ -655,7 +664,7 @@
                // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
                // $('#table align-items-center table-flush').dataTable().ajax.reload();
            },
-   
+
            error: function (error) {
                $("#alerterror").text(error['statusText']);
                $("#alerterror").show();
@@ -666,13 +675,13 @@
            }
        });
    }
-   
+
    function detailpage(id) {
        console.log(id);
        window.location = '/services?id=' + id;
    }
-   
-   
+
+
    function checkClick() {
        if(!addform.terms.checked) {
            addform.terms.focus();
@@ -682,8 +691,8 @@
            $("#cate_imgdiv").show(1000);
            $("#cate_namediv").show(1000);
            $("#cate_pridiv").show(1000);
-   
-   
+
+
        } else {
            console.log('click');
            $("#categorydiv").show(1000);
@@ -705,8 +714,8 @@
             $("#cate_namediv").hide();
             $("#cate_pridiv").hide();
             $("#check_box_div").hide();
-   
-   
+
+
        } else {
            console.log('click');
         //    $("#categorydiv").show(1000);
@@ -721,29 +730,29 @@
         //    $("#cate_pridiv").hide(1000);
        }
    }
-   
-   
-   
+
+
+
    var getUrlParameter = function getUrlParameter(sParam) {
        var sPageURL = window.location.search.substring(1),
            sURLVariables = sPageURL.split('&'),
            sParameterName,
            i;
-   
+
        for (i = 0; i < sURLVariables.length; i++) {
            sParameterName = sURLVariables[i].split('=');
-   
+
            if (sParameterName[0] === sParam) {
                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
            }
        }
    };
-   
+
    function detailpage(id) {
        console.log(id);
        window.location = '/detailpage?id=' + id;
    }
-   
+
 </script>
 @endsection
 <style>

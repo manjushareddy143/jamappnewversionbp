@@ -8,7 +8,7 @@ class services extends Model
 {
     protected $table = "services";
 
-    protected $fillable = ['name', 'icon_image', 'banner_image', 'description', 'price'];
+    protected $fillable = ['name', 'arabic_name', 'icon_image', 'banner_image', 'description', 'price'];
     public function serviceusers() {
         return $this->hasManyThrough(User::class, ProviderServiceMapping::class, 'service_id' , 'id');
     }
