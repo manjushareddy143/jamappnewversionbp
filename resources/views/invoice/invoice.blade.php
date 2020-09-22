@@ -163,10 +163,10 @@
                     <div class="col-sm-6">
                         <b class="mb-3">BILLED TO:</b>
                         <div id="clientAddress">
-                            <div>{{ $client_name ?? 'client_name' }}</div>
-                            <div>{{ $client_street ?? 'client_street' }}</div>
-                            <div>{{ $client_city_state_country ?? 'client_city_state_country' }}</div>
-                            <div>{{ $client_zip ?? 'client_zip' }}</div>
+                            <div>{{ $client_name ?? ' ' }}</div>
+                            <div>{{ $client_street ?? ' ' }}</div>
+                            <div>{{ $client_city_state_country ?? ' ' }}</div>
+                            <div>{{ $client_zip ?? ' ' }}</div>
                         </div>
                     </div>
                     <div class="col-sm-6 float-right">
