@@ -117,6 +117,15 @@ class FCMPushNotification extends Controller
             // Cancel Order by user
             else if ($input['status'] == 4) {
 
+
+                $cancellation =  [
+                    "booking_id" => $input['booking_id'],
+                    "reason" => $input['reason'],
+                    "comment" => array_key_exists('comment', $input) ? $input['comment'] : "",
+                ];
+
+                BookingCancellation::create($cancellation);
+
                 $notification =  [
                     "title" => 'JAM',
                     "body" => "Order Cancel by user",
