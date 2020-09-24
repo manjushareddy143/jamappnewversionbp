@@ -20,7 +20,7 @@ class BookingController extends Controller
 
     public function booking(Request $request) {
 
-        
+
 
         $response = array();
         $validator = Validator::make($request->all(),
@@ -42,7 +42,7 @@ class BookingController extends Controller
 
 
         $input = $request->all();
-        
+
 
         $startTime = new \DateTime($input['booking_date']);
         $dd = $startTime->format('d-m-Y');
@@ -165,6 +165,7 @@ class BookingController extends Controller
             ->with('provider')
             ->with('address')
             ->with('rating')
+            ->with('cancelled')
             ->where('user_id','=', $user_id)->get();
         // $result = Booking::where('user_id', '=', $user_id)
         //     ->leftJoin('users', 'users.id', '=','bookings.provider_id')
@@ -434,7 +435,7 @@ class BookingController extends Controller
             $client_city_state_country = $result->order->address->district . " " . $result->order->address->city;
             $client_zip = $result->order->address->postal_code;
         }
-        
+
 
         $name = $result->order->services->name;
         $name = ($result->order->category != null) ? $name. " - " . $result->order->category->name : $name;

@@ -15,6 +15,8 @@ class Booking extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
+
+
     public function invoice() {
         return $this->hasOne(Invoice::class, 'order_id', 'id');
     }
@@ -42,5 +44,9 @@ class Booking extends Model
 
     public function rating() {
         return $this->hasOne(Experience::class, 'booking_id', 'id');
+    }
+
+    public function cancelled() {
+        return $this->hasOne(BookingCancellation::class, 'booking_id', 'id');
     }
 }
