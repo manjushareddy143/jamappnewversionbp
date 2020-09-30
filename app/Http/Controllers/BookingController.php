@@ -194,7 +194,7 @@ class BookingController extends Controller
     }
 
     public  function getorder($id) {
-        $result = Booking::with('invoice')->with('users')->with('services')->with('category')->with('provider')->with('address')->with('rating')->where('id', '=', $id)->first();
+        $result = Booking::with('invoice')->with('cancelled')->with('users')->with('services')->with('category')->with('provider')->with('address')->with('rating')->where('id', '=', $id)->first();
         return response()->json($result);
     }
 
