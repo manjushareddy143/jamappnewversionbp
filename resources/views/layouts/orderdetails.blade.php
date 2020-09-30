@@ -256,6 +256,44 @@
                             </div>
                           </div>
                         </div>
+
+
+                        <div class="col-xl-12 col-lg-12 order-details-block" id="cancelledId">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                  <div class="order-info">
+                                    <div class="order-info-block">
+
+                                        <span style="font-size: large;">
+                                            <i class="fa fa-ban"></i>
+                                            Order Cancelled</span>
+                                    </div>
+                                  </div>
+
+                                  <br>
+                                    <div class="row order-info" style="padding-left: 15px;">
+                                        <div class="col-6 order-info-block">
+                                          <span>
+                                            <i class="fa fa-question-circle"></i>
+                                              Reason</span>
+                                          <p style="padding-left: 15px;" id="reason"></p>
+                                        </div>
+
+                                        <div class="col-6 order-info-block">
+                                            <span>
+                                                <i class="fa fa-comments" aria-hidden="true"></i>
+                                                Comment
+                                            </span>
+                                            <p style="padding-left: 15px;" id="comment"></p>
+                                        </div>
+                                      </div>
+
+                                </div>
+                              </div>
+                        </div>
+
+
+
                         <div class="col-xl-12 col-lg-12 order-details-block" id="invoice_detail">
                             <div class="card mb-4">
                                 <div class="card-body">
@@ -626,12 +664,14 @@
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
                         $("#invoice_id").hide();
+                        $("#cancelledId").hide();
                     } else if(response['status']  == 2) {
                         status = "Accepted";
                         $('#accept').text("Submit Invoice");
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
                         $("#invoice_id").hide();
+                        $("#cancelledId").hide();
                     } else if(response['status']  == 3) {
                         status = "Cancel by Vendor";
                         $('#accept').hide();
@@ -639,6 +679,9 @@
                         $("#invoice_detail").hide();
                         $("#invoice_id").hide();
                         $("#cancel_btn").hide();
+                        $("#cancelledId").show();
+                        $('#reason').text(response['cancelled']['reason']);
+                        $('#comment').text(response['cancelled']['comment']);
                     } else if(response['status']  == 4) {
                         status = "Cancel by User";
                         $('#accept').hide();
@@ -646,6 +689,9 @@
                         $("#invoice_detail").hide();
                         $("#invoice_id").hide();
                         $("#cancel_btn").hide();
+                        $("#cancelledId").show();
+                        $('#reason').text(response['cancelled']['reason']);
+                        $('#comment').text(response['cancelled']['comment']);
                     } else if(response['status']  == 5) {
                         status = "Completed";
                         $('#accept').hide();
@@ -653,6 +699,7 @@
                         $("#invoice_detail").show();
                         $("#invoice_id").hide();
                         $("#cancel_btn").hide();
+                        $("#cancelledId").hide();
                         setInvoiceDetail(response);
                     } else if(response['status']  == 6) {
                         status = "Invoice Submitted";
@@ -661,7 +708,7 @@
                         $("#invoice_detail").show();
                         $("#invoice_id").show();
                         $("#cancel_btn").hide();
-
+                        $("#cancelledId").hide();
                         setInvoiceDetail(response);
                         $('#accept').text(btnStatus);
 
