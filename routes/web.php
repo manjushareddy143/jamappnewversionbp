@@ -34,6 +34,7 @@ Route::post('/register', '\App\Http\Controllers\Auth\RegisterController@customRe
 Route::post('/org_register', '\App\Http\Controllers\Auth\RegisterController@organisationRegister');
 
 Route::post('/resetPassword','UserController@resetPasswordform');
+Route::post('/verify_forget_otp','UserController@verifyForgotPasswordOTP');
 Route::post('/changepassword','UserController@changepasswordform');
 
 
@@ -54,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route::delete('users/{id}', 'UserController@destroy');
     Route::delete('users/{id}', 'UserController@soft_delete');
-    
+
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/logout', '\App\Http\Controllers\Auth\LoginController@customLogOut')->name('logout');

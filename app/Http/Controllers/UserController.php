@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Address;
 use App\Document;
 use App\FCMDevices;
+use App\ForgetPasswordVerification;
 use App\Http\Controllers\Auth\RegisterController;
 use App\IndividualServiceProvider;
 use App\organisation;
@@ -324,7 +325,7 @@ class UserController extends Controller
 
     public function logout(Request $request) {
 
-        
+
 
         try {
             $response = array();
@@ -1675,7 +1676,7 @@ class UserController extends Controller
 
         $default = Address::where('default_address', '=', '1')
         ->where('user_id', '=', $input['user_id'])->get();
-        
+
 
         if(isset($default)) {
 
@@ -1732,7 +1733,7 @@ class UserController extends Controller
 
         $default = Address::where('default_address', '=', '1')
         ->where('user_id', '=', $input['user_id'])->get();
-        
+
 
         if(isset($default)) {
 
@@ -1748,9 +1749,9 @@ class UserController extends Controller
             // return $adddressdata;
         }
 
-        
 
-        
+
+
 
         $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
 
@@ -2139,11 +2140,71 @@ class UserController extends Controller
 
         if (isset($checkuser))
         {
+            if($condition == 'email') {
+
+                $user_emails = "mayurkhuman009@gmail.com"; //$username;
+                $otp =  rand(100000,999999);
+
+                $forgetPass = ForgetPasswordVerification::where('user_id', '=', $checkuser->id)->where('is_verified', '=', 0)->first();
+                if(isset($forgetPass)) {
+                    $otp = $forgetPass->otp;
+                } else {
+                    $forgetPass = new ForgetPasswordVerification();
+                    $forgetPass->user_id = $checkuser->id;
+                    $forgetPass->otp = $otp;
+                    $forgetPass->is_verified = 0;
+                    $forgetPass->save();
+                }
+                Mail::send('emails.forgetpassword', ["otp" => $otp], function ($message) use($user_emails) {
+                    $message->to($user_emails)->subject("Forgot Password");
+                    if (env('MAIL_RETURN_PATH', '') != "") {
+                        $message->returnPath(env('MAIL_RETURN_PATH', ''));
+                    }
+                    $message->getSwiftMessage();
+                    // $headers = $swiftMessage->getHeaders();
+                    // $headers->addTextHeader('x-mail-origin-vvg', env('APP_URL', 'http://com/'));
+                });
+            }
+
             return response($checkuser, 200);
         }
         else
         {
             return response(null, 401);
+        }
+    }
+
+    public function verifyForgotPasswordOTP(Request $request) {
+        $response = array();
+        try {
+
+            $validator = Validator::make($request->all(),
+                [
+                    'otp'  => 'required',
+                ]);
+            if ($validator->fails())
+            {
+                return response()->json(['error'=>$validator->errors()], 401);
+            }
+
+            $forgetPass = ForgetPasswordVerification::where('otp', '=', $request->input('otp'))
+            ->where('is_verified', '=', 0)->first();
+            if(isset($forgetPass)) {
+                $forgetPass->is_verified = 1;
+                $forgetPass->save();
+                $response['code'] = 200;
+                $response['message'] = "Success";
+            } else {
+                $response['code'] = 400;
+                $response['message'] = "Invalid OTP";
+            }
+            return response($response, $response['code'])
+                    ->header('content-type', 'application/json');
+        } catch (\Exception $e) {
+            $response['code'] = 400;
+            $response['message'] = $e->getMessage();
+            return response($response, 400)
+                ->header('content-type', 'application/json');
         }
     }
 
