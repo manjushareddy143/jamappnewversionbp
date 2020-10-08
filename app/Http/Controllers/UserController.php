@@ -2142,7 +2142,7 @@ class UserController extends Controller
         {
             if($condition == 'email') {
 
-                $user_emails = "mayurkhuman009@gmail.com"; //$username;
+                $user_emails = $username;
                 $otp =  rand(100000,999999);
 
                 $forgetPass = ForgetPasswordVerification::where('user_id', '=', $checkuser->id)->where('is_verified', '=', 0)->first();
