@@ -170,16 +170,15 @@
                         </div>
                     </div>
                     <div class="col-sm-6 float-right">
-                        <b>CENTRAL PROJECT SENGINEERING SERVICES <br> AND TRADING COMPANY</b>
+                        <b>Mosaic Contracting Company W.L.L</b>
                         <div id="companyAddress">
-                            <div>Ariane Tower, 1 st Floor, Room</div>
-                            <div>No.103, Near Old Mannai</div>
-                            <div>Round About, Al Mushereib,</div>
-                            <div>P O Box 6150, Doha, Qatar</div>
-                            <div>Ph: +974 4435 7448</div>
-                            <div>Fax: +974 4435 7426</div>
-                            <div>Em: info@ceproqatar.com</div>
-                            <div>Web: www.ceproqatar.com</div>
+                            <div>Office No 1B </div>
+                            <div>1st Floor, Al Mana Tower</div>
+                            <div>Near Toyota Signal,</div>
+                            <div>P O Box 203281, Doha, Qatar</div>
+                            <div>Ph: +974 44626215</div>
+                            <div>Em: customercare@jam-app.com</div>
+                            <div>Web: www.mosaicdoha.com</div>
                         </div>
                     </div>
                 </div>

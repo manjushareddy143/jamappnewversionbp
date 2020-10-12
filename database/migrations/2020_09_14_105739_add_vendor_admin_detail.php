@@ -19,7 +19,7 @@ class AddVendorAdminDetail extends Migration
     {
         DB::table('organisation')->insert(
             array(
-                'name' => 'JAM',
+                'name' => 'Mosaic Contracting',
                 'logo' => "/images/profiles/" . 'jam_logo_new.png',
                 'country' => 'Qatar',
                 'number_of_employee' => '10000+',
@@ -28,16 +28,16 @@ class AddVendorAdminDetail extends Migration
             )
         );
 
-        $org = DB::table('organisation')->where("name", "=", 'JAM')->first();
+        $org = DB::table('organisation')->where("name", "=", 'Mosaic Contracting')->first();
         DB::table('users')->insert(
             array(
-                'first_name' => 'JAM',
-                'last_name' => 'Admin',
-                'email' => 'jam@admin.com',
+                'first_name' => 'Mosaic',
+                'last_name' => 'Contracting',
+                'email' => 'customercare@jam-app.com',
                 'password' => Hash::make('jam@admin.com'),
                 'social_signin' => '',
                 'image' => "/images/profiles/" . 'jam_logo_new.png',
-                'contact' => '+917000000001',
+                'contact' => '+97444626215',
                 'gender' => 'Male',
                 'languages' => 'Arabic,English',
                 'type_id' => 2,
@@ -47,7 +47,7 @@ class AddVendorAdminDetail extends Migration
                 'updated_at' => date("Y-m-d H:i:s"),
             )
         );
-        $orgAdmin = DB::table('users')->where("email", "=", 'jam@admin.com')->first();
+        $orgAdmin = DB::table('users')->where("email", "=", 'customercare@jam-app.com')->first();
 
         DB::table('users_roles')->insert(
             array(

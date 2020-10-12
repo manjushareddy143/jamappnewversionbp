@@ -20,14 +20,14 @@ class AddDefaultAddrtessFlag extends Migration
 
         DB::table('addresses')->insert(
             array(
-                'name' => 'JAM office',
-                'address_line1' =>  'Sheikh Saoud Building',
-                'address_line2'=> 'Hamad Medical City',
-                'landmark' => '',
-                'district' => 'Ponomaryovsky District',
-                'city' => 'Doha',
-                'postal_code' => '461784',
-                'location' => '25.283082024872016,51.536083705723286',
+                'name' => 'JAM',
+                'address_line1' =>  'Office No 1B',
+                'address_line2'=> '1st Floor',
+                'landmark' => 'Al Mana Tower',
+                'district' => 'Near Toyota Signal',
+                'city' => 'Doha Qatar',
+                'postal_code' => 'P O Box 203281',
+                'location' => '25.2670474,51.5486133',
                 'user_id' => 3,
                 'default_address' => 1,
                 'is_deleted' => 0,
