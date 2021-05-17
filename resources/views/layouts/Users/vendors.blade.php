@@ -319,9 +319,11 @@
 
     }
 
+    var allServices;
+
         function getListOfService() {
             $.ajax({
-                url: '/api/v1/all_services',
+                url: '/api/v1/all_services?type=web',
                 type: 'GET',
                 success: function (response, xhr) {
                     if (xhr['status'] == 204) {
@@ -330,6 +332,8 @@
                         if(response != null) {
                             var trHTML = '';
                             var i;
+                            allServices = response;
+                            console.log(allServices);
                             for(i = 0; i < response.length; i++)
                             {
                                 var img = (response[i].icon_image == null) ? '{{ URL::asset('/img/boy.png') }}' : response[i].icon_image;
@@ -379,12 +383,12 @@
         var selectedService = [];
 
         function serviceClick(id, cat)  {
-            console.log("id =" + id + " cat =" +cat);
-            if(cat == null) {
-                var categories = allServices.find(obj => obj.id === id).categories;
-                console.log(categories.length);
+            console.log("id =" + id + " cat =" +cat + " allServices = " + allServices );
+            // if(cat == null) {
+            //     var categories = allServices.find(obj => obj.id === id).categories;
+            //     console.log(categories.length);
 
-            }
+            // }
             if(cat == null) {
                 console.log("inside");
                 var categories = allServices.find(obj => obj.id === id).categories;
@@ -393,8 +397,10 @@
                         var srvcObj = {
                             service_id : id,
                             category_id : item.id,
+                            price : $("#"+item.id+"category").val(),
                         };
                         $('#serviceError').text('')
+                        console.log(srvcObj);
                         if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
                             selectedService = $.grep(selectedService, function(value) {
                                 return JSON.stringify(value) != JSON.stringify(srvcObj);
@@ -408,6 +414,7 @@
                     var srvcObj = {
                         service_id : id,
                         category_id : cat,
+                        price : $("#"+cat+"category").val(),
                     };
                     $('#serviceError').text('')
                     if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
@@ -424,6 +431,7 @@
                 var srvcObj = {
                     service_id : id,
                     category_id : cat,
+                    price : $("#"+cat+"category").val(),
                 };
                 $('#serviceError').text('')
                 if(selectedService.some(obj => JSON.stringify(obj) === JSON.stringify(srvcObj))){
@@ -434,7 +442,7 @@
                     selectedService.push(srvcObj);
                 }
             }
-            console.log(selectedService);
+            console.log("final == ",selectedService);
         }
 
         function isNumberKey(evt){
@@ -689,8 +697,34 @@
                 }
             }
 
-            formUpdate.append('services', JSON.stringify(selectedService));
-            console.log(JSON.stringify(selectedService));
+
+
+            // formUpdate.append('services', JSON.stringify(selectedService));
+            // console.log(JSON.stringify(selectedService));
+            var servicesVal = Array();
+                var srvcCount;
+                for(srvcCount = 0; srvcCount <selectedService.length; srvcCount++){
+                    var srvc = selectedService[srvcCount];
+                    // console.log("srvc === " + JSON.stringify(srvc));
+                    // $obj = {};
+                    if(srvc['category_id']) {
+                        $obj = {
+                            price : $("#"+srvc['category_id']+"category").val(),
+                            service_id : srvc['service_id'],
+                            category_id : srvc['category_id']
+                        };
+                    } else {
+                        $obj = {
+                            price : $("#"+srvc['service_id']+"price").val(),
+                            service_id : srvc['service_id'],
+                        };
+                    }
+                    // console.log("final ==" + JSON.stringify($obj));
+                    // console.log("final ==" + $obj);
+                    servicesVal.push($obj);
+                }
+                formUpdate.append('services', JSON.stringify(servicesVal));
+                console.log(JSON.stringify(servicesVal));
 
             $.ajax({
                 url: '/api/v1/vendorupdate',

@@ -194,6 +194,7 @@ class ServiceMappingController extends Controller
 
     public function get_services(Request $request)
     {
+        // return "test";
         $id = $request->input('id');
         // $host = url('/');
         if($id) {
@@ -207,7 +208,7 @@ class ServiceMappingController extends Controller
                 $category = new Collection();
                 foreach ($listMapped as $mapping) {
                     $listCategories = SubCategories::find($mapping['category_id']);
-//                    $listCategories["image"] = $host . "/images/subcategories/" . $listCategories['image'];
+                    // $listCategories["image"] = $host . "/images/subcategories/" . $listCategories['image'];
                     $category->push($listCategories);
                 }
                 $service["categories"] = $category;
@@ -216,7 +217,13 @@ class ServiceMappingController extends Controller
                 return response()->json(null, 204);
             }
         } else {
-            $listService = services::all();
+            $type = $request->input('type');
+            if($type == 'web') {
+                $listService = services::all();
+            } else {
+                $listService = services::where('is_enable', '=', '1')->get();
+            }
+
             if($listService->count() > 0) {
                 $result = new Collection();
                 foreach ($listService as $service) {

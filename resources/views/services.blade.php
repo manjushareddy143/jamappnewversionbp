@@ -49,7 +49,7 @@
                               <div class="col-md-12" >
                                 <div class="form-group">
                                    <label>Arabic Name<strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                                   <input id="service_name" type="text" name="name" placeholder="@lang('services.label_plac_name')" class="form-control" required>
+                                   <input id="service_arabic_name" type="text" name="name" placeholder="@lang('services.label_plac_name')" class="form-control" required>
                                 </div>
                              </div>
 
@@ -75,7 +75,8 @@
                               <div class="col-md-12" id="price_div">
                                     <div class="form-group">
                                           <label>Pricing</label>
-                                          <input id="service_price" type="text" name="price" placeholder="Enter Pricing" class="form-control" required="">
+                                          <input id="service_price" type="text" name="price" placeholder="Enter Pricing" class="form-control" required=""
+                                          onkeypress="isNumber(event)">
                                     </div>
                                  </div>
                                     <!-- new -->
@@ -206,6 +207,7 @@
                      <th>@lang('services.label_tab_banner')</th>
                      <th>@lang('services.label_tab_disc')</th>
                      <th>@lang('services.label_cat_Pricing')</th>
+                     <th>@lang('services.label_srvs_visible')</th>
 
                      <th width="280px">@lang('services.label_tab_action')</th>
                   </tr>
@@ -234,24 +236,39 @@
    $(document).ready(function(){
         $("#add_btn").click(function(){
             ClearInputField()
-            document.getElementById('btntext').innerHTML = 'Add Services';
+            // document.getElementById('btntext').innerHTML = 'Add Services';
+            document.getElementById('service_btn').innerHTML = 'Add Service';
             $("#save_service").show();
             $("#upd_service").hide();
 
         });
     });
 
+    function isNumber(evt) {
+
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) && (charCode !== 46 || evt.target.value.indexOf(
+                '.') != -1)) {
+            evt.preventDefault();
+        } else {
+            return true;
+        }
+    }
+
     function ClearInputField() {
         $('#service_name').val("");
+        $('#service_arabic_name').val("");
         $('#service_description').val("");
         $('#icon_image').val("");
+        $('#service_price').val("");
         $('#banner_image').val("");
     }
 
         // page redirect
 
         function viewDetail(e){
-        console.log(e);
+        // console.log(e);
         // alert(e);
         window.location = '/detailpage?id=' + e;
         }
@@ -264,7 +281,7 @@
    function onLoad() {
 
        // service_id = getUrlParameter('id');
-       console.log("ONLOAD");
+       // console.log("ONLOAD");
        $("#categorydiv").hide();
        $("#alerterror").hide();
         $("#cate_disdiv").hide();
@@ -281,15 +298,15 @@
 
    function getCategories() {
        $.ajax({
-           url: '/subcategories',
+           url: '/api/v1/all_category',
            type: 'GET',
            success: function(response){
-               console.log(response);
+               // console.log(response);
                if(response['status'] == 204) {
-                   console.log(response);
+                   // console.log(response);
                } else {
                    for(var i = 0; i < response.length; i ++) {
-                       console.log(response[i].name);
+                       // console.log(response[i].name);
                        $('#categorieslist').append(`<option value="${response[i].id}">
                                      ${response[i].name}
                                 </option>`);
@@ -303,7 +320,7 @@
                // $('#table align-items-center table-flush').dataTable().ajax.reload();
            },
            fail: function (error) {
-               console.log(error);
+               // console.log(error);
            }
        });
    }
@@ -314,13 +331,13 @@
 
     function getListOfService() {
             $.ajax({
-                url: '/api/v1/all_services',
+                url: '/api/v1/all_services?type=web',
                 type: 'GET',
                 success: function (response, xhr) {
                     if (xhr['status'] == 204) {
-                        console.log(response);
+                        // console.log(response);
                     } else {
-                        console.log(response);
+                        // console.log(response);
                         if(response != null) {
                             var trCatHTML = '';
                             var i;
@@ -328,13 +345,22 @@
                             {
                                 var img = (response[i].icon_image == null) ? '{{ URL::asset('/imges/category/ac-repair.png') }}' : response[i].icon_image;
                                 var bimg = (response[i].banner_image == null) ? '{{ URL::asset('/imges/category/ac-repair.png') }}' : response[i].banner_image;
+                                var isVisible;
+                                if(response[i].is_enable == 1) {
+                                    isVisible = 'checked';
+                                } else {
+                                    isVisible = '';
+                                }
                                 trCatHTML += '<tr><td>' + response[i].name +
-                        '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td></td>' +
-                        '</td><td><img src="' + bimg + '" class="square" width="60" height="50" /></td></td>' +
-                        '</td><td>' + response[i].description  + '</td>' +
-                        '</td><td>' + response[i].price  + '</td>' +
-                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getEditService(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a>'
-                            + '</td> </tr>';
+                                    '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td></td>' +
+                                    '</td><td><img src="' + bimg + '" class="square" width="60" height="50" /></td></td>' +
+                                    '</td><td>' + response[i].description  + '</td>' +
+                                    '</td><td>' + response[i].price  + '</td>' +
+                                    '</td><td>' +
+                                        '<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" onclick="visibleService(' + response[i].id + ')" '+ isVisible +'>'
+                                        + '</td>' +
+                                '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getEditService(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a>'
+                                + '</td> </tr>';
                             }
                             trCatHTML += '</ul>';
                             $('#tbl_id').append(trCatHTML);
@@ -343,24 +369,43 @@
                     }
                 },
                 fail: function (error) {
-                    console.log(error);
+                    // console.log(error);
                 }
             });
-        }
+    }
+
+
+    function visibleService(serviceid) {
+        console.log("Service OID == ", serviceid);
+
+        $.ajax({
+            url: '/api/v1/service/status?id=' + serviceid,
+            type: 'POST',
+            data: {},
+            success: function (response) {
+            window.top.location = window.top.location;
+            location.reload();
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+
+    }
 
 
         // Edit services
             var editUserid;
             function getEditService(serviceid)
             {
-                console.log("hello" + serviceid);
-             document.getElementById('service_btn').innerHTML = 'Edit Services';
+                // console.log("call edit");
+             document.getElementById('service_btn').innerHTML = 'Edit Service';
              // document.getElementById('button').innerHTML = 'Update';
              $("#lbl_pass").hide();
              $("#password").hide();
              $("#save_service").hide();
              $("#upd_service").show();
-            console.log(serviceid);
+            // console.log(serviceid);
             editUserid=serviceid;
 
             $.ajax({
@@ -370,11 +415,13 @@
                 dataType:'JSON',
                 success:function(data)
                 {
-                    console.log(data);
+                    // console.log(data);
                     $('#service_name').val(data.name);
+                    $('#service_arabic_name').val(data.arabic_name);
                     // $('#icon_image').val(data.icon_image);
                     // $('#banner_image').val(data.banner_image);
                     $('#service_description').val(data.description);
+                    $('#service_price').val(data.price);
 
                     // $('#action').val('Edit');
 
@@ -387,7 +434,7 @@
 
                 function getUpdateService() {
 
-                    console.log(document.getElementById("service_name").value);
+                    // console.log(document.getElementById("service_name").value);
 
                     var edit = 'edit_data';
 
@@ -395,6 +442,8 @@
                     formUpdate.append('id', editUserid);
                     formUpdate.append('name', document.getElementById("service_name").value);
                     formUpdate.append('description', document.getElementById("service_description").value);
+                    formUpdate.append('arabic_name', document.getElementById("service_arabic_name").value);
+                    formUpdate.append('price', document.getElementById("service_price").value);
 
 
 
@@ -405,19 +454,21 @@
                         contentType: false,
                         processData: false,
                         success: function (response) {
-                            console.log("CREATE UPDATE REPOSNE == " + response);
+                            // console.log("CREATE UPDATE REPOSNE == " + response);
                         window.top.location = window.top.location;
                         location.reload();
                         },
                         fail: function (error) {
-                            console.log(error);
+                            // console.log(error);
                         }
                     });
 
                     }
 
    function service_validate() {
-       console.log("service_validate");
+       // console.log("service_validate");
+
+       var error = false;
 
        if (document.getElementById("service_name").value == "") {
            // EXPAND ADDRESS FORM
@@ -428,13 +479,16 @@
                if (name.length == 0) {
                    $('#service_name').next('div.red').remove();
                    $('#service_name').after('<div class="red" style="color:red">Services name is required</div>');
+                   error = true;
                } else {
                    $(this).next('div.red').remove();
-                   return true;
+
                }
            });
 
         }
+
+
 
          //Image
 
@@ -447,9 +501,10 @@
                if (name.length == 0) {
                    $('#icon_image').next('div.red').remove();
                    $('#icon_image').after('<div class="red" style="color:red">Icon image is required</div>');
+                   error = true;
                } else {
                    $(this).next('div.red').remove();
-                   return true;
+
                }
            });
          }else{
@@ -459,16 +514,14 @@
     var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
     if(!allowedExtensions.exec(filePath)){
          // alert('Please select a valid image file');
-         console.log("ERROR");
+         // console.log("ERROR");
                  $('#icon_image').next('div.red').remove();
                  $('#icon_image').after('<div class="red" style="color:red">Please select a valid image file</div>');
                 document.getElementById("icon_image").value = '';
-                return false;
-    }
+                error = true;
+        }
          else {
-                console.log("NOT WORL");
                 $(this).next('div.red').remove();
-                return true;
             }
          }
 
@@ -484,9 +537,10 @@
                if (name.length == 0) {
                    $('#banner_image').next('div.red').remove();
                    $('#banner_image').after('<div class="red" style="color:red">Banner image is required</div>');
+                   error = true;
                } else {
                    $(this).next('div.red').remove();
-                   return true;
+
                }
            });
          }else{
@@ -496,16 +550,15 @@
     var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
     if(!allowedExtensions.exec(filePath)){
          // alert('Please select a valid image file');
-         console.log("ERROR");
+         // console.log("ERROR");
                  $('#banner_image').next('div.red').remove();
                  $('#banner_image').after('<div class="red" style="color:red">Please select a valid image file</div>');
                 document.getElementById("banner_image").value = '';
-                return false;
+                error = true;
     }
          else {
-                console.log("NOT WORL");
+                // console.log("NOT WORL");
                 $(this).next('div.red').remove();
-                return true;
             }
          }
 
@@ -524,7 +577,7 @@
 
        if(!addform.terms.checked) {
            addform.terms.focus();
-           console.log('cancel');
+           // console.log('cancel');
            if(document.getElementById("categoy_name").value == "" ) {
                // EXPAND ADDRESS FORM
                return "Missing Category Name";
@@ -534,7 +587,7 @@
                return "Missing Category Icon";
            }
        }
-       return null;
+       return error;
    }
 
    var create_service_id;
@@ -542,8 +595,8 @@
        console.log("create_service");
        var servicevalite = service_validate();
        console.log("service_validate ::" + servicevalite);
-       if(servicevalite == null) {
-           console.log("CREATE SERVER CALL");
+       if(servicevalite == false) {
+           // console.log("CREATE SERVER CALL");
            var form = new FormData();
            var icon_image = $('#icon_image')[0].files[0];
            form.append('icon_image',icon_image);
@@ -554,18 +607,22 @@
                form.append('description', document.getElementById("service_description").value);
            }
 
+
+           form.append('arabic_name', document.getElementById("service_arabic_name").value);
+           form.append('price', document.getElementById("service_price").value);
+
            $.ajax({
-               url: '/services',
+               url: '/api/v1/service',
                type: 'POST',
                data: form,
                contentType: false,
                processData: false,
                success: function(response){
-                   console.log("CREATE CREATE REPOSNE == "+response);
+                   // console.log("CREATE CREATE REPOSNE == "+response);
                    create_service_id = response['id'];
                    if(!addform.terms.checked) {
                        addform.terms.focus();
-                       console.log('cancel');
+                       // console.log('cancel');
                        createCategories();
                       } else {
                        var category_id = $('#categorieslist').children("option:selected").val();
@@ -573,7 +630,7 @@
                       }
                       if(!addform.ser_price.checked) {
                         addform.ser_price.focus();
-                       console.log('cancel');
+                       // console.log('cancel');
                     //    createCategories();
                       } else {
                     //    var category_id = $('#categorieslist').children("option:selected").val();
@@ -582,7 +639,7 @@
 
                       // window.top.location = window.top.location;
                   },error: function (xhr){
-                  console.log("errp = " + JSON.stringify(xhr));
+                  // console.log("errp = " + JSON.stringify(xhr));
                   if(xhr['status'] == 406) {
                       var errorArray = xhr['responseJSON'];
                       var msgStr = "";
@@ -602,7 +659,7 @@
 
               }
                   // fail: function (error) {
-                  //  console.log(error);
+                  //  // console.log(error);
 
               });
           }  else {
@@ -616,7 +673,7 @@
       }
 
    function createCategories() {
-       console.log("createCategories");
+       // console.log("createCategories");
        var form = new FormData();
        var category_image = $('#category_image')[0].files[0];
        form.append('image',category_image);
@@ -633,7 +690,7 @@
            contentType: false,
            processData: false,
            success: function(response){
-               console.log(response['id']);
+               // console.log(response['id']);
                mappingService(response['id']);
            },
            error: function (error) {
@@ -642,13 +699,13 @@
                setTimeout(function() {
                    $("#alerterror").hide()
                }, 1000);
-               console.log("ERR ====="+JSON.stringify(error));
+               // console.log("ERR ====="+JSON.stringify(error));
            }
        });
    }
 
    function mappingService(category_id) {
-       console.log("mappingService" + category_id);
+       // console.log("mappingService" + category_id);
        $.ajax({
            url: '/service_mapping',
            type: 'POST',
@@ -658,7 +715,7 @@
            },
 
            success: function(response){
-               console.log(response);
+               // console.log(response);
                // $('#mytable').data.reload();
                window.top.location = window.top.location;
                // $( "#table align-items-center table-flush" ).load( "your-current-page.html #mytable" );
@@ -671,13 +728,13 @@
                setTimeout(function() {
                    $("#alerterror").hide()
                }, 1000);
-               console.log("ERR ====="+JSON.stringify(error));
+               // console.log("ERR ====="+JSON.stringify(error));
            }
        });
    }
 
    function detailpage(id) {
-       console.log(id);
+       // console.log(id);
        window.location = '/services?id=' + id;
    }
 
@@ -685,7 +742,7 @@
    function checkClick() {
        if(!addform.terms.checked) {
            addform.terms.focus();
-           console.log('cancel');
+           // console.log('cancel');
            $("#categorydiv").hide(1000);
            $("#cate_disdiv").show(1000);
            $("#cate_imgdiv").show(1000);
@@ -694,7 +751,7 @@
 
 
        } else {
-           console.log('click');
+           // console.log('click');
            $("#categorydiv").show(1000);
            $("#cate_disdiv").hide(1000);
            $("#cate_imgdiv").hide(1000);
@@ -706,7 +763,7 @@
    function checkClickprice() {
        if(!addform.ser_price.checked) {
            addform.ser_price.focus();
-           console.log('cancel');
+           // console.log('cancel');
         //    $("#categorydiv").hide(1000);
            $("#price_div").show();
            $("#cate_disdiv").hide();
@@ -717,7 +774,7 @@
 
 
        } else {
-           console.log('click');
+           // console.log('click');
         //    $("#categorydiv").show(1000);
               $("#price_div").hide(1000);
               $("#cate_disdiv").show();
@@ -749,7 +806,7 @@
    };
 
    function detailpage(id) {
-       console.log(id);
+       // console.log(id);
        window.location = '/detailpage?id=' + id;
    }
 

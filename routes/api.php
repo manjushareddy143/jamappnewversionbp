@@ -76,10 +76,11 @@ Route::get('test', 'ServiceProviderController@getDistance');
 
 
 Route::post('v1/service', 'ServicesController@store');
+Route::post('v1/service/status', 'ServicesController@service_status');
 Route::get('v1/service', 'ServicesController@show_all');
 
 // display subcategory
-// Route::get('v1/all_category', 'SubCategoryController@get_category');
+Route::get('v1/all_category', 'SubCategoryController@get_category');
 
 Route::post('v1/sub_category', 'SubCategoryController@store');
 Route::get('v1/sub_category', 'SubCategoryController@show_all');

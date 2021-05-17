@@ -3,131 +3,134 @@
 
 @section('content')
          <div class="container-fluid" id="container-wrapper">
-         
+
 <div class="row">
-                       
+
                         <div class="custom-buttons" style="margin-left: 93%;">
                            <button type="button" id="back_btn" class="btn btn-secondary mb-1">Back</button>
-                        </div>            
+                        </div>
+
+
     <div class="col-lg-12 margin-tb">
-    
-      <div class="card">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">@lang('sdetailpage.label_header')</h6>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                     id="category_btn"> <i class="fa fa-plus" aria-hidden="true"></i> @lang('sdetailpage.label_header_btn')</button>
 
-                
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="service_btn">@lang('sdetailpage.label_title')</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form id="addform">
+        <div class="card">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">@lang('sdetailpage.label_header')</h6>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                id="category_btn"> <i class="fa fa-plus" aria-hidden="true"></i> @lang('sdetailpage.label_header_btn')</button>
 
-                      <div class="col-md-12">
-                          <div class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input"
-                                     id="terms" name="terms" onclick="checkClick()">
-                              <label class="custom-control-label" for="terms">
-                                  @lang('sdetailpage.label_title2')
-                              </label>
-                          </div>
-                      </div>
 
-                  <div class="col-md-12" id="namediv">
-                    <div class="form-group">
-                      <label>@lang('sdetailpage.label_name')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                          <input id="name" type="text" name="name"  class="form-control"
-                                 placeholder="@lang('sdetailpage.label_plac_name')" required>
+
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="service_btn">@lang('sdetailpage.label_title')</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                        <form id="addform">
+
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input"
+                                            id="terms" name="terms" onclick="checkClick()">
+                                    <label class="custom-control-label" for="terms">
+                                        @lang('sdetailpage.label_title2')
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" id="namediv">
+                                <div class="form-group">
+                                <label>@lang('sdetailpage.label_name')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <input id="name" type="text" name="name"  class="form-control"
+                                            placeholder="@lang('sdetailpage.label_plac_name')" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" id="categorydiv">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">@lang('sdetailpage.label_type')</label>
+                                        <select class="form-control" id="categorieslist">
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12" id="imagediv">
+                                <div class="form-group">
+                                    <label>@lang('sdetailpage.label_image')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <input id="image" type="file" name="image" class="form-control ">
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12" id="descriptiondiv">
+                                <div class="form-group">
+                                    <label>@lang('sdetailpage.label_plac_desc')</label>
+                                    <input id="description" type="text" name="description" placeholder="@lang('sdetailpage.label_plac_desc')"  class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" id="pricediv">
+                                <div class="form-group">
+                                    <label>@lang('sdetailpage.label_price')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
+                                    <div class="input-symbol-euro">
+                                        <input id="price" type="text" name="price" placeholder="@lang('sdetailpage.label_plac_price')"  class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('sdetailpage.label_cbtn')</button>
+                                <button type="button" onclick="store()" id="save_service" class="btn btn-primary">@lang('sdetailpage.label_sbtn')</button>
+                                <button type="button" onclick="getUpdateCategory()" id="upd_service" class="btn btn-primary">Update</button>
+                            </div>
+
+                            <div class="alert alert-danger alert-dismissible" role="alert" id="alerterror">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h6><i class="fas fa-ban"></i><b> Error!</b></h6>
+                                <p id="errormsg"> Unknow Error from Server side!</p>
+                            </div>
+
+                        </form>
+
+                        </div>
+
                     </div>
-                  </div>
-
-                  <div class="col-md-12" id="categorydiv">
-                          <div class="form-group">
-                              <label for="exampleFormControlSelect1">@lang('sdetailpage.label_type')</label>
-                              <select class="form-control" id="categorieslist">
-                              </select>
-                          </div>
-                      </div>
-
-                  <div class="col-md-12" id="imagediv">
-                    <div class="form-group">
-                        <label>@lang('sdetailpage.label_image')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                        <input id="image" type="file" name="image" class="form-control ">
-
-                     </div>
-                   </div>
-
-
-                  <div class="col-md-12" id="descriptiondiv">
-                      <div class="form-group">
-                      <label>@lang('sdetailpage.label_plac_desc')</label>
-                     <input id="description" type="text" name="description" placeholder="@lang('sdetailpage.label_plac_desc')"  class="form-control" required>
-                      </div>
                     </div>
-
-                    <div class="col-md-12" id="pricediv">
-                      <div class="form-group">
-                      <label>@lang('sdetailpage.label_price')<strong style="font-size: 14px;color: #e60606;">*</strong></label>
-                      <div class="input-symbol-euro">
-                     <input id="price" type="text" name="price" placeholder="@lang('sdetailpage.label_plac_price')"  class="form-control" required>
-                      </div>
-                      </div>
-                    </div>
-
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('sdetailpage.label_cbtn')</button>
-                  <button type="button" onclick="store()" id="save_service" class="btn btn-primary">@lang('sdetailpage.label_sbtn')</button>
-                  <button type="button" onclick="getUpdateCategory()" id="upd_service" class="btn btn-primary">Update</button>
                 </div>
-
-                      <div class="alert alert-danger alert-dismissible" role="alert" id="alerterror">
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                          <h6><i class="fas fa-ban"></i><b> Error!</b></h6>
-                          <p id="errormsg"> Unknow Error from Server side!</p>
-                      </div>
-
-                </form>
-
-                </div>
-
-              </div>
+                    <!-- Modal -->
             </div>
-          </div>
-          <!-- Modal -->
-</div>
-</div>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-items-center table-flush" id="tbl_id">
+                <thead class="thead-light">
+                    <tr>
+                    <!-- <th>id</th> -->
+                        <th>@lang('sdetailpage.label_tab_name')</th>
+                        <th>@lang('sdetailpage.label_tab_image')</th>
+                        <th>@lang('sdetailpage.label_tab_desc')</th>
+                        <th>@lang('sdetailpage.label_tab_price')</th>
+                        <th width="280px">@lang('organisation.label_tab_action')</th>
+                    </tr>
+                </thead>
 
-
-
- <div class="table-responsive">
-<table class="table align-items-center table-flush" id="tbl_id">
-<thead class="thead-light">
- <tr>
-   <!-- <th>id</th> -->
-   <th>@lang('sdetailpage.label_tab_name')</th>
-   <th>@lang('sdetailpage.label_tab_image')</th>
-   <th>@lang('sdetailpage.label_tab_desc')</th>
-   <th>@lang('sdetailpage.label_tab_price')</th>
-   <th width="280px">@lang('organisation.label_tab_action')</th>    
- </tr>
-</thead>
-
- <tbody>
- </tbody>
-</table>
-</div>
-</div>
+            <tbody>
+            </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 </div>
          <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
@@ -139,13 +142,16 @@
 
         var service_id;
         function onLoad() {
-            getListOfSubCategory();
+            console.log("TEST");
+
             service_id = getUrlParameter('id');
             console.log(service_id);
+            getListOfSubCategory();
+            getCategories();
             $("#categorydiv").hide();
             $("#alerterror").hide();
 
-            getCategories();
+
         };
 
         $(document).ready(function(){
@@ -154,7 +160,7 @@
             document.getElementById('service_btn').innerHTML = 'Add Services';
             $("#save_service").show();
             $("#upd_service").hide();
-            
+
         });
             });
 
@@ -184,7 +190,7 @@
         $('#name').val("");
         $('#description').val("");
         $('#image').val("");
-        $('#price').val(""); 
+        $('#price').val("");
     }
 
         function service_validate() {
@@ -260,7 +266,7 @@
             }
          }
 
-   
+
        return null;
    }
 
@@ -268,7 +274,7 @@
 
         function getListOfSubCategory() {
             $.ajax({
-                url: '/api/v1/sub_category',
+                url: '/api/v1/sub_category?id=' + service_id,
                 type: 'GET',
                 success: function (response, xhr) {
                     if (xhr['status'] == 204) {
@@ -280,7 +286,7 @@
                             var i;
                             for(i = 0; i < response.length; i++)
                             {
-                                var img = (response[i].image == null) ? '{{ URL::asset('/imges/subcategories/Repair.jpg') }}' : response[i].image; 
+                                var img = (response[i].image == null) ? '{{ URL::asset('/imges/subcategories/Repair.jpg') }}' : response[i].image;
                                 trCatHTML += '<tr><td>' + response[i].name +
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td></td>' +
                         '</td><td>' + response[i].description  + '</td>' +
@@ -307,7 +313,7 @@
             {
                 console.log("hello" + catid);
              document.getElementById('service_btn').innerHTML = 'Edit SubCategory';
-             
+
              $("#lbl_pass").hide();
              $("#password").hide();
              $("#btn_save").hide();
@@ -329,9 +335,9 @@
                     // $('#banner_image').val(data.banner_image);
                     $('#description').val(data.description);
                     $('#price').val(data.price);
-                    
-                    // $('#action').val('Edit');    
-               
+
+                    // $('#action').val('Edit');
+
                 }
             });
 
@@ -373,7 +379,7 @@
 
         function getCategories() {
             $.ajax({
-                url: '/subcategories',
+                url: '/api/v1/all_category',
                 type: 'GET',
                 success: function(response){
                     console.log(response);

@@ -54,77 +54,54 @@ class SubCategoryController extends Controller
         }
     }
 
-    public function show_all() {
-        $listServices = SubCategories::all();
-        if($listServices->count() > 0) {
-            return response()->json($listServices);
+    // public function service_subcat(Request $request)
+    // {
+    //     // echo($request->all()); exit;
+    // }
+
+    public function show_all(Request $request) {
+
+        $listMappedCat = ServiceMapping::where('service_id', '=', $request->input('id'))->get();
+
+        $data = [];
+        $i = 0;
+        foreach ($listMappedCat as $cat) {
+            $category = SubCategories::find($cat->category_id);
+            $data[$i] = $category;
+            $i++;
+        }
+        if(isset($data)) {
+            return response()->json($data);
         } else {
             return response()->json(['status'=> 204]);
         }
     }
 
-    // public function get_category(Request $request)
-    // {
-    //     // echo 'test';
-    //     // exit();
-    //     $id = $request->input('id');
-    //     $host = url('/');
-    //     if($id) {
-    //         $sub_categories = sub_categories::find($id);
-    //         if($sub_categories) {
-    //             $sub_categories["image"] =  $host . $sub_categories['image'];
+    public function get_category(Request $request)
+    {
+        $listCat = SubCategories::select('*')->get();
+        // print_r($listCat); exit;
+        if(isset($listCat)) {
+            return response()->json($listCat);
+        } else {
+            return response()->json(['status'=> 204]);
+        }
 
-    //             $listMapped = ServiceMapping::where('category_id','=',$sub_categories['id'])->get();
-    //             $category = new Collection();
-    //             foreach ($listMapped as $mapping) {
-    //                 $listCategories = SubCategories::find($mapping['category_id']);
-
-    //                 $category->push($listCategories);
-    //             }
-    //             $sub_categories["categories"] = $category;
-    //             return response()->json($sub_categories);
-    //         } else {
-    //             return response()->json(null, 204);
-    //         }
-    //     } else {
-    //         $listSubCategories = SubCategories::all();
-    //         if($listSubCategories->count() > 0) {
-    //             $result = new Collection();
-    //             foreach ($listSubCategories as $sub_categories) {
-    //                 $data = [];
-    //                 $data = $sub_categories;
-    //                 $sub_categories["image"] = $host . $sub_categories['image'];
-
-    //                 $listMapped = ServiceMapping::where('category_id','=',$sub_categories['id'])->get();
-    //                 $category = new Collection();
-    //                 foreach ($listMapped as $mapping) {
-    //                     $listCategories = SubCategories::find($mapping['category_id']);
-    //                     $listCategories["image"] = $host . $listCategories['image'];
-    //                     $category->push($listCategories);
-    //                 }
-    //                 $data["categories"] = $category;
-    //                 $result->push($data);
-    //             }
-    //             return response()->json($result);
-    //         } else {
-    //             return response()->json(null, 204);
-    //         }
-    //     }
-    // }
+    }
 
     public function edit_category($id)
     {
     $category = subcategories::where('id', '=', (int)$id)->first();
         return response()->json($category, 200);
-        
+
     }
-    
+
     // update category
 
 
     public function updatecategory(Request $request)
     {
-        
+
         $input = $request->all();
         $updatedata = [];
         if(array_key_exists('name', $input)) {
@@ -145,7 +122,7 @@ class SubCategoryController extends Controller
             ];
 
         }
-        
+
         $temp= DB::table('sub_categories')->where('id', (int)$input['id'])->update($updatedata);
         return $temp;
 

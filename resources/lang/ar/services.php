@@ -27,6 +27,8 @@ return[
 
 'label_cat_Pricing'=>'التسعير',
 
+'label_srvs_visible'=>'مرئي',
+
 
 'label_plac_name'=>'أدخل الاسم',
 

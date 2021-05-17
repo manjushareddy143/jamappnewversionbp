@@ -28,6 +28,8 @@ return[
 
 'label_cat_Pricing'=>'Pricing',
 
+'label_srvs_visible'=>'Visible',
+
 
 'label_plac_name'=>'Enter Name',
 
