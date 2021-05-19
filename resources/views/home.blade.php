@@ -555,7 +555,7 @@
         var allServices;
         function addServices() {
             $.ajax({
-                url: '/api/v1/all_services',
+                url: '/api/v1/all_services?type=web',
                 type: 'GET',
                 success: function (response, xhr) {
                     if (xhr['status'] == 204) {
