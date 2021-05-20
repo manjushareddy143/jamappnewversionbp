@@ -201,7 +201,7 @@ class BookingController extends Controller
     public function getallbooking(Request $request) {
 
         $result = Booking::with('invoice')->with('users')->with('services')->with('category')
-        ->with('provider')->get();
+        ->with('provider')->orderBy('id', 'desc')->get();
         return response()->json($result);
     }
 

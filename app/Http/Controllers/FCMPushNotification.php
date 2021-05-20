@@ -106,6 +106,9 @@ class FCMPushNotification extends Controller
                 $dataPayload = [
                     "order" => $booking['id'],
                     "status" => "3",
+                    "reason" => $input['reason'],
+                    "comment" => array_key_exists('comment', $input) ? $input['comment'] : "",
+
                 ];
                 $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
                 foreach ($fcm_customer as $fcm) {
