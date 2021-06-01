@@ -537,7 +537,7 @@ class BookingController extends Controller
 
 
         PDF::setOptions(['dpi' => 150]);
-        return $data;
+        // return $data;
 
         $pdf = PDF::loadView('invoice.invoice', $data)->setPaper('a4', 'portrait')->setWarnings(false);
         return $pdf->download('invoice.pdf');
