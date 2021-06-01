@@ -77,12 +77,14 @@ Route::get('test', 'ServiceProviderController@getDistance');
 
 Route::post('v1/service', 'ServicesController@store');
 Route::post('v1/service/status', 'ServicesController@service_status');
+Route::post('v1/service/delete/{id}', 'ServicesController@deleteService');
 Route::get('v1/service', 'ServicesController@show_all');
 
 // display subcategory
 Route::get('v1/all_category', 'SubCategoryController@get_category');
 
 Route::post('v1/sub_category', 'SubCategoryController@store');
+Route::post('v1/subcategory/delete', 'SubCategoryController@deleteSubcategory');
 Route::get('v1/sub_category', 'SubCategoryController@show_all');
 
 Route::post('v1/service_mapping', 'ServiceMappingController@store');

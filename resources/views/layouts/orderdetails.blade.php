@@ -434,7 +434,7 @@
                                             <div class="col-md-6 float-l">
                                             <div class="form-group">
                                             <label for="quantity">Discount:</label><br>
-                                            <input type="number" id="mat_dis" name="discount" min="1" max="500" value="0">
+                                            <input type="number" id="mat_dis" name="discount" min="1" max="99   " value="0"> %
                                             </div>
                                             </div>
                                             </div>
@@ -754,21 +754,31 @@
             $('#tax').text(response.invoice.tax);
             $('#add_charg').text(response.invoice.additional_charges);
 
-            var cost = response.provider.service_price.price;
+            var cost = response.service_price.price;
+            console.log("cost =", cost);
+
+
 
             var serviceAmount = response.invoice.working_hr * cost; // 5
+            console.log("serviceAmount =", serviceAmount);
 
             var meterialAmount = response.invoice.material_quantity * response.invoice.material_price; // 10
+            console.log("meterialAmount =", meterialAmount);
 
             var additional_total = response.invoice.additional_charges * response.invoice.working_hr; // 10
+            console.log("additional_total =", additional_total);
 
             var sub_total = serviceAmount + additional_total + meterialAmount;  // 70
+            console.log("sub_total =", sub_total);
 
             var total_discount = sub_total - ((response.invoice.discount * 100 )/100); // 60
+            console.log("total_discount =", total_discount);
 
             var taxCut =  (total_discount * response.invoice.tax)/100;
+            console.log("taxCut =", taxCut);
 
             var total = total_discount + taxCut;
+            console.log("total =", total);
 
             $('#total_cost').text(total + "  QAR");
         }

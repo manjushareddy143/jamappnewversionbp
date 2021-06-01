@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ProviderServiceMapping;
 use App\ServiceMapping;
 use App\services;
 use Illuminate\Http\Request;
@@ -70,6 +71,20 @@ class ServicesController extends Controller
                return response()->json(null, 204);
            }
        }
+
+   }
+
+   public function deleteService($id, Request $request)
+   {
+       if($id != 0 && $id != '') {
+        services::where('id','=',$id)->delete();
+        ServiceMapping::where('service_id', '=',$id)->delete();
+        ProviderServiceMapping::where('service_id', '=',$id)->delete();
+        return response()->json(true, 200);
+       } else {
+        return response()->json(false, 204);
+       }
+
 
    }
 

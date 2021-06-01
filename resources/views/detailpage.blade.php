@@ -291,7 +291,9 @@
                         '</td><td><img src="' + img + '" class="square" width="60" height="50" /></td></td>' +
                         '</td><td>' + response[i].description  + '</td>' +
                         '</td><td>' + response[i].price  + '</td>' +
-                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="#"><i class="fas fa-eye"></i></a> <a href="#" onclick="getEditCategory(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a>'
+                        '</td><td>' + ' <a href="#" class="btn btn-info" onclick="#"><i class="fas fa-eye"></i></a> <a href="#" onclick="getEditCategory('
+                        + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> <a href="#" onclick="deleteCategory('
+                        + response[i].id + ')" class="btn btn-primary" id="user_btn"><i class="fas fa-trash"></i></a>'
                             + '</td> </tr>';
                             }
                             trCatHTML += '</ul>';
@@ -307,6 +309,45 @@
         }
 
         // Edit SubCategory
+
+
+        var deleteId;
+            function deleteCategory(catid)
+            {
+                deleteId=catid;
+                if (confirm('Are you sure you want to delete the category?')) {
+
+                    $.ajax({
+                        url:"api/v1/subcategory/delete/",
+                        method:'post',
+                        data:{
+                            category: catid,
+                            service: service_id
+                        },
+                        dataType:'JSON',
+                        success:function(data)
+                        {
+                            console.log(data);
+                            deleteId = '';
+                            if(data == true) {
+                                window.top.location = window.top.location;
+                                location.reload();
+                            } else {
+                                alert("Record not deleted");
+                            }
+
+
+                        }
+                    });
+
+                } else {
+                    deleteId = '';
+                }
+
+
+
+        }
+
 
         var editUserid;
             function getEditCategory(catid)

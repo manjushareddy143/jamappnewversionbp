@@ -6,6 +6,7 @@ use App\Address;
 use App\Booking;
 use App\FCMDevices;
 use App\Invoice;
+use App\ProviderServiceMapping;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -167,6 +168,35 @@ class BookingController extends Controller
             ->with('rating')
             ->with('cancelled')
             ->where('user_id','=', $user_id)->get();
+
+            $obj = [];
+            $i = 0;
+
+        foreach ($result as $data) {
+
+
+
+            if($data->category_id != 0 && $data->category_id != null) {
+
+                $price = ProviderServiceMapping::where('service_id', '=', $data->service_id)
+                ->where('category_id', '=', $data->category_id)
+                ->where('user_id', '=', $data->provider->id)->first();
+
+                $data->service_price = $price;
+            } else {
+
+                $price = ProviderServiceMapping::where('service_id', '=', $data->service_id)
+                ->where('user_id', '=', $data->provider->id)->first();
+
+                // return $price;
+                $data->service_price = $price;
+
+            }
+
+            $obj[$i] = $data;
+            $i++;
+            // return $obj;
+        }
         // $result = Booking::where('user_id', '=', $user_id)
         //     ->leftJoin('users', 'users.id', '=','bookings.provider_id')
         //     ->leftJoin('services', 'services.id', '=','bookings.service_id')
@@ -190,11 +220,32 @@ class BookingController extends Controller
         //     array_push($response, $data);
         // }
 
-        return response()->json($result);
+        return response()->json($obj);
     }
 
     public  function getorder($id) {
         $result = Booking::with('invoice')->with('cancelled')->with('users')->with('services')->with('category')->with('provider')->with('address')->with('rating')->where('id', '=', $id)->first();
+
+        if($result->category_id != 0 && $result->category_id != null) {
+
+            $price = ProviderServiceMapping::where('service_id', '=', $result->service_id)
+            ->where('category_id', '=', $result->category_id)
+            ->where('user_id', '=', $result->provider->id)->first();
+
+            $result->service_price = $price;
+        } else {
+
+            $price = ProviderServiceMapping::where('service_id', '=', $result->service_id)
+            ->where('user_id', '=', $result->provider->id)->first();
+
+            // return $price;
+            $result->service_price = $price;
+
+        }
+
+
+        // return $result->services->id;
+
         return response()->json($result);
     }
 
@@ -379,6 +430,25 @@ class BookingController extends Controller
 
         // PDF::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf')
         $result = Invoice::with('order')->where('order_id', '=', $id)->first();
+
+        if($result->order->category_id != 0 && $result->order->category_id != null) {
+
+            $price = ProviderServiceMapping::where('service_id', '=', $result->order->service_id)
+            ->where('category_id', '=', $result->order->category_id)
+            ->where('user_id', '=', $result->order->provider->id)->first();
+
+            $result->order->service_price = $price;
+        } else {
+
+            $price = ProviderServiceMapping::where('service_id', '=', $result->order->service_id)
+            ->where('user_id', '=', $result->order->provider->id)->first();
+
+            // return $price;
+            $result->order->service_price = $price;
+
+        }
+
+        // return $result;
         // $result = Booking::with('invoice')->with('users')
         //     ->with('services')
         //     ->with('category')
@@ -389,7 +459,7 @@ class BookingController extends Controller
 
 
 
-        $cost = $result->order->provider->servicePrice->price;
+        $cost = $result->order->service_price->price;
         // return ;
         // foreach ($result->order->provider->providerDetail as $services) {
 
@@ -467,6 +537,7 @@ class BookingController extends Controller
 
 
         PDF::setOptions(['dpi' => 150]);
+        return $data;
 
         $pdf = PDF::loadView('invoice.invoice', $data)->setPaper('a4', 'portrait')->setWarnings(false);
         return $pdf->download('invoice.pdf');

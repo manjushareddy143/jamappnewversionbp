@@ -229,6 +229,7 @@
 </style>
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"> </script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
 <script>
 
     // Button hide/show
@@ -268,9 +269,9 @@
         // page redirect
 
         function viewDetail(e){
-        // console.log(e);
-        // alert(e);
-        window.location = '/detailpage?id=' + e;
+            // console.log(e);
+            // alert(e);
+            window.location = '/detailpage?id=' + e;
         }
 
 
@@ -359,7 +360,8 @@
                                     '</td><td>' +
                                         '<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" onclick="visibleService(' + response[i].id + ')" '+ isVisible +'>'
                                         + '</td>' +
-                                '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getEditService(' + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a>'
+                                '</td><td>' + ' <a href="#" class="btn btn-info" onclick="viewDetail(' + response[i].id + ')"><i class="fas fa-eye"></i></a> <a href="#" onclick="getEditService('
+                                + response[i].id + ')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="user_btn"><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-info" onclick="deleteDetail(' + response[i].id + ')"><i class="fas fa-trash"></i></a>'
                                 + '</td> </tr>';
                             }
                             trCatHTML += '</ul>';
@@ -373,6 +375,7 @@
                 }
             });
     }
+
 
 
     function visibleService(serviceid) {
@@ -393,42 +396,80 @@
 
     }
 
+    var deleteId;
+    function deleteDetail(id) {
+        console.log("serviceId =-", id);
+        deleteId=id;
+
+        if (confirm('Are you sure you want to delete the service?')) {
+            $.ajax({
+                url:"/api/v1/service/delete/" + deleteId,
+                type:'post',
+                data: {
+
+                },
+                success:function(data)
+                {
+                    console.log(data);
+                    deleteId = '';
+                    if(data == true) {
+                        window.top.location = window.top.location;
+                        location.reload();
+                    } else {
+                        alert("Record not deleted");
+                    }
+                    // $('#service_name').val(data.name);
+                    // $('#service_arabic_name').val(data.arabic_name);
+                    // // $('#icon_image').val(data.icon_image);
+                    // // $('#banner_image').val(data.banner_image);
+                    // $('#service_description').val(data.description);
+                    // $('#service_price').val(data.price);
+
+                    // $('#action').val('Edit');
+
+                }
+            });
+        } else {
+            deleteId = null;
+        }
+    }
+
 
         // Edit services
             var editUserid;
             function getEditService(serviceid)
             {
                 // console.log("call edit");
-             document.getElementById('service_btn').innerHTML = 'Edit Service';
-             // document.getElementById('button').innerHTML = 'Update';
-             $("#lbl_pass").hide();
-             $("#password").hide();
-             $("#save_service").hide();
-             $("#upd_service").show();
-            // console.log(serviceid);
-            editUserid=serviceid;
+                document.getElementById('service_btn').innerHTML = 'Edit Service';
+                // document.getElementById('button').innerHTML = 'Update';
+                $("#lbl_pass").hide();
+                $("#password").hide();
+                $("#save_service").hide();
+                $("#upd_service").show();
+                // console.log(serviceid);
+                editUserid=serviceid;
 
-            $.ajax({
-                url:"/service/edit/"+serviceid+"",
-                method:'get',
-                data:{id:editUserid},
-                dataType:'JSON',
-                success:function(data)
-                {
-                    // console.log(data);
-                    $('#service_name').val(data.name);
-                    $('#service_arabic_name').val(data.arabic_name);
-                    // $('#icon_image').val(data.icon_image);
-                    // $('#banner_image').val(data.banner_image);
-                    $('#service_description').val(data.description);
-                    $('#service_price').val(data.price);
+                $.ajax({
+                    url:"/service/edit/"+serviceid+"",
+                    method:'get',
+                    data:{id:editUserid},
+                    dataType:'JSON',
+                    success:function(data)
+                    {
+                        // console.log(data);
+                        $('#service_name').val(data.name);
+                        $('#service_arabic_name').val(data.arabic_name);
+                        // $('#icon_image').val(data.icon_image);
+                        // $('#banner_image').val(data.banner_image);
+                        $('#service_description').val(data.description);
+                        $('#service_price').val(data.price);
 
-                    // $('#action').val('Edit');
+                        // $('#action').val('Edit');
 
-                }
-            });
+                    }
+                });
 
-        }
+            }
 
                 // Serivces Update
 

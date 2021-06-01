@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ProviderServiceMapping;
 use App\SubCategories;
 use Illuminate\Http\Request;
 use Validator;
@@ -54,10 +55,21 @@ class SubCategoryController extends Controller
         }
     }
 
-    // public function service_subcat(Request $request)
-    // {
-    //     // echo($request->all()); exit;
-    // }
+
+
+
+    public function deleteSubcategory(Request $request)
+    {
+        $category = $request->input('category');
+        $service = $request->input('service');
+        if($service != 0 && $service != '' && $category != 0 && $category != '') {
+            ServiceMapping::where('service_id', '=',$service)->where('category_id', '=',$category)->delete();
+            ProviderServiceMapping::where('service_id', '=',$service)->where('category_id', '=',$category)->delete();
+        return response()->json(true, 200);
+        } else {
+        return response()->json(false, 204);
+        }
+    }
 
     public function show_all(Request $request) {
 

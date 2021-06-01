@@ -724,7 +724,7 @@
                     servicesVal.push($obj);
                 }
                 formUpdate.append('services', JSON.stringify(servicesVal));
-                console.log(JSON.stringify(servicesVal));
+                console.log("UPDATE ==== ",JSON.stringify(servicesVal));
 
             $.ajax({
                 url: '/api/v1/vendorupdate',
@@ -734,8 +734,8 @@
                 processData: false,
                 success: function (response) {
                     console.log("CREATE UPDATE REPOSNE == " + response);
-                window.top.location = window.top.location;
-                location.reload();
+                    window.top.location = window.top.location;
+                    location.reload();
                 },
                 fail: function (error) {
                     console.log(error);
@@ -971,7 +971,7 @@
                         selectedService.push(srvcObj);
                         $("#service" + data['services'][srvCount].service_id).prop('checked', true);
                         $("#category" + data['services'][srvCount].service_id + data['services'][srvCount].category_id).prop('checked', true);
-                        if(data['services'][srvCount].category_id != 0) {
+                        if(data['services'][srvCount].category_id != null) {
                             $("#" + data['services'][srvCount].category_id + "category").val(data['services'][srvCount].price);
                         } else {
                             $("#" + data['services'][srvCount].service_id + "price").val(data['services'][srvCount].price);

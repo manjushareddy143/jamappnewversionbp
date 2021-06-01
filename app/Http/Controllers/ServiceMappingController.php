@@ -69,8 +69,15 @@ class ServiceMappingController extends Controller
 
         $host = url('/');
 
-        $result = ProviderServiceMapping::with('service')->with('user')->where('service_id', '=', $service_id)
-        ->where('category_id', '=', $category_id)->where('user_id', '=' ,'3')->groupBy('user_id')->get();
+        $result = ProviderServiceMapping::with('service')->with('user')->where('service_id', '=', $service_id)->where('user_id', '=' ,'3')->groupBy('user_id');
+
+        if($category_id != 0 && $category_id != '') {
+
+            $result = $result->where('category_id', '=', $category_id);
+
+        }
+
+        $result = $result->get();
         $users = [];
         foreach ($result as $service) {
             foreach ($service->user as $user) {

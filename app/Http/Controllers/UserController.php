@@ -926,23 +926,37 @@ class UserController extends Controller
         $temp= DB::table('users')->where('id', (int)$input['id'])->update($updatedata);
         // return $temp;
 
-        if(array_key_exists('services', $input)) {
+
+        // if(array_key_exists('0', $input)) {
+
 
             $dlt = DB::table('provider_service_mappings')->where('user_id', (int)$input['id'])->delete();
             $services = $input['services'];
+
             $services =  json_decode($services, true); //explode(',', );
+            // return $services;
             foreach ($services as $data) {
+
                 $obj = array();
-                $obj['user_id'] = $input['id'];
-                $obj['service_id'] = $data['service_id'];
+                // $obj['user_id'] = $input['id'];
+                // $obj['service_id'] = $data['service_id'];
+                // if(array_key_exists('category_id', $data)) {
+                //     $obj['category_id'] = $data['category_id'];
+                // }
+                // $obj['price'] = $data['price'];
+                $proSerMapp = new ProviderServiceMapping;//::create($obj);
+                $proSerMapp->user_id = $input['id'];
+                $proSerMapp->service_id = $data['service_id'];
                 if(array_key_exists('category_id', $data)) {
-                    $obj['category_id'] = $data['category_id'];
+                    $proSerMapp->category_id = $data['category_id'];
                 }
-                $obj['price'] = $data['price'];
-                ProviderServiceMapping::create($obj);
+                $proSerMapp->price = $data['price'];
+
+
+                $proSerMapp->save();
             }
-        }
-            return $temp;
+        // }
+        return $temp;
     }
 
         // Update Customer detail
