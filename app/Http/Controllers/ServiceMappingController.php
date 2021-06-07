@@ -66,10 +66,11 @@ class ServiceMappingController extends Controller
         $long = $request->input('long');
         $service_id = $request->input('service_id');
         $category_id = $request->input('category_id');
+        // return $category_id;
 
         $host = url('/');
 
-        $result = ProviderServiceMapping::with('service')->with('user')->where('service_id', '=', $service_id)->where('user_id', '=' ,'3')->groupBy('user_id');
+        $result = ProviderServiceMapping::with('service')->with('user')->where('service_id', '=', $service_id)->where('user_id', '=' ,'3');
 
         if($category_id != 0 && $category_id != '') {
 
@@ -77,9 +78,13 @@ class ServiceMappingController extends Controller
 
         }
 
+        $result = $result->groupBy('user_id');
+
+
         $result = $result->get();
         $users = [];
         foreach ($result as $service) {
+            // return $service;
             foreach ($service->user as $user) {
                 if($user->org_id != null) {
                     $org_admin = User::where('org_id', $user->org_id)->where('type_id', 2)->first();
@@ -95,7 +100,9 @@ class ServiceMappingController extends Controller
                         } else {
                             if(array_search($user->id, array_column($users, 'id'))) {
                             } else {
+
                                 $user['price'] = $service->price;
+
 
                                 if (in_array($user, $users))
                                 {
@@ -110,23 +117,6 @@ class ServiceMappingController extends Controller
 
             }
         }
-        // print_r($users);
-        // // echo($user->provider->service_radius);
-        // exit();
-
-        // $results = ProviderServiceMapping::where('service_id', '=', $id)
-        //     ->leftJoin('users', 'users.id', '=','provider_service_mappings.user_id')
-        //     ->leftJoin('service_providers', 'service_providers.user_id', '=','users.id')
-        //     ->leftJoin('documents', 'documents.user_id', '=','users.id')
-        //     ->leftJoin('experiences', 'experiences.rate_to', '=','users.id')
-        //     ->select('users.*',
-        //         'service_providers.resident_country',
-        //         'documents.type as doc',
-        //         'documents.doc_name as document_image',
-        //         \DB::raw('AVG(experiences.rating) AS rate'),
-        //         \DB::raw('COUNT(experiences.rating) AS reviews'))
-         //     ->groupBy('provider_service_mappings.user_id')
-        //     ->get();
         return response()->json($users);
     }
 
