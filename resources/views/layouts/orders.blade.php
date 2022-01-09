@@ -196,15 +196,21 @@
                         if(response[i].status == 1) {
                             status = "Pending";
                         } else if(response[i].status == 2) {
-                            status = "Accept";
+                            status = "Accepted by JamApp";
                         } else if(response[i].status == 3) {
-                            status = "Cancel by Vendor";
+                            status = "Accepted by vendor";
                         } else if(response[i].status == 4) {
-                            status = "Cancel by User";
+                            status = "Cancel by JamApp";
                         } else if(response[i].status == 5) {
-                            status = "Completed";
+                            status = "Cancel by Vendor";
                         } else if(response[i].status == 6) {
                             status = "Invoice Submitted";
+                        } else if(response[i].status == 7) {
+                            status = "Completed";
+                        } else if(response[i].status == 8) {
+                            status = "Waiting for vendor";
+                        }else if(response[i].status == 9) {
+                            status = "Cancel by User";
                         }
                         console.log(status);
                         var serviceName = response[i].services.name;
@@ -250,15 +256,21 @@
                         if(response[i].status == 1) {
                             status = "Pending";
                         } else if(response[i].status == 2) {
-                            status = "Accept";
+                            status = "Accepted by JamApp";
                         } else if(response[i].status == 3) {
-                            status = "Cancel by Vendor";
+                            status = "Accepted by vendor";
                         } else if(response[i].status == 4) {
-                            status = "Cancel by User";
+                            status = "Cancel by JamApp";
                         } else if(response[i].status == 5) {
-                            status = "Completed";
+                            status = "Cancel by Vendor";
                         } else if(response[i].status == 6) {
                             status = "Invoice Submitted";
+                        } else if(response[i].status == 7) {
+                            status = "Completed";
+                        } else if(response[i].status == 8) {
+                            status = "Waiting for vendor";
+                        }else if(response[i].status == 9) {
+                            status = "Cancel by User";
                         }
 
                         var serviceName = response[i].services.name;
@@ -339,13 +351,23 @@
                         var category = (response[i].category == null) ? "" : response[i].category.name;
                         var status = "";
                         if(response[i].status == 1) {
-                            status = "Pending"
+                            status = "Pending";
                         } else if(response[i].status == 2) {
-                            status = "Accept"
+                            status = "Accepted by JamApp";
                         } else if(response[i].status == 3) {
-                            status = "Cancel by Vendor"
+                            status = "Accepted by vendor";
                         } else if(response[i].status == 4) {
-                            status = "Cancel by User"
+                            status = "Cancel by JamApp";
+                        } else if(response[i].status == 5) {
+                            status = "Cancel by Vendor";
+                        } else if(response[i].status == 6) {
+                            status = "Invoice Submitted";
+                        } else if(response[i].status == 7) {
+                            status = "Completed";
+                        } else if(response[i].status == 8) {
+                            status = "Waiting for vendor";
+                        }else if(response[i].status == 9) {
+                            status = "Cancel by User";
                         }
 
                         var serviceName = response[i].services.name;
@@ -390,13 +412,23 @@
                         var category = (response[i].category == null) ? "" : response[i].category.name;
                         var status = "";
                         if(response[i].status == 1) {
-                            status = "Pending"
+                            status = "Pending";
                         } else if(response[i].status == 2) {
-                            status = "Accept"
+                            status = "Accepted by JamApp";
                         } else if(response[i].status == 3) {
-                            status = "Cancel by Vendor"
+                            status = "Accepted by vendor";
                         } else if(response[i].status == 4) {
-                            status = "Cancel by User"
+                            status = "Cancel by JamApp";
+                        } else if(response[i].status == 5) {
+                            status = "Cancel by Vendor";
+                        } else if(response[i].status == 6) {
+                            status = "Invoice Submitted";
+                        } else if(response[i].status == 7) {
+                            status = "Completed";
+                        } else if(response[i].status == 8) {
+                            status = "Waiting for vendor";
+                        }else if(response[i].status == 9) {
+                            status = "Cancel by User";
                         }
                         console.log("1");
                         var serviceName = response[i].services.name;
@@ -432,8 +464,6 @@
             window.location = '/orderdetails?id=' + e;
         }
 
-
-
         function showText(element)
         {
             $('#dropdown-filter').hide();
@@ -443,22 +473,31 @@
                 getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 1);
                     break;
 
-                case 'Accepted' :
+                case 'Accepted by JamApp' :
                 getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 2);
                     break;
 
                 case 'Invoice Submitted' :
                 getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 6);
                     break;
-                case 'Cancel by Vendor' :
+                case 'Accepted by vendor' :
                 getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 3);
 
                     break;
-                case 'Cancel by User' :
+                case 'Cancel by JamApp' :
                 getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 4);
                     break;
-                case 'Completed' :
+                case 'Cancel by Vendor' :
                 getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 5);
+                    break;
+                case 'Completed' :
+                getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 7);
+                    break;
+                case 'Waiting for vendor' :
+                getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 8);
+                    break;
+                case 'Cancel by User' :
+                getAllOrders('/api/v1/booking/get_bookings_filter?status=' + 9);
                     break;
                 case 'All' :
                 getAllOrders('/api/v1/booking/getallbooking');

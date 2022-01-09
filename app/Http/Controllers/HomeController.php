@@ -32,6 +32,6 @@ class HomeController extends Controller
     public function subservices()
     {
         return view('detailpage');
-    }
+    }    
 
 }

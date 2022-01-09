@@ -24,4 +24,8 @@ class ProviderServiceMapping extends Model
         return $this->hasOne(SubCategories::class, 'id' , 'category_id');
     }
 
+    public function vendor(){
+        return $this->hasOne('App\User','id','user_id');
+    }
+
 }

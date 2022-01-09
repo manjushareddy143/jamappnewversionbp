@@ -14,36 +14,32 @@ use Illuminate\Support\Facades\DB;
 use Validator;
 use PDF;
 use Symfony\Component\Console\Input\Input;
-
+use Mail;
+use Twilio\Rest\Client;
+use App\Mail\BookingMail;
+use App\Jobs\NotificationJob;
 
 class BookingController extends Controller
 {
-
     public function booking(Request $request) {
 
-
-
         $response = array();
-        $validator = Validator::make($request->all(),
-            [
-                'user_id' => 'required|exists:users,id',
-                'service_id'  => 'required|exists:services,id',
-        //                'category_id' => 'required|exists:sub_categories,id',
-                "booking_date" => "required|date",
-                'contact' => 'required',
-                "start_time" => "required|before:end_time",
-                "end_time" => "required",
-                "provider_id" => "required|exists:service_providers,user_id"
-            ]);
+        $validator = Validator::make($request->all(),[
+            'user_id'       => 'required|exists:users,id',
+            'service_id'    => 'required|exists:services,id',
+            //'category_id' => 'required|exists:sub_categories,id',
+            "booking_date"  => "required|date",
+            'contact'       => 'required',
+            "start_time"    => "required|before:end_time",
+            "end_time"      => "required",
+            "provider_id"   => "required|exists:service_providers,user_id"
+        ]);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()){
             return response()->json(['error'=>$validator->errors()], 406);
         }
 
-
         $input = $request->all();
-
 
         $startTime = new \DateTime($input['booking_date']);
         $dd = $startTime->format('d-m-Y');
@@ -56,32 +52,24 @@ class BookingController extends Controller
         // $input['address_id'] = 1;
         // return $input;
 
-
         $booking = Booking::create($input);
-        // return $booking;
 
-
-        //////// BOOKING
         $notification =  [
             "title" => 'JAM',
             "body" => "Booking Placed",
         ];
-
 
         $dataPayload = [
             "order" => $booking['id'],
             "status" => "1",
         ];
 
-
         $fcm_customer = FCMDevices::where('user_id', '=', $input['provider_id'])->get();
         foreach ($fcm_customer as $fcm) {
             $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
         }
-        ////////////
 
-        return response($booking, 200)
-            ->header('content-type', 'application/json');
+        return response($booking, 200)->header('content-type', 'application/json');
 
         return response()->json($request);
     }
@@ -230,7 +218,7 @@ class BookingController extends Controller
 
             $price = ProviderServiceMapping::where('service_id', '=', $result->service_id)
             ->where('category_id', '=', $result->category_id)
-            ->where('user_id', '=', $result->provider->id)->first();
+            ->where('user_id', '=', @$result->provider->id)->first();
 
             $result->service_price = $price;
         } else {
@@ -572,6 +560,12 @@ class BookingController extends Controller
             ];
         }
 
+        if(array_key_exists('service_price', $input)) {
+            $updatedata += [
+                'service_price' => $input['service_price'],
+            ];
+        }
+
         if(array_key_exists('working_hr', $input)) {
             $updatedata += [
                 'working_hr' => $input['working_hr'],
@@ -628,22 +622,143 @@ class BookingController extends Controller
                 ];
 
                 $booking = Booking::where('id', '=', $input['order_id'])->first();
+
                 $fcm_customer = FCMDevices::where('user_id', '=', $booking['user_id'])->get();
+
                 foreach ($fcm_customer as $fcm) {
                     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
                 }
 
                 $fcm_customer = FCMDevices::where('user_id', '=', $booking['provider_id'])->get();
+
                 foreach ($fcm_customer as $fcm) {
                     $this->sendPush($fcm->fcm_device_token, $notification, $dataPayload);
                 }
+
             }
         } else {
+
+            $booking = Booking::where('id', '=', $input['order_id'])->first();
+
+            //for user notification
+
+            $body = "Hello, ".$booking->orderer_name." Your booking Invoice Submitted";
+            $details['msg']='Your booking Invoice Submitted';
+            $details['subject']='Invoice Submitted on jamapp!';
+            $details['name']=$booking->orderer_name;
+            $details['email']=$booking->email;
+            $details['contact']=$booking->contact;
+            $details['body']=$body;
+
+            dispatch(new NotificationJob($details));
+
             $isUpdate = $this->invoice($request);
             return $isUpdate;
             // $isUpdate = Invoice::create($input);
         }
-        return response()->json($isUpdate, 200);
+
+        $booking = Booking::where('id', '=', $input['order_id'])->first();
+        
+        //for user notification
+
+        $body = "Hello, ".$booking->orderer_name." Your booking Invoice Submitted";
+        $details['msg']='Your booking Invoice Submitted';
+        $details['subject']='Invoice Submitted on jamapp!';
+        $details['name']=$booking->orderer_name;
+        $details['email']=$booking->email;
+        $details['contact']=$booking->contact;
+        $details['body']=$body;
+
+        dispatch(new NotificationJob($details));
+
+        // return response()->json($isUpdate, 200);
+
+        return response()->json(
+            [
+                "message" => "Invoice Submitted on jamapp",
+                "content" => $booking
+            ],
+            201
+        );
     }
+
+    public function acceptandpay(Request $request)
+    {
+        $input = $request->all();
+        $booking = Booking::where('id', '=', $input['booking_id'])->first();
+
+        $orderStatus = [
+            'status' => 7,
+        ];
+
+        $isUpdate = DB::table('bookings')->where('id', $input['booking_id'])->update($orderStatus);
+
+        //for user notification
+
+        $body = "Hello, ".$booking->orderer_name." Thanks for accept and pay our Quotation on jamapp!";
+        $details['msg']='Thanks for accept and pay our Quotation on jamapp!';
+        $details['subject']='Quotation accepted on jamapp!';
+        $details['name']=$booking->orderer_name;
+        $details['email']=$booking->email;
+        $details['contact']=$booking->contact;
+        $details['body']=$body;
+
+        dispatch(new NotificationJob($details));
+
+        //for admin notification
+
+        $body = "Hello Admin, ".$booking->orderer_name." has accepted Quotation!";
+        $details['msg']=$booking->orderer_name.' has accepted Quotation!';
+        $details['subject']='Quotation accepted!';
+        $details['name']='Admin';
+        $details['email']=getenv("ADMIN_EMAIL");
+        $details['contact']=getenv("ADMIN_CONTACT_NUMBER");
+        $details['body']=$body;
+
+        dispatch(new NotificationJob($details));
+
+        // return response()->json($isUpdate, 200);
+        return response()->json(
+            [
+                "message" => "Quotation accepted By user",
+                "content" => $booking
+            ],
+            201
+        );
+    }
+
+    public function cancelByUser(Request $request)
+    {
+        $input = $request->all();
+        $booking = Booking::where('id', '=', $input['booking_id'])->first();
+
+
+        $orderStatus = [
+            'status' => 9,
+        ];
+
+        $isUpdate = DB::table('bookings')->where('id', $input['booking_id'])->update($orderStatus);
+
+        //for admin notification
+
+        $body = "Hello Admin, ".$booking->orderer_name." has rejected Quotation!";
+        $details['msg']='Rejected booking by user!';
+        $details['subject']=$booking->orderer_name." has rejected Quotation!";
+        $details['name']='Admin';
+        $details['email']=getenv("ADMIN_EMAIL");
+        $details['contact']=getenv("ADMIN_CONTACT_NUMBER");
+        $details['body']=$body;
+
+        dispatch(new NotificationJob($details));
+
+        return response()->json(
+            [
+                "message" => "Rejected booking by user",
+                "content" => $booking
+            ],
+            201
+        );
+    }
+
 
 }

@@ -30,4 +30,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'facebook' => [
+        'client_id' => '1214305158973009',
+        'client_secret' => '1b23c7af529a867768c4cb8c83e81928',
+        'redirect' => 'https://staging.jam-app.com/demo/public/callback/'
+      ],
+    'google' => [
+        'client_id' => '376837783775-9hrugej41q6mmpf38g6n3i47kmcsb9nt.apps.googleusercontent.com',
+        'client_secret' => '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',
+        'redirect' => 'https://staging.jam-app.com/demo/public/google/callback/'
+],
 ];

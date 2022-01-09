@@ -37,6 +37,7 @@ Route::post('v1/login', 'UserController@login');
 Route::post('v1/logout', 'UserController@logout');
 Route::post('v1/sendPush', 'FCMPushNotification@sendPush');
 Route::post('v1/booking_status', 'FCMPushNotification@orderAccept');
+Route::post('v1/requestVendor', 'FCMPushNotification@requestVendor');
 Route::post('v1/register', 'UserController@register');
 Route::post('v1/register_provider', 'UserController@register_provider');
 Route::post('v1/adduser', 'UserController@store');
@@ -68,12 +69,8 @@ Route::post('v1/add_vendors', 'UserController@add_vendors');
 
 Route::post('v1/experience', 'ExperienceController@add_experience');
 
-
 // Route::get('test', '\App\Http\Controllers\Auth\RegisterController@getPermissions');
 Route::get('test', 'ServiceProviderController@getDistance');
-
-
-
 
 Route::post('v1/service', 'ServicesController@store');
 Route::post('v1/service/status', 'ServicesController@service_status');
@@ -114,6 +111,9 @@ Route::get('v1/user/{id}/edit', 'UserController@getuser');
 
 // Update Invoice Detail
 Route::post('v1/inv_update', 'BookingController@updateinvoicedetail');
+
+Route::post('v1/acceptandpay', 'BookingController@acceptandpay');
+Route::post('v1/cancelByUser', 'BookingController@cancelByUser');
 
 
 Route::delete('v1/users/{id}','UserController@soft_delete');

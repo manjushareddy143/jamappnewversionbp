@@ -8,8 +8,7 @@ class Booking extends Model
 {
     protected $table = "bookings";
 
-    protected $fillable = ['user_id', 'address_id', 'service_id', 'category_id', 'orderer_name'	,'email', 'contact', 'start_time',
-        'end_time' ,'remark', 'booking_date', 'provider_id', 'status', 'otp' ];
+    protected $fillable = ['user_id', 'address_id', 'service_id', 'category_id', 'orderer_name'	,'email', 'contact', 'start_time','end_time' ,'remark', 'booking_date', 'provider_id', 'status', 'otp' ];
 
     public function users() {
         return $this->hasOne(User::class, 'id', 'user_id');

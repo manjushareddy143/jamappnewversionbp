@@ -15,8 +15,8 @@
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                       <h1 class="h3 mb-0 text-gray-800">Order Details</h1>
-
-                        @if (Auth::user()->roles[0]->slug == 'provider')
+                      
+                        {{-- @if (Auth::user()->roles[0]->slug == 'provider')
                             <div class="custom-buttons" style="padding-left: 60%;">
                                 <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
 
@@ -24,19 +24,28 @@
                                 id="cancel_btn"> Cancel
                                 </button>
                             </div>
-                        @endif
+                        @endif --}}
+
                         <div class="custom-buttons">
 
+                          @if (Auth::user()->roles[0]->slug == 'admin-admin')
+
+                            <button type="button" onclick="requestVendor()" class="btn btn-info mb-1" id="requestvendor">Request Vendor</button>
+
+                          @endif
 
                             <button type="button" class="btn btn-primary mb-1" id="down_invoice" onclick="DownLoad_Invoice()">Download Invoice</button>
 
-                            <button type="button" onclick="acceptOrder()" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
+                            @if (Auth::user()->roles[0]->slug == 'admin-admin')
+                              <button type="button" onclick="acceptOrder(2)" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
+                            @else
+                              <button type="button" onclick="acceptOrder(3)" class="btn btn-primary mb-1" id="accept" data-text="Accepted">Accept</button>
+                            @endif
+
                             <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#exampleModal"
                                 id="cancel_btn"> Cancel
                                 </button>
                            <button type="button" id="back_btn" class="btn btn-secondary mb-1">Back</button>
-
-
 
                         </div>
                     </div>
@@ -125,8 +134,11 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" onclick="cancelorder()" class="btn btn-primary">Save</button>
-
+                                    @if (Auth::user()->roles[0]->slug == 'admin-admin')
+                                     <button type="button" onclick="cancelorder(4)" class="btn btn-primary">Save</button>
+                                     @else 
+                                     <button type="button" onclick="cancelorder(5)" class="btn btn-primary">Save</button>
+                                  @endif
                                 </div>
                             </div>
                         </div>
@@ -320,6 +332,13 @@
                                     <div class="row order-info" style="padding-left: 15px;">
                                         <div class="col-4 order-info-block">
                                           <span>
+                                            <i class="far fa-money-bill-alt"></i>
+                                              Service Price</span>
+                                          <p style="padding-left: 15px;" id="invoice_service_price">5</p>
+                                        </div>
+
+                                        <div class="col-4 order-info-block">
+                                          <span>
                                             <i class="fas fa-hourglass-half"></i>
                                               Working Hours</span>
                                           <p style="padding-left: 15px;" id="work_hr">5</p>
@@ -411,29 +430,35 @@
                                     <div class="modal-body">
                                     <form>
                                             <div class="row">
-                                            <div class="col-md-6 float-l">
+                                            <div class="col-md-4 float-l">
                                             <div class="form-group">
-                                            <label for="quantity">Working Hours:</label><br>
-                                            <input type="number" id="work_hrs" name="hours" min="1" max="500"value="0">
+                                            <label for="service_price">Service Price:</label><br>
+                                            <input type="number" id="service_price" name="service_price" min="1" max="500" value="0">
                                             </div>
                                             </div>
-                                            <div class="col-md-6 float-l">
+                                            <div class="col-md-4 float-l">
                                             <div class="form-group">
-                                            <label for="quantity">Material Quantity:</label><br>
-                                            <input type="number" id="mat_quantity" name="quantity" min="1" max="500"value="0">
+                                            <label for="work_hrs">Working Hours:</label><br>
+                                            <input type="number" id="work_hrs" name="hours" min="1" max="500" value="0">
+                                            </div>
+                                            </div>
+                                            <div class="col-md-4 float-l">
+                                            <div class="form-group">
+                                            <label for="mat_quantity">Material Quantity:</label><br>
+                                            <input type="number" id="mat_quantity" name="quantity" min="1" max="500" value="0">
                                             </div>
                                             </div>
                                             </div>
                                             <div class="row">
                                             <div class="col-md-6 float-l">
                                             <div class="form-group">
-                                            <label for="quantity">Material Cost:</label><br>
-                                            <input type="number" id="mat_cost" name="cost" min="1" max="500" value="0">
+                                            <label for="mat_cost">Material Cost:</label><br>
+                                            <input type="number" id="mat_cost" name="cost" min="1" max="500"  value="0">
                                             </div>
                                             </div>
                                             <div class="col-md-6 float-l">
                                             <div class="form-group">
-                                            <label for="quantity">Discount:</label><br>
+                                            <label for="mat_dis">Discount:</label><br>
                                             <input type="number" id="mat_dis" name="discount" min="1" max="99   " value="0"> %
                                             </div>
                                             </div>
@@ -441,13 +466,13 @@
                                             <div class="row">
                                             <div class="col-md-6 float-l">
                                             <div class="form-group">
-                                            <label for="quantity">TAX:</label><br>
-                                            <input type="number" id="mat_tax" name="tax" min="1" max="500"value="0">
+                                            <label for="mat_tax">TAX:</label><br>
+                                            <input type="number" id="mat_tax" name="tax" min="1" max="500" value="0">
                                             </div>
                                             </div>
                                             <div class="col-md-6 float-l">
                                             <div class="form-group">
-                                            <label for="quantity">Additional Charge:</label><br>
+                                            <label for="add_charge">Additional Charge:</label><br>
                                             <input type="number" id="add_charge" name="charge" min="1" max="500" value="0">
                                             </div>
                                             </div>
@@ -496,7 +521,7 @@
             } else {
                 $("#otpError").text("");
                 data = {
-                    status: 5,
+                    status: 7,
                     booking_id: Booking_id,
                     otp: $("#partitioned").val(),
                 };
@@ -527,14 +552,35 @@
             }
         }
 
-        function acceptOrder() {
+        function requestVendor(){
+          data = {
+            booking_id: Booking_id,
+          };
+        if (confirm('Are you sure!')) {
+            $.ajax({
+                    url: '/api/v1/requestVendor',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                        $('#requestvendor').text('Requested');
+                    },
+                    fail: function (error) {
+                        console.log(error);
+                    }
+                });
+        }
+                
+        }
+
+        function acceptOrder(status) {
             console.log("accept" + document.getElementById('accept').innerHTML);
             var btnText = document.getElementById('accept').innerHTML;//$('#accept').text();
             var data = {};
               if(btnText == 'Accept')
               {
                 data = {
-                    status: 2,
+                    status: status,
                     booking_id: Booking_id,
                 };
                 $.ajax({
@@ -544,6 +590,7 @@
                     success: function (response) {
                         console.log(response);
                         $('#accept').text('Submit Invoice');
+                        $("#requestvendor").hide();
                     },
                     fail: function (error) {
                         console.log(error);
@@ -581,10 +628,10 @@
 
         }
 
-        function cancelorder() {
+        function cancelorder(status) {
 
             data = {
-                status: 3,
+                status: status,
                 booking_id: Booking_id,
                 reason: $('#reasons').children("option:selected").val(),
 
@@ -593,7 +640,7 @@
 
             if(($('#exampleFormControlTextarea3').val() != "")) {
                 data = {
-                    status: 3,
+                    status: status,
                     booking_id: Booking_id,
                     reason: $('#reasons').children("option:selected").val(),
                     comment : $('#exampleFormControlTextarea3').val()
@@ -609,13 +656,21 @@
                     if(response['status']  == 1) {
                         status = "Pending";
                     } else if(response['status']  == 2) {
-                        status = "Accepted";
+                        status = "Accepted by JamApp";
                     } else if(response['status']  == 3) {
-                        status = "Cancel by Vendor";
+                        status = "Accepted by vendor";
                     } else if(response['status']  == 4) {
-                        status = "Cancel by User";
+                        status = "Cancel by JamApp";
                     } else if(response['status']  == 5) {
+                        status = "Cancel by Vendor";
+                    } else if(response['status']  == 6) {
+                        status = "Invoice Submitted";
+                    } else if(response['status']  == 7) {
                         status = "Completed";
+                    } else if(response['status']  == 8) {
+                        status = "Waiting for vendor";
+                    } else if(response['status']  == 9) {
+                        status = "Rejected by User";
                     }
                     window.top.location = window.top.location;
                     location.reload();
@@ -666,13 +721,34 @@
                         $("#invoice_id").hide();
                         $("#cancelledId").hide();
                     } else if(response['status']  == 2) {
-                        status = "Accepted";
+                        status = "Accepted by JamApp";
                         $('#accept').text("Submit Invoice");
                         $("#down_invoice").hide();
                         $("#invoice_detail").hide();
                         $("#invoice_id").hide();
                         $("#cancelledId").hide();
+                        $("#requestvendor").hide();
                     } else if(response['status']  == 3) {
+                        status = "Accepted by Vendor";
+                        $('#accept').text("Submit Invoice");
+                        $("#down_invoice").hide();
+                        $("#invoice_detail").hide();
+                        $("#invoice_id").hide();
+                        $("#cancelledId").hide();
+                        $("#requestvendor").hide();
+                    } else if(response['status']  == 4) {
+                        status = "Cancel by JamApp";
+                        $('#accept').hide();
+                        $("#down_invoice").hide();
+                        $("#invoice_detail").hide();
+                        $("#invoice_id").hide();
+                        $("#cancel_btn").hide();
+                        $("#cancelledId").show();
+                        $("#requestvendor").hide();
+                        $('#reason').text(response['cancelled']['reason']);
+                        $('#comment').text(response['cancelled']['comment']);
+                        
+                    } else if(response['status']  == 5) {
                         status = "Cancel by Vendor";
                         $('#accept').hide();
                         $("#down_invoice").hide();
@@ -680,19 +756,10 @@
                         $("#invoice_id").hide();
                         $("#cancel_btn").hide();
                         $("#cancelledId").show();
+                        $("#requestvendor").hide();
                         $('#reason').text(response['cancelled']['reason']);
                         $('#comment').text(response['cancelled']['comment']);
-                    } else if(response['status']  == 4) {
-                        status = "Cancel by User";
-                        $('#accept').hide();
-                        $("#down_invoice").hide();
-                        $("#invoice_detail").hide();
-                        $("#invoice_id").hide();
-                        $("#cancel_btn").hide();
-                        $("#cancelledId").show();
-                        $('#reason').text(response['cancelled']['reason']);
-                        $('#comment').text(response['cancelled']['comment']);
-                    } else if(response['status']  == 5) {
+                    } else if(response['status']  == 7) {
                         status = "Completed";
                         $('#accept').hide();
                         $("#down_invoice").show();
@@ -700,6 +767,7 @@
                         $("#invoice_id").hide();
                         $("#cancel_btn").hide();
                         $("#cancelledId").hide();
+                        $("#requestvendor").hide();
                         setInvoiceDetail(response);
                     } else if(response['status']  == 6) {
                         status = "Invoice Submitted";
@@ -709,9 +777,32 @@
                         $("#invoice_id").show();
                         $("#cancel_btn").hide();
                         $("#cancelledId").hide();
+                        $("#requestvendor").hide();
+                        $("#accept").hide();
                         setInvoiceDetail(response);
                         $('#accept').text(btnStatus);
 
+                    } else if(response['status']  == 8) {
+                        status = "Waiting for vendor";
+                        $("#down_invoice").hide();
+                        $("#invoice_detail").show();
+                        $("#invoice_id").show();
+                        $("#cancel_btn").show();
+                        $("#cancelledId").show();
+                        $("#accept").show();
+                        $("#requestvendor").text('Requested');
+
+                    }
+                    else if(response['status']  == 9) {
+                        status = "Rejected by User";
+                        $("#down_invoice").hide();
+                        $("#invoice_detail").show();
+                        $("#invoice_id").show();
+                        $("#cancel_btn").hide();
+                        $("#cancelledId").hide();
+                        $("#requestvendor").hide();
+                        $("#accept").hide();
+                        setInvoiceDetail(response);
                     }
                     $('#status').text(status);
 
@@ -748,13 +839,14 @@
 
             invoiceDetail = response.invoice;
             $('#work_hr').text(response.invoice.working_hr);
+            $('#invoice_service_price').text(response.invoice.service_price);
             $('#mate_qty').text(response.invoice.material_quantity);
             $('#mate_cost').text(response.invoice.material_price);
             $('#discount').text(response.invoice.discount);
             $('#tax').text(response.invoice.tax);
             $('#add_charg').text(response.invoice.additional_charges);
 
-            var cost = response.service_price.price;
+            var cost = response.invoice.service_price;
             console.log("cost =", cost);
 
 
@@ -779,7 +871,7 @@
 
             var total = total_discount + taxCut;
             console.log("total =", total);
-
+ 
             $('#total_cost').text(total + "  QAR");
         }
 
@@ -800,8 +892,12 @@
         function Update_InvoiceDetail() {
             // console.log(document.getElementById("work_hrs").value);
 
+            $('#btnAddInvoice').text('Loading...');
+            $('#btnUpdateInvoice').text('Loading...');
+
             var data = {
                 order_id : Booking_id,
+                service_price : document.getElementById("service_price").value,
                 working_hr : document.getElementById("work_hrs").value,
                 material_quantity : document.getElementById("mat_quantity").value,
                 material_price : document.getElementById("mat_cost").value,
@@ -809,7 +905,7 @@
                 tax : document.getElementById("mat_tax").value,
                 additional_charges : document.getElementById("add_charge").value,
             };
-            console.log(data);
+            // console.log(data);
             // let formUpdate = new FormData();
             // formUpdate.append('id', invoiceDetail.order_id);
             // formUpdate.append('working_hr', document.getElementById("work_hrs").value);

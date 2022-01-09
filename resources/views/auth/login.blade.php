@@ -298,14 +298,14 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
         }
 
         var firebaseConfig = {
-            apiKey: "AIzaSyAByZ6mHqPhd1Pl3KHcUiXJSQ-8EGOW-6s",
-            authDomain: "jamqatar-bf1c1.firebaseapp.com",
-            databaseURL: "https://jamqatar-bf1c1.firebaseio.com",
-            projectId: "jamqatar-bf1c1",
-            storageBucket: "jamqatar-bf1c1.appspot.com",
-            messagingSenderId: "    ",
-            appId: "1:429814769026:web:5790f80f8fb2a30a675b9b",
-            measurementId: "G-CJ5BZCGH6X"
+            apiKey: "AIzaSyACBAWeNcM3zgpPlDbODAH85wWW8uKhcjk",
+            authDomain: "jamapp-91b4a.firebaseapp.com",
+            databaseURL: "https://jamapp-91b4a.firebaseapp.com",
+            projectId: "jamapp-91b4a",
+            storageBucket: "jamapp-91b4a.appspot.com",
+            messagingSenderId: "260673698724",
+            appId: "1:260673698724:web:833043fcc13f954689df31",
+            measurementId: "G-XNV3837926"
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -662,7 +662,7 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                 success: function (response) {
                     console.log("SUCCESS");
                     var data = response['status'];
-                    console.log(response);
+                    //console.log(data);
                     if (data === true) {
                         console.log("test" + JSON.stringify(response));
                         localStorage.setItem('userObject', JSON.stringify(response));
@@ -670,22 +670,23 @@ margin-top: 9px; position: absolute; top: 0; right: 0;">
                     } else {
                         alert("Invalid email or password");
                     }
-                },error: function (xhr){
-                        console.log("errp = " + JSON.stringify(xhr));
-                        if(xhr['status'] == 401) {
-                            var errorArray = xhr['responseJSON'];
-                            var msgStr = "Unauthorised user";
-                            $.each(errorArray, function (i, err) {
-                                $.each(err, function (title, msg) {
-                                    msgStr += msg.toString() + "\n";
-                                });
+                },
+                error: function (xhr){
+                    console.log("errp = " + JSON.stringify(xhr));
+                    if(xhr['status'] == 401) {
+                        var errorArray = xhr['responseJSON'];
+                        var msgStr = "Unauthorised user";
+                        $.each(errorArray, function (i, err) {
+                            $.each(err, function (title, msg) {
+                                msgStr += msg.toString() + "\n";
                             });
-                            $('.toast-body').text(msgStr);
-                            $('.toast').toast({delay:2000, animation:false});
-                            $('.toast').toast('show');
+                        });
+                        $('.toast-body').text(msgStr);
+                        $('.toast').toast({delay:2000, animation:false});
+                        $('.toast').toast('show');
 
-                        }
-                    },
+                    }
+                },
                 // error: function (xhr, status, err) {
                 //     console.log(xhr.statusText + "xhr.statusText");
                 //     if(xhr.status == 401) {

@@ -383,14 +383,14 @@ $(document).ready(function () {
         }
 
         var firebaseConfig = {
-            apiKey: "AIzaSyAByZ6mHqPhd1Pl3KHcUiXJSQ-8EGOW-6s",
-            authDomain: "jamqatar-bf1c1.firebaseapp.com",
-            databaseURL: "https://jamqatar-bf1c1.firebaseio.com",
-            projectId: "jamqatar-bf1c1",
-            storageBucket: "jamqatar-bf1c1.appspot.com",
-            messagingSenderId: "    ",
-            appId: "1:429814769026:web:5790f80f8fb2a30a675b9b",
-            measurementId: "G-CJ5BZCGH6X"
+            apiKey: "AIzaSyACBAWeNcM3zgpPlDbODAH85wWW8uKhcjk",
+            authDomain: "jamapp-91b4a.firebaseapp.com",
+            databaseURL: "https://jamapp-91b4a.firebaseio.com",
+            projectId: "jamapp-91b4a",
+            storageBucket: "jamapp-91b4a.appspot.com",
+            messagingSenderId: "260673698724",
+            appId: "1:260673698724:web:833043fcc13f954689df31",
+            measurementId: "G-XNV3837926"
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);

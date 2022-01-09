@@ -15,31 +15,39 @@ class User extends Authenticatable
     use Notifiable,HasRolesAndPermissions; //new trait
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    * The attributes that are mass assignable.
+    *
+    * @var array
+    */
     protected $table = "users";
 
     protected $fillable = [
         'first_name','last_name', 'email', 'password','image', 'gender', 'languages' ,'contact','type_id',
-        'term_id', 'org_id', "social_signin"
+        'term_id', 'org_id', "social_signin", "google_id","facebook_id"
     ];
 
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+    * The attributes that should be hidden for arrays.
+    *
+    * @var array
+    */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    // public function roles()
-    // {
-    //     return $this->belongsToMany('App\Role');
-    // }
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class,'users_roles');
+    }
+        /**
+    * Check one role
+    * @param string $role
+    */
+    public function hasRole($role) 
+    {
+      return null !== $this->roles()->where('slug', $role)->first();
+    }
     /**
      * The attributes that should be cast to native types.
      *
@@ -49,6 +57,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getFullNameAttribute() {
+        return ucfirst($this->first_name) .' '. ucfirst($this->last_name);
+    }
 
     public function services() {
         return $this->hasManyThrough(ProviderServiceMapping::class, services::class,
@@ -106,6 +117,10 @@ class User extends Authenticatable
 
     public function address() {
         return $this->hasMany(Address::class, 'user_id', 'id');
+    }
+
+    public function customerAddress() {
+        return $this->hasOne(Address::class, 'user_id', 'id');
     }
 
     public function addressWithServiceRadius() {

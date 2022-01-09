@@ -15,4 +15,9 @@ class Address extends Model
     // public function checkRadius() {
     //       return $this->hasOne(ServiceProvider::class, 'user_id', 'user_id');
     // }
+
+
+    public function getFullAddressAttribute() {
+        return $this->address_line1 . ' ' . $this->address_line2. ' ' . $this->landmark . ' ' . $this->district. ' ' . $this->city. ' ' . $this->postal_code;
+    }
 }

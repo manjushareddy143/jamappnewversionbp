@@ -211,8 +211,7 @@ class UserController extends Controller
                     "experience" => "required"
                 ]);
 
-            if($detailValidator->fails())
-            {
+            if($detailValidator->fails()){
                 return response()->json(['error'=>$detailValidator->errors()], 401);
             }
         }
@@ -324,9 +323,6 @@ class UserController extends Controller
 
 
     public function logout(Request $request) {
-
-
-
         try {
             $response = array();
             $input = $request->all();
@@ -339,114 +335,101 @@ class UserController extends Controller
             $response['code'] = 400;
             $response['message'] = "There is some error";
         }
-
     }
 
-    // User Login API
-    /**
-     * @SWG\Post(
-     *   path="/login",
-     *   summary="User Login",
-     *     description="User will be logged in",
-     *   operationId="userLogin",
-     *   consumes={"application/xml","application/json"},
-     *   produces={"application/json"},
-     *     @SWG\Parameter(
-     *      in="body",
-     *      name="body",
-     *      description="Enter email address and password for user login",
-     *      required=true,
-     *     @SWG\Definition(
-     *         definition="users",
-     *         required={"username","passwrod"},
-     *         @SWG\Property(
-     *             description="Enter Email id",
-     *             property="username",
-     *             type="string"
-     *         ),
-     *         @SWG\Property(
-     *             description="Enter User Password",
-     *             property="password",
-     *             type="string"
-     *         ),
-     *       )
-     *      ),
-     *   @SWG\Response(
-     *     response=200,
-     *     description="User logged in Successfully!"
-     *   ),
-     *   @SWG\Response(response=404, description="Page not Found"),
-     *   @SWG\Response(response=500, description="internal server error"),
-     * )
-     *
-     */
-    public function login(Request $request)
-    {
-        try
-        {
-            $response = array();
-            $input = $request->all();
+    //User Login API
+    /*
+    *@SWG\Post(
+    *   path="/login",
+    *   summary="User Login",
+    *   description="User will be logged in",
+    *   operationId="userLogin",
+    *   consumes={"application/xml","application/json"},
+    *   produces={"application/json"},
+    *   @SWG\Parameter(
+    *       in="body",
+    *       name="body",
+    *       description="Enter email address and password for user login",
+    *       required=true,
+    *       @SWG\Definition(
+    *           definition="users",
+    *           required={"username","passwrod"},
+    *           @SWG\Property(
+    *               description="Enter Email id",
+    *               property="username",
+    *               type="string"
+    *           ),
+    *           @SWG\Property(
+    *               description="Enter User Password",
+    *               property="password",
+    *               type="string"
+    *           ),
+    *       )
+    *   ),
+    *   @SWG\Response(
+    *       response=200,
+    *       description="User logged in Successfully!"
+    *   ),
+    *   @SWG\Response(response=404, description="Page not Found"),
+    *   @SWG\Response(response=500, description="internal server error"),
+    * )
+    */
+    public function login(Request $request){
+        try{
+            $response   = array();
+            $input      = $request->all();
 
-            $username = "";
-            $condition = "";
-            if(array_key_exists('email', $input))
-            {
-                $username = $request->input('email');
-                $condition = "email";
-            }
-            else if(array_key_exists('contact', $input))
-            {
-                $username = $request->input('contact');
-                $condition = "contact";
+            $username   = "";
+            $condition  = "";
+            if(array_key_exists('email', $input)){
+                $username   = $request->input('email');
+                $condition  = "email";
+            }else if(array_key_exists('contact', $input)){
+                $username   = $request->input('contact');
+                $condition  = "contact";
             } else {
                 return response(null, 401);
             }
-            $password = $request->input('password');
-            $token = $request->input('token');
-            $device = $request->input('device');
+            $password   = $request->input('password');
+            $token      = $request->input('token');
+            $device     = $request->input('device');
 
-            $fcm_response = array();
-            $checkuser  = User::where($condition, '=', $username)->first();
+            $fcm_response   = array();
+            $checkuser      = User::where($condition, '=', $username)->first();
 
-            if (isset($checkuser))
-            {
-                if (Hash::check($password,$checkuser->password))
-                {
+            if (isset($checkuser)){
+                if (Hash::check($password,$checkuser->password)){
+                    $user = User::with('services')
+                            ->with('address')
+                            ->with('provider')
+                            ->where($condition, '=', $username)
+                            ->first();
 
-                    $user = User::with('services')->with('address')->with('provider')->where($condition, '=', $username)->first();
+                    $checkuser      = Auth::onceUsingId($checkuser['id']);
+                    $roles          = Auth::user()->roles;
+                    $user["roles"]  = $roles;
 
-                    $checkuser = Auth::onceUsingId($checkuser['id']);
-                    $roles = Auth::user()->roles;
-                    $user["roles"] = $roles;
-
-                    if(array_key_exists('token', $input))
-                    {
-                        $fcm_response = array();
-                        //                    $fcm_user = FCMDevices::where('fcm_device_token', '=', $token)->get();
-                        $fcm_user = FCMDevices::where('user_id', '=', $user['id'])->get();
-                        if ($fcm_user->count() <= 0)
-                        {
-
+                    if(array_key_exists('token', $input)){
+                        $fcm_response   = array();
+                        //$fcm_user     = FCMDevices::where('fcm_device_token', '=', $token)->get();
+                        $fcm_user       = FCMDevices::where('user_id', '=', $user['id'])->get();
+                        if ($fcm_user->count() <= 0){
                             $fcm_data = [
-                                "user_id" => $user['id'],
-                                "fcm_device_token" => $input['token'],
-                                "device_type" => $input['device']
+                                "user_id"           => $user['id'],
+                                "fcm_device_token"  => $input['token'],
+                                "device_type"       => $input['device']
                             ];
                             $fcm_response = FCMDevices::create($fcm_data);
-                        }
-                        else
-                        {
+                        }else{
                             // $fcm_response = $fcm_user;
                             $fcm_data = [
-                                "user_id" => $user['id'],
-                                "fcm_device_token" => $input['token'],
-                                "device_type" => $input['device']
+                                "user_id"           => $user['id'],
+                                "fcm_device_token"  => $input['token'],
+                                "device_type"       => $input['device']
                             ];
 
-                            DB::table('f_c_m_devices')->where('user_id', '=', $user['id'])
-                            ->update($fcm_data);
+                            DB::table('f_c_m_devices')->where('user_id', '=', $user['id'])->update($fcm_data);
                             $fcm_response = FCMDevices::where('user_id', '=', $user['id'])->get();
-
                         }
                         $user['fcm'] = $fcm_response;
                     }
@@ -454,18 +437,15 @@ class UserController extends Controller
                     //     $user->image = $request->getSchemeAndHttpHost() . $user->image;
                     // }
                     return response($user, 200);
-
-                }
-                else
-                {
+                }else{
                     return response(null, 401);
                 }
-            } else {
+            }else{
                 return response(null, 401);
             }
         } catch (\Exception $e) {
-            $response['code'] = 400;
-            $response['message'] = "There is some error";
+            $response['code']       = 400;
+            $response['message']    = "There is some error";
         }
     }
 
@@ -553,7 +533,6 @@ class UserController extends Controller
         $user->roles()->attach($customer_role);
         $credentials = $request->only('email', 'password');
         if(Auth::attempt($credentials)) {
-            //            dd($user);
             $authUser = Auth::user();
             $roles = Auth::user()->roles;
             $response = $authUser;
@@ -618,8 +597,8 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        //        $user = User::with('userservices')->with('address')->where('email', '=', $input['email']);
-        //        return response()->json($user); exit();
+        //$user = User::with('userservices')->with('address')->where('email', '=', $input['email']);
+        //return response()->json($user); exit();
         $response = array();
         $initialValidator = Validator::make($request->all(),
             [
@@ -632,8 +611,6 @@ class UserController extends Controller
         if ($initialValidator->fails()) {
             return response()->json(['error' => $initialValidator->errors()], 406);
         }
-
-
         $input = $request->all();
 
 
@@ -778,7 +755,6 @@ class UserController extends Controller
 
     }
 
-
     public function add_vendors(Request $request) {
         $initialValidator = Validator::make($request->all(),
             [
@@ -792,8 +768,7 @@ class UserController extends Controller
 
             ]);
 
-        if ($initialValidator->fails())
-        {
+        if ($initialValidator->fails()){
             return response()->json(['error'=>$initialValidator->errors()], 401);
         }
 
@@ -813,7 +788,7 @@ class UserController extends Controller
             $profileImg = $request->file('profile_photo');
             $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
-            //            $host = url('/');
+            //$host = url('/');
             unset($input["profile_photo"]);
             $input +=  [
                 'image' => "/images/profiles/" . $profile_name,
@@ -845,7 +820,7 @@ class UserController extends Controller
 
         // $services = $input['services'];
 
-        // //        $services =array_map('intval', explode(',', $services));
+        // $services =array_map('intval', explode(',', $services));
         // $services =explode(',', $services); // json_decode($services, true );
 
         // foreach ($services as $data) {
@@ -873,9 +848,6 @@ class UserController extends Controller
 
         return response()->json($user, 200);
     }
-
-
-
 
     public function updatevendor(Request $request) {
         $input = $request->all();
@@ -1015,10 +987,6 @@ class UserController extends Controller
         $temp= DB::table('users')->where('id', (int)$input['id'])->update($updatedata);
         // return $temp;
     }
-
-
-
-
 
     public function organisationupdate(Request $request,$id) {
 
@@ -1499,8 +1467,6 @@ class UserController extends Controller
         return DB::table('provider_service_mappings')->where('user_id', $id)->delete();
     }
 
-
-
     public function getSingupDetail() {
 
         $response = array();
@@ -1522,30 +1488,27 @@ class UserController extends Controller
             $validator = Validator::make($request->all(),
                 [
                     'id'  => 'required|exists:users,id',
-    //                    'profile_photo' => 'required|image',  //|max:2048
+                    //'profile_photo' => 'required|image',  //|max:2048
                     'gender' => 'required',
                     'address' => 'required'
                 ]);
-            if ($validator->fails())
-            {
+            if ($validator->fails()){
                 return response()->json(['error'=>$validator->errors()], 401);
             }
 
-            $input = $request->all();
-
-            $id = $request->input('id');
-            $user = User::find($id);
-            $type_id = $user['type_id'];
-            $host = url('/');
-
-            $user = User::with('services')->with('provider')->where('id', '=', $id)->first();
+            $input      = $request->all();
+            $id         = $request->input('id');
+            $user       = User::find($id);
+            $type_id    = $user['type_id'];
+            $host       = url('/');
+            $user       = User::with('services')->with('provider')->where('id', '=', $id)->first();
 
             // Profile Image insert
-            $imagedata =  [];
-            $profile_name  = "";
+            $imagedata      =  [];
+            $profile_name   = "";
             if(array_key_exists('profile_photo', $input)) {
-                $profileImg = $request->file('profile_photo');
-                $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+                $profileImg     = $request->file('profile_photo');
+                $profile_name   = rand() . '.' . $profileImg->getClientOriginalExtension();
                 $profileImg->move(public_path('images/profiles'), $profile_name);
                 $requestdata = array();
 
@@ -1620,7 +1583,6 @@ class UserController extends Controller
                     DB::table('provider_service_mappings')->where('user_id', $user['id'])->delete();
                 }
 
-
                 foreach ($services as $data) {
                     $obj = array();
                     $obj['user_id'] = $user['id'];
@@ -1635,37 +1597,31 @@ class UserController extends Controller
              }
             // ADDRESS
             if(array_key_exists('address', $input)) {
-
                 $address = $input['address'];
-
                 $address = json_decode($address, true);
-
                 $address += [
                     "user_id" => $id
                 ];
-
-
                 $adddressdata = Address::create($address);
                 $addressRes = Address::where('user_id', '=', $id)->get();
                 $user['address'] = $addressRes;
             }
 
-            $user = User::with('services')->with('provider')
-            ->with('address')
-            ->with('organisation')
-            ->where('id', '=', $id)->first();
-            $checkuser = Auth::onceUsingId($id);
-            $roles = Auth::user()->roles;
-            $user["roles"] = $roles;
+            $user = User::with('services')
+                    ->with('provider')
+                    ->with('address')
+                    ->with('organisation')
+                    ->where('id', '=', $id)
+                    ->first();
 
-
-            return response($user, 200)
-                ->header('content-type', 'application/json');
+            $checkuser      = Auth::onceUsingId($id);
+            $roles          = Auth::user()->roles;
+            $user["roles"]  = $roles;
+            return response($user, 200)->header('content-type', 'application/json');
         } catch (\Exception $e) {
             $response['code'] = 400;
             $response['message'] = $e->getMessage();
-            return response($response, 400)
-                ->header('content-type', 'application/json');
+            return response($response, 400)->header('content-type', 'application/json');
         }
     }
 
@@ -1688,9 +1644,7 @@ class UserController extends Controller
 
         $adddressdata = Address::create($input);
 
-        $default = Address::where('default_address', '=', '1')
-        ->where('user_id', '=', $input['user_id'])->get();
-
+        $default = Address::where('default_address', '=', '1')->where('user_id', '=', $input['user_id'])->get();
 
         if(isset($default)) {
 
@@ -1700,8 +1654,7 @@ class UserController extends Controller
                 'default_address' => "1",
             ];
 
-            DB::table('addresses')->where('id', '=', $adddressdata['id'])
-            ->update($default_address);
+            DB::table('addresses')->where('id', '=', $adddressdata['id'])->update($default_address);
 
             // return $adddressdata;
         }
@@ -1742,11 +1695,10 @@ class UserController extends Controller
         }
 
         $adddressdata = Address::find($input['id']);
-
         $adddressdata->update($input);
-
         $default = Address::where('default_address', '=', '1')
-        ->where('user_id', '=', $input['user_id'])->get();
+                    ->where('user_id', '=', $input['user_id'])
+                    ->get();
 
 
         if(isset($default)) {
@@ -1757,21 +1709,12 @@ class UserController extends Controller
                 'default_address' => "1",
             ];
 
-            DB::table('addresses')->where('id', '=', $adddressdata['id'])
-            ->update($default_address);
-
+            DB::table('addresses')->where('id', '=', $adddressdata['id'])->update($default_address);
             // return $adddressdata;
         }
-
-
-
-
-
         $addressRes = Address::where('user_id', '=', $input['user_id'])->get();
-
         return response()->json($addressRes, 200);
     }
-
 
     public function add_organisation(Request $request) {
         $initialValidator = Validator::make($request->all(),
@@ -1784,8 +1727,7 @@ class UserController extends Controller
                 // 'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg'
             ]);
 
-        if ($initialValidator->fails())
-        {
+        if ($initialValidator->fails()){
             return response()->json(['error'=>$initialValidator->errors()], 401);
         }
 
@@ -1814,8 +1756,6 @@ class UserController extends Controller
             ];
         }
 
-
-
         $company += [
             'name' => $input['company'],
         ];
@@ -1829,9 +1769,7 @@ class UserController extends Controller
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         $org_role = Role::where('slug','=', 'organisation-admin')->first();
-
         $user->roles()->attach($org_role);
-
         $now = now()->utc();
         $term_agreement= [
             'user_id' => $user->id,
@@ -1844,110 +1782,98 @@ class UserController extends Controller
     }
 
     public function add_customer(Request $request) {
-        $initialValidator = Validator::make($request->all(),
-            [
-                'first_name' => 'required',
-                'email' => 'required|unique:users,email',
-                'password' => 'required',
-                'contact' => 'required|unique:users,contact',
-                'gender' => 'required',
-                'languages' => 'required',
-            ]);
+        $initialValidator = Validator::make($request->all(),[
+            'first_name'    => 'required',
+            'email'         => 'required|unique:users,email',
+            'password'      => 'required',
+            'contact'       => 'required|unique:users,contact',
+            'gender'        => 'required',
+            'languages'     => 'required',
+        ]);
 
-        if ($initialValidator->fails())
-        {
+        if ($initialValidator->fails()){
             return response()->json(['error'=>$initialValidator->errors()], 401);
         }
 
-        $input = $request->all();
-
-        $type = UserTypes::where('type', '=', 'Consumer')->first();
-        $input +=  [
+        $input  = $request->all();
+        $type   = UserTypes::where('type', '=', 'Consumer')->first();
+        $input  +=  [
             'type_id' => $type->id,
         ];
 
+        $term   =   TermCondition::where('type', '=', 'Consumer Terms')
+                    ->where('is_latest', '=', 1)
+                    ->first();
 
-        $term = TermCondition::where('type', '=', 'Consumer Terms')->where('is_latest', '=', 1)->first();
         $input +=  [
             'term_id' => $term->id,
         ];
 
         if(array_key_exists('profile_photo', $input)) {
-            $profileImg = $request->file('profile_photo');
-            $profile_name = rand() . '.' . $profileImg->getClientOriginalExtension();
+            $profileImg     = $request->file('profile_photo');
+            $profile_name   = rand() . '.' . $profileImg->getClientOriginalExtension();
             $profileImg->move(public_path('images/profiles'), $profile_name);
-            $host = url('/');
+            $host           = url('/');
             unset($input["profile_photo"]);
             $input +=  [
                 'image' => "/images/profiles/" . $profile_name,
             ];
         }
 
-
-
-
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $customer_role = Role::where('slug','=', 'customer')->first();
+        $input['password']  = bcrypt($input['password']);
+        $user               = User::create($input);
+        $customer_role      = Role::where('slug','=', 'customer')->first();
         $user->roles()->attach($customer_role);
 
         $now = now()->utc();
         $term_agreement= [
-            'user_id' => $user->id,
-            'term_id' => $input['term_id'],
+            'user_id'   => $user->id,
+            'term_id'   => $input['term_id'],
             'agreed_at' => $now
         ];
         TermAgreement::create($term_agreement);
-
         return response()->json($user, 200);
     }
 
-
-
     public function customer_register(Request $request) {
         $response = array();
-        $initialValidator = Validator::make($request->all(),
-            [
-                'name' => 'required',
-                'email' => 'required|unique:users,email',
-                'password' => 'required',
-                'type' => 'required',
-                'gender' => 'required',
-                'language' => 'required',
-                'contact' => 'required',
-            ]);
+        $initialValidator = Validator::make($request->all(),[
+            'name'      => 'required',
+            'email'     => 'required|unique:users,email',
+            'password'  => 'required',
+            'type'      => 'required',
+            'gender'    => 'required',
+            'language'  => 'required',
+            'contact'   => 'required',
+        ]);
 
-        if ($initialValidator->fails())
-        {
+        if ($initialValidator->fails()){
             return response()->json(['error'=>$initialValidator->errors()], 401);
         }
-
-        $input = $request->all();
-
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $user_id=$user->id;
+        $input              = $request->all();
+        $input['password']  = bcrypt($input['password']);
+        $user               = User::create($input);
+        $user_id            = $user->id;
         $dataArray= [
-            'user_id' => $user_id,
-            'gender' => $input['gender'],
-            'languages_known' => $input['language']
+            'user_id'           => $user_id,
+            'gender'            => $input['gender'],
+            'languages_known'   => $input['language']
         ];
         $details = IndividualServiceProvider::create($dataArray);
         $user["details"] = $details;
 
-        if (isset($user)) {
+        if(isset($user)) {
             $response  = $user;
-        } else {
+        }else{
             $response['message']  = "Please add valid details";
             return response()->json($response, 406);
         }
-
         return response()->json($response, 200);
     }
 
 
 
-        //Change password api
+    //Change password api
     /**
      * @SWG\Post(
      *   path="/changepassword",
@@ -1997,43 +1923,29 @@ class UserController extends Controller
                 return response(array(
                     'message' => "Invalid parameters.",
                     'statuscode' => 0,
-                ),
-                    200);
+                ),200);
             }
-
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $emailErr = "Invalid email format";
                 return response(array(
                     'message' => $emailErr,
                     'statuscode' => 0,
-                ),
-                    200);
+                ),200);
             }
-
             $user = User::where('email',$email)->first();
-
             if(isset($user) && !empty($user)) {
-
                 $user->password = Hash::make($password);
                 $user->save();
-
                 return response(array(
                     'statuscode' => true,
                     'message' => "Password updated successfully.",
-
-                ),
-                    200);
-
-            } else {
-
+                ),200);
+            }else{
                 return response(array(
                     'statuscode' => false,
                     'message' => "No user with this email id available.",
-
-                ),
-                    200);
-
+                ),200);
             }
         } catch (\Exception $e) {
             $this->$response($request, "There is some error in change password");
@@ -2082,8 +1994,7 @@ class UserController extends Controller
      *
      */
 
-    public function resetPassword(Request $request)
-    {
+    public function resetPassword(Request $request){
         //Validate input
         $validator = Validator::make($request->all(), [
             'email' => 'required|exists:users,email',
@@ -2125,25 +2036,17 @@ class UserController extends Controller
 
     }
 
-
-
-
     // Forgot Password function
-
-    public function resetPasswordform(Request $request)
-    {
+    public function resetPasswordform(Request $request){
         $response = array();
         $input = $request->all();
 
         $username = "";
         $condition = "";
-        if(array_key_exists('email', $input))
-        {
+        if(array_key_exists('email', $input)){
             $username = $request->input('email');
             $condition = "email";
-        }
-        else if(array_key_exists('contact', $input))
-        {
+        }else if(array_key_exists('contact', $input)){
             $username = $request->input('contact');
             $condition = "contact";
         } else {
@@ -2152,8 +2055,7 @@ class UserController extends Controller
 
         $checkuser  = User::where($condition, '=', $username)->first();
 
-        if (isset($checkuser))
-        {
+        if (isset($checkuser)){
             if($condition == 'email') {
 
                 $user_emails = $username;
@@ -2181,9 +2083,7 @@ class UserController extends Controller
             }
 
             return response($checkuser, 200);
-        }
-        else
-        {
+        }else{
             return response(null, 401);
         }
     }
@@ -2192,17 +2092,17 @@ class UserController extends Controller
         $response = array();
         try {
 
-            $validator = Validator::make($request->all(),
-                [
-                    'otp'  => 'required',
-                ]);
-            if ($validator->fails())
-            {
+            $validator = Validator::make($request->all(),[
+                'otp'  => 'required',
+            ]);
+            if ($validator->fails()){
                 return response()->json(['error'=>$validator->errors()], 401);
             }
 
             $forgetPass = ForgetPasswordVerification::where('otp', '=', $request->input('otp'))
-            ->where('is_verified', '=', 0)->first();
+                            ->where('is_verified', '=', 0)
+                            ->first();
+
             if(isset($forgetPass)) {
                 $forgetPass->is_verified = 1;
                 $forgetPass->save();
@@ -2212,17 +2112,13 @@ class UserController extends Controller
                 $response['code'] = 400;
                 $response['message'] = "Invalid OTP";
             }
-            return response($response, $response['code'])
-                    ->header('content-type', 'application/json');
+            return response($response, $response['code'])->header('content-type', 'application/json');
         } catch (\Exception $e) {
             $response['code'] = 400;
             $response['message'] = $e->getMessage();
-            return response($response, 400)
-                ->header('content-type', 'application/json');
+            return response($response, 400)->header('content-type', 'application/json');
         }
     }
-
-
 
     public function changePasswordform(Request $request) {
         //Validate input
@@ -2247,7 +2143,5 @@ class UserController extends Controller
         } else {
             return response(null, 406);
         }
-
     }
-
 }

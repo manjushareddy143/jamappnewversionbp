@@ -54,10 +54,8 @@
 
                         <div class="panel panel-default">
                             <div class="panel-body text-center">
-                                <img id="profileImage" src="{{ asset('img/boy.png') }}"
-                                       style="width: 100px; height: 100px; border-radius: 100%;"/>
-                                <input id="imageUpload" type="file"
-                                       name="profile_photo" placeholder="Photo" required="" capture>
+                                <img id="profileImage" src="{{ asset('img/boy.png') }}" style="width: 100px; height: 100px; border-radius: 100%;"/>
+                                <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" required="" capture>
                             </div>
                         </div>
 
@@ -80,17 +78,14 @@
                                 </div>
 
                             </div>
-                            <button class="btn col-md-2" id="addDoc" onclick="addDocs()" type="button">
-                                <i id="docAddIcon1" class="fa fa-plus-circle"></i>
-                            </button>
+                            <button class="btn col-md-2" id="addDoc" onclick="addDocs()" type="button"><i id="docAddIcon1" class="fa fa-plus-circle"></i></button>
 
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 float-r">
                                 <div class="form-group" id="languages">
-                                    <label>Language  <strong
-                                            style="font-size: 14px;color: #e60606;">*</strong></label><br>
+                                    <label>Language  <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
                                     <label for="english">English</label>
                                     <input type="checkbox" name="languages" id="lang-english" value="English" />
 
@@ -103,22 +98,15 @@
                             <div class="col-md-6 float-l" id="serviceRadiudiv">
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Select Service Radius</label>
-                                    <input id="serviceRadius" type="text" name=""
-                                           placeholder="0 KM"
-                                           class="form-control" required>
+                                    <input id="serviceRadius" type="text" name="" placeholder="0 KM" class="form-control" required>
                                 </div>
 
                             </div>
                         </div>
 
-
-
-
-
                         <div class="row">
                             <div class="col-md-6 float-l">
-                                <div id="gender-group"
-                                        class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
+                                <div id="gender-group" class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
                                     <label>@lang('vendor.label_gender') <strong style="font-size: 14px;color: #e60606;">*</strong></label><br>
                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-male" value="male"> Male
                                     <input type="radio" name="gender" onclick="genderClick()" id="gender-female" value="female"> Female
@@ -142,12 +130,9 @@
                         </div>
 
 
-                        {{--                        ADDRESSS                        --}}
+                        {{-- ADDRESSS --}}
 
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                           data-target="#vendorCollapse"
-                           aria-expanded="true"
-                           aria-controls="vendorCollapse">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#vendorCollapse" aria-expanded="true" aria-controls="vendorCollapse">
                             <i class="fas fa-address-card"></i>
                             <span>Address</span>
                             <button class="btn col-md-2" onclick="displayMap()" type="button">
@@ -160,65 +145,51 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Address Name</label>
-                                        <input id="address_name" type="text" name="address_name"
-                                               placeholder="Office Address"
-                                               class="form-control" required>
+                                        <input id="address_name" type="text" name="address_name" placeholder="Office Address" class="form-control" required>
                                     </div>
                                 </div>
-
 
                                 <div class="col-md-6 float-l">
                                     <div class="form-group">
                                         <label>Address line 1</label>
-                                        <input id="address_line1" type="text" name="address_line1"
-                                               placeholder="Address line 1"
-                                               class="form-control" required>
+                                        <input id="address_line1" type="text" name="address_line1" placeholder="Address line 1" class="form-control" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 float-r">
                                     <div class="form-group">
                                         <label>Address line 2</label>
-                                        <input id="address_line2" type="text" name="address_line2"
-                                               placeholder="Address line 2"
-                                               class="form-control" required>
+                                        <input id="address_line2" type="text" name="address_line2" placeholder="Address line 2" class="form-control" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 float-l">
                                     <div class="form-group">
                                         <label>Landmark</label>
-                                        <input id="landmark" type="text" name="landmark" placeholder="Enter Landmark"
-                                               class="form-control" required>
+                                        <input id="landmark" type="text" name="landmark" placeholder="Enter Landmark" class="form-control" required>
                                     </div>
                                 </div>
-
 
                                 <div class="col-md-6 float-r">
                                     <div class="form-group">
                                         <label>District</label>
-                                        <input id="district" type="text" name="district" placeholder="Enter District"
-                                               class="form-control" required>
+                                        <input id="district" type="text" name="district" placeholder="Enter District" class="form-control" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 float-l">
                                     <div class="form-group">
                                         <label>City</label>
-                                        <input id="city" type="text" name="city" placeholder="Enter City"
-                                               class="form-control" required>
+                                        <input id="city" type="text" name="city" placeholder="Enter City" class="form-control" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 float-r">
                                     <div class="form-group">
                                         <label>Postal Code</label>
-                                        <input id="postal_code" type="text" name="postal_code"
-                                               placeholder="Enter Postal Code"
-                                               class="form-control" required>
+                                        <input id="postal_code" type="text" name="postal_code" placeholder="Enter Postal Code" class="form-control" required>
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>
@@ -240,9 +211,7 @@
 
 
 
-    <div class="modal fade" id="org_Modal" tabindex="-1" role="dialog"
-         aria-labelledby="org_ModalLabel"
-         aria-hidden="true">
+    <div class="modal fade" id="org_Modal" tabindex="-1" role="dialog" aria-labelledby="org_ModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -258,10 +227,8 @@
 
                         <div class="panel panel-default">
                             <div class="panel-body text-center">
-                                <img id="org_profileImage" src="{{ asset('img/boy.png') }}"
-                                       style="width: 100px; height: 100px; border-radius: 100%;"/>
-                                <input id="org_imageUpload" type="file"
-                                       name="org_profile_photo" placeholder="Photo" required="" capture>
+                                <img id="org_profileImage" src="{{ asset('img/boy.png') }}" style="width: 100px; height: 100px; border-radius: 100%;"/>
+                                <input id="org_imageUpload" type="file" name="org_profile_photo" placeholder="Photo" required="" capture>
                             </div>
                         </div>
 
@@ -276,11 +243,9 @@
                             </select>
                         </div>
 
-                        {{--                        ADDRESSS                        --}}
+                        {{-- ADDRESSS --}}
 
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                           data-target="#collapseTable" aria-expanded="true"
-                           aria-controls="collapseTable">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true" aria-controls="collapseTable">
                             <i class="fas fa-address-card"></i>
                             <span>Address</span>
                         </a>
@@ -290,9 +255,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Address Name</label>
-                                        <input id="org_address_name" type="text"
-                                               name="org_address_name" placeholder="Company Address"
-                                               class="form-control" required>
+                                        <input id="org_address_name" type="text" name="org_address_name" placeholder="Company Address" class="form-control" required>
                                     </div>
                                 </div>
 
@@ -300,9 +263,7 @@
                                 <div class="col-md-6 float-l">
                                     <div class="form-group">
                                         <label>Address line 1</label>
-                                        <input id="org_address_line1" type="text"
-                                               name="org_address_line1" placeholder="Address line 1"
-                                               class="form-control" required>
+                                        <input id="org_address_line1" type="text" name="org_address_line1" placeholder="Address line 1" class="form-control" required>
                                     </div>
                                 </div>
 

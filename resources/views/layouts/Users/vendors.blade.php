@@ -490,11 +490,7 @@
                                 servicesString += "\n - " + item.categories.name;
                             }
                         });
-
-
                         var org_name = (response[i]['organisation'] == null)? "Individual" : response[i]['organisation'].name;
-
-
 
                         trHTML += '<tr><td><img src="' + img + '" class="square" width="60" height="50" /></td>' +
                         '   </td><td>' + org_name +

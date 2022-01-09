@@ -112,8 +112,6 @@ class RegisterController extends Controller
             "org_id" => $org->id
         ];
 
-
-
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         $org_role = Role::where('slug','=', 'organisation-admin')->first();
@@ -123,66 +121,58 @@ class RegisterController extends Controller
         $credentials = $request->only('email', 'password');
         if( Auth::attempt($credentials)) {
 
-            $response = Auth::user();
-            $roles = Auth::user()->roles;
+            $response               = Auth::user();
+            $roles                  = Auth::user()->roles;
+            $address                = Address::where('user_id', '=', $user->id)->first();
+            $response['address']    = $address;
+            $response['company']    = $org;
 
-            $address = Address::where('user_id', '=', $user->id)->first();
-            $response['address'] = $address;
-            $response['company'] = $org;
-
-//            $response  = $user;
+            // $response  = $user;
 
             $now = now()->utc();
             $term_agreement= [
-                'user_id' => $user->id,
-                'term_id' => $input['term_id'],
+                'user_id'   => $user->id,
+                'term_id'   => $input['term_id'],
                 'agreed_at' => $now
             ];
             TermAgreement::create($term_agreement);
-
             return response()->json($response, 200);
         }
         return response()->json(null, 403);
-
-
         return response()->json($org, 200);
     }
 
     public function customRegister(Request $request) {
-        $initialValidator = Validator::make($request->all(),
-        [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'password' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'contact' => 'required|unique:users,contact',
-            'type_id' => 'required|exists:user_types,id',
-            'term_id' => 'required|exists:term_conditions,id',
-            'resident_country' => 'required',
+        $initialValidator = Validator::make($request->all(),[
+            'first_name'        => 'required',
+            'last_name'         => 'required',
+            'password'          => 'required',
+            'email'             => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'contact'           => 'required|unique:users,contact',
+            'type_id'           => 'required|exists:user_types,id',
+            'term_id'           => 'required|exists:term_conditions,id',
+            'resident_country'  => 'required',
         ]);
-        if ($initialValidator->fails())
-        {
+
+        if($initialValidator->fails()){
             return response()->json(['error'=>$initialValidator->errors()], 406);
         }
 
         $input = $request->all();
 
+        if(array_key_exists('email', $input)){
+            $emailValidator = Validator::make($request->all(),[
+                'email' => '|unique:users,email',
+            ]);
 
-        if(array_key_exists('email', $input))
-        {
-            $emailValidator = Validator::make($request->all(),
-                [
-                    'email' => '|unique:users,email',
-                ]);
-            if ($emailValidator->fails())
-            {
+            if ($emailValidator->fails()){
                 return response()->json(['error'=>$emailValidator->errors()], 406);
             }
         }
 
-        $input['password'] = Hash::make($input['password']);
-        $user = User::create($input);
-        $customer_role = Role::where('slug','=', 'provider')->first();
+        $input['password']  = Hash::make($input['password']);
+        $user               = User::create($input);
+        $customer_role      = Role::where('slug','=', 'provider')->first();
         $user->roles()->attach($customer_role);
 
         $credentials = $request->only('email', 'password');
@@ -194,28 +184,32 @@ class RegisterController extends Controller
             // $address = Address::where('user_id', '=', $user->id)->first();
             // $response['address'] = $address;
 
-//            $response  = $user;
+            //$response  = $user;
 
             $now = now()->utc();
             $term_agreement= [
-                'user_id' => $user->id,
-                'term_id' => $input['term_id'],
+                'user_id'   => $user->id,
+                'term_id'   => $input['term_id'],
                 'agreed_at' => $now
             ];
             TermAgreement::create($term_agreement);
 
             $service_provider= [
-                'user_id' => $user->id,
-                'resident_country' => $input['resident_country']
+                'user_id'           => $user->id,
+                'resident_country'  => $input['resident_country']
             ];
             $service_provider_detail = ServiceProvider::create($service_provider);
             // $response['resident_country'] = $service_provider_detail['resident_country'];
-            $result = User::with('services')->with('address')
-            ->with('provider')
-            ->where('id', '=', $user->id)->first();
-            $checkuser = Auth::onceUsingId($user['id']);
-            $roles = Auth::user()->roles;
-            $result["roles"] = $roles;
+
+            $result =   User::with('services')
+                        ->with('address')
+                        ->with('provider')
+                        ->where('id', '=', $user->id)
+                        ->first();
+
+            $checkuser          = Auth::onceUsingId($user['id']);
+            $roles              = Auth::user()->roles;
+            $result["roles"]    = $roles;
 
             return response()->json($result, 200);
         }
